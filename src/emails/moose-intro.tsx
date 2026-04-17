@@ -44,7 +44,7 @@ export function MooseIntroEmail({
             </Text>
 
             <Text style={textStyle}>
-              Here&apos;s the 2-minute profile form:{" "}
+              If you played, here&apos;s the 2-minute profile form:{" "}
               <Link href={profileLink} style={linkStyle}>
                 {profileLink}
               </Link>
@@ -56,10 +56,9 @@ export function MooseIntroEmail({
             </Text>
 
             <Text style={textStyle}>
-              One big ask: Utah Rugby has almost no contact info for alumni. If
-              you could forward this email to every rugby player in your phone,
-              we&apos;ll get connected way faster than we could on our own. Here&apos;s a
-              version you can forward:{" "}
+              Even if you didn&apos;t play — we need your help. Utah Rugby has
+              almost no contact info for alumni. If you know anyone who played,
+              please forward this email to them or send them this link:{" "}
               <Link href={forwardLink} style={linkStyle}>
                 {forwardLink}
               </Link>

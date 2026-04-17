@@ -30,8 +30,8 @@ export const signupSchema = z.object({
   bio: z.string().max(500, "Bio must be 500 characters or fewer").optional(),
   // SMS CONSENT: Legally critical (TCPA).
   // This field must never default to true.
-  sms_consent: z.boolean().default(false),
-  directory_visible: z.boolean().default(true),
+  sms_consent: z.boolean(),
+  directory_visible: z.boolean(),
   referred_by_token: z.string().optional(),
 });
 

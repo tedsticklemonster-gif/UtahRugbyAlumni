@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { EmailSendForm } from "@/components/email-send-form";

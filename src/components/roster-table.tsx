@@ -1,9 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -31,12 +40,22 @@ interface AlumniRow {
 interface RosterTableProps {
   alumni: AlumniRow[];
   onStatusChange: (ids: string[], status: string) => Promise<void>;
+  onDelete: (
+    ids: string[]
+  ) => Promise<{ success: boolean; error?: string; deleted: number }>;
 }
 
-export function RosterTable({ alumni, onStatusChange }: RosterTableProps) {
+export function RosterTable({
+  alumni,
+  onStatusChange,
+  onDelete,
+}: RosterTableProps) {
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [statusFilter, setStatusFilter] = useState<string>("");
+  const [deleteIds, setDeleteIds] = useState<string[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const filtered = alumni.filter((a) => {
     const matchesSearch =
@@ -64,6 +83,28 @@ export function RosterTable({ alumni, onStatusChange }: RosterTableProps) {
       setSelectedIds(new Set(filtered.map((a) => a.id)));
     }
   }
+
+  function confirmDelete(ids: string[]) {
+    setDeleteIds(ids);
+    setDeleteOpen(true);
+  }
+
+  async function executeDelete() {
+    setDeleting(true);
+    const result = await onDelete(deleteIds);
+    setDeleting(false);
+    setDeleteOpen(false);
+    setDeleteIds([]);
+    if (result.success) {
+      setSelectedIds(new Set());
+    }
+  }
+
+  // Names of alumni about to be deleted (for the confirmation dialog)
+  const deleteNames = deleteIds
+    .map((id) => alumni.find((a) => a.id === id))
+    .filter(Boolean)
+    .map((a) => `${a!.first_name} ${a!.last_name}`);
 
   const statusColors: Record<string, string> = {
     self_registered: "default",
@@ -108,6 +149,14 @@ export function RosterTable({ alumni, onStatusChange }: RosterTableProps) {
             >
               Mark Unreachable
             </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => confirmDelete(Array.from(selectedIds))}
+            >
+              <Trash2 className="size-3.5 mr-1" />
+              Delete
+            </Button>
           </div>
         )}
       </div>
@@ -134,6 +183,7 @@ export function RosterTable({ alumni, onStatusChange }: RosterTableProps) {
               <TableHead>Visible</TableHead>
               <TableHead>SMS</TableHead>
               <TableHead>Source</TableHead>
+              <TableHead className="w-10"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -173,11 +223,20 @@ export function RosterTable({ alumni, onStatusChange }: RosterTableProps) {
                 <TableCell className="text-xs">
                   {a.source ?? "—"}
                 </TableCell>
+                <TableCell>
+                  <button
+                    onClick={() => confirmDelete([a.id])}
+                    className="text-muted-foreground hover:text-destructive transition-colors"
+                    title="Delete"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                </TableCell>
               </TableRow>
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
                   No alumni found.
                 </TableCell>
               </TableRow>
@@ -188,6 +247,42 @@ export function RosterTable({ alumni, onStatusChange }: RosterTableProps) {
       <p className="text-xs text-muted-foreground">
         Showing {filtered.length} of {alumni.length} records
       </p>
+
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Alumni</DialogTitle>
+            <DialogDescription>
+              {deleteIds.length === 1
+                ? `Are you sure you want to permanently delete ${deleteNames[0]}? This cannot be undone.`
+                : `Are you sure you want to permanently delete ${deleteIds.length} alumni records? This cannot be undone.`}
+            </DialogDescription>
+          </DialogHeader>
+          {deleteIds.length > 1 && deleteIds.length <= 10 && (
+            <ul className="text-sm text-muted-foreground list-disc pl-5 max-h-40 overflow-y-auto">
+              {deleteNames.map((name, i) => (
+                <li key={i}>{name}</li>
+              ))}
+            </ul>
+          )}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setDeleteOpen(false)}
+              disabled={deleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={executeDelete}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting..." : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

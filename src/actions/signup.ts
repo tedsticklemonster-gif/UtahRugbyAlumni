@@ -129,5 +129,13 @@ export async function signupAction(
     },
   });
 
+  // Log the welcome email send
+  await supabase.from("email_sends").insert({
+    alumni_id: alumniId,
+    recipient_email: data.email,
+    campaign: "welcome",
+    sent_at: new Date().toISOString(),
+  });
+
   return { success: true, alumniId: alumniId as string };
 }

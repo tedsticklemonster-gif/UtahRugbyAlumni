@@ -35,6 +35,18 @@ export default function AdminLayout({
         >
           Email
         </Link>
+        <Link
+          href="/admin/tokens"
+          className="text-sm hover:text-foreground text-muted-foreground"
+        >
+          Tokens
+        </Link>
+        <Link
+          href="/admin/access"
+          className="text-sm hover:text-foreground text-muted-foreground"
+        >
+          Access
+        </Link>
       </nav>
       {children}
     </div>

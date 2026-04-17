@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { CopyForwardLink } from "@/components/copy-forward-link";
 import {
   Card,
   CardContent,
@@ -24,13 +25,14 @@ export default function ThanksPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="rounded-md border p-4 bg-muted/50">
+          <div className="rounded-md border p-4 bg-muted/50 space-y-3">
             <p className="text-sm font-medium">Help us grow the network</p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Utah Rugby has almost no contact info for alumni. If you could
-              forward this to every rugby player in your phone, we&apos;ll get
-              connected way faster.
+              forward this link to every rugby player in your phone, we&apos;ll
+              get connected way faster.
             </p>
+            <CopyForwardLink />
           </div>
           <div className="flex gap-3">
             <Link

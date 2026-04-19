@@ -1,11 +1,16 @@
 import webpush from "web-push";
 import { createAdminClient } from "./supabase/admin";
 
-webpush.setVapidDetails(
-  process.env.VAPID_SUBJECT!,
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-  process.env.VAPID_PRIVATE_KEY!
-);
+let vapidInitialized = false;
+function initVapid() {
+  if (vapidInitialized) return;
+  webpush.setVapidDetails(
+    process.env.VAPID_SUBJECT!,
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!
+  );
+  vapidInitialized = true;
+}
 
 export async function sendPushToAlumni(
   alumniId: string,
@@ -18,6 +23,7 @@ export async function sendPushToAlumni(
     .eq("alumni_id", alumniId);
 
   if (!subs?.length) return;
+  initVapid();
 
   const message = JSON.stringify(payload);
 

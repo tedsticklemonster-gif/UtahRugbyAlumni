@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, startTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,7 +49,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ProfileUpdateInput>({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: {
@@ -86,7 +86,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
     if (photoFile) {
       fd.set("photo", photoFile);
     }
-    formAction(fd);
+    startTransition(() => formAction(fd));
   }
 
   async function handleDelete() {
@@ -163,7 +163,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
 
         <div className="space-y-2">
           <Label htmlFor="phone">Phone</Label>
-          <Input id="phone" type="tel" {...register("phone")} />
+          <Input id="phone" type="tel" inputMode="tel" {...register("phone")} />
         </div>
 
         {/* SMS CONSENT: TCPA-required checkbox. Only shown when phone is entered. */}
@@ -243,7 +243,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
           </Label>
         </div>
 
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" disabled={isPending || (!isDirty && !photoFile)}>
           {isPending ? "Saving..." : "Save Changes"}
         </Button>
       </form>

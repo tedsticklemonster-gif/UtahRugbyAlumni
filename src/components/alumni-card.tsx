@@ -1,4 +1,5 @@
-import { MapPin, Briefcase, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { MapPin, Briefcase, ExternalLink, MessageCircle } from "lucide-react";
 
 interface AlumniCardProps {
   firstName: string;
@@ -13,6 +14,8 @@ interface AlumniCardProps {
   linkedinUrl?: string | null;
   bio?: string | null;
   isGated: boolean;
+  alumniId?: string;
+  canMessage?: boolean;
 }
 
 export function AlumniCard({
@@ -28,6 +31,8 @@ export function AlumniCard({
   linkedinUrl,
   bio,
   isGated,
+  alumniId,
+  canMessage,
 }: AlumniCardProps) {
   const location = [city, state].filter(Boolean).join(", ");
   const initials = `${firstName[0]}${lastName[0]}`;
@@ -106,6 +111,19 @@ export function AlumniCard({
           </a>
         )}
       </div>
+
+      {/* Message button */}
+      {!isGated && canMessage && alumniId && (
+        <div className="border-t border-zinc-100 px-4 py-2">
+          <Link
+            href={`/messages/${alumniId}`}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900"
+          >
+            <MessageCircle className="size-3.5" />
+            Message
+          </Link>
+        </div>
+      )}
 
       {/* Gated prompt */}
       {isGated && (

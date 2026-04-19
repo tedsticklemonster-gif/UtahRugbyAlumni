@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { profileUpdateSchema } from "@/lib/validators";
@@ -118,6 +119,12 @@ export async function updateProfileAction(
   revalidatePath("/directory");
 
   return { success: true };
+}
+
+export async function signOutAction() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/");
 }
 
 export async function deleteAccountAction(): Promise<ProfileState> {

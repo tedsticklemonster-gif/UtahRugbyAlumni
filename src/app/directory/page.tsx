@@ -41,14 +41,16 @@ export default async function DirectoryPage({
   }
 
   let isVerifiedAlumni = false;
+  let myAlumniId: string | null = null;
   if (user?.email) {
     const admin = createAdminClient();
     const { data: alumni } = await admin
       .from("alumni")
-      .select("verified")
+      .select("id, verified")
       .eq("email", user.email)
       .single();
     isVerifiedAlumni = alumni?.verified ?? false;
+    myAlumniId = alumni?.id ?? null;
   }
 
   // Query alumni — use the public view for anon, full table for verified alumni
@@ -146,6 +148,8 @@ export default async function DirectoryPage({
               linkedinUrl={isVerifiedAlumni ? a.linkedin_url : null}
               bio={isVerifiedAlumni ? a.bio : null}
               isGated={!isVerifiedAlumni}
+              alumniId={a.id}
+              canMessage={isVerifiedAlumni && a.id !== myAlumniId}
             />
           ))}
         </div>

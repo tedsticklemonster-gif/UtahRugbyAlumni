@@ -2,11 +2,13 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Users, Share2 } from "lucide-react";
+import { Users, Share2, ArrowLeft, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ProfileForm } from "@/components/profile-form";
 import { PushSubscribe } from "@/components/push-subscribe";
+import { PhotoLightbox } from "@/components/photo-lightbox";
+import { signOutAction } from "@/actions/profile";
 
 export const metadata = {
   title: "My Profile — Utah Rugby Alumni Network",
@@ -33,7 +35,6 @@ export default async function ProfilePage() {
     redirect("/join");
   }
 
-  // Referral count — sum signups_attributed across all tokens this alumni owns
   const { data: tokens } = await admin
     .from("forward_tokens")
     .select("signups_attributed")
@@ -41,7 +42,6 @@ export default async function ProfilePage() {
 
   const totalReferrals = tokens?.reduce((sum, t) => sum + (t.signups_attributed ?? 0), 0) ?? 0;
 
-  // Signed photo URL
   let photoSignedUrl: string | null = null;
   if (alumni.photo_url) {
     const { data: signedData } = await admin.storage
@@ -53,14 +53,61 @@ export default async function ProfilePage() {
   return (
     <div className="min-h-screen bg-zinc-950">
       {/* Page header */}
-      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
-        <h1 className="text-2xl font-black tracking-tight text-white">My Profile</h1>
+      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 transition-colors hover:text-white"
+          >
+            <ArrowLeft className="size-3.5" /> Home
+          </Link>
+          <form action={signOutAction}>
+            <button
+              type="submit"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 transition-colors hover:text-white"
+            >
+              <LogOut className="size-3.5" /> Sign Out
+            </button>
+          </form>
+        </div>
+        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">My Profile</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Manage your info and privacy settings.
         </p>
       </div>
 
       <div className="mx-auto max-w-xl px-5 py-8 md:px-10">
+
+        {/* Large profile photo */}
+        <div className="mb-6 flex flex-col items-center gap-3">
+          {photoSignedUrl ? (
+            <PhotoLightbox
+              src={photoSignedUrl}
+              alt={`${alumni.first_name} ${alumni.last_name}`}
+              trigger={
+                <img
+                  src={photoSignedUrl}
+                  alt={`${alumni.first_name} ${alumni.last_name}`}
+                  className="h-32 w-32 rounded-full object-cover border-4 border-zinc-800 shadow-xl transition-opacity hover:opacity-90"
+                />
+              }
+            />
+          ) : (
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-black text-zinc-300">
+              {alumni.first_name[0]}{alumni.last_name[0]}
+            </div>
+          )}
+          <div className="text-center">
+            <p className="text-lg font-bold text-white">{alumni.first_name} {alumni.last_name}</p>
+            {alumni.grad_year && (
+              <p className="text-xs text-zinc-500">Class of {alumni.grad_year}{alumni.position ? ` · ${alumni.position}` : ""}</p>
+            )}
+          </div>
+          {photoSignedUrl && (
+            <p className="text-[10px] text-zinc-600">Tap photo to enlarge</p>
+          )}
+        </div>
+
         {/* Referral stat */}
         <div className="mb-6 flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#CC0000]/15">

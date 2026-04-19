@@ -2,10 +2,12 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, CalendarDays, HeartHandshake, Users, ExternalLink, Megaphone } from "lucide-react";
+import { ArrowRight, CalendarDays, HeartHandshake, Users, ExternalLink, Megaphone, Newspaper } from "lucide-react";
 import { HeroLogo } from "@/components/hero-logo";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getPostsAction } from "@/actions/feed";
+import { AuthenticatedHome } from "@/components/authenticated-home";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -20,6 +22,12 @@ function InstagramIcon({ className }: { className?: string }) {
 
 export default async function HomePage() {
   const supabase = await createClient();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    const { posts, nextCursor, myAlumniId } = await getPostsAction();
+    return <AuthenticatedHome posts={posts} cursor={nextCursor} myAlumniId={myAlumniId} />;
+  }
 
   const { count: alumniCount } = await supabase
     .from("alumni")
@@ -138,12 +146,37 @@ export default async function HomePage() {
       )}
 
       {/* ── Quick access grid ── */}
-      <div className="grid grid-cols-2 gap-px bg-zinc-800">
-        <QuickTile href="/directory"      icon={<Users className="size-5" />}        title="Directory"  sub="Find a teammate"       />
-        <QuickTile href="/schedule"       icon={<CalendarDays className="size-5" />} title="Schedule"   sub="Games & events"        />
-        <QuickTile href="https://www.instagram.com/utahrugby" external
-                                          icon={<InstagramIcon className="size-5" />} title="Instagram" sub="@utahrugby"            />
-        <QuickTile href="/give"           icon={<HeartHandshake className="size-5" />} title="Give"    sub="Support the program"   />
+      <div className="grid grid-cols-4 gap-px bg-zinc-800">
+        <QuickTile href="/feed"           icon={<Newspaper className="size-5" />}      title="Feed"       sub="Alumni wall"         />
+        <QuickTile href="/directory"      icon={<Users className="size-5" />}          title="Directory"  sub="Find a teammate"     />
+        <QuickTile href="/schedule"       icon={<CalendarDays className="size-5" />}   title="Schedule"   sub="Games & events"      />
+        <QuickTile href="/give"           icon={<HeartHandshake className="size-5" />} title="Give"       sub="Support the program" />
+      </div>
+
+      {/* ── Official website links ── */}
+      <div className="px-5 pb-2 md:px-10">
+        <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+          Official Website
+        </p>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {[
+            { href: "https://www.utah-rugby.com", label: "Home" },
+            { href: "https://www.utah-rugby.com/new-page-2", label: "Schedule" },
+            { href: "https://www.utah-rugby.com/news", label: "News" },
+            { href: "https://www.utah-rugby.com/donate", label: "Donate" },
+          ].map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-600 hover:text-white"
+            >
+              {label}
+              <ExternalLink className="size-3 text-zinc-600" />
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* ── Brotherhood / growth CTA ── */}
@@ -228,17 +261,17 @@ function QuickTile({
 }: {
   href: string; icon: React.ReactNode; title: string; sub: string; external?: boolean;
 }) {
-  const cls = "group relative flex flex-col gap-3 bg-zinc-950 p-5 transition-colors hover:bg-zinc-900 active:bg-zinc-800";
+  const cls = "group relative flex flex-col items-center gap-2 bg-zinc-950 px-2 py-4 transition-colors hover:bg-zinc-900 active:bg-zinc-800";
   const body = (
     <>
-      <span className="inline-flex size-10 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition-colors group-hover:bg-[#CC0000]/15 group-hover:text-[#CC0000]">
+      <span className="inline-flex size-9 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 transition-colors group-hover:bg-[#CC0000]/15 group-hover:text-[#CC0000]">
         {icon}
       </span>
-      <div>
-        <p className="text-sm font-bold text-white">{title}</p>
-        <p className="mt-0.5 text-xs text-zinc-500">{sub}</p>
+      <div className="text-center">
+        <p className="text-xs font-bold text-white">{title}</p>
+        <p className="mt-0.5 text-[10px] leading-tight text-zinc-500">{sub}</p>
       </div>
-      {external && <ExternalLink className="absolute right-4 top-4 size-3 text-zinc-700" />}
+      {external && <ExternalLink className="absolute right-2 top-2 size-3 text-zinc-700" />}
     </>
   );
 

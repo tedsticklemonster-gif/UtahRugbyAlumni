@@ -7,7 +7,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#CC0000",
-  "background_color": "#FFFFFF",
+  "background_color": "#09090b",
   "categories": ["social", "sports", "networking"],
   "icons": [
     {

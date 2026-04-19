@@ -1,0 +1,115 @@
+export const dynamic = "force-dynamic";
+
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { ArrowLeft, MessageCircle } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { getConversationsAction } from "@/actions/messages";
+
+export const metadata = {
+  title: "Messages — Utah Rugby Alumni Network",
+};
+
+function relativeTime(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff / 60_000);
+  if (m < 1) return "just now";
+  if (m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `${d}d`;
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+export default async function MessagesPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/auth/login");
+
+  const { conversations } = await getConversationsAction();
+
+  return (
+    <div className="min-h-screen bg-zinc-950">
+      <div className="border-b border-zinc-800 px-5 py-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white"
+        >
+          <ArrowLeft className="size-3.5" /> Home
+        </Link>
+        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">Messages</h1>
+      </div>
+
+      <div className="mx-auto max-w-xl divide-y divide-zinc-800">
+        {conversations.length === 0 && (
+          <div className="flex flex-col items-center gap-3 py-20 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
+              <MessageCircle className="size-8 text-zinc-600" />
+            </div>
+            <p className="text-sm font-semibold text-zinc-400">No messages yet</p>
+            <p className="text-xs text-zinc-600">
+              Find a teammate in the{" "}
+              <Link href="/directory" className="text-zinc-400 underline hover:text-white">
+                directory
+              </Link>{" "}
+              and send them a message.
+            </p>
+          </div>
+        )}
+
+        {conversations.map((conv) => (
+          <Link
+            key={conv.other_id}
+            href={`/messages/${conv.other_id}`}
+            className="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-zinc-900"
+          >
+            {conv.other_photo_signed_url ? (
+              <img
+                src={conv.other_photo_signed_url}
+                alt={`${conv.other_first_name} ${conv.other_last_name}`}
+                className="h-12 w-12 shrink-0 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-zinc-300">
+                {conv.other_first_name[0]}{conv.other_last_name[0]}
+              </div>
+            )}
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <p className="truncate text-sm font-semibold text-white">
+                  {conv.other_first_name} {conv.other_last_name}
+                </p>
+                <span className="shrink-0 text-[10px] text-zinc-500">
+                  {relativeTime(conv.last_message_at)}
+                </span>
+              </div>
+              <p className="mt-0.5 truncate text-xs text-zinc-500">
+                {conv.last_sent_by_me ? "You: " : ""}
+                {conv.last_message_body}
+              </p>
+            </div>
+
+            {conv.unread_count > 0 && (
+              <div className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-[#CC0000] px-1.5 text-[10px] font-bold text-white">
+                {conv.unread_count > 9 ? "9+" : conv.unread_count}
+              </div>
+            )}
+          </Link>
+        ))}
+      </div>
+
+      {/* Link to find people to message */}
+      {conversations.length > 0 && (
+        <div className="px-5 py-4 text-center">
+          <Link href="/directory" className="text-xs font-semibold text-zinc-500 hover:text-white">
+            Find more teammates to message →
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}

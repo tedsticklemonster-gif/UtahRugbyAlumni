@@ -1,41 +1,60 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LogIn, UserCircle } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { LogIn, MessageCircle } from "lucide-react";
+import { useMe } from "@/components/me-provider";
+import { InstallAppButton } from "@/components/install-app-button";
+import { cn } from "@/lib/utils";
 
 export function HeaderAuth() {
-  const [status, setStatus] = useState<"loading" | "signed-in" | "signed-out">("loading");
+  const { me, loading } = useMe();
 
-  useEffect(() => {
-    const supabase = createClient();
-
-    supabase.auth.getSession().then(({ data }) => {
-      setStatus(data.session ? "signed-in" : "signed-out");
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setStatus(session ? "signed-in" : "signed-out");
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  // Render a fixed-width placeholder while loading to avoid layout shift
-  if (status === "loading") {
+  if (loading) {
     return <div className="h-8 w-20 animate-pulse rounded-lg bg-zinc-800" />;
   }
 
-  if (status === "signed-in") {
+  if (me) {
+    const unread = me.unread_count ?? 0;
     return (
-      <Link
-        href="/profile"
-        className="flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
-      >
-        <UserCircle className="size-4 shrink-0" />
-        <span className="hidden sm:inline">Profile</span>
-      </Link>
+      <div className="flex items-center gap-2">
+        <InstallAppButton />
+
+        {/* DM indicator */}
+        <Link
+          href="/messages"
+          className="relative flex h-8 w-8 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+          aria-label={unread ? `${unread} unread messages` : "Messages"}
+        >
+          <MessageCircle className="size-5" />
+          {unread > 0 && (
+            <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#CC0000] px-1 text-[9px] font-bold text-white">
+              {unread > 9 ? "9+" : unread}
+            </span>
+          )}
+        </Link>
+
+        {/* Profile photo avatar */}
+        <Link
+          href="/profile"
+          aria-label="My profile"
+          className={cn(
+            "flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-colors",
+            "border-zinc-700 hover:border-[#CC0000]"
+          )}
+        >
+          {me.photo_signed_url ? (
+            <img
+              src={me.photo_signed_url}
+              alt={`${me.first_name} ${me.last_name}`}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <span className="text-xs font-bold text-zinc-300">
+              {me.first_name[0]}{me.last_name[0]}
+            </span>
+          )}
+        </Link>
+      </div>
     );
   }
 

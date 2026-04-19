@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, startTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,7 +50,7 @@ export function SignupForm() {
     if (photoFile) {
       fd.set("photo", photoFile);
     }
-    formAction(fd);
+    startTransition(() => formAction(fd));
   }
 
   if (state.success) {

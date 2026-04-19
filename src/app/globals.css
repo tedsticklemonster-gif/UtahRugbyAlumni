@@ -55,8 +55,10 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.45 0.22 27);
+  /* Utah rugby red — #CC0000 in oklch. Used as shadcn `primary`. */
+  --primary: oklch(0.525 0.222 27.33);
   --primary-foreground: oklch(1 0 0);
+  --utah-red: oklch(0.525 0.222 27.33);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -127,4 +129,26 @@
   html {
     @apply font-sans;
   }
+  @supports (padding: max(0px)) {
+    body {
+      --safe-top: env(safe-area-inset-top);
+      --safe-bottom: env(safe-area-inset-bottom);
+      --safe-left: env(safe-area-inset-left);
+      --safe-right: env(safe-area-inset-right);
+    }
+  }
+}
+
+@utility pb-safe {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+}
+@utility pt-safe {
+  padding-top: calc(env(safe-area-inset-top) + 0.5rem);
+}
+
+@utility utah-red-bg {
+  background-color: #CC0000;
+}
+@utility utah-red-text {
+  color: #CC0000;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition, useRef } from "react";
+import Link from "next/link";
 import { Heart, MessageCircle, Send } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { AttachPhoto } from "@/components/attach-photo";
@@ -115,15 +116,20 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden">
       {/* Author row */}
       <div className="flex items-center gap-2.5 px-4 pt-4 pb-3">
-        <Avatar
-          photoUrl={post.author_photo_signed_url}
-          firstName={post.author_first_name}
-          lastName={post.author_last_name}
-        />
+        <Link href={`/u/${post.author_id}`} className="shrink-0 hover:opacity-80 transition-opacity">
+          <Avatar
+            photoUrl={post.author_photo_signed_url}
+            firstName={post.author_first_name}
+            lastName={post.author_last_name}
+          />
+        </Link>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-white">
+          <Link
+            href={`/u/${post.author_id}`}
+            className="text-sm font-semibold text-white hover:text-[#CC0000] transition-colors"
+          >
             {post.author_first_name} {post.author_last_name}
-          </p>
+          </Link>
           <p className="text-xs text-zinc-500">{relativeTime(post.created_at)}</p>
         </div>
       </div>
@@ -184,17 +190,22 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
           {comments.map((c) => (
             <div key={c.id} className="flex gap-2">
-              <Avatar
-                photoUrl={c.author_photo_signed_url}
-                firstName={c.author_first_name}
-                lastName={c.author_last_name}
-                size="sm"
-              />
+              <Link href={`/u/${c.author_id}`} className="shrink-0 hover:opacity-80 transition-opacity">
+                <Avatar
+                  photoUrl={c.author_photo_signed_url}
+                  firstName={c.author_first_name}
+                  lastName={c.author_last_name}
+                  size="sm"
+                />
+              </Link>
               <div className="min-w-0 flex-1">
                 <div className="rounded-xl bg-zinc-800 px-3 py-2">
-                  <p className="text-xs font-semibold text-white">
+                  <Link
+                    href={`/u/${c.author_id}`}
+                    className="text-xs font-semibold text-white hover:text-[#CC0000] transition-colors"
+                  >
                     {c.author_first_name} {c.author_last_name}
-                  </p>
+                  </Link>
                   <p className="mt-0.5 text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap">{c.body}</p>
                   {c.photo_signed_url && (
                     <PhotoLightbox

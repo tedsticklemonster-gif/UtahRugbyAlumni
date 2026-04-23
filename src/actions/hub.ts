@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getPostsAction } from "@/actions/feed";
-import { fetchSchedule } from "@/lib/schedule";
+import { listUpcoming, type UpcomingItem } from "@/actions/events";
 
 export type HubPresenceMember = {
   id: string;
@@ -11,12 +11,7 @@ export type HubPresenceMember = {
   photo_signed_url: string | null;
 };
 
-export type HubUpcomingItem = {
-  opponent: string;
-  date: string;
-  location: "Home" | "Away" | "Neutral";
-  source: "game";
-};
+export type { UpcomingItem as HubUpcomingItem };
 
 export type HubAnnouncement = {
   id: string;
@@ -53,7 +48,7 @@ export async function getHubData() {
     myAlumniId = data?.id ?? null;
   }
 
-  const [presenceRes, recentJoinsRes, postsData, scheduleData] = await Promise.all([
+  const [presenceRes, recentJoinsRes, postsData, upcoming] = await Promise.all([
     admin
       .from("alumni")
       .select("id, first_name, photo_url")
@@ -68,7 +63,7 @@ export async function getHubData() {
       .order("created_at", { ascending: false })
       .limit(5),
     getPostsAction(),
-    fetchSchedule(),
+    listUpcoming(),
   ]);
 
   // Announcements — table may not exist yet on older deploys
@@ -103,17 +98,6 @@ export async function getHubData() {
     first_name: a.first_name,
     photo_signed_url: a.photo_url ? (signedMap[a.photo_url] ?? null) : null,
   }));
-
-  // Next 2 unplayed games from the schedule scrape
-  const upcoming: HubUpcomingItem[] = (scheduleData?.games ?? [])
-    .filter((g) => !g.result)
-    .slice(0, 2)
-    .map((g) => ({
-      opponent: g.opponent,
-      date: g.date,
-      location: g.location,
-      source: "game" as const,
-    }));
 
   const recentJoins: HubRecentJoin[] = (recentJoinsRes.data ?? []) as HubRecentJoin[];
 

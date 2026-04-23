@@ -2,10 +2,11 @@
 
 import { useState, useTransition, useRef } from "react";
 import Link from "next/link";
-import { Heart, MessageCircle, Send } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { AttachPhoto } from "@/components/attach-photo";
-import { toggleLikeAction, addCommentAction, getCommentsAction, type FeedComment, type FeedPost } from "@/actions/feed";
+import { addCommentAction, getCommentsAction, type FeedComment, type FeedPost, type ReactionSummary } from "@/actions/feed";
+import { ReactionPicker } from "@/components/reaction-picker";
 import { cn } from "@/lib/utils";
 
 function relativeTime(iso: string) {
@@ -44,9 +45,8 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, myAlumniId }: PostCardProps) {
-  const [liked, setLiked] = useState(post.i_liked);
-  const [likeCount, setLikeCount] = useState(post.like_count);
-  const [liking, startLike] = useTransition();
+  const [myReaction, setMyReaction] = useState<string | null>(post.my_reaction);
+  const [reactions, setReactions] = useState<ReactionSummary>(post.reactions);
 
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [comments, setComments] = useState<FeedComment[]>([]);
@@ -59,6 +59,11 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
   const [commentError, setCommentError] = useState<string | null>(null);
 
   const commentInputRef = useRef<HTMLTextAreaElement>(null);
+
+  function handleOptimisticReaction(next: string | null, nextReactions: ReactionSummary) {
+    setMyReaction(next);
+    setReactions(nextReactions);
+  }
 
   async function loadComments() {
     if (commentsLoaded) return;
@@ -73,22 +78,6 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
     const next = !commentsOpen;
     setCommentsOpen(next);
     if (next && !commentsLoaded) loadComments();
-  }
-
-  function handleLike() {
-    if (!myAlumniId) return;
-    // Optimistic update
-    const wasLiked = liked;
-    setLiked(!wasLiked);
-    setLikeCount((c) => c + (wasLiked ? -1 : 1));
-    startLike(async () => {
-      const result = await toggleLikeAction(post.id);
-      if (result.error) {
-        // Revert on error
-        setLiked(wasLiked);
-        setLikeCount((c) => c + (wasLiked ? 1 : -1));
-      }
-    });
   }
 
   async function handleComment() {
@@ -156,20 +145,13 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Action bar */}
       <div className="flex items-center gap-1 border-t border-zinc-800 px-3 py-1">
-        <button
-          onClick={handleLike}
-          disabled={liking || !myAlumniId}
-          className={cn(
-            "flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors",
-            liked
-              ? "text-[#CC0000]"
-              : "text-zinc-500 hover:text-zinc-300 disabled:cursor-default"
-          )}
-        >
-          <Heart className={cn("size-4", liked && "fill-current")} />
-          {likeCount > 0 && <span>{likeCount}</span>}
-          <span className="hidden sm:inline">Like</span>
-        </button>
+        <ReactionPicker
+          postId={post.id}
+          myAlumniId={myAlumniId}
+          myReaction={myReaction}
+          reactions={reactions}
+          onOptimistic={handleOptimisticReaction}
+        />
 
         <button
           onClick={toggleComments}

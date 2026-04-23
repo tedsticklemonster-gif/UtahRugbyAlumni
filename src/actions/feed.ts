@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+export type ReactionSummary = { emoji: string; count: number }[];
+
 export type FeedPost = {
   id: string;
   body: string;
@@ -16,6 +18,8 @@ export type FeedPost = {
   like_count: number;
   comment_count: number;
   i_liked: boolean;
+  reactions: ReactionSummary;
+  my_reaction: string | null;
 };
 
 export type FeedComment = {
@@ -65,15 +69,17 @@ export async function getPostsAction(cursor?: string): Promise<{
   const postIds = posts.map((p) => p.id);
   const authorIds = [...new Set(posts.map((p) => p.author_id))];
 
-  const [authorsRes, likesRes, commentsRes] = await Promise.all([
+  const [authorsRes, likesRes, commentsRes, reactionsRes] = await Promise.all([
     admin.from("alumni").select("id, first_name, last_name, photo_url").in("id", authorIds),
     admin.from("post_likes").select("post_id, alumni_id").in("post_id", postIds),
     admin.from("post_comments").select("post_id").in("post_id", postIds).is("deleted_at", null),
+    admin.from("post_reactions").select("post_id, alumni_id, emoji").in("post_id", postIds),
   ]);
 
   const authors = authorsRes.data ?? [];
   const likes = likesRes.data ?? [];
   const comments = commentsRes.data ?? [];
+  const allReactions = reactionsRes.data ?? [];
 
   // Deduplicated signed URLs for author photos
   const authorPhotoCache = new Map<string, string | null>();
@@ -92,6 +98,12 @@ export async function getPostsAction(cursor?: string): Promise<{
       const postComments = comments.filter((c) => c.post_id === post.id);
       const authorPhotoUrl = author?.photo_url ?? null;
 
+      const postReactions = allReactions.filter((r) => r.post_id === post.id);
+      const reactionMap = new Map<string, number>();
+      for (const r of postReactions) reactionMap.set(r.emoji, (reactionMap.get(r.emoji) ?? 0) + 1);
+      const reactions: ReactionSummary = Array.from(reactionMap.entries()).map(([emoji, count]) => ({ emoji, count }));
+      const myReaction = myAlumniId ? (postReactions.find((r) => r.alumni_id === myAlumniId)?.emoji ?? null) : null;
+
       return {
         id: post.id,
         body: post.body,
@@ -104,6 +116,8 @@ export async function getPostsAction(cursor?: string): Promise<{
         like_count: postLikes.length,
         comment_count: postComments.length,
         i_liked: myAlumniId ? postLikes.some((l) => l.alumni_id === myAlumniId) : false,
+        reactions,
+        my_reaction: myReaction,
       };
     })
   );
@@ -173,6 +187,26 @@ export async function toggleLikeAction(postId: string): Promise<{ liked: boolean
 
   await admin.from("post_likes").insert({ post_id: postId, alumni_id: alumni.id });
   return { liked: true };
+}
+
+export async function setReactionAction(postId: string, emoji: string | null): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user?.email) return { error: "Not authenticated" };
+
+  const admin = createAdminClient();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  if (!alumni) return { error: "Not found" };
+
+  if (emoji === null) {
+    await admin.from("post_reactions").delete().eq("post_id", postId).eq("alumni_id", alumni.id);
+  } else {
+    await admin.from("post_reactions").upsert(
+      { post_id: postId, alumni_id: alumni.id, emoji },
+      { onConflict: "post_id,alumni_id" }
+    );
+  }
+  return {};
 }
 
 export async function getCommentsAction(postId: string): Promise<FeedComment[]> {

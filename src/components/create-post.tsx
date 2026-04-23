@@ -6,12 +6,14 @@ import { Image as ImageIcon, X } from "lucide-react";
 import imageCompression from "browser-image-compression";
 import { createPostAction } from "@/actions/feed";
 import { useMe } from "@/components/me-provider";
+import { MentionInput } from "@/components/mention-input";
 import { cn } from "@/lib/utils";
 
 export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
   const { me } = useMe();
   const router = useRouter();
   const [body, setBody] = useState("");
+  const [mentionIds, setMentionIds] = useState<string[]>([]);
   const [photo, setPhoto] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -59,6 +61,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
         return;
       }
       setBody("");
+      setMentionIds([]);
       clearPhoto();
       router.refresh();
       onSuccess?.();
@@ -83,9 +86,9 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
         )}
 
         <div className="flex-1 min-w-0">
-          <textarea
+          <MentionInput
             value={body}
-            onChange={(e) => setBody(e.target.value)}
+            onChange={(text, ids) => { setBody(text); setMentionIds(ids); }}
             placeholder="What's on your mind, rugger?"
             rows={body ? 3 : 2}
             maxLength={2000}

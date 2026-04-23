@@ -1,0 +1,143 @@
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft, CalendarDays, MapPin, Users, ExternalLink } from "lucide-react";
+import { getEvent } from "@/actions/events";
+import { RsvpChips } from "@/components/rsvp-chips";
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+const KIND_LABELS: Record<string, string> = {
+  social: "Social",
+  reunion: "Reunion",
+  watch_party: "Watch Party",
+  practice: "Practice",
+  other: "Event",
+};
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  let myAlumniId: string | null = null;
+  if (user?.email) {
+    const admin = createAdminClient();
+    const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+    myAlumniId = data?.id ?? null;
+  }
+
+  const event = await getEvent(id);
+  if (!event) notFound();
+
+  return (
+    <div className="min-h-screen bg-zinc-950">
+      {/* Back nav */}
+      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+        <Link
+          href="/events"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="size-4" />
+          Events
+        </Link>
+      </div>
+
+      <div className="px-5 py-6 md:px-10 max-w-2xl space-y-5">
+        {/* Kind badge */}
+        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+          {KIND_LABELS[event.kind] ?? "Event"}
+        </span>
+
+        {/* Title */}
+        <h1 className="text-2xl font-black leading-tight tracking-tight text-white">
+          {event.title}
+        </h1>
+
+        {/* Details */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-2.5">
+          <div className="flex items-start gap-2.5">
+            <CalendarDays className="size-4 shrink-0 mt-0.5 text-zinc-500" />
+            <div>
+              <p className="text-sm text-zinc-200">{formatDate(event.starts_at)}</p>
+              {event.ends_at && (
+                <p className="text-xs text-zinc-500 mt-0.5">
+                  until {new Date(event.ends_at).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {event.location && (
+            <div className="flex items-center gap-2.5">
+              <MapPin className="size-4 shrink-0 text-zinc-500" />
+              <div className="flex items-center gap-1.5">
+                <p className="text-sm text-zinc-200">{event.location}</p>
+                {event.location_url && (
+                  <a
+                    href={event.location_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-500 hover:text-white"
+                  >
+                    <ExternalLink className="size-3.5" />
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2.5">
+            <Users className="size-4 shrink-0 text-zinc-500" />
+            <p className="text-sm text-zinc-400">
+              {event.rsvp_going > 0 ? (
+                <><span className="font-semibold text-white">{event.rsvp_going}</span> going</>
+              ) : "No RSVPs yet"}
+              {event.rsvp_maybe > 0 && <>, <span className="font-semibold text-white">{event.rsvp_maybe}</span> maybe</>}
+            </p>
+          </div>
+        </div>
+
+        {/* Description */}
+        {event.description && (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+            <p className="text-sm leading-relaxed text-zinc-300 whitespace-pre-wrap">{event.description}</p>
+          </div>
+        )}
+
+        {/* RSVP */}
+        {myAlumniId ? (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">Are you going?</p>
+            <RsvpChips eventId={event.id} initial={event.my_rsvp} />
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+            <p className="text-sm text-zinc-400">
+              <Link href="/login" className="font-semibold text-white hover:text-[#CC0000] transition-colors">Sign in</Link>
+              {" "}to RSVP
+            </p>
+          </div>
+        )}
+
+        {/* Created by */}
+        <p className="text-xs text-zinc-600">
+          Created by{" "}
+          <Link href={`/u/${event.creator_id}`} className="hover:text-zinc-400 transition-colors">
+            {event.creator_first_name} {event.creator_last_name}
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

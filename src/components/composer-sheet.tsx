@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { CreatePost } from "@/components/create-post";
+import { EventComposer } from "@/components/event-composer";
 import { cn } from "@/lib/utils";
+
+type Tab = "post" | "event";
 
 interface ComposerSheetProps {
   open: boolean;
@@ -11,16 +14,20 @@ interface ComposerSheetProps {
 }
 
 export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
-  // Lock body scroll while open
+  const [tab, setTab] = useState<Tab>("post");
+
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  // Reset to Post tab when closed
+  useEffect(() => {
+    if (!open) setTab("post");
   }, [open]);
 
   return (
@@ -48,12 +55,20 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
           <div className="flex gap-1">
-            <span className="rounded-lg bg-zinc-800 px-3 py-1 text-xs font-bold text-white">
-              Post
-            </span>
-            <span className="rounded-lg px-3 py-1 text-xs font-medium text-zinc-600 cursor-not-allowed">
-              Event (coming soon)
-            </span>
+            {(["post", "event"] as Tab[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={cn(
+                  "rounded-lg px-3 py-1 text-xs font-bold capitalize transition-colors",
+                  tab === t
+                    ? "bg-zinc-800 text-white"
+                    : "text-zinc-500 hover:text-zinc-300"
+                )}
+              >
+                {t}
+              </button>
+            ))}
           </div>
           <button
             onClick={onClose}
@@ -64,8 +79,12 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
         </div>
 
         {/* Content */}
-        <div className="p-4 pb-safe">
-          <CreatePost onSuccess={onClose} />
+        <div className="p-4 pb-safe max-h-[70vh] overflow-y-auto">
+          {tab === "post" ? (
+            <CreatePost onSuccess={onClose} />
+          ) : (
+            <EventComposer onSuccess={onClose} />
+          )}
         </div>
       </div>
     </>

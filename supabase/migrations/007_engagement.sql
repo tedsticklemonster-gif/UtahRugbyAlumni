@@ -23,7 +23,11 @@ set handle = alumni.handle || dupes.rn::text
 from dupes
 where alumni.id = dupes.id and dupes.rn > 1;
 
-alter table alumni add constraint if not exists alumni_handle_unique unique (handle);
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'alumni_handle_unique') then
+    alter table alumni add constraint alumni_handle_unique unique (handle);
+  end if;
+end $$;
 
 -- ── Announcements ──────────────────────────────────────────────────────────────
 create table if not exists announcements (

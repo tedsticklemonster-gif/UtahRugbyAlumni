@@ -157,6 +157,8 @@ export async function getAlumniRecentPostsAction(
       like_count: postLikes.length,
       comment_count: postComments.length,
       i_liked: myAlumniId ? postLikes.some((l) => l.alumni_id === myAlumniId) : false,
+      reactions: [],
+      my_reaction: null,
     };
   });
 

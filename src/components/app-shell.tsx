@@ -25,9 +25,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* Desktop nav */}
             <nav aria-label="Primary" className="hidden items-center gap-0.5 md:flex">
               {[
-                { href: "/feed", label: "Feed" },
+                { href: "/", label: "Home" },
                 { href: "/directory", label: "Directory" },
-                { href: "/schedule", label: "Schedule" },
+                { href: "/events", label: "Events" },
                 { href: "/messages", label: "Messages" },
                 { href: "/give", label: "Give" },
               ].map(({ href, label }) => (

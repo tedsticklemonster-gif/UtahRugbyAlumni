@@ -6,8 +6,8 @@ import { ArrowRight, CalendarDays, HeartHandshake, Users, ExternalLink, Megaphon
 import { HeroLogo } from "@/components/hero-logo";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { getPostsAction } from "@/actions/feed";
-import { AuthenticatedHome } from "@/components/authenticated-home";
+import { getHubData } from "@/actions/hub";
+import { HubPage } from "@/components/hub/hub-page";
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -25,8 +25,8 @@ export default async function HomePage() {
 
   const { data: { user } } = await supabase.auth.getUser();
   if (user) {
-    const { posts, nextCursor, myAlumniId } = await getPostsAction();
-    return <AuthenticatedHome posts={posts} cursor={nextCursor} myAlumniId={myAlumniId} />;
+    const hubData = await getHubData();
+    return <HubPage {...hubData} />;
   }
 
   const { count: alumniCount } = await supabase

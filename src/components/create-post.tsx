@@ -8,7 +8,7 @@ import { createPostAction } from "@/actions/feed";
 import { useMe } from "@/components/me-provider";
 import { cn } from "@/lib/utils";
 
-export function CreatePost() {
+export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
   const { me } = useMe();
   const router = useRouter();
   const [body, setBody] = useState("");
@@ -61,6 +61,7 @@ export function CreatePost() {
       setBody("");
       clearPhoto();
       router.refresh();
+      onSuccess?.();
     });
   }
 

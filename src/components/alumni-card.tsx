@@ -37,9 +37,9 @@ export function AlumniCard({
   const location = [city, state].filter(Boolean).join(", ");
   const initials = `${firstName[0]}${lastName[0]}`;
 
-  return (
-    <article className="flex flex-col rounded-2xl border border-zinc-200 bg-white overflow-hidden transition-shadow hover:shadow-md">
-      {/* Photo strip */}
+  const cardContent = (
+    <>
+      {/* Red accent strip */}
       <div className="relative h-1.5 bg-[#CC0000]" />
 
       <div className="flex items-start gap-3 p-4">
@@ -104,6 +104,7 @@ export function AlumniCard({
             href={linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
             className="flex items-center gap-1 pt-0.5 font-medium text-[#0A66C2] hover:underline"
           >
             <ExternalLink className="size-3" />
@@ -117,6 +118,7 @@ export function AlumniCard({
         <div className="border-t border-zinc-100 px-4 py-2">
           <Link
             href={`/messages/${alumniId}`}
+            onClick={(e) => e.stopPropagation()}
             className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900"
           >
             <MessageCircle className="size-3.5" />
@@ -128,9 +130,27 @@ export function AlumniCard({
       {/* Gated prompt */}
       {isGated && (
         <p className="border-t border-zinc-100 px-4 py-2 text-[10px] text-zinc-400">
-          Sign in to see photo, bio & LinkedIn
+          Sign in to see photo, bio &amp; LinkedIn
         </p>
       )}
+    </>
+  );
+
+  // If we have an ID, wrap the whole card as a link to the profile
+  if (alumniId && !isGated) {
+    return (
+      <Link
+        href={`/u/${alumniId}`}
+        className="flex flex-col rounded-2xl border border-zinc-200 bg-white overflow-hidden transition-shadow hover:shadow-md"
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <article className="flex flex-col rounded-2xl border border-zinc-200 bg-white overflow-hidden transition-shadow hover:shadow-md">
+      {cardContent}
     </article>
   );
 }

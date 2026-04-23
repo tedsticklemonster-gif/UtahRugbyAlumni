@@ -2,25 +2,8 @@
 
 import { useState } from "react";
 import { Share2, Check } from "lucide-react";
-import { FeedClient } from "@/app/feed/feed-client";
-import type { FeedPost } from "@/actions/feed";
 
-interface AuthenticatedHomeProps {
-  posts: FeedPost[];
-  cursor: string | null;
-  myAlumniId: string | null;
-}
-
-export function AuthenticatedHome({ posts, cursor, myAlumniId }: AuthenticatedHomeProps) {
-  return (
-    <div>
-      <InviteBanner />
-      <FeedClient initialPosts={posts} initialCursor={cursor} myAlumniId={myAlumniId} />
-    </div>
-  );
-}
-
-function InviteBanner() {
+export function InviteBanner() {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
@@ -29,7 +12,7 @@ function InviteBanner() {
       try {
         await navigator.share({ title: "Utah Rugby Alumni Network", url });
       } catch {
-        // user cancelled share sheet
+        // user cancelled
       }
     } else {
       await navigator.clipboard.writeText(url);

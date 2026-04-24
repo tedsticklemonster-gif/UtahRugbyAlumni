@@ -11,7 +11,6 @@ export type HubPresenceMember = {
   photo_signed_url: string | null;
 };
 
-export type { UpcomingItem as HubUpcomingItem };
 
 export type HubAnnouncement = {
   id: string;

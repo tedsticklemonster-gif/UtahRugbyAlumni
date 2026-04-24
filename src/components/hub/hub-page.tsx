@@ -10,12 +10,8 @@ import { AnnouncementsCard } from "@/components/hub/announcements-card";
 import { NewJoinsStrip } from "@/components/hub/new-joins-strip";
 import { InviteBanner } from "@/components/hub/invite-banner";
 import { PullToRefresh } from "@/components/pull-to-refresh";
-import type {
-  HubPresenceMember,
-  HubUpcomingItem,
-  HubAnnouncement,
-  HubRecentJoin,
-} from "@/actions/hub";
+import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
+import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
 
 interface HubPageProps {
   presence: HubPresenceMember[];

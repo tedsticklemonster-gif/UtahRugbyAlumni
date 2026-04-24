@@ -201,10 +201,24 @@ export async function setReactionAction(postId: string, emoji: string | null): P
   if (emoji === null) {
     await admin.from("post_reactions").delete().eq("post_id", postId).eq("alumni_id", alumni.id);
   } else {
+    const isNew = !(await admin.from("post_reactions").select("id").eq("post_id", postId).eq("alumni_id", alumni.id).single()).data;
     await admin.from("post_reactions").upsert(
       { post_id: postId, alumni_id: alumni.id, emoji },
       { onConflict: "post_id,alumni_id" }
     );
+    // Notify post author (skip self-reactions)
+    if (isNew) {
+      const { data: post } = await admin.from("posts").select("author_id").eq("id", postId).single();
+      if (post?.author_id && post.author_id !== alumni.id) {
+        await admin.from("notifications").insert({
+          recipient_id: post.author_id,
+          actor_id: alumni.id,
+          kind: "post_reaction",
+          entity_type: "post",
+          entity_id: postId,
+        }).select();
+      }
+    }
   }
   return {};
 }
@@ -281,9 +295,44 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
     if (!uploadErr) photo_url = path;
   }
 
+  const { data: comment, error } = await admin
+    .from("post_comments")
+    .insert({ post_id: postId, author_id: alumni.id, body, photo_url })
+    .select("id")
+    .single();
+
+  if (error) return { error: error.message };
+
+  // Notify post author (skip self-comments)
+  const { data: post } = await admin.from("posts").select("author_id").eq("id", postId).single();
+  if (post?.author_id && post.author_id !== alumni.id) {
+    await admin.from("notifications").insert({
+      recipient_id: post.author_id,
+      actor_id: alumni.id,
+      kind: "post_comment",
+      entity_type: "post",
+      entity_id: postId,
+    }).select();
+  }
+
+  return {};
+}
+
+export async function deleteCommentAction(commentId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user?.email) return { error: "Not authenticated" };
+
+  const admin = createAdminClient();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  if (!alumni) return { error: "Not found" };
+
+  // Only allow deleting own comments
   const { error } = await admin
     .from("post_comments")
-    .insert({ post_id: postId, author_id: alumni.id, body, photo_url });
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", commentId)
+    .eq("author_id", alumni.id);
 
   if (error) return { error: error.message };
   return {};

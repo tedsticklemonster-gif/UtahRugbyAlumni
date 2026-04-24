@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MessageCircle, Send } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { AttachPhoto } from "@/components/attach-photo";
-import { addCommentAction, getCommentsAction, type FeedComment, type FeedPost, type ReactionSummary } from "@/actions/feed";
+import { addCommentAction, deleteCommentAction, getCommentsAction, type FeedComment, type FeedPost, type ReactionSummary } from "@/actions/feed";
 import { ReactionPicker } from "@/components/reaction-picker";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +34,84 @@ function Avatar({ photoUrl, firstName, lastName, size = "md" }: {
   return (
     <div className={cn("flex shrink-0 items-center justify-center rounded-full bg-zinc-700 font-bold text-zinc-300", sz)}>
       {firstName[0]}{lastName[0]}
+    </div>
+  );
+}
+
+function SwipeableComment({
+  comment: c,
+  isOwn,
+  onDeleted,
+}: {
+  comment: FeedComment;
+  isOwn: boolean;
+  onDeleted: (id: string) => void;
+}) {
+  const [offsetX, setOffsetX] = useState(0);
+  const [deleting, startDelete] = useTransition();
+  const startX = useRef(0);
+
+  function handleTouchStart(e: React.TouchEvent) {
+    startX.current = e.touches[0].clientX;
+  }
+  function handleTouchMove(e: React.TouchEvent) {
+    if (!isOwn) return;
+    const dx = e.touches[0].clientX - startX.current;
+    if (dx < 0) setOffsetX(Math.max(dx, -80));
+  }
+  function handleTouchEnd() {
+    if (offsetX < -60) {
+      setOffsetX(-80);
+    } else {
+      setOffsetX(0);
+    }
+  }
+
+  function handleDelete() {
+    navigator.vibrate?.(20);
+    startDelete(async () => {
+      await deleteCommentAction(c.id);
+      onDeleted(c.id);
+    });
+  }
+
+  return (
+    <div className="relative overflow-hidden rounded-xl">
+      {/* Delete reveal */}
+      {isOwn && (
+        <div className="absolute inset-y-0 right-0 flex items-center justify-center w-20 bg-red-600 rounded-xl">
+          <button onClick={handleDelete} disabled={deleting} className="text-xs font-bold text-white px-3">
+            {deleting ? "…" : "Delete"}
+          </button>
+        </div>
+      )}
+
+      {/* Comment row */}
+      <div
+        className="flex gap-2 bg-zinc-900 transition-transform"
+        style={{ transform: `translateX(${offsetX}px)` }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <Link href={`/u/${c.author_id}`} className="shrink-0 hover:opacity-80 transition-opacity">
+          <Avatar photoUrl={c.author_photo_signed_url} firstName={c.author_first_name} lastName={c.author_last_name} size="sm" />
+        </Link>
+        <div className="min-w-0 flex-1">
+          <div className="rounded-xl bg-zinc-800 px-3 py-2">
+            <Link href={`/u/${c.author_id}`} className="text-xs font-semibold text-white hover:text-[#CC0000] transition-colors">
+              {c.author_first_name} {c.author_last_name}
+            </Link>
+            <p className="mt-0.5 text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap">{c.body}</p>
+            {c.photo_signed_url && (
+              <PhotoLightbox src={c.photo_signed_url} alt="Comment photo" trigger={
+                <img src={c.photo_signed_url} alt="" className="mt-2 max-h-40 rounded-lg object-cover" />
+              } />
+            )}
+          </div>
+          <p className="mt-0.5 pl-3 text-[10px] text-zinc-600">{relativeTime(c.created_at)}</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -171,37 +249,12 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           )}
 
           {comments.map((c) => (
-            <div key={c.id} className="flex gap-2">
-              <Link href={`/u/${c.author_id}`} className="shrink-0 hover:opacity-80 transition-opacity">
-                <Avatar
-                  photoUrl={c.author_photo_signed_url}
-                  firstName={c.author_first_name}
-                  lastName={c.author_last_name}
-                  size="sm"
-                />
-              </Link>
-              <div className="min-w-0 flex-1">
-                <div className="rounded-xl bg-zinc-800 px-3 py-2">
-                  <Link
-                    href={`/u/${c.author_id}`}
-                    className="text-xs font-semibold text-white hover:text-[#CC0000] transition-colors"
-                  >
-                    {c.author_first_name} {c.author_last_name}
-                  </Link>
-                  <p className="mt-0.5 text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap">{c.body}</p>
-                  {c.photo_signed_url && (
-                    <PhotoLightbox
-                      src={c.photo_signed_url}
-                      alt="Comment photo"
-                      trigger={
-                        <img src={c.photo_signed_url} alt="" className="mt-2 max-h-40 rounded-lg object-cover" />
-                      }
-                    />
-                  )}
-                </div>
-                <p className="mt-0.5 pl-3 text-[10px] text-zinc-600">{relativeTime(c.created_at)}</p>
-              </div>
-            </div>
+            <SwipeableComment
+              key={c.id}
+              comment={c}
+              isOwn={c.author_id === myAlumniId}
+              onDeleted={(id) => setComments((prev) => prev.filter((x) => x.id !== id))}
+            />
           ))}
 
           {/* Add comment */}

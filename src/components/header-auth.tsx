@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LogIn, User, LogOut } from "lucide-react";
 import { useMe } from "@/components/me-provider";
 import { InstallAppButton } from "@/components/install-app-button";
+import { NotificationsBell } from "@/components/notifications-bell";
 import { signOutAction } from "@/actions/auth";
 import { cn } from "@/lib/utils";
 
@@ -96,6 +97,7 @@ export function HeaderAuth() {
     return (
       <div className="flex items-center gap-2">
         <InstallAppButton />
+        <NotificationsBell />
         <AvatarMenu />
       </div>
     );

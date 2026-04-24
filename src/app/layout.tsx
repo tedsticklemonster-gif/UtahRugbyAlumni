@@ -65,6 +65,9 @@ export default function RootLayout({
       lang="en"
       className={`${barlow.variable} ${barlowCondensed.variable} dark h-full antialiased`}
     >
+      <head>
+        <style>{`@view-transition { navigation: auto; }`}</style>
+      </head>
       <body className="min-h-full">
         <AppShell>{children}</AppShell>
         <InstallPrompt />

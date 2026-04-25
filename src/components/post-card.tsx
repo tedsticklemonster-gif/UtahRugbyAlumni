@@ -5,9 +5,19 @@ import Link from "next/link";
 import { MessageCircle, Send } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { AttachPhoto } from "@/components/attach-photo";
-import { addCommentAction, deleteCommentAction, getCommentsAction, type FeedComment, type FeedPost, type ReactionSummary } from "@/actions/feed";
+import {
+  addCommentAction,
+  deleteCommentAction,
+  getCommentsAction,
+  type FeedComment,
+  type FeedPost,
+  type ReactionSummary,
+} from "@/actions/feed";
 import { ReactionPicker } from "@/components/reaction-picker";
 import { cn } from "@/lib/utils";
+
+const eyebrow =
+  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
 
 function relativeTime(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
@@ -21,7 +31,12 @@ function relativeTime(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-function Avatar({ photoUrl, firstName, lastName, size = "md" }: {
+function Avatar({
+  photoUrl,
+  firstName,
+  lastName,
+  size = "md",
+}: {
   photoUrl: string | null;
   firstName: string;
   lastName: string;
@@ -29,11 +44,23 @@ function Avatar({ photoUrl, firstName, lastName, size = "md" }: {
 }) {
   const sz = size === "sm" ? "h-7 w-7 text-[10px]" : "h-9 w-9 text-xs";
   if (photoUrl) {
-    return <img src={photoUrl} alt={`${firstName} ${lastName}`} className={cn("rounded-full object-cover shrink-0", sz)} />;
+    return (
+      <img
+        src={photoUrl}
+        alt={`${firstName} ${lastName}`}
+        className={cn("rounded-full object-cover shrink-0", sz)}
+      />
+    );
   }
   return (
-    <div className={cn("flex shrink-0 items-center justify-center rounded-full bg-zinc-700 font-bold text-zinc-300", sz)}>
-      {firstName[0]}{lastName[0]}
+    <div
+      className={cn(
+        "flex shrink-0 items-center justify-center rounded-full bg-zinc-800 font-bold text-zinc-300",
+        sz
+      )}
+    >
+      {firstName[0]}
+      {lastName[0]}
     </div>
   );
 }
@@ -76,11 +103,15 @@ function SwipeableComment({
   }
 
   return (
-    <div className="relative overflow-hidden rounded-xl">
+    <div className="relative overflow-hidden">
       {/* Delete reveal */}
       {isOwn && (
-        <div className="absolute inset-y-0 right-0 flex items-center justify-center w-20 bg-red-600 rounded-xl">
-          <button onClick={handleDelete} disabled={deleting} className="text-xs font-bold text-white px-3">
+        <div className="absolute inset-y-0 right-0 flex w-20 items-center justify-center bg-[#CC0000]">
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className={`${eyebrow} text-[9px] text-white px-3`}
+          >
             {deleting ? "…" : "Delete"}
           </button>
         </div>
@@ -94,22 +125,45 @@ function SwipeableComment({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <Link href={`/u/${c.author_id}`} className="shrink-0 hover:opacity-80 transition-opacity">
-          <Avatar photoUrl={c.author_photo_signed_url} firstName={c.author_first_name} lastName={c.author_last_name} size="sm" />
+        <Link
+          href={`/u/${c.author_id}`}
+          className="shrink-0 hover:opacity-80 transition-opacity"
+        >
+          <Avatar
+            photoUrl={c.author_photo_signed_url}
+            firstName={c.author_first_name}
+            lastName={c.author_last_name}
+            size="sm"
+          />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="rounded-xl bg-zinc-800 px-3 py-2">
-            <Link href={`/u/${c.author_id}`} className="text-xs font-semibold text-white hover:text-[#CC0000] transition-colors">
+          <div className="bg-zinc-800 px-3 py-2">
+            <Link
+              href={`/u/${c.author_id}`}
+              className="text-xs font-bold text-white transition-colors hover:text-[#CC0000]"
+            >
               {c.author_first_name} {c.author_last_name}
             </Link>
-            <p className="mt-0.5 text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap">{c.body}</p>
+            <p className="mt-0.5 text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap">
+              {c.body}
+            </p>
             {c.photo_signed_url && (
-              <PhotoLightbox src={c.photo_signed_url} alt="Comment photo" trigger={
-                <img src={c.photo_signed_url} alt="" className="mt-2 max-h-40 rounded-lg object-cover" />
-              } />
+              <PhotoLightbox
+                src={c.photo_signed_url}
+                alt="Comment photo"
+                trigger={
+                  <img
+                    src={c.photo_signed_url}
+                    alt=""
+                    className="mt-2 max-h-40 object-cover"
+                  />
+                }
+              />
             )}
           </div>
-          <p className="mt-0.5 pl-3 text-[10px] text-zinc-600">{relativeTime(c.created_at)}</p>
+          <p className="mt-0.5 pl-3 text-[10px] text-zinc-600">
+            {relativeTime(c.created_at)}
+          </p>
         </div>
       </div>
     </div>
@@ -172,7 +226,6 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       }
       setCommentBody("");
       setCommentPhoto(null);
-      // Reload comments
       const fresh = await getCommentsAction(post.id);
       setComments(fresh);
       setCommentsLoaded(true);
@@ -180,10 +233,13 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden">
+    <div className="border border-zinc-900 bg-zinc-950 overflow-hidden">
       {/* Author row */}
       <div className="flex items-center gap-2.5 px-4 pt-4 pb-3">
-        <Link href={`/u/${post.author_id}`} className="shrink-0 hover:opacity-80 transition-opacity">
+        <Link
+          href={`/u/${post.author_id}`}
+          className="shrink-0 hover:opacity-80 transition-opacity"
+        >
           <Avatar
             photoUrl={post.author_photo_signed_url}
             firstName={post.author_first_name}
@@ -193,16 +249,20 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
         <div className="min-w-0 flex-1">
           <Link
             href={`/u/${post.author_id}`}
-            className="text-sm font-semibold text-white hover:text-[#CC0000] transition-colors"
+            className="text-sm font-bold text-white transition-colors hover:text-[#CC0000]"
           >
             {post.author_first_name} {post.author_last_name}
           </Link>
-          <p className="text-xs text-zinc-500">{relativeTime(post.created_at)}</p>
+          <p className={`${eyebrow} text-[9px] text-zinc-600`}>
+            {relativeTime(post.created_at)}
+          </p>
         </div>
       </div>
 
       {/* Post body */}
-      <p className="px-4 pb-3 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap">{post.body}</p>
+      <p className="px-4 pb-3 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap">
+        {post.body}
+      </p>
 
       {/* Post photo */}
       {post.photo_signed_url && (
@@ -214,7 +274,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
               <img
                 src={post.photo_signed_url}
                 alt="Post photo"
-                className="w-full max-h-80 rounded-xl object-cover"
+                className="w-full max-h-80 object-cover"
               />
             }
           />
@@ -222,7 +282,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       )}
 
       {/* Action bar */}
-      <div className="flex items-center gap-1 border-t border-zinc-800 px-3 py-1">
+      <div className="flex items-center gap-1 border-t border-zinc-900 px-3 py-1">
         <ReactionPicker
           postId={post.id}
           myAlumniId={myAlumniId}
@@ -233,7 +293,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
         <button
           onClick={toggleComments}
-          className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-500 transition-colors hover:text-zinc-300"
+          className={`${eyebrow} flex items-center gap-1.5 px-3 py-2 text-[10px] text-zinc-500 transition-colors hover:text-zinc-300`}
         >
           <MessageCircle className="size-4" />
           {post.comment_count > 0 && <span>{post.comment_count}</span>}
@@ -243,9 +303,9 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Comments section */}
       {commentsOpen && (
-        <div className="border-t border-zinc-800 px-4 pb-4 pt-3 space-y-3">
+        <div className="border-t border-zinc-900 px-4 pb-4 pt-3 space-y-3">
           {commentsLoading && (
-            <p className="text-xs text-zinc-500">Loading…</p>
+            <p className={`${eyebrow} text-[10px] text-zinc-500`}>Loading…</p>
           )}
 
           {comments.map((c) => (
@@ -253,21 +313,23 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
               key={c.id}
               comment={c}
               isOwn={c.author_id === myAlumniId}
-              onDeleted={(id) => setComments((prev) => prev.filter((x) => x.id !== id))}
+              onDeleted={(id) =>
+                setComments((prev) => prev.filter((x) => x.id !== id))
+              }
             />
           ))}
 
-          {/* Add comment */}
+          {/* Add comment input */}
           {myAlumniId && (
             <div className="flex gap-2 pt-1">
-              <div className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2">
+              <div className="flex-1 border border-zinc-800 bg-zinc-900 px-3 py-2">
                 <textarea
                   ref={commentInputRef}
                   value={commentBody}
                   onChange={(e) => setCommentBody(e.target.value)}
                   placeholder="Write a comment…"
                   rows={1}
-                  className="w-full resize-none bg-transparent text-xs text-white placeholder-zinc-500 focus:outline-none"
+                  className="w-full resize-none bg-transparent text-xs text-white placeholder-zinc-600 focus:outline-none"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
@@ -283,7 +345,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                   <button
                     onClick={handleComment}
                     disabled={submitting || (!commentBody.trim() && !commentPhoto)}
-                    className="flex items-center gap-1 rounded-lg bg-[#CC0000] px-2.5 py-1 text-xs font-semibold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40"
+                    className={`${eyebrow} flex items-center gap-1 rounded-sm bg-[#CC0000] px-2.5 py-1 text-[9px] text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40`}
                   >
                     <Send className="size-3" />
                     {submitting ? "…" : "Send"}

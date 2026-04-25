@@ -40,9 +40,10 @@ export function InstallAppButton() {
       <button
         onClick={handleClick}
         aria-label="Install app"
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+        className="flex h-8 items-center gap-1.5 rounded-sm border border-zinc-700 bg-zinc-950 px-2.5 text-[11px] font-extrabold uppercase tracking-wider text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
       >
-        <Download className="size-5" />
+        <Smartphone className="size-3.5 shrink-0" />
+        <span className="hidden sm:inline">Install</span>
       </button>
 
       {showModal && (

@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { Share2, Check } from "lucide-react";
 
+const eyebrow =
+  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
+
 export function InviteBanner() {
   const [copied, setCopied] = useState(false);
 
@@ -22,19 +25,25 @@ export function InviteBanner() {
   }
 
   return (
-    <div className="border-b border-[#CC0000]/30 bg-[#CC0000]/10 px-4 py-3">
-      <div className="mx-auto flex max-w-xl items-center justify-between gap-3">
+    <div className="relative overflow-hidden border-b border-[#CC0000]/40 bg-[#CC0000]/10 px-4 py-3">
+      {/* Diagonal stripe accent */}
+      <div
+        className="pointer-events-none absolute right-0 top-0 h-full w-1/3 opacity-[0.06]"
+        style={{
+          background:
+            "repeating-linear-gradient(135deg, white 0 1px, transparent 1px 10px)",
+        }}
+      />
+      <div className="relative mx-auto flex max-w-2xl items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
-            Grow the network
-          </p>
-          <p className="mt-0.5 text-sm font-semibold leading-snug text-white">
+          <p className={`${eyebrow} text-[9px] text-[#CC0000]`}>Grow the Network</p>
+          <p className="mt-0.5 text-sm font-bold leading-snug text-white">
             Forward this to every Ute rugger in your phone.
           </p>
         </div>
         <button
           onClick={handleShare}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#CC0000] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000] active:bg-[#880000]"
+          className={`${eyebrow} inline-flex shrink-0 items-center gap-1.5 rounded-sm bg-[#CC0000] px-3 py-2 text-[10px] text-white transition-colors hover:bg-[#AA0000] active:bg-[#880000]`}
         >
           {copied ? <Check className="size-3.5" /> : <Share2 className="size-3.5" />}
           {copied ? "Copied!" : "Share"}

@@ -4,39 +4,46 @@ import { BrandMark } from "@/components/brand-mark";
 import { HeaderAuth } from "@/components/header-auth";
 import { MeProvider } from "@/components/me-provider";
 
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/directory", label: "Directory" },
+  { href: "/events", label: "Events" },
+  { href: "/messages", label: "Messages" },
+  { href: "/give", label: "Give" },
+];
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <MeProvider>
       <div className="flex min-h-full flex-col">
-        {/* Dark header */}
-        <header className="sticky top-0 z-30 bg-zinc-950 border-b border-zinc-800">
-          <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4">
+        {/* ── Header ─────────────────────────────────────────────────────── */}
+        <header className="sticky top-0 z-30 border-b border-zinc-900 bg-black">
+          {/* 3-px red top rule */}
+          <div className="h-[3px] w-full bg-[#CC0000]" />
+
+          <div className="mx-auto flex h-13 max-w-6xl items-center justify-between gap-4 px-4">
+            {/* Wordmark */}
             <Link
               href="/"
               className="flex items-center gap-2.5 shrink-0"
               aria-label="University of Utah Rugby Alumni — Home"
             >
-              <BrandMark className="size-9" />
-              <span className="hidden text-sm font-bold tracking-tight text-white sm:block">
-                University of Utah Rugby Alumni
+              <BrandMark className="size-8" />
+              <span className="hidden text-sm font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight text-white sm:block">
+                Utah Rugby <span className="text-[#CC0000]">Alumni</span>
               </span>
             </Link>
 
             {/* Desktop nav */}
-            <nav aria-label="Primary" className="hidden items-center gap-0.5 md:flex">
-              {[
-                { href: "/", label: "Home" },
-                { href: "/directory", label: "Directory" },
-                { href: "/events", label: "Events" },
-                { href: "/messages", label: "Messages" },
-                { href: "/give", label: "Give" },
-              ].map(({ href, label }) => (
+            <nav aria-label="Primary" className="hidden items-center gap-0 md:flex">
+              {NAV_LINKS.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="rounded-md px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+                  className="group relative px-3 py-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-white"
                 >
                   {label}
+                  <span className="absolute inset-x-3 bottom-1 h-[2px] origin-left scale-x-0 bg-[#CC0000] transition-transform duration-200 group-hover:scale-x-100" />
                 </Link>
               ))}
             </nav>

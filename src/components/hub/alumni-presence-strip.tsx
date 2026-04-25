@@ -3,6 +3,9 @@
 import Link from "next/link";
 import type { HubPresenceMember } from "@/actions/hub";
 
+const eyebrow =
+  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
+
 function PresenceAvatar({ member }: { member: HubPresenceMember }) {
   const initials = member.first_name[0]?.toUpperCase() ?? "?";
 
@@ -16,15 +19,17 @@ function PresenceAvatar({ member }: { member: HubPresenceMember }) {
           <img
             src={member.photo_signed_url}
             alt={member.first_name}
-            className="h-14 w-14 rounded-full object-cover border-2 border-zinc-800 group-hover:border-[#CC0000] transition-colors"
+            className="h-14 w-14 rounded-full object-cover border-2 border-zinc-800 group-hover:border-[#CC0000] transition-colors duration-200"
           />
         ) : (
-          <div className="h-14 w-14 rounded-full border-2 border-zinc-800 group-hover:border-[#CC0000] transition-colors bg-zinc-800 flex items-center justify-center text-base font-bold text-zinc-300">
+          <div className="h-14 w-14 rounded-full border-2 border-zinc-800 group-hover:border-[#CC0000] transition-colors duration-200 bg-zinc-900 flex items-center justify-center text-base font-bold text-zinc-400">
             {initials}
           </div>
         )}
+        {/* Online indicator */}
+        <span className="absolute bottom-0.5 right-0.5 block h-2.5 w-2.5 rounded-full border-2 border-black bg-[#CC0000]" />
       </div>
-      <span className="text-[10px] font-medium text-zinc-500 group-hover:text-zinc-300 transition-colors w-14 text-center truncate">
+      <span className={`${eyebrow} w-14 truncate text-center text-[8px] text-zinc-500 group-hover:text-zinc-300 transition-colors`}>
         {member.first_name}
       </span>
     </Link>
@@ -35,9 +40,12 @@ export function AlumniPresenceStrip({ presence }: { presence: HubPresenceMember[
   if (presence.length === 0) return null;
 
   return (
-    <div className="border-b border-zinc-800/60">
+    <div className="border-b border-zinc-900">
+      <div className="px-4 pt-4 pb-1">
+        <p className={`${eyebrow} text-[9px] text-zinc-600`}>Active Now</p>
+      </div>
       <div
-        className="flex gap-4 overflow-x-auto px-4 py-4 scrollbar-hide"
+        className="flex gap-4 overflow-x-auto px-4 py-3 scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {presence.map((member) => (

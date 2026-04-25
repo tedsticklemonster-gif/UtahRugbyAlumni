@@ -13,6 +13,11 @@ import { PullToRefresh } from "@/components/pull-to-refresh";
 import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
 import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
 
+const display =
+  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
+const eyebrow =
+  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
+
 interface HubPageProps {
   presence: HubPresenceMember[];
   upcoming: HubUpcomingItem[];
@@ -47,15 +52,16 @@ export function HubPage({
 
   return (
     <PullToRefresh>
+      {/* Invite banner — full bleed */}
       <InviteBanner />
 
-      <div className="mx-auto max-w-xl">
-        {/* Alumni presence strip — full bleed, no side padding */}
+      <div className="mx-auto max-w-2xl">
+        {/* Alumni presence strip */}
         <AlumniPresenceStrip presence={presence} />
 
-        {/* Upcoming games rail */}
+        {/* Upcoming games / events */}
         {upcoming.length > 0 && (
-          <div className="pt-4">
+          <div className="pt-5">
             <UpcomingRail items={upcoming} />
           </div>
         )}
@@ -70,20 +76,25 @@ export function HubPage({
           <NewJoinsStrip joins={recentJoins} />
         )}
 
-        {/* Feed */}
-        <div className="px-4 pb-6 space-y-4">
-          <div className="pt-2 pb-1 flex items-center justify-between">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-              Alumni Wall
-            </p>
+        {/* Alumni Wall / Feed */}
+        <div className="px-4 pb-8 space-y-3">
+          {/* Section header */}
+          <div className="flex items-end justify-between pt-5 pb-1 border-b border-zinc-900">
+            <div>
+              <span className="block h-[2px] w-8 bg-[#CC0000]" />
+              <p className={`${eyebrow} mt-2 text-[10px] text-zinc-500`}>Brotherhood</p>
+              <h2 className={`${display} mt-0.5 text-2xl leading-none text-white`}>
+                Alumni Wall
+              </h2>
+            </div>
           </div>
 
           <CreatePost />
 
           {posts.length === 0 && (
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-12 text-center">
-              <p className="text-sm font-semibold text-zinc-400">No posts yet</p>
-              <p className="mt-1 text-xs text-zinc-600">Be the first to post something!</p>
+            <div className="border border-zinc-900 bg-zinc-950 py-12 text-center">
+              <p className={`${display} text-xl text-zinc-400`}>No posts yet</p>
+              <p className="mt-1 text-xs text-zinc-600">Be the first to post something.</p>
             </div>
           )}
 
@@ -95,9 +106,9 @@ export function HubPage({
             <button
               onClick={loadMore}
               disabled={loading}
-              className="w-full rounded-xl border border-zinc-800 py-3 text-sm font-semibold text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-200 disabled:opacity-50"
+              className={`${eyebrow} w-full border border-zinc-800 bg-zinc-950 py-3 text-[10px] text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white disabled:opacity-40`}
             >
-              {loading ? "Loading…" : "Load more"}
+              {loading ? "Loading…" : "Load More"}
             </button>
           )}
         </div>

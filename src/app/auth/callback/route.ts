@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function GET(request: NextRequest) {
@@ -7,12 +8,16 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/";
 
+  // On Vercel, request.url uses the internal host — x-forwarded-host has the
+  // real public domain. Always prefer it in production.
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  const base =
+    process.env.NODE_ENV === "production" && forwardedHost
+      ? `https://${forwardedHost}`
+      : origin;
+
   if (code) {
-    // Create the redirect response FIRST so we can set cookies directly on it.
-    // Using cookieStore.set() + NextResponse.redirect() loses cookies because
-    // they live on different response objects.
-    const redirectTo = `${origin}${next}`;
-    const response = NextResponse.redirect(redirectTo);
+    const cookieStore = await cookies();
 
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -20,15 +25,12 @@ export async function GET(request: NextRequest) {
       {
         cookies: {
           getAll() {
-            return request.cookies.getAll();
+            return cookieStore.getAll();
           },
           setAll(cookiesToSet) {
-            // Write to both the request (so subsequent server reads see them)
-            // and directly onto the redirect response (so the browser gets them).
-            cookiesToSet.forEach(({ name, value, options }) => {
-              request.cookies.set(name, value);
-              response.cookies.set(name, value, options);
-            });
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
           },
         },
       }
@@ -37,7 +39,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      // Best-effort: mark alumni record verified (don't block on failure)
+      // Best-effort: mark alumni record verified
       if (data.user?.email) {
         try {
           const admin = createAdminClient();
@@ -49,10 +51,10 @@ export async function GET(request: NextRequest) {
           // non-fatal
         }
       }
-      return response;
+      return NextResponse.redirect(`${base}${next}`);
     }
   }
 
-  // Code missing or exchange failed — go home
-  return NextResponse.redirect(`${origin}/`);
+  // Code missing or exchange failed
+  return NextResponse.redirect(`${base}/`);
 }

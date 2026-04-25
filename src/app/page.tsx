@@ -73,11 +73,15 @@ function isNew(createdAt?: string): boolean {
 
 export default async function HomePage() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (user) {
+  // getSession() reads the JWT directly from the cookie — no network call.
+  // getUser() makes a live Supabase API call that can intermittently return
+  // null even with a valid session, incorrectly showing the public page.
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session?.user) {
     const hubData = await getHubData();
     return <HubPage {...hubData} />;
   }

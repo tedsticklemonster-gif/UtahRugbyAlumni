@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Briefcase, MapPin, BadgeCheck, Sparkles, Handshake, Hammer, MessageCircle } from "lucide-react";
 import { UserPhoto } from "@/components/user-photo";
+import { SponsorHalo } from "@/components/sponsor-halo";
+import type { SponsorTier } from "@/lib/sponsor";
 
 export type Availability =
   | "employed"
@@ -35,6 +37,7 @@ interface AlumniCardProps {
   hiring?: boolean | null;
   willingToMentor?: boolean | null;
   services?: string[] | null;
+  sponsorTier?: SponsorTier;
 }
 
 type RibbonKind = "hiring" | "open_to_work" | "self_employed" | "mentor" | null;
@@ -103,6 +106,7 @@ export function AlumniCard({
   hiring,
   willingToMentor,
   services,
+  sponsorTier,
 }: AlumniCardProps) {
   void _linkedinUrl;
   const location = [city, state].filter(Boolean).join(", ");
@@ -113,6 +117,7 @@ export function AlumniCard({
   const card = (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-sm transition-all hover:border-zinc-700 hover:shadow-lg">
       {/* Photo area — 4:5 portrait for that Instagram grid feel */}
+      <SponsorHalo tier={sponsorTier ?? null} size="md" rounded="rounded-xl">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-950">
         <UserPhoto
           src={isGated ? null : photoUrl ?? null}
@@ -165,6 +170,7 @@ export function AlumniCard({
           </div>
         </div>
       </div>
+      </SponsorHalo>
 
       {/* Below fold */}
       <div className="flex flex-1 flex-col gap-2 p-3 text-xs text-zinc-400">

@@ -4,13 +4,19 @@ import { useActionState, useState, startTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { profileUpdateSchema, type ProfileUpdateInput } from "@/lib/validators";
+import {
+  profileUpdateSchema,
+  type ProfileUpdateInput,
+  AVAILABILITY_VALUES,
+  AVAILABILITY_LABELS,
+} from "@/lib/validators";
 import {
   updateProfileAction,
   deleteAccountAction,
   type ProfileState,
 } from "@/actions/profile";
 import { PhotoUpload } from "@/components/photo-upload";
+import { TagInput } from "@/components/tag-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,6 +43,14 @@ interface Alumni {
   bio: string | null;
   sms_consent: boolean;
   directory_visible: boolean;
+  availability?: string | null;
+  hiring?: boolean | null;
+  services?: string[] | null;
+  industries?: string[] | null;
+  years_experience?: number | null;
+  willing_to_mentor?: boolean | null;
+  website_url?: string | null;
+  instagram_handle?: string | null;
 }
 
 export function ProfileForm({ alumni }: { alumni: Alumni }) {
@@ -67,6 +81,16 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
       bio: alumni.bio ?? undefined,
       sms_consent: alumni.sms_consent,
       directory_visible: alumni.directory_visible,
+      availability:
+        (alumni.availability as (typeof AVAILABILITY_VALUES)[number] | undefined) ??
+        "not_specified",
+      hiring: alumni.hiring ?? false,
+      willing_to_mentor: alumni.willing_to_mentor ?? false,
+      services: alumni.services ?? [],
+      industries: alumni.industries ?? [],
+      years_experience: alumni.years_experience ?? null,
+      website_url: alumni.website_url ?? undefined,
+      instagram_handle: alumni.instagram_handle ?? undefined,
     },
   });
 
@@ -74,6 +98,10 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
   const bio = watch("bio");
   const smsConsent = watch("sms_consent");
   const directoryVisible = watch("directory_visible");
+  const hiring = watch("hiring") ?? false;
+  const willingToMentor = watch("willing_to_mentor") ?? false;
+  const services = watch("services") ?? [];
+  const industries = watch("industries") ?? [];
 
   const [state, formAction, isPending] = useActionState<ProfileState, FormData>(
     updateProfileAction,
@@ -228,6 +256,122 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
           <p className="text-xs text-muted-foreground text-right">
             {bio?.length ?? 0}/500
           </p>
+        </div>
+
+        {/* Professional availability */}
+        <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-4">
+          <div>
+            <p className="text-sm font-bold text-white">Career signal</p>
+            <p className="mt-0.5 text-xs text-zinc-400">
+              Powers the &ldquo;Open to work&rdquo; and &ldquo;Hiring&rdquo; rails.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="availability">I&apos;m currently…</Label>
+            <select
+              id="availability"
+              {...register("availability")}
+              className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#CC0000]"
+            >
+              {AVAILABILITY_VALUES.map((v) => (
+                <option key={v} value={v}>
+                  {AVAILABILITY_LABELS[v]}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="years_experience">Years of experience</Label>
+            <Input
+              id="years_experience"
+              type="number"
+              min={0}
+              max={80}
+              {...register("years_experience", { valueAsNumber: true })}
+            />
+          </div>
+
+          <TagInput
+            label="Services you offer"
+            placeholder="e.g. plumbing, legal, coaching"
+            value={services as string[]}
+            onChange={(v) => setValue("services", v, { shouldDirty: true })}
+          />
+          <TagInput
+            label="Industries you work in"
+            placeholder="e.g. construction, tech, healthcare"
+            value={industries as string[]}
+            onChange={(v) => setValue("industries", v, { shouldDirty: true })}
+          />
+
+          <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-black/40 p-3">
+            <Checkbox
+              id="hiring"
+              checked={hiring}
+              onCheckedChange={(checked) =>
+                setValue("hiring", checked === true, { shouldDirty: true })
+              }
+            />
+            <Label htmlFor="hiring" className="text-sm font-normal leading-snug">
+              <span className="font-semibold text-white">I&apos;m hiring</span>
+              <span className="block text-xs text-zinc-400">
+                Show a &ldquo;Hiring&rdquo; badge on your profile.
+              </span>
+            </Label>
+          </div>
+
+          <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-black/40 p-3">
+            <Checkbox
+              id="willing_to_mentor"
+              checked={willingToMentor}
+              onCheckedChange={(checked) =>
+                setValue("willing_to_mentor", checked === true, {
+                  shouldDirty: true,
+                })
+              }
+            />
+            <Label
+              htmlFor="willing_to_mentor"
+              className="text-sm font-normal leading-snug"
+            >
+              <span className="font-semibold text-white">Open to mentoring</span>
+              <span className="block text-xs text-zinc-400">
+                Younger alumni can reach out for career advice.
+              </span>
+            </Label>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="website_url">Website</Label>
+              <Input
+                id="website_url"
+                type="url"
+                placeholder="https://yourcompany.com"
+                {...register("website_url")}
+              />
+              {errors.website_url && (
+                <p className="text-sm text-destructive">
+                  {errors.website_url.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="instagram_handle">Instagram handle</Label>
+              <Input
+                id="instagram_handle"
+                placeholder="yourhandle"
+                {...register("instagram_handle")}
+              />
+              {errors.instagram_handle && (
+                <p className="text-sm text-destructive">
+                  {errors.instagram_handle.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">

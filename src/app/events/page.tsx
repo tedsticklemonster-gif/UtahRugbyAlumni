@@ -9,7 +9,14 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 export const metadata = { title: "Events — Utah Rugby Alumni Network" };
 
-export default async function EventsPage() {
+interface EventsPageProps {
+  searchParams: Promise<{ tab?: string }>;
+}
+
+export default async function EventsPage({ searchParams }: EventsPageProps) {
+  const params = await searchParams;
+  const isPast = params.tab === "past";
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -22,7 +29,7 @@ export default async function EventsPage() {
 
   let events: Awaited<ReturnType<typeof listEvents>> = [];
   try {
-    events = await listEvents();
+    events = await listEvents({ includePast: isPast });
   } catch {
     // events table not yet migrated
   }
@@ -49,6 +56,26 @@ export default async function EventsPage() {
             <ExternalLink className="size-3" />
           </Link>
         </div>
+
+        {/* Tabs */}
+        <div className="mt-5 flex gap-1 rounded-xl border border-zinc-800 bg-zinc-900 p-1 w-fit">
+          <Link
+            href="/events"
+            className={`rounded-lg px-4 py-1.5 text-sm font-semibold transition-colors ${
+              !isPast ? "bg-[#CC0000] text-white" : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            Upcoming
+          </Link>
+          <Link
+            href="/events?tab=past"
+            className={`rounded-lg px-4 py-1.5 text-sm font-semibold transition-colors ${
+              isPast ? "bg-[#CC0000] text-white" : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            Past
+          </Link>
+        </div>
       </div>
 
       <div className="px-5 py-6 md:px-10 space-y-3 max-w-2xl">
@@ -57,9 +84,13 @@ export default async function EventsPage() {
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#CC0000]/15">
               <CalendarDays className="size-7 text-[#CC0000]" />
             </div>
-            <h2 className="text-base font-bold text-white">No upcoming events</h2>
+            <h2 className="text-base font-bold text-white">
+              {isPast ? "No past events" : "No upcoming events"}
+            </h2>
             <p className="mt-1.5 text-sm text-zinc-400 max-w-xs mx-auto">
-              Use the + button to create a watch party, reunion, or meetup.
+              {isPast
+                ? "Past reunions and watch parties will show up here."
+                : "Use the + button to create a watch party, reunion, or meetup."}
             </p>
           </div>
         ) : (

@@ -76,6 +76,14 @@ export async function signupAction(
       p_sms_consent: data.sms_consent,
       p_directory_visible: data.directory_visible,
       p_referred_by_token: data.referred_by_token || null,
+      p_availability: data.availability ?? "not_specified",
+      p_hiring: data.hiring ?? false,
+      p_services: data.services && data.services.length > 0 ? data.services : null,
+      p_industries: data.industries && data.industries.length > 0 ? data.industries : null,
+      p_years_experience: data.years_experience ?? null,
+      p_willing_to_mentor: data.willing_to_mentor ?? false,
+      p_website_url: data.website_url || null,
+      p_instagram_handle: data.instagram_handle || null,
     }
   );
 

@@ -6,6 +6,8 @@ import { RsvpChips } from "@/components/rsvp-chips";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+
 const KIND_LABELS: Record<string, string> = {
   social: "Social",
   reunion: "Reunion",
@@ -13,6 +15,38 @@ const KIND_LABELS: Record<string, string> = {
   practice: "Practice",
   other: "Event",
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const event = await getEvent(id);
+  if (!event) return { title: "Event" };
+
+  const when = new Date(event.starts_at).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+  const descBits = [when, event.location, event.description?.slice(0, 120)].filter(Boolean);
+  const description = descBits.join(" · ");
+  const ogUrl = `${APP_URL}/api/og/event/${id}`;
+
+  return {
+    title: `${event.title} — Utah Rugby Alumni`,
+    description,
+    openGraph: {
+      title: `${event.title} — Utah Rugby Alumni`,
+      description,
+      url: `${APP_URL}/events/${id}`,
+      images: [{ url: ogUrl, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${event.title} — Utah Rugby Alumni`,
+      description,
+      images: [ogUrl],
+    },
+  };
+}
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", {

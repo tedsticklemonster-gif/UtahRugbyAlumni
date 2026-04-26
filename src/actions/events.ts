@@ -36,17 +36,23 @@ async function getMyAlumniId(): Promise<string | null> {
   return data?.id ?? null;
 }
 
-export async function listEvents(): Promise<AlumniEvent[]> {
+export async function listEvents(options?: { includePast?: boolean }): Promise<AlumniEvent[]> {
   const admin = createAdminClient();
   const myAlumniId = await getMyAlumniId();
+  const includePast = options?.includePast ?? false;
 
-  const { data: events } = await admin
+  let query = admin
     .from("events")
     .select("id, title, description, starts_at, ends_at, location, location_url, photo_url, kind, creator_id")
-    .is("deleted_at", null)
-    .gte("starts_at", new Date(Date.now() - 86_400_000).toISOString())
-    .order("starts_at", { ascending: true })
-    .limit(50);
+    .is("deleted_at", null);
+
+  if (includePast) {
+    query = query.lt("starts_at", new Date().toISOString()).order("starts_at", { ascending: false });
+  } else {
+    query = query.gte("starts_at", new Date().toISOString()).order("starts_at", { ascending: true });
+  }
+
+  const { data: events } = await query.limit(50);
 
   if (!events?.length) return [];
 
@@ -211,8 +217,16 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
     };
   });
 
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
   const gameItems: UpcomingItem[] = (scheduleData?.games ?? [])
-    .filter((g) => !g.result)
+    .filter((g) => {
+      if (g.result) return false;
+      if (!g.date) return true;
+      const d = new Date(g.date);
+      return !isNaN(d.getTime()) && d >= now;
+    })
     .slice(0, 2)
     .map((g) => ({ source: "game" as const, opponent: g.opponent, date: g.date, location: g.location }));
 

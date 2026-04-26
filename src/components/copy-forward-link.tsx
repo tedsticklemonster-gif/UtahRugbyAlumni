@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Check, Copy, Share2 } from "lucide-react";
 
 export function CopyForwardLink() {
   const [copied, setCopied] = useState(false);
@@ -9,22 +9,58 @@ export function CopyForwardLink() {
   const forwardUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/forward/generic`
-      : "";
+      : "/forward/generic";
 
-  async function handleCopy() {
-    await navigator.clipboard.writeText(forwardUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  async function handleShare() {
+    const nav = typeof navigator !== "undefined" ? navigator : null;
+    if (nav && "share" in nav) {
+      try {
+        await (nav as Navigator).share({
+          title: "Utah Rugby Alumni Network",
+          text: "Join the Utah Rugby Alumni Network — find teammates and stay connected.",
+          url: forwardUrl,
+        });
+        return;
+      } catch {
+        // fall through to copy
+      }
+    }
+    if (nav?.clipboard) {
+      await nav.clipboard.writeText(forwardUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   }
+
+  const canShare = typeof navigator !== "undefined" && "share" in navigator;
 
   return (
     <div className="flex items-center gap-2">
-      <code className="flex-1 truncate rounded bg-muted px-2 py-1 text-xs">
-        {forwardUrl || "/forward/generic"}
+      <code className="flex-1 truncate rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300">
+        {forwardUrl}
       </code>
-      <Button variant="outline" size="sm" onClick={handleCopy}>
-        {copied ? "Copied!" : "Copy Link"}
-      </Button>
+      <button
+        type="button"
+        onClick={handleShare}
+        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#CC0000] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+      >
+        {copied ? (
+          <>
+            <Check className="size-3.5" />
+            Copied
+          </>
+        ) : canShare ? (
+          <>
+            <Share2 className="size-3.5" />
+            Share
+          </>
+        ) : (
+          <>
+            <Copy className="size-3.5" />
+            Copy
+          </>
+        )}
+      </button>
     </div>
   );
 }

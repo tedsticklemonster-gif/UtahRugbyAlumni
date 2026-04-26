@@ -2,22 +2,12 @@
 
 import { render } from "@react-email/components";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { MooseIntroEmail } from "@/emails/moose-intro";
 import { ForwardShareEmail } from "@/emails/forward-share";
-
-async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user || user.app_metadata?.role !== "admin") {
-    throw new Error("Not authorized");
-  }
-  return user;
-}
+import { requireAdmin } from "@/lib/auth/require-admin";
+import { logAdminAction } from "@/lib/audit";
 
 export type SendEmailState = {
   success: boolean;
@@ -29,8 +19,9 @@ export type SendEmailState = {
 export async function sendEmailsAction(
   formData: FormData
 ): Promise<SendEmailState> {
+  let actor;
   try {
-    await requireAdmin();
+    actor = await requireAdmin();
   } catch {
     return { success: false, error: "Not authorized." };
   }
@@ -124,6 +115,14 @@ export async function sendEmailsAction(
       failed++;
     }
   }
+
+  await logAdminAction({
+    actorId: actor.id,
+    actorEmail: actor.email!,
+    action: "email.send",
+    targetTable: "email_sends",
+    payload: { campaign, sent, failed, total: recipientIds.length },
+  });
 
   revalidatePath("/admin/email/metrics");
   return { success: true, sent, failed };

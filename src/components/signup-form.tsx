@@ -4,9 +4,15 @@ import { useActionState, useState, startTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, type SignupInput } from "@/lib/validators";
+import {
+  signupSchema,
+  type SignupInput,
+  AVAILABILITY_VALUES,
+  AVAILABILITY_LABELS,
+} from "@/lib/validators";
 import { signupAction, type SignupState } from "@/actions/signup";
 import { PhotoUpload } from "@/components/photo-upload";
+import { TagInput } from "@/components/tag-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,6 +37,11 @@ export function SignupForm() {
       directory_visible: true,
       sms_consent: false,
       referred_by_token: ref,
+      availability: "not_specified",
+      hiring: false,
+      willing_to_mentor: false,
+      services: [],
+      industries: [],
     },
   });
 
@@ -38,6 +49,10 @@ export function SignupForm() {
   const bio = watch("bio");
   const smsConsent = watch("sms_consent");
   const directoryVisible = watch("directory_visible");
+  const hiring = watch("hiring") ?? false;
+  const willingToMentor = watch("willing_to_mentor") ?? false;
+  const services = watch("services") ?? [];
+  const industries = watch("industries") ?? [];
 
   const [state, formAction, isPending] = useActionState<SignupState, FormData>(
     signupAction,
@@ -215,6 +230,119 @@ export function SignupForm() {
         <p className="text-xs text-muted-foreground text-right">
           {bio?.length ?? 0}/500
         </p>
+      </div>
+
+      {/* Professional availability — powers directory hiring rails */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 space-y-4">
+        <div>
+          <p className="text-sm font-bold text-white">Career signal</p>
+          <p className="mt-0.5 text-xs text-zinc-400">
+            Helps other alumni find you for work, hires, or mentorship.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="availability">I&apos;m currently…</Label>
+          <select
+            id="availability"
+            {...register("availability")}
+            className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#CC0000]"
+          >
+            {AVAILABILITY_VALUES.map((v) => (
+              <option key={v} value={v}>
+                {AVAILABILITY_LABELS[v]}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="years_experience">Years of experience</Label>
+          <Input
+            id="years_experience"
+            type="number"
+            min={0}
+            max={80}
+            placeholder="e.g. 8"
+            {...register("years_experience", { valueAsNumber: true })}
+          />
+        </div>
+
+        <TagInput
+          label="Services you offer"
+          placeholder="e.g. plumbing, legal, coaching"
+          value={services as string[]}
+          onChange={(v) => setValue("services", v)}
+        />
+        <TagInput
+          label="Industries you work in"
+          placeholder="e.g. construction, tech, healthcare"
+          value={industries as string[]}
+          onChange={(v) => setValue("industries", v)}
+        />
+
+        <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+          <Checkbox
+            id="hiring"
+            checked={hiring}
+            onCheckedChange={(checked) => setValue("hiring", checked === true)}
+          />
+          <Label htmlFor="hiring" className="text-sm font-normal leading-snug">
+            <span className="font-semibold text-white">I&apos;m hiring</span>
+            <span className="block text-xs text-zinc-400">
+              Show a &ldquo;Hiring&rdquo; badge so alumni know you have open roles.
+            </span>
+          </Label>
+        </div>
+
+        <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+          <Checkbox
+            id="willing_to_mentor"
+            checked={willingToMentor}
+            onCheckedChange={(checked) =>
+              setValue("willing_to_mentor", checked === true)
+            }
+          />
+          <Label
+            htmlFor="willing_to_mentor"
+            className="text-sm font-normal leading-snug"
+          >
+            <span className="font-semibold text-white">Open to mentoring</span>
+            <span className="block text-xs text-zinc-400">
+              Younger alumni can reach out for career advice.
+            </span>
+          </Label>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="website_url">Website</Label>
+            <Input
+              id="website_url"
+              type="url"
+              placeholder="https://yourcompany.com"
+              {...register("website_url")}
+            />
+            {errors.website_url && (
+              <p className="text-sm text-destructive">
+                {errors.website_url.message}
+              </p>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="instagram_handle">Instagram handle</Label>
+            <Input
+              id="instagram_handle"
+              placeholder="yourhandle"
+              {...register("instagram_handle")}
+            />
+            {errors.instagram_handle && (
+              <p className="text-sm text-destructive">
+                {errors.instagram_handle.message}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="flex items-center gap-3">

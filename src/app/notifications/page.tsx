@@ -72,10 +72,14 @@ export default async function NotificationsPage() {
 
       <div className="px-5 py-4 md:px-10 max-w-2xl space-y-1">
         {notifications.length === 0 ? (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
-            <Bell className="mx-auto mb-3 size-8 text-zinc-700" />
-            <p className="text-sm font-semibold text-zinc-400">No notifications yet</p>
-            <p className="mt-1 text-xs text-zinc-600">Activity from your teammates will appear here</p>
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-14 text-center">
+            <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-zinc-800">
+              <Bell className="size-6 text-zinc-500" />
+            </div>
+            <p className="text-sm font-bold text-white">All quiet</p>
+            <p className="mt-1 text-xs text-zinc-500">
+              Likes, comments, and messages will appear here.
+            </p>
           </div>
         ) : (
           notifications.map((n) => {

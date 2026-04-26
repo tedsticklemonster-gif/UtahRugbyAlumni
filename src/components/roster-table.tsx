@@ -34,6 +34,7 @@ interface AlumniRow {
   directory_visible: boolean;
   sms_consent: boolean;
   source: string | null;
+  last_contacted_at: string | null;
   created_at: string;
 }
 
@@ -53,10 +54,12 @@ export function RosterTable({
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [statusFilter, setStatusFilter] = useState<string>("");
+  const [staleDays, setStaleDays] = useState<number | null>(null);
   const [deleteIds, setDeleteIds] = useState<string[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  const now = Date.now();
   const filtered = alumni.filter((a) => {
     const matchesSearch =
       !search ||
@@ -64,7 +67,11 @@ export function RosterTable({
         .toLowerCase()
         .includes(search.toLowerCase());
     const matchesStatus = !statusFilter || a.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesStale =
+      staleDays === null ||
+      !a.last_contacted_at ||
+      now - new Date(a.last_contacted_at).getTime() > staleDays * 86_400_000;
+    return matchesSearch && matchesStatus && matchesStale;
   });
 
   function toggleSelect(id: string) {
@@ -135,6 +142,16 @@ export function RosterTable({
           <option value="unreachable">Unreachable</option>
           <option value="opted_out">Opted Out</option>
         </select>
+        <button
+          onClick={() => setStaleDays(staleDays === 90 ? null : 90)}
+          className={`h-8 rounded-full px-3 text-xs font-medium transition-colors border ${
+            staleDays === 90
+              ? "bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-700"
+              : "bg-background text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          Not contacted 90+ days
+        </button>
         {selectedIds.size > 0 && (
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground">
@@ -183,6 +200,7 @@ export function RosterTable({
               <TableHead>Visible</TableHead>
               <TableHead>SMS</TableHead>
               <TableHead>Source</TableHead>
+              <TableHead>Last Contacted</TableHead>
               <TableHead className="w-10"></TableHead>
             </TableRow>
           </TableHeader>
@@ -223,6 +241,11 @@ export function RosterTable({
                 <TableCell className="text-xs">
                   {a.source ?? "—"}
                 </TableCell>
+                <TableCell className="text-xs text-muted-foreground">
+                  {a.last_contacted_at
+                    ? new Date(a.last_contacted_at).toLocaleDateString()
+                    : "Never"}
+                </TableCell>
                 <TableCell>
                   <button
                     onClick={() => confirmDelete([a.id])}
@@ -236,7 +259,7 @@ export function RosterTable({
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={12} className="text-center py-8 text-muted-foreground">
                   No alumni found.
                 </TableCell>
               </TableRow>

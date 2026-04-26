@@ -18,8 +18,21 @@ export type AlumniProfile = {
   linkedin_url: string | null;
   bio: string | null;
   photo_signed_url: string | null;
+  verified: boolean;
+  availability: string | null;
+  hiring: boolean;
+  services: string[] | null;
+  industries: string[] | null;
+  years_experience: number | null;
+  willing_to_mentor: boolean;
+  website_url: string | null;
+  instagram_handle: string | null;
   myAlumniId: string | null;
   canMessage: boolean;
+  myForwardToken: string | null;
+  sponsor_tier: "bronze" | "silver" | "gold" | null;
+  lifetime_giving_cents: number;
+  isOwnProfile: boolean;
 };
 
 export async function getAlumniProfileAction(id: string): Promise<AlumniProfile | null> {
@@ -36,10 +49,10 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
     admin
       .from("alumni")
       .select(
-        "id, first_name, last_name, grad_year, position, profession, job_title, company, city, state, linkedin_url, bio, photo_url"
+        "id, first_name, last_name, grad_year, position, profession, job_title, company, city, state, linkedin_url, bio, photo_url, verified, availability, hiring, services, industries, years_experience, willing_to_mentor, website_url, instagram_handle, status, sponsor_tier, lifetime_giving_cents"
       )
       .eq("id", id)
-      .eq("verified", true)
+      .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
       .single(),
   ]);
@@ -58,6 +71,18 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
     photo_signed_url = sig?.signedUrl ?? null;
   }
 
+  // Pull the viewer's own forward token so we can attribute profile shares.
+  let myForwardToken: string | null = null;
+  if (viewer?.id) {
+    const { data: tok } = await admin
+      .from("forward_tokens")
+      .select("token")
+      .eq("referrer_alumni_id", viewer.id)
+      .limit(1)
+      .maybeSingle();
+    myForwardToken = tok?.token ?? null;
+  }
+
   return {
     id: a.id,
     first_name: a.first_name,
@@ -72,8 +97,21 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
     linkedin_url: isVerified ? a.linkedin_url : null,
     bio: isVerified ? a.bio : null,
     photo_signed_url,
+    verified: !!a.verified,
+    availability: (a.availability as string | null) ?? null,
+    hiring: !!a.hiring,
+    services: (a.services as string[] | null) ?? null,
+    industries: (a.industries as string[] | null) ?? null,
+    years_experience: (a.years_experience as number | null) ?? null,
+    willing_to_mentor: !!a.willing_to_mentor,
+    website_url: (a.website_url as string | null) ?? null,
+    instagram_handle: (a.instagram_handle as string | null) ?? null,
     myAlumniId: viewer?.id ?? null,
     canMessage: isVerified && !!viewer?.id && viewer.id !== a.id,
+    myForwardToken,
+    sponsor_tier: (a.sponsor_tier as "bronze" | "silver" | "gold" | null) ?? null,
+    lifetime_giving_cents: (a.lifetime_giving_cents as number) ?? 0,
+    isOwnProfile: !!viewer?.id && viewer.id === a.id,
   };
 }
 

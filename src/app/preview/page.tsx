@@ -13,6 +13,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { UserPhoto } from "@/components/user-photo";
+import { SponsorHalo } from "@/components/sponsor-halo";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSchedule, type Game } from "@/lib/schedule";
 
@@ -93,7 +94,7 @@ export default async function PreviewHomePage() {
       .not("state", "is", null),
     admin
       .from("alumni")
-      .select("id, first_name, last_name, grad_year, city, state, photo_url, created_at")
+      .select("id, first_name, last_name, grad_year, city, state, photo_url, created_at, sponsor_tier")
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
       .order("created_at", { ascending: false })
@@ -598,6 +599,7 @@ function JoinedRail({ rows }: { rows: RailRow[] }) {
               href={`/u/${a.id}`}
               className="group relative w-32 shrink-0 md:w-36"
             >
+              <SponsorHalo tier={((a as Record<string, unknown>).sponsor_tier as "bronze" | "silver" | "gold" | null) ?? null} size="sm" rounded="rounded-none">
               <div className="relative aspect-square overflow-hidden border border-zinc-900 bg-zinc-950">
                 <UserPhoto
                   src={a.signedUrl}
@@ -624,6 +626,7 @@ function JoinedRail({ rows }: { rows: RailRow[] }) {
                   </span>
                 )}
               </div>
+              </SponsorHalo>
               <p className={`${display} mt-2 truncate text-base leading-tight text-white`}>
                 {a.first_name} {a.last_name}
               </p>

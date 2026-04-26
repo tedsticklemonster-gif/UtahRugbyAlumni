@@ -6,13 +6,24 @@ export const metadata = { title: "Schedule" };
 
 const SCHEDULE_URL = "https://www.utah-rugby.com/new-page-2";
 
+function isPastDate(dateStr: string): boolean {
+  const d = new Date(dateStr);
+  return !isNaN(d.getTime()) && d < new Date();
+}
+
 function resultBadge(game: Game) {
-  if (!game.result)
-    return (
+  if (!game.result) {
+    const past = game.date && isPastDate(game.date);
+    return past ? (
+      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-zinc-500">
+        Past
+      </span>
+    ) : (
       <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-zinc-400">
         Upcoming
       </span>
     );
+  }
   const isWin = game.result === "Win";
   return (
     <span
@@ -110,16 +121,21 @@ export default async function SchedulePage() {
               </div>
             )}
 
-            {/* Source link */}
-            <a
-              href={SCHEDULE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 transition-colors hover:text-white"
-            >
-              View full schedule on utah-rugby.com
-              <ExternalLink className="size-3" />
-            </a>
+            {/* Official site link */}
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+              <p className="text-xs text-zinc-400">
+                Schedule data may lag — see the official site for the latest fixtures and results.
+              </p>
+              <a
+                href={SCHEDULE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 transition-colors hover:text-white"
+              >
+                View full schedule on utah-rugby.com
+                <ExternalLink className="size-3" />
+              </a>
+            </div>
           </>
         ) : (
           /* Soft landing fallback */

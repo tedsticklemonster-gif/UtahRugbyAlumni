@@ -47,6 +47,7 @@ type AlumniRow = {
   services: string[] | null;
   willing_to_mentor: boolean | null;
   created_at: string;
+  sponsor_tier: "bronze" | "silver" | "gold" | null;
 };
 
 export default async function DirectoryPage({
@@ -93,7 +94,7 @@ export default async function DirectoryPage({
     let query = admin
       .from("alumni")
       .select(
-        "id, first_name, last_name, grad_year, position, profession, company, city, state, photo_url, linkedin_url, bio, verified, availability, hiring, services, willing_to_mentor, created_at"
+        "id, first_name, last_name, grad_year, position, profession, company, city, state, photo_url, linkedin_url, bio, verified, availability, hiring, services, willing_to_mentor, created_at, sponsor_tier"
       )
       .eq("directory_visible", true)
       .in("status", ["self_registered", "imported"])
@@ -168,6 +169,7 @@ export default async function DirectoryPage({
       hiring={a.hiring}
       willingToMentor={a.willing_to_mentor}
       services={a.services}
+      sponsorTier={a.sponsor_tier ?? null}
     />
   );
 

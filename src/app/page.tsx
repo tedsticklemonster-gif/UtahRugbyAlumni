@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { HeroLogo } from "@/components/hero-logo";
 import { UserPhoto } from "@/components/user-photo";
+import { SponsorHalo } from "@/components/sponsor-halo";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getHubData } from "@/actions/hub";
@@ -110,7 +111,7 @@ export default async function HomePage() {
     admin
       .from("alumni")
       .select(
-        "id, first_name, last_name, grad_year, city, state, photo_url, created_at"
+        "id, first_name, last_name, grad_year, city, state, photo_url, created_at, sponsor_tier"
       )
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
@@ -118,7 +119,7 @@ export default async function HomePage() {
       .limit(8),
     admin
       .from("alumni")
-      .select("id, first_name, last_name, grad_year, company, photo_url")
+      .select("id, first_name, last_name, grad_year, company, photo_url, sponsor_tier")
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
       .eq("hiring", true)
@@ -485,6 +486,7 @@ export default async function HomePage() {
             <div className="scrollbar-hide flex gap-3 overflow-x-auto pb-2">
               {recentJoins.map((a) => (
                 <Link key={a.id} href={`/u/${a.id}`} className="group w-32 shrink-0 md:w-36">
+                  <SponsorHalo tier={((a as Record<string, unknown>).sponsor_tier as "bronze" | "silver" | "gold" | null) ?? null} size="sm" rounded="rounded-none">
                   <div className="relative aspect-square overflow-hidden border border-zinc-900 bg-zinc-950">
                     <UserPhoto
                       src={a.photo_url ? recentMap[a.photo_url] ?? null : null}
@@ -512,6 +514,7 @@ export default async function HomePage() {
                       </span>
                     )}
                   </div>
+                  </SponsorHalo>
                   <p
                     className={`${display} mt-2 truncate text-base leading-tight text-white`}
                   >

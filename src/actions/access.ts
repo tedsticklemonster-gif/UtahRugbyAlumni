@@ -1,19 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-
-async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) throw new Error("Not authenticated");
-  if (user.app_metadata?.role !== "admin") throw new Error("Not authorized");
-  return user;
-}
+import { requireAdmin } from "@/lib/auth/require-admin";
+import { logAdminAction } from "@/lib/audit";
 
 export interface AuthUser {
   id: string;
@@ -96,6 +86,15 @@ export async function toggleAdminAction(
   if (error) {
     return { success: false, error: error.message };
   }
+
+  await logAdminAction({
+    actorId: currentUser.id,
+    actorEmail: currentUser.email!,
+    action: grant ? "admin_role.grant" : "admin_role.revoke",
+    targetTable: "auth.users",
+    targetId: userId,
+    payload: { grant },
+  });
 
   revalidatePath("/admin/access");
   return { success: true };

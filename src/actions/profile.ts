@@ -94,6 +94,14 @@ export async function updateProfileAction(
     bio: data.bio || null,
     photo_url: photoUrl,
     directory_visible: data.directory_visible,
+    availability: data.availability ?? "not_specified",
+    hiring: data.hiring ?? false,
+    services: data.services && data.services.length > 0 ? data.services : null,
+    industries: data.industries && data.industries.length > 0 ? data.industries : null,
+    years_experience: data.years_experience ?? null,
+    willing_to_mentor: data.willing_to_mentor ?? false,
+    website_url: data.website_url || null,
+    instagram_handle: data.instagram_handle || null,
   };
 
   // SMS CONSENT: Only update sms_consent_at when consent changes to true.

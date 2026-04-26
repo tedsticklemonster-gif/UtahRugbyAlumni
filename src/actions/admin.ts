@@ -1,29 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-
-async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) throw new Error("Not authenticated");
-
-  const role = user.app_metadata?.role;
-  if (role !== "admin") throw new Error("Not authorized");
-
-  return user;
-}
+import { requireAdmin } from "@/lib/auth/require-admin";
+import { logAdminAction } from "@/lib/audit";
 
 export async function updateAlumniStatusAction(
   ids: string[],
   status: string
 ): Promise<{ success: boolean; error?: string }> {
+  let actor;
   try {
-    await requireAdmin();
+    actor = await requireAdmin();
   } catch {
     return { success: false, error: "Not authorized." };
   }
@@ -49,6 +37,15 @@ export async function updateAlumniStatusAction(
     return { success: false, error: error.message };
   }
 
+  await logAdminAction({
+    actorId: actor.id,
+    actorEmail: actor.email!,
+    action: "alumni.status_change",
+    targetTable: "alumni",
+    targetId: ids.join(","),
+    payload: { status, count: ids.length },
+  });
+
   revalidatePath("/admin/roster");
   return { success: true };
 }
@@ -56,8 +53,9 @@ export async function updateAlumniStatusAction(
 export async function deleteAlumniAction(
   ids: string[]
 ): Promise<{ success: boolean; error?: string; deleted: number }> {
+  let actor;
   try {
-    await requireAdmin();
+    actor = await requireAdmin();
   } catch {
     return { success: false, error: "Not authorized.", deleted: 0 };
   }
@@ -93,8 +91,18 @@ export async function deleteAlumniAction(
     return { success: false, error: error.message, deleted: 0 };
   }
 
+  const deleted = count ?? ids.length;
+  await logAdminAction({
+    actorId: actor.id,
+    actorEmail: actor.email!,
+    action: "alumni.delete",
+    targetTable: "alumni",
+    targetId: ids.join(","),
+    payload: { deleted },
+  });
+
   revalidatePath("/admin/roster");
-  return { success: true, deleted: count ?? ids.length };
+  return { success: true, deleted };
 }
 
 export type ImportResult = {
@@ -106,7 +114,7 @@ export type ImportResult = {
 export async function importCsvAction(
   formData: FormData
 ): Promise<ImportResult> {
-  await requireAdmin();
+  const actor = await requireAdmin();
 
   const raw = formData.get("rows");
   if (!raw || typeof raw !== "string") {
@@ -177,6 +185,14 @@ export async function importCsvAction(
   // NOTE: Imported records do NOT get auto-sent emails.
   // CSV import and email send are separate, deliberate actions.
 
+  await logAdminAction({
+    actorId: actor.id,
+    actorEmail: actor.email!,
+    action: "alumni.import",
+    targetTable: "alumni",
+    payload: { created, skipped, errors: errors.length },
+  });
+
   revalidatePath("/admin/roster");
   return { created, skipped, errors };
 }
@@ -244,8 +260,9 @@ export async function listForwardTokensAction(): Promise<{
 export async function createForwardTokenAction(
   alumniId: string
 ): Promise<{ success: boolean; token?: string; error?: string }> {
+  let actor;
   try {
-    await requireAdmin();
+    actor = await requireAdmin();
   } catch {
     return { success: false, error: "Not authorized." };
   }
@@ -289,6 +306,15 @@ export async function createForwardTokenAction(
   if (error) {
     return { success: false, error: error.message };
   }
+
+  await logAdminAction({
+    actorId: actor.id,
+    actorEmail: actor.email!,
+    action: "forward_token.create",
+    targetTable: "forward_tokens",
+    targetId: alumniId,
+    payload: { token, alumni_name: `${alumni.first_name} ${alumni.last_name}` },
+  });
 
   revalidatePath("/admin/tokens");
   return { success: true, token };

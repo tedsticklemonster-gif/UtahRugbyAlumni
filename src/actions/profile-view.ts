@@ -33,6 +33,7 @@ export type AlumniProfile = {
   sponsor_tier: "bronze" | "silver" | "gold" | null;
   lifetime_giving_cents: number;
   isOwnProfile: boolean;
+  referral_count: number;
 };
 
 export async function getAlumniProfileAction(id: string): Promise<AlumniProfile | null> {
@@ -83,6 +84,16 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
     myForwardToken = tok?.token ?? null;
   }
 
+  // Fetch referral count for this profile's alumni
+  const { data: referralTokens } = await admin
+    .from("forward_tokens")
+    .select("signups_attributed")
+    .eq("referrer_alumni_id", a.id);
+  const referral_count = (referralTokens ?? []).reduce(
+    (sum, t) => sum + (t.signups_attributed ?? 0),
+    0
+  );
+
   return {
     id: a.id,
     first_name: a.first_name,
@@ -112,6 +123,7 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
     sponsor_tier: (a.sponsor_tier as "bronze" | "silver" | "gold" | null) ?? null,
     lifetime_giving_cents: (a.lifetime_giving_cents as number) ?? 0,
     isOwnProfile: !!viewer?.id && viewer.id === a.id,
+    referral_count,
   };
 }
 

@@ -6,11 +6,13 @@ import { Share2, Check } from "lucide-react";
 const eyebrow =
   "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
 
-export function InviteBanner() {
+export function InviteBanner({ forwardToken }: { forwardToken?: string | null }) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
-    const url = `${window.location.origin}/join`;
+    const url = forwardToken
+      ? `${window.location.origin}/forward/${forwardToken}`
+      : `${window.location.origin}/join`;
     if (navigator.share) {
       try {
         await navigator.share({ title: "Utah Rugby Alumni Network", url });

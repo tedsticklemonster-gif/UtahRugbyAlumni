@@ -2,6 +2,7 @@
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import { signupSchema } from "@/lib/validators";
+import { ensureForwardToken } from "@/actions/admin";
 
 export type SignupState = {
   success: boolean;
@@ -144,6 +145,9 @@ export async function signupAction(
     campaign: "welcome",
     sent_at: new Date().toISOString(),
   });
+
+  // Auto-create a personal forward/referral token for this alumni
+  await ensureForwardToken(alumniId as string, data.first_name, data.last_name);
 
   return { success: true, alumniId: alumniId as string };
 }

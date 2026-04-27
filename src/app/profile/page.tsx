@@ -2,13 +2,14 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Users, Share2, ArrowLeft, LogOut } from "lucide-react";
+import { Users, Share2, ArrowLeft, LogOut, Trophy } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ProfileForm } from "@/components/profile-form";
 import { PushSubscribe } from "@/components/push-subscribe";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { signOutAction } from "@/actions/profile";
+import { TIER_LABELS, formatLifetime } from "@/lib/sponsor";
 
 export const metadata = {
   title: "My Profile — Utah Rugby Alumni Network",
@@ -37,10 +38,11 @@ export default async function ProfilePage() {
 
   const { data: tokens } = await admin
     .from("forward_tokens")
-    .select("signups_attributed")
+    .select("token, signups_attributed")
     .eq("referrer_alumni_id", alumni.id);
 
   const totalReferrals = tokens?.reduce((sum, t) => sum + (t.signups_attributed ?? 0), 0) ?? 0;
+  const myForwardToken = tokens?.[0]?.token ?? null;
 
   let photoSignedUrl: string | null = null;
   if (alumni.photo_url) {
@@ -108,24 +110,52 @@ export default async function ProfilePage() {
           )}
         </div>
 
-        {/* Referral stat */}
-        <div className="mb-6 flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#CC0000]/15">
-            <Users className="size-6 text-[#CC0000]" />
+        {/* Impact summary — donor tier + referrals */}
+        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+          <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            Your Impact
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            {/* Referrals */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#CC0000]/15">
+                <Users className="size-5 text-[#CC0000]" />
+              </div>
+              <div>
+                <p className="text-xl font-black tabular-nums text-white">{totalReferrals}</p>
+                <p className="text-[11px] text-zinc-500">
+                  {totalReferrals === 1 ? "teammate" : "teammates"} gathered
+                </p>
+              </div>
+            </div>
+            {/* Donor tier */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-500/15">
+                <Trophy className="size-5 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-xl font-black text-white">
+                  {alumni.sponsor_tier
+                    ? TIER_LABELS[alumni.sponsor_tier as keyof typeof TIER_LABELS]
+                    : "—"}
+                </p>
+                <p className="text-[11px] text-zinc-500">
+                  {alumni.lifetime_giving_cents > 0
+                    ? `${formatLifetime(alumni.lifetime_giving_cents)} lifetime`
+                    : "No donations yet"}
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="flex-1">
-            <p className="text-2xl font-black tabular-nums text-white">{totalReferrals}</p>
-            <p className="text-xs text-zinc-500">
-              {totalReferrals === 1 ? "teammate" : "teammates"} joined via your forward link
-            </p>
+          <div className="mt-4">
+            <Link
+              href="/thanks"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#CC0000] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+            >
+              <Share2 className="size-3.5" />
+              Share your forward link
+            </Link>
           </div>
-          <Link
-            href="/thanks"
-            className="flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-400 transition-colors hover:border-zinc-500 hover:text-white"
-          >
-            <Share2 className="size-3.5" />
-            Forward link
-          </Link>
         </div>
 
         {/* Notifications */}

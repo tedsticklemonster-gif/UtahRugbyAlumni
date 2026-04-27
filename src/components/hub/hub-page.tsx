@@ -26,6 +26,7 @@ interface HubPageProps {
   initialPosts: FeedPost[];
   initialCursor: string | null;
   myAlumniId: string | null;
+  myForwardToken: string | null;
 }
 
 export function HubPage({
@@ -36,6 +37,7 @@ export function HubPage({
   initialPosts,
   initialCursor,
   myAlumniId,
+  myForwardToken,
 }: HubPageProps) {
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);
   const [cursor, setCursor] = useState<string | null>(initialCursor);
@@ -53,7 +55,7 @@ export function HubPage({
   return (
     <PullToRefresh>
       {/* Invite banner — full bleed */}
-      <InviteBanner />
+      <InviteBanner forwardToken={myForwardToken} />
 
       <div className="mx-auto max-w-2xl">
         {/* Alumni presence strip */}

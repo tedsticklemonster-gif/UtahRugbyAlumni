@@ -12,11 +12,13 @@ import {
 interface ForwardShareEmailProps {
   referrerName: string;
   joinLink: string;
+  unsubscribeUrl?: string;
 }
 
 export function ForwardShareEmail({
   referrerName = "A fellow alum",
   joinLink = "https://alumni.utah-rugby.com/join",
+  unsubscribeUrl,
 }: ForwardShareEmailProps) {
   return (
     <Html>
@@ -45,6 +47,16 @@ export function ForwardShareEmail({
               Go Utes!
             </Text>
           </Section>
+          {unsubscribeUrl && (
+            <Section style={{ marginTop: "32px", borderTop: "1px solid #e5e5e5", paddingTop: "16px" }}>
+              <Text style={footerStyle}>
+                <Link href={unsubscribeUrl} style={footerLinkStyle}>
+                  Unsubscribe
+                </Link>{" "}
+                from future emails
+              </Text>
+            </Section>
+          )}
         </Container>
       </Body>
     </Html>
@@ -73,5 +85,17 @@ const textStyle = {
 
 const linkStyle = {
   color: "#CC0000",
+  textDecoration: "underline",
+};
+
+const footerStyle = {
+  fontSize: "12px",
+  lineHeight: "20px",
+  color: "#999999",
+  textAlign: "center" as const,
+};
+
+const footerLinkStyle = {
+  color: "#999999",
   textDecoration: "underline",
 };

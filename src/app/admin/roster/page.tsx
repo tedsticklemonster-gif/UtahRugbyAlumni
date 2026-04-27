@@ -12,12 +12,34 @@ export const metadata = {
 export default async function RosterPage() {
   const supabase = createAdminClient();
 
-  const { data: alumni } = await supabase
-    .from("alumni")
-    .select(
-      "id, first_name, last_name, grad_year, email, phone, status, verified, directory_visible, sms_consent, source, last_contacted_at, created_at"
-    )
-    .order("created_at", { ascending: false });
+  const [{ data: alumni }, { data: tokenStats }] = await Promise.all([
+    supabase
+      .from("alumni")
+      .select(
+        "id, first_name, last_name, grad_year, email, phone, status, verified, directory_visible, sms_consent, source, last_contacted_at, created_at, sponsor_tier, lifetime_giving_cents"
+      )
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("forward_tokens")
+      .select("referrer_alumni_id, signups_attributed"),
+  ]);
+
+  // Build referral count map: alumni_id -> total signups
+  const referralMap = new Map<string, number>();
+  for (const t of tokenStats ?? []) {
+    if (t.referrer_alumni_id) {
+      referralMap.set(
+        t.referrer_alumni_id,
+        (referralMap.get(t.referrer_alumni_id) ?? 0) + (t.signups_attributed ?? 0)
+      );
+    }
+  }
+
+  // Merge referral counts into alumni data
+  const alumniWithReferrals = (alumni ?? []).map((a) => ({
+    ...a,
+    referral_count: referralMap.get(a.id) ?? 0,
+  }));
 
   async function handleStatusChange(ids: string[], status: string) {
     "use server";
@@ -38,7 +60,7 @@ export default async function RosterPage() {
         <RosterExportButton />
       </div>
       <RosterTable
-        alumni={alumni ?? []}
+        alumni={alumniWithReferrals}
         onStatusChange={handleStatusChange}
         onDelete={handleDelete}
       />

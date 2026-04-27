@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { postToTelegram } from "@/lib/telegram";
 
 export type ReactionSummary = { emoji: string; count: number }[];
 
@@ -154,11 +155,27 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     photo_url = path;
   }
 
+  // Look up author name for Telegram message
+  const { data: authorInfo } = await admin
+    .from("alumni")
+    .select("first_name, last_name")
+    .eq("id", alumni.id)
+    .single();
+
   const { error } = await admin
     .from("posts")
     .insert({ author_id: alumni.id, body, photo_url });
 
   if (error) return { error: error.message };
+
+  // Push to Telegram channel (fire-and-forget)
+  const authorName = authorInfo
+    ? `${authorInfo.first_name} ${authorInfo.last_name}`
+    : "A rugger";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby.com";
+  postToTelegram(
+    `<b>${authorName}</b> posted:\n\n${body}\n\n<a href="${appUrl}">View on Utah Rugby Alumni</a>`
+  );
 
   revalidatePath("/feed");
   return {};

@@ -1,12 +1,38 @@
 import Link from "next/link";
 import { Mail, Share2, Users, CheckCircle2, ArrowRight } from "lucide-react";
 import { CopyForwardLink } from "@/components/copy-forward-link";
+import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export const metadata = {
   title: "You're in — Utah Rugby Alumni",
 };
 
-export default function ThanksPage() {
+export default async function ThanksPage() {
+  // Try to get the user's personal forward token
+  let forwardToken: string | null = null;
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user?.email) {
+      const admin = createAdminClient();
+      const { data: alumni } = await admin
+        .from("alumni")
+        .select("id")
+        .eq("email", user.email)
+        .single();
+      if (alumni) {
+        const { data: tokenData } = await admin
+          .from("forward_tokens")
+          .select("token")
+          .eq("referrer_alumni_id", alumni.id)
+          .maybeSingle();
+        forwardToken = tokenData?.token ?? null;
+      }
+    }
+  } catch {
+    // Not logged in yet — use generic link
+  }
   return (
     <div className="min-h-screen bg-zinc-950">
       {/* Red accent bar */}
@@ -67,7 +93,7 @@ export default function ThanksPage() {
                 how we build the network.
               </p>
               <div className="mt-3">
-                <CopyForwardLink />
+                <CopyForwardLink forwardToken={forwardToken} />
               </div>
             </div>
           </div>

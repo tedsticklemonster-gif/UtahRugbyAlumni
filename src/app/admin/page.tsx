@@ -31,6 +31,11 @@ export default async function AdminDashboardPage() {
 
   const [
     { count: totalAlumni },
+    { count: registeredCount },
+    { count: importedCount },
+    { count: optedOutCount },
+    { count: unreachableCount },
+    { count: needsResearchCount },
     { count: verifiedCount },
     { count: signupsThisWeek },
     { count: emailsSentThisWeek },
@@ -41,6 +46,11 @@ export default async function AdminDashboardPage() {
     { data: expiringAnnouncements },
   ] = await Promise.all([
     supabase.from("alumni").select("*", { count: "exact", head: true }),
+    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "self_registered"),
+    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "imported"),
+    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "opted_out"),
+    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "unreachable"),
+    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "needs_research"),
     supabase.from("alumni").select("*", { count: "exact", head: true }).eq("verified", true),
     supabase.from("alumni").select("*", { count: "exact", head: true }).gte("created_at", oneWeekAgo),
     supabase.from("email_sends").select("*", { count: "exact", head: true }).gte("sent_at", oneWeekAgo),
@@ -74,8 +84,21 @@ export default async function AdminDashboardPage() {
     0
   );
 
+  const statusBreakdown = [
+    { label: "Registered", count: registeredCount ?? 0 },
+    { label: "Imported", count: importedCount ?? 0 },
+    { label: "Opted Out", count: optedOutCount ?? 0 },
+    { label: "Unreachable", count: unreachableCount ?? 0 },
+    { label: "Needs Research", count: needsResearchCount ?? 0 },
+  ].filter((s) => s.count > 0);
+
   const primaryStats = [
-    { label: "Total Alumni", value: totalAlumni ?? 0, href: "/admin/roster" },
+    {
+      label: "Total Alumni",
+      value: totalAlumni ?? 0,
+      href: "/admin/roster",
+      sub: statusBreakdown.map((s) => `${s.count} ${s.label}`).join(" · "),
+    },
     { label: "Verified", value: verifiedCount ?? 0, href: "/admin/roster" },
     { label: "Signups (7d)", value: signupsThisWeek ?? 0, href: "/admin/roster" },
     { label: "Emails Sent (7d)", value: emailsSentThisWeek ?? 0, href: "/admin/email/metrics" },
@@ -129,6 +152,9 @@ export default async function AdminDashboardPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-2xl font-bold">{stat.value}</p>
+                {stat.sub && (
+                  <p className="text-[10px] text-muted-foreground mt-1 leading-tight">{stat.sub}</p>
+                )}
               </CardContent>
             </Card>
           </Link>

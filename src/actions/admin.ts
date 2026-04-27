@@ -257,6 +257,46 @@ export async function listForwardTokensAction(): Promise<{
   return { success: true, tokens };
 }
 
+/**
+ * Create a forward token for an alumni (no auth required — used internally).
+ * Returns the existing token if one already exists.
+ */
+export async function ensureForwardToken(
+  alumniId: string,
+  firstName: string,
+  lastName: string
+): Promise<string | null> {
+  const admin = createAdminClient();
+
+  // Check if token already exists for this alumni
+  const { data: existing } = await admin
+    .from("forward_tokens")
+    .select("token")
+    .eq("referrer_alumni_id", alumniId)
+    .maybeSingle();
+
+  if (existing) return existing.token;
+
+  const slug = `${firstName}-${lastName}`
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-");
+
+  const token = `${slug}-${Date.now().toString(36)}`;
+
+  const { error } = await admin.from("forward_tokens").insert({
+    token,
+    referrer_alumni_id: alumniId,
+  });
+
+  if (error) {
+    console.error("Failed to create forward token:", error);
+    return null;
+  }
+
+  return token;
+}
+
 export async function createForwardTokenAction(
   alumniId: string
 ): Promise<{ success: boolean; token?: string; error?: string }> {
@@ -269,7 +309,7 @@ export async function createForwardTokenAction(
 
   const admin = createAdminClient();
 
-  // Generate a readable token from the alumni's name
+  // Get alumni name for the slug
   const { data: alumni } = await admin
     .from("alumni")
     .select("first_name, last_name")
@@ -280,31 +320,10 @@ export async function createForwardTokenAction(
     return { success: false, error: "Alumni not found." };
   }
 
-  const slug = `${alumni.first_name}-${alumni.last_name}`
-    .toLowerCase()
-    .replace(/[^a-z0-9-]/g, "")
-    .replace(/-+/g, "-");
+  const token = await ensureForwardToken(alumniId, alumni.first_name, alumni.last_name);
 
-  // Check if token already exists for this alumni
-  const { data: existing } = await admin
-    .from("forward_tokens")
-    .select("token")
-    .eq("referrer_alumni_id", alumniId)
-    .maybeSingle();
-
-  if (existing) {
-    return { success: true, token: existing.token };
-  }
-
-  const token = `${slug}-${Date.now().toString(36)}`;
-
-  const { error } = await admin.from("forward_tokens").insert({
-    token,
-    referrer_alumni_id: alumniId,
-  });
-
-  if (error) {
-    return { success: false, error: error.message };
+  if (!token) {
+    return { success: false, error: "Failed to create token." };
   }
 
   await logAdminAction({

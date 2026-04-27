@@ -3,6 +3,7 @@ import {
   Container,
   Head,
   Html,
+  Link,
   Preview,
   Section,
   Text,
@@ -14,6 +15,7 @@ interface PledgeThankYouEmailProps {
   amountFormatted: string; // e.g. "$250"
   paymentMethod: string;   // e.g. "check", "Venmo"
   boardSignature?: string;
+  unsubscribeUrl?: string;
 }
 
 export function PledgeThankYouEmail({
@@ -22,6 +24,7 @@ export function PledgeThankYouEmail({
   amountFormatted = "$0",
   paymentMethod = "your generous contribution",
   boardSignature = "The Utah Rugby Alumni Board",
+  unsubscribeUrl,
 }: PledgeThankYouEmailProps) {
   return (
     <Html>
@@ -60,6 +63,16 @@ export function PledgeThankYouEmail({
               {boardSignature}
             </Text>
           </Section>
+          {unsubscribeUrl && (
+            <Section style={{ marginTop: "32px", borderTop: "1px solid #e5e5e5", paddingTop: "16px" }}>
+              <Text style={footerStyle}>
+                <Link href={unsubscribeUrl} style={footerLinkStyle}>
+                  Unsubscribe
+                </Link>{" "}
+                from future emails
+              </Text>
+            </Section>
+          )}
         </Container>
       </Body>
     </Html>
@@ -93,4 +106,16 @@ const textStyle = {
   fontSize: "16px",
   lineHeight: "26px",
   color: "#333333",
+};
+
+const footerStyle = {
+  fontSize: "12px",
+  lineHeight: "20px",
+  color: "#999999",
+  textAlign: "center" as const,
+};
+
+const footerLinkStyle = {
+  color: "#999999",
+  textDecoration: "underline",
 };

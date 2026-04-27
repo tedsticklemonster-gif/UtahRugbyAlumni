@@ -8,6 +8,7 @@ import { MooseIntroEmail } from "@/emails/moose-intro";
 import { ForwardShareEmail } from "@/emails/forward-share";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { logAdminAction } from "@/lib/audit";
+import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 
 export type SendEmailState = {
   success: boolean;
@@ -71,6 +72,8 @@ export async function sendEmailsAction(
     let subject: string;
     let html: string;
 
+    const unsub = unsubscribeUrl(recipient.id);
+
     if (campaign === "moose_intro") {
       subject = "Hey it's Moose";
       html = await render(
@@ -78,6 +81,7 @@ export async function sendEmailsAction(
           firstName: recipient.first_name,
           profileLink: `${appUrl}/join`,
           forwardLink: `${appUrl}/forward/generic`,
+          unsubscribeUrl: unsub,
         })
       );
     } else if (campaign === "forward_share") {
@@ -86,6 +90,7 @@ export async function sendEmailsAction(
         ForwardShareEmail({
           referrerName: "A fellow alum",
           joinLink: `${appUrl}/join`,
+          unsubscribeUrl: unsub,
         })
       );
     } else {

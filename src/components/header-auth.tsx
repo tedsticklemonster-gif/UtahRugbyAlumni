@@ -2,10 +2,26 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { LogIn, User, LogOut } from "lucide-react";
+import { LogIn, User, LogOut, Send } from "lucide-react";
 import { useMe } from "@/components/me-provider";
 import { InstallAppButton } from "@/components/install-app-button";
 import { NotificationsBell } from "@/components/notifications-bell";
+
+const TELEGRAM_INVITE = "https://t.me/+ajaqw-YQ1ZsxYjQx";
+
+function TelegramLink() {
+  return (
+    <a
+      href={TELEGRAM_INVITE}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Join our Telegram channel"
+      className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-[#26A5E4]"
+    >
+      <Send className="size-4" />
+    </a>
+  );
+}
 import { signOutAction } from "@/actions/auth";
 import { cn } from "@/lib/utils";
 
@@ -96,6 +112,7 @@ export function HeaderAuth() {
   if (me) {
     return (
       <div className="flex items-center gap-2">
+        <TelegramLink />
         <InstallAppButton />
         <NotificationsBell />
         <AvatarMenu />
@@ -105,6 +122,7 @@ export function HeaderAuth() {
 
   return (
     <div className="flex items-center gap-2">
+      <TelegramLink />
       <Link
         href="/auth/login"
         className="flex items-center gap-1 px-2 py-1.5 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"

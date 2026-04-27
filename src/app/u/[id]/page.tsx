@@ -15,6 +15,7 @@ import {
   Hammer,
   Handshake,
   Globe,
+  Users,
 } from "lucide-react";
 import {
   getAlumniProfileAction,
@@ -24,6 +25,7 @@ import { PostCard } from "@/components/post-card";
 import { UserPhoto } from "@/components/user-photo";
 import { ShareProfileButton } from "@/components/share-profile-button";
 import { SponsorHalo } from "@/components/sponsor-halo";
+import { PhotoLightbox } from "@/components/photo-lightbox";
 import { TIER_LABELS, formatLifetime } from "@/lib/sponsor";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
@@ -143,17 +145,37 @@ export default async function AlumniProfilePage({
       <div className="relative px-4 -mt-16 pb-4">
         <div className="flex items-end gap-4">
           <SponsorHalo tier={profile.sponsor_tier} size="lg">
-            <div className="relative size-32 shrink-0 overflow-hidden rounded-full border-4 border-zinc-950 shadow-xl">
-              <UserPhoto
+            {profile.photo_signed_url ? (
+              <PhotoLightbox
                 src={profile.photo_signed_url}
                 alt={`${profile.first_name} ${profile.last_name}`}
-                firstName={profile.first_name}
-                lastName={profile.last_name}
-                fill
-                rounded="full"
-                priority
+                trigger={
+                  <div className="relative size-32 shrink-0 overflow-hidden rounded-full border-4 border-zinc-950 shadow-xl">
+                    <UserPhoto
+                      src={profile.photo_signed_url}
+                      alt={`${profile.first_name} ${profile.last_name}`}
+                      firstName={profile.first_name}
+                      lastName={profile.last_name}
+                      fill
+                      rounded="full"
+                      priority
+                    />
+                  </div>
+                }
               />
-            </div>
+            ) : (
+              <div className="relative size-32 shrink-0 overflow-hidden rounded-full border-4 border-zinc-950 shadow-xl">
+                <UserPhoto
+                  src={null}
+                  alt={`${profile.first_name} ${profile.last_name}`}
+                  firstName={profile.first_name}
+                  lastName={profile.last_name}
+                  fill
+                  rounded="full"
+                  priority
+                />
+              </div>
+            )}
           </SponsorHalo>
           <div className="pb-2 flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2">
@@ -204,20 +226,29 @@ export default async function AlumniProfilePage({
               </span>
             )}
           </div>
-          {profile.sponsor_tier && (
-            <div className="mt-3">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                style={{
-                  backgroundColor: profile.sponsor_tier === "gold" ? "rgba(255,215,0,0.15)" : profile.sponsor_tier === "silver" ? "rgba(192,192,192,0.15)" : "rgba(184,115,51,0.15)",
-                  color: profile.sponsor_tier === "gold" ? "#FFD700" : profile.sponsor_tier === "silver" ? "#C0C0C0" : "#B87333",
-                  border: `1px solid ${profile.sponsor_tier === "gold" ? "rgba(255,215,0,0.4)" : profile.sponsor_tier === "silver" ? "rgba(192,192,192,0.4)" : "rgba(184,115,51,0.4)"}`,
-                }}
-              >
-                🏆 {TIER_LABELS[profile.sponsor_tier]}
-                {profile.isOwnProfile && profile.lifetime_giving_cents > 0 && (
-                  <span className="opacity-70">· Lifetime giving {formatLifetime(profile.lifetime_giving_cents)}</span>
-                )}
-              </span>
+          {/* Sponsor tier + referral count badges */}
+          {(profile.sponsor_tier || profile.referral_count > 0) && (
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {profile.sponsor_tier && (
+                <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{
+                    backgroundColor: profile.sponsor_tier === "gold" ? "rgba(255,215,0,0.15)" : profile.sponsor_tier === "silver" ? "rgba(192,192,192,0.15)" : "rgba(184,115,51,0.15)",
+                    color: profile.sponsor_tier === "gold" ? "#FFD700" : profile.sponsor_tier === "silver" ? "#C0C0C0" : "#B87333",
+                    border: `1px solid ${profile.sponsor_tier === "gold" ? "rgba(255,215,0,0.4)" : profile.sponsor_tier === "silver" ? "rgba(192,192,192,0.4)" : "rgba(184,115,51,0.4)"}`,
+                  }}
+                >
+                  🏆 {TIER_LABELS[profile.sponsor_tier]}
+                  {profile.isOwnProfile && profile.lifetime_giving_cents > 0 && (
+                    <span className="opacity-70">· Lifetime giving {formatLifetime(profile.lifetime_giving_cents)}</span>
+                  )}
+                </span>
+              )}
+              {profile.referral_count > 0 && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[#CC0000]/30 bg-[#CC0000]/10 px-3 py-1 text-xs font-semibold text-[#CC0000]">
+                  <Users className="size-3" />
+                  Brought {profile.referral_count} {profile.referral_count === 1 ? "teammate" : "teammates"}
+                </span>
+              )}
             </div>
           )}
         </div>

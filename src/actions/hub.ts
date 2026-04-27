@@ -38,6 +38,7 @@ export async function getHubData() {
   const admin = createAdminClient();
 
   let myAlumniId: string | null = null;
+  let myForwardToken: string | null = null;
   if (user?.email) {
     const { data } = await admin
       .from("alumni")
@@ -45,6 +46,15 @@ export async function getHubData() {
       .eq("email", user.email)
       .single();
     myAlumniId = data?.id ?? null;
+
+    if (myAlumniId) {
+      const { data: tokenData } = await admin
+        .from("forward_tokens")
+        .select("token")
+        .eq("referrer_alumni_id", myAlumniId)
+        .maybeSingle();
+      myForwardToken = tokenData?.token ?? null;
+    }
   }
 
   const [presenceRes, recentJoinsRes, postsData, upcoming] = await Promise.all([
@@ -106,6 +116,7 @@ export async function getHubData() {
     announcements,
     recentJoins,
     myAlumniId: postsData.myAlumniId,
+    myForwardToken,
     initialPosts: postsData.posts,
     initialCursor: postsData.nextCursor,
   };

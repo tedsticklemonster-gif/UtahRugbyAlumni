@@ -7,6 +7,7 @@ import { requireAdmin } from "@/lib/auth/require-admin";
 import { logAdminAction } from "@/lib/audit";
 import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { PledgeThankYouEmail } from "@/emails/pledge-thank-you";
+import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 
 // ── Campaigns ───────────────────────────────────────────────────────────────
 
@@ -225,7 +226,7 @@ export async function sendThankYouAction(
   // Fetch pledge + campaign details
   const { data: pledge } = await admin
     .from("pledges")
-    .select("donor_name, donor_email, amount_cents, payment_method, campaign_id")
+    .select("donor_name, donor_email, amount_cents, payment_method, campaign_id, alumni_id")
     .eq("id", pledgeId)
     .single();
 
@@ -251,6 +252,7 @@ export async function sendThankYouAction(
       campaignName: campaign.name,
       amountFormatted,
       paymentMethod: pledge.payment_method ?? "your generous contribution",
+      unsubscribeUrl: pledge.alumni_id ? unsubscribeUrl(pledge.alumni_id) : undefined,
     })
   );
 

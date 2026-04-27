@@ -36,7 +36,25 @@ interface AlumniRow {
   source: string | null;
   last_contacted_at: string | null;
   created_at: string;
+  sponsor_tier: string | null;
+  lifetime_giving_cents: number;
+  referral_count: number;
 }
+
+function formatMoney(cents: number): string {
+  if (cents === 0) return "—";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(cents / 100);
+}
+
+const tierColors: Record<string, string> = {
+  gold: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
+  silver: "bg-zinc-200 text-zinc-700 dark:bg-zinc-700/50 dark:text-zinc-300",
+  bronze: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
+};
 
 interface RosterTableProps {
   alumni: AlumniRow[];
@@ -200,6 +218,9 @@ export function RosterTable({
               <TableHead>Visible</TableHead>
               <TableHead>SMS</TableHead>
               <TableHead>Source</TableHead>
+              <TableHead>Tier</TableHead>
+              <TableHead>Giving</TableHead>
+              <TableHead>Referrals</TableHead>
               <TableHead>Last Contacted</TableHead>
               <TableHead className="w-10"></TableHead>
             </TableRow>
@@ -241,6 +262,21 @@ export function RosterTable({
                 <TableCell className="text-xs">
                   {a.source ?? "—"}
                 </TableCell>
+                <TableCell>
+                  {a.sponsor_tier ? (
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${tierColors[a.sponsor_tier] ?? ""}`}>
+                      {a.sponsor_tier}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">—</span>
+                  )}
+                </TableCell>
+                <TableCell className="text-xs tabular-nums">
+                  {formatMoney(a.lifetime_giving_cents)}
+                </TableCell>
+                <TableCell className="text-xs tabular-nums">
+                  {a.referral_count > 0 ? a.referral_count : "—"}
+                </TableCell>
                 <TableCell className="text-xs text-muted-foreground">
                   {a.last_contacted_at
                     ? new Date(a.last_contacted_at).toLocaleDateString()
@@ -259,7 +295,7 @@ export function RosterTable({
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={12} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={15} className="text-center py-8 text-muted-foreground">
                   No alumni found.
                 </TableCell>
               </TableRow>

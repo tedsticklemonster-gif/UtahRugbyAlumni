@@ -13,12 +13,14 @@ interface MooseIntroEmailProps {
   firstName: string;
   profileLink: string;
   forwardLink: string;
+  unsubscribeUrl?: string;
 }
 
 export function MooseIntroEmail({
   firstName = "Friend",
   profileLink = "https://alumni.utah-rugby.com/join",
   forwardLink = "https://alumni.utah-rugby.com/forward/example",
+  unsubscribeUrl,
 }: MooseIntroEmailProps) {
   return (
     <Html>
@@ -70,6 +72,16 @@ export function MooseIntroEmail({
 
             <Text style={textStyle}>Moose</Text>
           </Section>
+          {unsubscribeUrl && (
+            <Section style={{ marginTop: "32px", borderTop: "1px solid #e5e5e5", paddingTop: "16px" }}>
+              <Text style={footerStyle}>
+                <Link href={unsubscribeUrl} style={footerLinkStyle}>
+                  Unsubscribe
+                </Link>{" "}
+                from future emails
+              </Text>
+            </Section>
+          )}
         </Container>
       </Body>
     </Html>
@@ -98,5 +110,17 @@ const textStyle = {
 
 const linkStyle = {
   color: "#CC0000",
+  textDecoration: "underline",
+};
+
+const footerStyle = {
+  fontSize: "12px",
+  lineHeight: "20px",
+  color: "#999999",
+  textAlign: "center" as const,
+};
+
+const footerLinkStyle = {
+  color: "#999999",
   textDecoration: "underline",
 };

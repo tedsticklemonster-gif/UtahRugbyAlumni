@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { Check, Copy, Share2 } from "lucide-react";
 
-export function CopyForwardLink() {
+export function CopyForwardLink({ forwardToken }: { forwardToken?: string | null }) {
   const [copied, setCopied] = useState(false);
 
+  const slug = forwardToken || "generic";
   const forwardUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/forward/generic`
-      : "/forward/generic";
+      ? `${window.location.origin}/forward/${slug}`
+      : `/forward/${slug}`;
 
   async function handleShare() {
     const nav = typeof navigator !== "undefined" ? navigator : null;

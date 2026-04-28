@@ -46,7 +46,7 @@ export async function createAnnouncementAction(
   });
 
   revalidatePath("/admin/announcements");
-  revalidatePath("/feed");
+  revalidatePath("/");
   return { success: true, id: row.id };
 }
 
@@ -85,7 +85,7 @@ export async function updateAnnouncementAction(
   });
 
   revalidatePath("/admin/announcements");
-  revalidatePath("/feed");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -113,6 +113,6 @@ export async function deleteAnnouncementAction(
   });
 
   revalidatePath("/admin/announcements");
-  revalidatePath("/feed");
+  revalidatePath("/");
   return { success: true };
 }

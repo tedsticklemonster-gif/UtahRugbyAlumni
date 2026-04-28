@@ -238,3 +238,48 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
     })
     .slice(0, 6);
 }
+
+export type EventAttendee = {
+  alumni_id: string;
+  first_name: string;
+  last_name: string;
+  photo_url: string | null;
+  status: "going" | "maybe" | "no";
+};
+
+export async function getEventAttendees(eventId: string): Promise<EventAttendee[]> {
+  const admin = createAdminClient();
+
+  const { data: rsvps } = await admin
+    .from("event_rsvps")
+    .select("alumni_id, status")
+    .eq("event_id", eventId)
+    .in("status", ["going", "maybe"]);
+
+  if (!rsvps?.length) return [];
+
+  const alumniIds = rsvps.map((r) => r.alumni_id);
+  const { data: alumni } = await admin
+    .from("alumni")
+    .select("id, first_name, last_name, photo_url")
+    .in("id", alumniIds);
+
+  const alumniMap = new Map((alumni ?? []).map((a) => [a.id, a]));
+
+  // Sort: "going" first, then "maybe", alphabetical within each group
+  return rsvps
+    .map((r) => {
+      const a = alumniMap.get(r.alumni_id);
+      return {
+        alumni_id: r.alumni_id,
+        first_name: a?.first_name ?? "Unknown",
+        last_name: a?.last_name ?? "",
+        photo_url: a?.photo_url ?? null,
+        status: r.status as "going" | "maybe" | "no",
+      };
+    })
+    .sort((a, b) => {
+      if (a.status !== b.status) return a.status === "going" ? -1 : 1;
+      return a.first_name.localeCompare(b.first_name);
+    });
+}

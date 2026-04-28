@@ -177,7 +177,7 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     `<b>${authorName}</b> posted:\n\n${body}\n\n<a href="${appUrl}">View on Utah Rugby Alumni</a>`
   );
 
-  revalidatePath("/feed");
+  revalidatePath("/");
   return {};
 }
 

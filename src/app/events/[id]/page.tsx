@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, MapPin, Users, ExternalLink } from "lucide-react";
-import { getEvent } from "@/actions/events";
+import { getEvent, getEventAttendees } from "@/actions/events";
 import { RsvpChips } from "@/components/rsvp-chips";
+import { EventAttendees } from "@/components/event-attendees";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -71,7 +72,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
     myAlumniId = data?.id ?? null;
   }
 
-  const event = await getEvent(id);
+  const [event, attendees] = await Promise.all([getEvent(id), getEventAttendees(id)]);
   if (!event) notFound();
 
   return (
@@ -163,6 +164,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
             </p>
           </div>
         )}
+
+        {/* Attendee list */}
+        <EventAttendees attendees={attendees} />
 
         {/* Created by */}
         <p className="text-xs text-zinc-600">

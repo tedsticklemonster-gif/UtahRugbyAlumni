@@ -8,6 +8,8 @@ import { AlumniPresenceStrip } from "@/components/hub/alumni-presence-strip";
 import { UpcomingRail } from "@/components/hub/upcoming-rail";
 import { AnnouncementsCard } from "@/components/hub/announcements-card";
 import { NewJoinsStrip } from "@/components/hub/new-joins-strip";
+import Link from "next/link";
+import { HeartHandshake } from "lucide-react";
 import { InviteBanner } from "@/components/hub/invite-banner";
 import { PullToRefresh } from "@/components/pull-to-refresh";
 import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
@@ -77,6 +79,27 @@ export function HubPage({
         {recentJoins.length > 0 && (
           <NewJoinsStrip joins={recentJoins} />
         )}
+
+        {/* Give — subtle reminder */}
+        <div className="px-4 pt-4">
+          <Link
+            href="/give"
+            className="group flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 transition-colors hover:border-[#CC0000]/40 hover:bg-[#CC0000]/5"
+          >
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#CC0000]/10 text-[#CC0000]">
+              <HeartHandshake className="size-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold text-zinc-300 group-hover:text-white">
+                Support the Program
+              </p>
+              <p className="text-[10px] text-zinc-600">
+                25–26 Season Campaign
+              </p>
+            </div>
+            <span className={`${eyebrow} text-[9px] text-[#CC0000]`}>Give →</span>
+          </Link>
+        </div>
 
         {/* Alumni Wall / Feed */}
         <div className="px-4 pb-8 space-y-3">

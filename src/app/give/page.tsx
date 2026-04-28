@@ -1,8 +1,9 @@
 import { ExternalLink, HeartHandshake } from "lucide-react";
+import Script from "next/script";
 
 export const metadata = { title: "Give" };
 
-const DONATE_URL = "https://donorbox.org/25-26-season-campaign";
+const DONORBOX_CAMPAIGN = "25-26-season-campaign";
 const OFFICIAL_GIVING_URL = "https://www.utah-rugby.com/donations";
 
 export default function GivePage() {
@@ -21,6 +22,7 @@ export default function GivePage() {
       </div>
 
       <div className="space-y-4 px-5 py-8 md:px-10">
+        {/* Donorbox embedded widget — shows live campaign progress */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
           <p className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
             25–26 Season Campaign
@@ -30,15 +32,24 @@ export default function GivePage() {
             Donations go directly to the University of Utah Rugby program —
             travel, kit, recruiting, and alumni events.
           </p>
-          <a
-            href={DONATE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-[#CC0000] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
-          >
-            Donate now
-            <ExternalLink className="size-4" />
-          </a>
+
+          <div className="mt-5">
+            <Script src="https://donorbox.org/widget.js" strategy="lazyOnload" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <iframe
+              src={`https://donorbox.org/embed/${DONORBOX_CAMPAIGN}?default_interval=o&show_content=true`}
+              name="donorbox"
+              allow="payment"
+              style={{
+                maxWidth: "500px",
+                minWidth: "250px",
+                maxHeight: "none",
+                width: "100%",
+                border: "none",
+              }}
+              height="685px"
+            />
+          </div>
         </div>
 
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">

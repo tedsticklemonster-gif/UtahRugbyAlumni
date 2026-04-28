@@ -160,7 +160,13 @@ export default async function HomePage() {
 
   const nextGame = schedule ? pickNextGame(schedule.games) : null;
   const recentResults = (schedule?.games ?? []).filter((g) => g.result).slice(0, 3);
-  const upcomingGames = (schedule?.games ?? []).filter((g) => !g.result).slice(0, 5);
+  const upcomingGames = (schedule?.games ?? [])
+    .filter((g) => {
+      if (g.result) return false;
+      const d = parseGameDate(g.date);
+      return d ? d.getTime() >= Date.now() : true;
+    })
+    .slice(0, 5);
 
   return (
     <div className="min-h-screen bg-black text-white antialiased">

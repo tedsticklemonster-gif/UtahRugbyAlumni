@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSchedule } from "@/lib/schedule";
 import { notifyNewEvent } from "@/actions/event-emails";
+import { postToTelegram } from "@/lib/telegram";
 import { generateOccurrences } from "@/lib/recurrence";
 import type { RecurrenceRule } from "@/lib/recurrence";
 
@@ -206,6 +207,25 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
 
   // Fire-and-forget: notify alumni about the new event
   void notifyNewEvent(data.id);
+
+  // Auto-post event to Alumni Wall
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
+  const eventUrl = `${appUrl}/events/${data.id}`;
+  const location = (formData.get("location") as string)?.trim() || null;
+  const dateLabel = new Date(starts_at).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+  const postBody = `New event: ${title}\n${dateLabel}${location ? ` · ${location}` : ""}\n\nRSVP → ${eventUrl}`;
+  await admin.from("posts").insert({ author_id: alumni.id, body: postBody });
+  revalidatePath("/");
+
+  // Push to Telegram channel (fire-and-forget)
+  const telegramLocation = location ? `\n${location}` : "";
+  postToTelegram(
+    `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View &amp; RSVP</a>`
+  );
 
   return { id: data.id };
 }

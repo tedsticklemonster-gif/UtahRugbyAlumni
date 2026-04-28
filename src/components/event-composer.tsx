@@ -12,10 +12,19 @@ const KIND_OPTIONS = [
   { value: "other", label: "Other" },
 ];
 
+const RECURRENCE_OPTIONS = [
+  { value: "", label: "Does not repeat" },
+  { value: "weekly", label: "Weekly" },
+  { value: "biweekly", label: "Every 2 weeks" },
+  { value: "monthly", label: "Monthly" },
+  { value: "annual", label: "Annually" },
+];
+
 export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [recurrence, setRecurrence] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -91,6 +100,31 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
+
+      <div>
+        <label className="mb-1 block text-[10px] font-bold uppercase tracking-wide text-zinc-500">Repeats</label>
+        <select
+          name="recurrence_rule"
+          value={recurrence}
+          onChange={(e) => setRecurrence(e.target.value)}
+          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white focus:border-zinc-500 focus:outline-none"
+        >
+          {RECURRENCE_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {recurrence && (
+        <div>
+          <label className="mb-1 block text-[10px] font-bold uppercase tracking-wide text-zinc-500">Repeat until (opt)</label>
+          <input
+            name="recurrence_end"
+            type="date"
+            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
+          />
+        </div>
+      )}
 
       {error && <p className="text-xs text-red-400">{error}</p>}
 

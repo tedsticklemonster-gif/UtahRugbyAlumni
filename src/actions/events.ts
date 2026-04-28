@@ -4,6 +4,9 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSchedule } from "@/lib/schedule";
+import { notifyNewEvent } from "@/actions/event-emails";
+import { generateOccurrences } from "@/lib/recurrence";
+import type { RecurrenceRule } from "@/lib/recurrence";
 
 export type AlumniEvent = {
   id: string;
@@ -21,6 +24,8 @@ export type AlumniEvent = {
   rsvp_going: number;
   rsvp_maybe: number;
   my_rsvp: "going" | "maybe" | "no" | null;
+  series_id: string | null;
+  recurrence_rule: string | null;
 };
 
 export type UpcomingItem =
@@ -43,7 +48,7 @@ export async function listEvents(options?: { includePast?: boolean }): Promise<A
 
   let query = admin
     .from("events")
-    .select("id, title, description, starts_at, ends_at, location, location_url, photo_url, kind, creator_id")
+    .select("id, title, description, starts_at, ends_at, location, location_url, photo_url, kind, creator_id, series_id, recurrence_rule")
     .is("deleted_at", null);
 
   if (includePast) {
@@ -87,6 +92,8 @@ export async function listEvents(options?: { includePast?: boolean }): Promise<A
       rsvp_going: eventRsvps.filter((r) => r.status === "going").length,
       rsvp_maybe: eventRsvps.filter((r) => r.status === "maybe").length,
       my_rsvp: myRsvp,
+      series_id: e.series_id ?? null,
+      recurrence_rule: e.recurrence_rule ?? null,
     };
   });
 }
@@ -97,7 +104,7 @@ export async function getEvent(id: string): Promise<AlumniEvent | null> {
 
   const { data: e } = await admin
     .from("events")
-    .select("id, title, description, starts_at, ends_at, location, location_url, photo_url, kind, creator_id")
+    .select("id, title, description, starts_at, ends_at, location, location_url, photo_url, kind, creator_id, series_id, recurrence_rule")
     .eq("id", id)
     .is("deleted_at", null)
     .single();
@@ -129,6 +136,8 @@ export async function getEvent(id: string): Promise<AlumniEvent | null> {
     rsvp_going: rsvps.filter((r) => r.status === "going").length,
     rsvp_maybe: rsvps.filter((r) => r.status === "maybe").length,
     my_rsvp: myRsvp,
+    series_id: e.series_id ?? null,
+    recurrence_rule: e.recurrence_rule ?? null,
   };
 }
 
@@ -147,6 +156,9 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   const starts_at = formData.get("starts_at") as string;
   if (!starts_at) return { error: "Date & time is required" };
 
+  const recurrenceRule = (formData.get("recurrence_rule") as string) || null;
+  const recurrenceEnd = (formData.get("recurrence_end") as string) || null;
+
   const { data, error } = await admin.from("events").insert({
     creator_id: alumni.id,
     title,
@@ -155,10 +167,46 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
     ends_at: (formData.get("ends_at") as string) || null,
     location: (formData.get("location") as string)?.trim() || null,
     kind: (formData.get("kind") as string) || "social",
+    recurrence_rule: recurrenceRule,
+    recurrence_end: recurrenceEnd,
   }).select("id").single();
 
   if (error) return { error: error.message };
+
+  // Generate initial recurring instances (up to 3 months out)
+  if (recurrenceRule) {
+    const endsAt = (formData.get("ends_at") as string) || null;
+    const now = new Date();
+    const threeMonths = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
+    const until = recurrenceEnd ? new Date(Math.min(new Date(recurrenceEnd).getTime(), threeMonths.getTime())) : threeMonths;
+
+    const occurrences = generateOccurrences(
+      new Date(starts_at),
+      endsAt ? new Date(endsAt) : null,
+      recurrenceRule as RecurrenceRule,
+      now,
+      until
+    );
+
+    for (const occ of occurrences) {
+      await admin.from("events").insert({
+        creator_id: alumni.id,
+        title,
+        description: (formData.get("description") as string)?.trim() || null,
+        starts_at: occ.starts_at.toISOString(),
+        ends_at: occ.ends_at?.toISOString() ?? null,
+        location: (formData.get("location") as string)?.trim() || null,
+        kind: (formData.get("kind") as string) || "social",
+        series_id: data.id,
+      });
+    }
+  }
+
   revalidatePath("/events");
+
+  // Fire-and-forget: notify alumni about the new event
+  void notifyNewEvent(data.id);
+
   return { id: data.id };
 }
 

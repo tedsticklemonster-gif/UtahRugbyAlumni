@@ -1,9 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, MapPin, Users, ExternalLink } from "lucide-react";
+import { ArrowLeft, CalendarDays, CalendarPlus, MapPin, Users, ExternalLink, Repeat } from "lucide-react";
 import { getEvent, getEventAttendees } from "@/actions/events";
 import { RsvpChips } from "@/components/rsvp-chips";
 import { EventAttendees } from "@/components/event-attendees";
+import { ShareButton } from "@/components/share-button";
+import { EventPhotoGallery } from "@/components/event-photo-gallery";
+import { EventPhotoUploader } from "@/components/event-photo-uploader";
+import { listEventPhotos } from "@/actions/event-photos";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -72,7 +76,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
     myAlumniId = data?.id ?? null;
   }
 
-  const [event, attendees] = await Promise.all([getEvent(id), getEventAttendees(id)]);
+  const [event, attendees, photos] = await Promise.all([
+    getEvent(id),
+    getEventAttendees(id),
+    listEventPhotos(id),
+  ]);
   if (!event) notFound();
 
   return (
@@ -89,15 +97,26 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
       </div>
 
       <div className="px-5 py-6 md:px-10 max-w-2xl space-y-5">
-        {/* Kind badge */}
-        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
-          {KIND_LABELS[event.kind] ?? "Event"}
-        </span>
+        {/* Kind badge + recurring indicator */}
+        <div className="flex items-center gap-2">
+          <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+            {KIND_LABELS[event.kind] ?? "Event"}
+          </span>
+          {(event.series_id || event.recurrence_rule) && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+              <Repeat className="size-3" />
+              Recurring
+            </span>
+          )}
+        </div>
 
-        {/* Title */}
-        <h1 className="text-2xl font-black leading-tight tracking-tight text-white">
-          {event.title}
-        </h1>
+        {/* Title + Share */}
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl font-black leading-tight tracking-tight text-white">
+            {event.title}
+          </h1>
+          <ShareButton url={`${APP_URL}/events/${id}`} title={event.title} />
+        </div>
 
         {/* Details */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-2.5">
@@ -143,6 +162,18 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
           </div>
         </div>
 
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <a
+            href={`/api/events/${id}/ics`}
+            download
+            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
+          >
+            <CalendarPlus className="size-3.5" />
+            Add to Calendar
+          </a>
+        </div>
+
         {/* Description */}
         {event.description && (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
@@ -164,6 +195,10 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
             </p>
           </div>
         )}
+
+        {/* Photo album */}
+        <EventPhotoGallery photos={photos} myAlumniId={myAlumniId} eventCreatorId={event.creator_id} />
+        {myAlumniId && <EventPhotoUploader eventId={id} />}
 
         {/* Attendee list */}
         <EventAttendees attendees={attendees} />

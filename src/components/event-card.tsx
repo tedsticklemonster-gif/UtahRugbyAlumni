@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { CalendarDays, MapPin, Users } from "lucide-react";
 import { RsvpChips } from "@/components/rsvp-chips";
+import { ShareButton } from "@/components/share-button";
 import type { AlumniEvent } from "@/actions/events";
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
 
 const KIND_LABELS: Record<string, string> = {
   social: "Social",
@@ -38,6 +41,7 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
               </h3>
             </Link>
           </div>
+          <ShareButton url={`${APP_URL}/events/${event.id}`} title={event.title} />
         </div>
 
         <div className="space-y-1 mb-3">

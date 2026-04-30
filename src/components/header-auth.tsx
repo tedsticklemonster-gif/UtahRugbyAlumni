@@ -29,9 +29,12 @@ function TelegramLink() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Join our Telegram channel"
-      className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-[#26A5E4]"
+      className="flex h-8 items-center gap-1.5 rounded-lg px-2 text-[#26A5E4] transition-colors hover:bg-zinc-800"
     >
-      <TelegramIcon className="size-4" />
+      <TelegramIcon className="size-5 shrink-0" />
+      <span className="hidden text-[11px] font-extrabold uppercase tracking-wider sm:inline">
+        Telegram
+      </span>
     </a>
   );
 }

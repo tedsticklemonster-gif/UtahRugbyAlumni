@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { getPostsAction, type FeedPost } from "@/actions/feed";
 import { PostCard } from "@/components/post-card";
 import { CreatePost } from "@/components/create-post";
@@ -44,6 +44,17 @@ export function HubPage({
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);
   const [cursor, setCursor] = useState<string | null>(initialCursor);
   const [loading, startLoad] = useTransition();
+
+  // Sync state when the server refreshes with new posts (e.g., after router.refresh())
+  const latestInitialPostIdRef = useRef<string | null>(initialPosts[0]?.id ?? null);
+  useEffect(() => {
+    const newId = initialPosts[0]?.id ?? null;
+    if (newId !== latestInitialPostIdRef.current) {
+      latestInitialPostIdRef.current = newId;
+      setPosts(initialPosts);
+      setCursor(initialCursor);
+    }
+  }, [initialPosts, initialCursor]);
 
   function loadMore() {
     if (!cursor) return;

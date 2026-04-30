@@ -173,8 +173,10 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     ? `${authorInfo.first_name} ${authorInfo.last_name}`
     : "A rugger";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby.com";
+  // Escape HTML entities so user content doesn't break Telegram's HTML parse mode
+  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   postToTelegram(
-    `<b>${authorName}</b> posted:\n\n${body}\n\n<a href="${appUrl}">View on Utah Rugby Alumni</a>`
+    `<b>${esc(authorName)}</b> posted:\n\n${esc(body)}\n\n<a href="${appUrl}">View on Utah Rugby Alumni</a>`
   );
 
   revalidatePath("/");

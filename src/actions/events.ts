@@ -224,7 +224,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   // Push to Telegram channel
   const telegramLocation = location ? `\n${location}` : "";
   await postToTelegram(
-    `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View &amp; RSVP</a>`
+    `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View</a>`
   );
 
   return { id: data.id };

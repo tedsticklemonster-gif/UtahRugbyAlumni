@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { logAdminAction } from "@/lib/audit";
+import { postToTelegram } from "@/lib/telegram";
 
 export interface AnnouncementFormData {
   title: string;
@@ -47,6 +48,15 @@ export async function createAnnouncementAction(
 
   revalidatePath("/admin/announcements");
   revalidatePath("/");
+
+  // Push announcement to Telegram channel
+  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+  const truncated = data.body.length > 280 ? data.body.slice(0, 280) + "…" : data.body;
+  await postToTelegram(
+    `<b>${esc(data.title)}</b>\n\n${esc(truncated)}\n\n<a href="${appUrl}">View on Utah Rugby Alumni</a>`
+  );
+
   return { success: true, id: row.id };
 }
 

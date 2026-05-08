@@ -209,7 +209,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   void notifyNewEvent(data.id);
 
   // Auto-post event to Alumni Wall
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
   const eventUrl = `${appUrl}/events/${data.id}`;
   const location = (formData.get("location") as string)?.trim() || null;
   const dateLabel = new Date(starts_at).toLocaleDateString("en-US", {
@@ -221,9 +221,9 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   await admin.from("posts").insert({ author_id: alumni.id, body: postBody });
   revalidatePath("/");
 
-  // Push to Telegram channel (fire-and-forget)
+  // Push to Telegram channel
   const telegramLocation = location ? `\n${location}` : "";
-  postToTelegram(
+  await postToTelegram(
     `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View &amp; RSVP</a>`
   );
 

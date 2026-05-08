@@ -127,6 +127,64 @@ export async function getPostsAction(cursor?: string): Promise<{
   return { posts: result, nextCursor, myAlumniId };
 }
 
+export async function getPostAction(postId: string): Promise<FeedPost | null> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const admin = createAdminClient();
+
+  let myAlumniId: string | null = null;
+  if (user?.email) {
+    const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+    myAlumniId = data?.id ?? null;
+  }
+
+  const { data: post } = await admin
+    .from("posts")
+    .select("id, body, photo_url, created_at, author_id")
+    .eq("id", postId)
+    .is("deleted_at", null)
+    .single();
+
+  if (!post) return null;
+
+  const [authorRes, likesRes, commentsRes, reactionsRes] = await Promise.all([
+    admin.from("alumni").select("id, first_name, last_name, photo_url").eq("id", post.author_id).single(),
+    admin.from("post_likes").select("post_id, alumni_id").eq("post_id", postId),
+    admin.from("post_comments").select("post_id").eq("post_id", postId).is("deleted_at", null),
+    admin.from("post_reactions").select("post_id, alumni_id, emoji").eq("post_id", postId),
+  ]);
+
+  const author = authorRes.data;
+  const likes = likesRes.data ?? [];
+  const comments = commentsRes.data ?? [];
+  const postReactions = reactionsRes.data ?? [];
+
+  const reactionMap = new Map<string, number>();
+  for (const r of postReactions) reactionMap.set(r.emoji, (reactionMap.get(r.emoji) ?? 0) + 1);
+  const reactions: ReactionSummary = Array.from(reactionMap.entries()).map(([emoji, count]) => ({ emoji, count }));
+  const myReaction = myAlumniId ? (postReactions.find((r) => r.alumni_id === myAlumniId)?.emoji ?? null) : null;
+
+  const authorPhotoUrl = author?.photo_url
+    ? (await signedUrl("alumni-photos", author.photo_url, admin))
+    : null;
+
+  return {
+    id: post.id,
+    body: post.body,
+    photo_signed_url: await signedUrl("post-photos", post.photo_url, admin),
+    created_at: post.created_at,
+    author_id: post.author_id,
+    author_first_name: author?.first_name ?? "Unknown",
+    author_last_name: author?.last_name ?? "",
+    author_photo_signed_url: authorPhotoUrl,
+    like_count: likes.length,
+    comment_count: comments.length,
+    i_liked: myAlumniId ? likes.some((l) => l.alumni_id === myAlumniId) : false,
+    reactions,
+    my_reaction: myReaction,
+  };
+}
+
 export async function createPostAction(formData: FormData): Promise<{ error?: string }> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -162,21 +220,25 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     .eq("id", alumni.id)
     .single();
 
-  const { error } = await admin
+  const { data: newPost, error } = await admin
     .from("posts")
-    .insert({ author_id: alumni.id, body, photo_url });
+    .insert({ author_id: alumni.id, body, photo_url })
+    .select("id")
+    .single();
 
-  if (error) return { error: error.message };
+  if (error || !newPost) return { error: error?.message ?? "Failed to create post" };
 
   // Push to Telegram channel (fire-and-forget)
   const authorName = authorInfo
     ? `${authorInfo.first_name} ${authorInfo.last_name}`
     : "A rugger";
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+  const postUrl = `${appUrl}/feed/${newPost.id}`;
   // Escape HTML entities so user content doesn't break Telegram's HTML parse mode
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  postToTelegram(
-    `<b>${esc(authorName)}</b> posted:\n\n${esc(body)}\n\n<a href="${appUrl}">View on Utah Rugby Alumni</a>`
+  const truncated = body.length > 280 ? body.slice(0, 280) + "…" : body;
+  await postToTelegram(
+    `<b>${esc(authorName)}</b> posted:\n\n${esc(truncated)}\n\n<a href="${postUrl}">View post</a>`
   );
 
   revalidatePath("/");

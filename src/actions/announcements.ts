@@ -54,7 +54,7 @@ export async function createAnnouncementAction(
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
   const truncated = data.body.length > 280 ? data.body.slice(0, 280) + "…" : data.body;
   await postToTelegram(
-    `<b>${esc(data.title)}</b>\n\n${esc(truncated)}\n\n<a href="${appUrl}">View</a>`
+    `<b>${esc(data.title)}</b>\n\n${esc(truncated)}\n\n<a href="${appUrl}">Link</a>`
   );
 
   return { success: true, id: row.id };

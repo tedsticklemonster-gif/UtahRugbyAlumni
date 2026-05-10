@@ -226,7 +226,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   const telegramLocation = location ? `\n${location}` : "";
   try {
     await postToTelegram(
-      `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View</a>`
+      `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">Link</a>`
     );
   } catch {
     // Telegram post is non-critical; don't block event creation

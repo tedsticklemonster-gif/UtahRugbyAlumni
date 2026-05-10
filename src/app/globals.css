@@ -122,16 +122,28 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
+    overscroll-behavior-y: none;
   }
   html {
     @apply font-sans;
     font-size: 17px;
+    -webkit-text-size-adjust: 100%;
   }
   h1 {
     font-family: var(--font-barlow-condensed);
+  }
+  /* Prevent text selection on interactive elements for native feel */
+  button, a, [role="button"] {
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+  /* Smooth image loading */
+  img {
+    content-visibility: auto;
   }
   @supports (padding: max(0px)) {
     body {

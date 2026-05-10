@@ -32,7 +32,7 @@ export function BottomNav() {
 
       <nav
         aria-label="Primary"
-        className="fixed inset-x-0 bottom-0 z-40 bg-zinc-950 border-t border-zinc-800 md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/80 md:hidden"
       >
         {/* FAB — floats above the center of the nav */}
         <button

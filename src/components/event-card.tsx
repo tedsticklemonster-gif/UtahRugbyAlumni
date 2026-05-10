@@ -28,7 +28,7 @@ function formatDate(iso: string) {
 
 export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniId: string | null }) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden">
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden transition-colors active:bg-zinc-800/60">
       <div className="p-4">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">

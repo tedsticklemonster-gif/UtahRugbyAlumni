@@ -86,8 +86,23 @@ function EventCard({ item }: { item: Extract<UpcomingItem, { source: "event" }> 
   );
 }
 
+function isStillUpcoming(item: UpcomingItem): boolean {
+  if (!item.sort_date) return true;
+  const d = new Date(item.sort_date);
+  if (isNaN(d.getTime())) return true;
+  if (item.source === "event") {
+    return d.getTime() >= Date.now();
+  }
+  // For games, keep through the end of the game day (local midnight)
+  const endOfDay = new Date(d);
+  endOfDay.setHours(23, 59, 59, 999);
+  return endOfDay.getTime() >= Date.now();
+}
+
 export function UpcomingRail({ items }: { items: UpcomingItem[] }) {
-  if (items.length === 0) {
+  const filtered = items.filter(isStillUpcoming);
+
+  if (filtered.length === 0) {
     return (
       <div className="px-4 pb-4">
         <span className="block h-[2px] w-8 bg-[#CC0000]" />
@@ -115,7 +130,7 @@ export function UpcomingRail({ items }: { items: UpcomingItem[] }) {
         className="flex gap-2.5 overflow-x-auto px-4 scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {items.map((item, i) =>
+        {filtered.map((item, i) =>
           item.source === "game" ? (
             <GameCard key={`game-${i}`} item={item} />
           ) : (

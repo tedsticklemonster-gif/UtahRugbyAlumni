@@ -223,10 +223,11 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   revalidatePath("/");
 
   // Push to Telegram channel (fire-and-forget)
-  const telegramLocation = location ? `\n${location}` : "";
+  const escHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const telegramLocation = location ? `\n${escHtml(location)}` : "";
   try {
     await postToTelegram(
-      `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">Link</a>`
+      `<b>New Event:</b> ${escHtml(title)}\n${escHtml(dateLabel)}${telegramLocation}\n\n<a href="${eventUrl}">RSVP</a>`
     );
   } catch {
     // Telegram post is non-critical; don't block event creation

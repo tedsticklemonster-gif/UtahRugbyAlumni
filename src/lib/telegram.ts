@@ -1,7 +1,12 @@
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+const APP_FOOTER = `\n\n—\n<a href="${APP_URL}">Utah Rugby Alumni App</a>`;
+
 /**
  * Post a message to the Utah Rugby Alumni Telegram channel.
  * Requires TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID env vars.
  * Failures are logged but never throw — feed posting should not break if Telegram is down.
+ *
+ * Every message includes a permanent footer linking to the app.
  */
 export async function postToTelegram(text: string): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -17,9 +22,9 @@ export async function postToTelegram(text: string): Promise<void> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: chatId,
-          text,
+          text: text + APP_FOOTER,
           parse_mode: "HTML",
-          disable_web_page_preview: true,
+          link_preview_options: { is_disabled: true },
         }),
       }
     );

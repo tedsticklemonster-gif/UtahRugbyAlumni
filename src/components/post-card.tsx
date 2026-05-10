@@ -155,7 +155,8 @@ function SwipeableComment({
                   <img
                     src={c.photo_signed_url}
                     alt=""
-                    className="mt-2 max-h-40 object-cover"
+                    className="mt-2 max-h-40 rounded-md object-cover bg-zinc-900"
+                    loading="lazy"
                   />
                 }
               />
@@ -274,7 +275,8 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
               <img
                 src={post.photo_signed_url}
                 alt="Post photo"
-                className="w-full max-h-80 object-cover"
+                className="w-full max-h-80 rounded-lg object-cover bg-zinc-900"
+                loading="lazy"
               />
             }
           />

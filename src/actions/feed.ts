@@ -238,7 +238,8 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const truncated = body.length > 280 ? body.slice(0, 280) + "…" : body;
   await postToTelegram(
-    `<b>${esc(authorName)}</b> posted:\n\n${esc(truncated)}\n\n<a href="${postUrl}">Link</a>`
+    `<b>${esc(authorName)}</b> posted:\n\n${esc(truncated)}`,
+    [{ text: "View Post", url: postUrl }]
   );
 
   revalidatePath("/");

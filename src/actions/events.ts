@@ -228,7 +228,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   try {
     await postToTelegram(
       `<b>New Event:</b> ${escHtml(title)}\n${escHtml(dateLabel)}${telegramLocation}`,
-      [{ text: "RSVP", url: eventUrl }]
+      eventUrl
     );
   } catch {
     // Telegram post is non-critical; don't block event creation

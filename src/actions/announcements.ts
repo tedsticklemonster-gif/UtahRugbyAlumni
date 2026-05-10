@@ -53,9 +53,7 @@ export async function createAnnouncementAction(
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
   const truncated = data.body.length > 280 ? data.body.slice(0, 280) + "…" : data.body;
-  await postToTelegram(
-    `<b>${esc(data.title)}</b>\n\n${esc(truncated)}`
-  );
+  await postToTelegram(`<b>${esc(data.title)}</b>\n\n${esc(truncated)}`);
 
   return { success: true, id: row.id };
 }

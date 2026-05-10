@@ -1,38 +1,32 @@
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
 
-export interface TelegramButton {
-  text: string;
-  url: string;
-}
-
 /**
  * Post a message to the Utah Rugby Alumni Telegram channel.
  * Requires TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID env vars.
- * Failures are logged but never throw — feed posting should not break if Telegram is down.
+ * Failures are logged but never throw.
  *
- * Links are sent as inline keyboard buttons (not HTML anchors) — this is the
- * most reliable way to get clickable links in Telegram channels regardless of
- * channel permissions or parse_mode quirks.
+ * Links are passed as plain-text URLs which Telegram auto-detects and renders
+ * as clickable hyperlinks — no parse_mode tricks, no inline keyboard buttons,
+ * no special bot permissions needed.
  *
- * An "Open App" button linking to the homepage is always appended automatically.
+ * @param text     Message body (may include HTML bold/italic via parse_mode HTML)
+ * @param actionUrl  Primary action URL (e.g. post or event link). Shown as a
+ *                   clickable line at the bottom, auto-hyperlinked by Telegram.
  */
 export async function postToTelegram(
   text: string,
-  buttons: TelegramButton[] = []
+  actionUrl?: string
 ): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  if (!token || !chatId) return; // silently skip if not configured
+  if (!token || !chatId) return;
 
-  // Always append the permanent app link as the last button
-  const allButtons: TelegramButton[] = [
-    ...buttons,
-    { text: "Open App", url: APP_URL },
-  ];
-
-  // Build a single row of buttons (Telegram supports multiple buttons in a row)
-  const inlineKeyboard = [allButtons.map((b) => ({ text: b.text, url: b.url }))];
+  // Build the full message: body + action URL (if any) + permanent app link
+  const parts = [text];
+  if (actionUrl) parts.push(actionUrl);
+  parts.push(APP_URL);
+  const fullText = parts.join("\n\n");
 
   try {
     const res = await fetch(
@@ -42,10 +36,9 @@ export async function postToTelegram(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: chatId,
-          text,
+          text: fullText,
           parse_mode: "HTML",
-          link_preview_options: { is_disabled: true },
-          reply_markup: { inline_keyboard: inlineKeyboard },
+          disable_web_page_preview: true,
         }),
       }
     );

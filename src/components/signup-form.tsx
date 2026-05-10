@@ -69,12 +69,16 @@ export function SignupForm() {
   }
 
   if (state.success) {
-    // Redirect handled by the page, but show fallback
     return (
-      <div className="text-center py-8">
-        <h2 className="text-xl font-semibold">You&apos;re in!</h2>
-        <p className="mt-2 text-muted-foreground">
-          Check your email to verify your account.
+      <div className="text-center py-12">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-900/50">
+          <svg className="size-7 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-bold text-white">You&apos;re in!</h2>
+        <p className="mt-2 text-sm text-zinc-400 max-w-xs mx-auto">
+          Check your email to verify your account. Once confirmed, you&apos;ll have full access to the network.
         </p>
       </div>
     );

@@ -26,8 +26,9 @@ function relativeTime(iso: string) {
 }
 
 function entityHref(n: { entity_type: string | null; entity_id: string | null; actor_id?: string | null }) {
-  if (n.entity_type === "post" && n.entity_id) return `/`;
+  if (n.entity_type === "post" && n.entity_id) return `/feed/${n.entity_id}`;
   if (n.entity_type === "event" && n.entity_id) return `/events/${n.entity_id}`;
+  if (n.entity_type === "message" && n.actor_id) return `/messages/${n.actor_id}`;
   if (n.entity_type === "message") return `/messages`;
   return null;
 }

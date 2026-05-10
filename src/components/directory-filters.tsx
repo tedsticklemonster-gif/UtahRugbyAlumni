@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -17,6 +17,7 @@ const AVAILABILITY_OPTIONS: Array<{ value: string; label: string }> = [
 export function DirectoryFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
 
   const updateFilter = useCallback(
     (key: string, value: string) => {
@@ -29,6 +30,14 @@ export function DirectoryFilters() {
       router.push(`/directory?${params.toString()}`);
     },
     [router, searchParams]
+  );
+
+  const debouncedUpdate = useCallback(
+    (key: string, value: string) => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => updateFilter(key, value), 300);
+    },
+    [updateFilter]
   );
 
   const toggleFlag = useCallback(
@@ -74,7 +83,7 @@ export function DirectoryFilters() {
             id="q"
             placeholder="Name, profession, company..."
             defaultValue={searchParams.get("q") ?? ""}
-            onChange={(e) => updateFilter("q", e.target.value)}
+            onChange={(e) => debouncedUpdate("q", e.target.value)}
           />
         </div>
         <div className="space-y-1">
@@ -102,7 +111,7 @@ export function DirectoryFilters() {
             id="service"
             placeholder="e.g. legal"
             defaultValue={searchParams.get("service") ?? ""}
-            onChange={(e) => updateFilter("service", e.target.value)}
+            onChange={(e) => debouncedUpdate("service", e.target.value)}
           />
         </div>
         <div className="space-y-1">

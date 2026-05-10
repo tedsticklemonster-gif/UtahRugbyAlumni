@@ -64,7 +64,14 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
         </div>
 
         {event.description && (
-          <p className="mb-3 text-xs leading-relaxed text-zinc-400 line-clamp-2">{event.description}</p>
+          <div className="mb-3">
+            <p className="text-xs leading-relaxed text-zinc-400 line-clamp-2">{event.description}</p>
+            {event.description.length > 120 && (
+              <Link href={`/events/${event.id}`} className="text-[11px] font-semibold text-zinc-500 hover:text-white transition-colors">
+                Read more
+              </Link>
+            )}
+          </div>
         )}
 
         {myAlumniId && (

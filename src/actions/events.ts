@@ -30,8 +30,8 @@ export type AlumniEvent = {
 };
 
 export type UpcomingItem =
-  | { source: "event"; id: string; title: string; date: string; kind: string; rsvp_going: number; my_rsvp: "going" | "maybe" | "no" | null }
-  | { source: "game"; opponent: string; date: string; location: "Home" | "Away" | "Neutral" };
+  | { source: "event"; id: string; title: string; date: string; sort_date: string; kind: string; rsvp_going: number; my_rsvp: "going" | "maybe" | "no" | null }
+  | { source: "game"; opponent: string; date: string; sort_date: string; location: "Home" | "Away" | "Neutral" };
 
 async function getMyAlumniId(): Promise<string | null> {
   const supabase = await createClient();
@@ -216,16 +216,21 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
     weekday: "long",
     month: "long",
     day: "numeric",
+    year: "numeric",
   });
   const postBody = `New event: ${title}\n${dateLabel}${location ? ` · ${location}` : ""}\n\nRSVP → ${eventUrl}`;
   await admin.from("posts").insert({ author_id: alumni.id, body: postBody });
   revalidatePath("/");
 
-  // Push to Telegram channel
+  // Push to Telegram channel (fire-and-forget)
   const telegramLocation = location ? `\n${location}` : "";
-  await postToTelegram(
-    `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View</a>`
-  );
+  try {
+    await postToTelegram(
+      `<b>New Event:</b> ${title}\n${dateLabel}${telegramLocation}\n\n<a href="${eventUrl}">View</a>`
+    );
+  } catch {
+    // Telegram post is non-critical; don't block event creation
+  }
 
   return { id: data.id };
 }
@@ -261,7 +266,7 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
       .gte("starts_at", new Date().toISOString())
       .order("starts_at", { ascending: true })
       .limit(5),
-    fetchSchedule(),
+    fetchSchedule().catch(() => null),
   ]);
 
   const events = eventsRes.data ?? [];
@@ -279,6 +284,7 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
       id: e.id,
       title: e.title,
       date: new Date(e.starts_at).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }),
+      sort_date: e.starts_at,
       kind: e.kind,
       rsvp_going: eventRsvps.filter((r) => r.status === "going").length,
       my_rsvp: myRsvp,
@@ -296,12 +302,12 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
       return !isNaN(d.getTime()) && d >= now;
     })
     .slice(0, 2)
-    .map((g) => ({ source: "game" as const, opponent: g.opponent, date: g.date, location: g.location }));
+    .map((g) => ({ source: "game" as const, opponent: g.opponent, date: g.date, sort_date: g.date || "", location: g.location }));
 
   return [...eventItems, ...gameItems]
     .sort((a, b) => {
-      const da = a.source === "event" ? new Date(a.date).getTime() : Infinity;
-      const db = b.source === "event" ? new Date(b.date).getTime() : Infinity;
+      const da = new Date(a.sort_date).getTime() || Infinity;
+      const db = new Date(b.sort_date).getTime() || Infinity;
       return da - db;
     })
     .slice(0, 6);

@@ -190,7 +190,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
         ) : (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
             <p className="text-sm text-zinc-400">
-              <Link href="/login" className="font-semibold text-white hover:text-[#CC0000] transition-colors">Sign in</Link>
+              <Link href="/auth/login" className="font-semibold text-white hover:text-[#CC0000] transition-colors">Sign in</Link>
               {" "}to RSVP
             </p>
           </div>

@@ -39,7 +39,7 @@ function GameCard({ item }: { item: Extract<UpcomingItem, { source: "game" }> })
           )}
           <p className="flex items-center gap-1.5 text-[10px] text-zinc-500">
             <MapPin className="size-3 shrink-0" />
-            {item.location} Game
+            {item.location}
           </p>
         </div>
       </div>

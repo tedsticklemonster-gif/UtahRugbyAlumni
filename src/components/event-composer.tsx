@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 import { createEventAction } from "@/actions/events";
 
 const KIND_OPTIONS = [
@@ -23,6 +24,7 @@ const RECURRENCE_OPTIONS = [
 export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const [pending, startTransition] = useTransition();
   const [recurrence, setRecurrence] = useState("");
 
@@ -33,9 +35,25 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
     startTransition(async () => {
       const result = await createEventAction(fd);
       if (result.error) { setError(result.error); return; }
+      setSuccess(true);
       router.refresh();
-      onSuccess?.();
+      setTimeout(() => {
+        setSuccess(false);
+        onSuccess?.();
+      }, 1500);
     });
+  }
+
+  if (success) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 text-center">
+        <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-emerald-900/50 text-emerald-400">
+          <Check className="size-6" />
+        </div>
+        <p className="text-sm font-bold text-white">Event created!</p>
+        <p className="mt-1 text-xs text-zinc-500">It&apos;s now live on the events page.</p>
+      </div>
+    );
   }
 
   return (
@@ -91,6 +109,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           />
         </div>
       </div>
+      <p className="text-[10px] text-zinc-600">Times are in your local timezone</p>
 
       <div>
         <input

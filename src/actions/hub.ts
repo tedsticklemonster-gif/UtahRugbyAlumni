@@ -57,6 +57,95 @@ export async function getHubData() {
     }
   }
 
+  // Profile completion fields
+  let profileFields: {
+    has_photo: boolean;
+    has_bio: boolean;
+    has_profession: boolean;
+    has_company: boolean;
+    has_city: boolean;
+    has_linkedin: boolean;
+    has_grad_year: boolean;
+    has_position: boolean;
+  } | null = null;
+
+  let showOnboarding = false;
+  let alumniFirstName = "";
+
+  if (myAlumniId) {
+    const { data: alumniProfile } = await admin
+      .from("alumni")
+      .select("first_name, photo_url, bio, profession, company, city, linkedin_url, grad_year, position")
+      .eq("id", myAlumniId)
+      .single();
+
+    if (alumniProfile) {
+      profileFields = {
+        has_photo: !!alumniProfile.photo_url,
+        has_bio: !!alumniProfile.bio,
+        has_profession: !!alumniProfile.profession,
+        has_company: !!alumniProfile.company,
+        has_city: !!alumniProfile.city,
+        has_linkedin: !!alumniProfile.linkedin_url,
+        has_grad_year: !!alumniProfile.grad_year,
+        has_position: !!alumniProfile.position,
+      };
+
+      alumniFirstName = alumniProfile.first_name ?? "";
+      const filledCount = [
+        alumniProfile.photo_url,
+        alumniProfile.bio,
+        alumniProfile.profession,
+        alumniProfile.company,
+        alumniProfile.city,
+        alumniProfile.linkedin_url,
+      ].filter(Boolean).length;
+      showOnboarding = filledCount < 3;
+    }
+  }
+
+  // Fetch era members (alumni from overlapping grad years)
+  let eraMembers: { id: string; first_name: string; last_name: string; grad_year: number | null; photo_signed_url: string | null }[] = [];
+  let myGradYear: number | null = null;
+
+  if (myAlumniId && profileFields?.has_grad_year) {
+    const { data: gradData } = await admin
+      .from("alumni")
+      .select("grad_year")
+      .eq("id", myAlumniId)
+      .single();
+    myGradYear = gradData?.grad_year ?? null;
+
+    if (myGradYear) {
+      const { data: eraData } = await admin
+        .from("alumni")
+        .select("id, first_name, last_name, grad_year, photo_url")
+        .in("status", ["self_registered", "imported"])
+        .eq("directory_visible", true)
+        .gte("grad_year", myGradYear - 2)
+        .lte("grad_year", myGradYear + 2)
+        .neq("id", myAlumniId)
+        .order("grad_year", { ascending: true })
+        .limit(15);
+
+      if (eraData?.length) {
+        const eraPaths = eraData.filter((a) => a.photo_url).map((a) => a.photo_url!);
+        const eraSignedMap: Record<string, string> = {};
+        if (eraPaths.length) {
+          const { data: sigs } = await admin.storage.from("alumni-photos").createSignedUrls(eraPaths, 3600);
+          (sigs ?? []).forEach((s) => { if (s.signedUrl && s.path) eraSignedMap[s.path] = s.signedUrl; });
+        }
+        eraMembers = eraData.map((a) => ({
+          id: a.id,
+          first_name: a.first_name,
+          last_name: a.last_name,
+          grad_year: a.grad_year,
+          photo_signed_url: a.photo_url ? (eraSignedMap[a.photo_url] ?? null) : null,
+        }));
+      }
+    }
+  }
+
   const [presenceRes, recentJoinsRes, postsData, upcoming] = await Promise.all([
     admin
       .from("alumni")
@@ -117,6 +206,12 @@ export async function getHubData() {
     recentJoins,
     myAlumniId: postsData.myAlumniId,
     myForwardToken,
+    profileFields,
+    showOnboarding,
+    alumniFirstName,
+    alumniId: myAlumniId,
+    eraMembers,
+    myGradYear,
     initialPosts: postsData.posts,
     initialCursor: postsData.nextCursor,
   };

@@ -13,12 +13,15 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
 
-const KIND_LABELS: Record<string, string> = {
-  social: "Social",
-  reunion: "Reunion",
-  watch_party: "Watch Party",
-  practice: "Practice",
-  other: "Event",
+const KIND_CONFIG: Record<string, { label: string; color: string }> = {
+  social: { label: "Social", color: "text-purple-400" },
+  reunion: { label: "Reunion", color: "text-[#CC0000]" },
+  watch_party: { label: "Watch Party", color: "text-sky-400" },
+  practice: { label: "Practice", color: "text-emerald-400" },
+  fundraiser: { label: "Fundraiser", color: "text-amber-400" },
+  networking: { label: "Networking", color: "text-blue-400" },
+  game_day: { label: "Game Day", color: "text-[#CC0000]" },
+  other: { label: "Event", color: "text-zinc-400" },
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
@@ -99,8 +102,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
       <div className="px-5 py-6 md:px-10 max-w-2xl space-y-5">
         {/* Kind badge + recurring indicator */}
         <div className="flex items-center gap-2">
-          <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
-            {KIND_LABELS[event.kind] ?? "Event"}
+          <span className={`inline-block text-[10px] font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+            {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
           </span>
           {(event.series_id || event.recurrence_rule) && (
             <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
@@ -135,19 +138,21 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
           {event.location && (
             <div className="flex items-center gap-2.5">
               <MapPin className="size-4 shrink-0 text-zinc-500" />
-              <div className="flex items-center gap-1.5">
-                <p className="text-sm text-zinc-200">{event.location}</p>
-                {event.location_url && (
-                  <a
-                    href={event.location_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-500 hover:text-white"
-                  >
-                    <ExternalLink className="size-3.5" />
-                  </a>
-                )}
-              </div>
+              <a
+                href={event.location_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-zinc-200 underline decoration-zinc-700 underline-offset-2 hover:text-white hover:decoration-white transition-colors"
+              >
+                {event.location}
+              </a>
+            </div>
+          )}
+
+          {(event as any).cost && (
+            <div className="flex items-center gap-2.5">
+              <span className="size-4 shrink-0 text-center text-zinc-500 font-bold text-sm">$</span>
+              <p className="text-sm text-zinc-200">{(event as any).cost}</p>
             </div>
           )}
 

@@ -11,6 +11,9 @@ import { NewJoinsStrip } from "@/components/hub/new-joins-strip";
 import Link from "next/link";
 import { HeartHandshake } from "lucide-react";
 import { InviteBanner } from "@/components/hub/invite-banner";
+import { ProfileCompletion } from "@/components/hub/profile-completion";
+import { OnboardingWizard } from "@/components/onboarding-wizard";
+import { YourEraStrip, type EraMember } from "@/components/hub/your-era-strip";
 import { PullToRefresh } from "@/components/pull-to-refresh";
 import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
 import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
@@ -29,6 +32,21 @@ interface HubPageProps {
   initialCursor: string | null;
   myAlumniId: string | null;
   myForwardToken: string | null;
+  showOnboarding: boolean;
+  alumniFirstName: string;
+  alumniId: string | null;
+  profileFields: {
+    has_photo: boolean;
+    has_bio: boolean;
+    has_profession: boolean;
+    has_company: boolean;
+    has_city: boolean;
+    has_linkedin: boolean;
+    has_grad_year: boolean;
+    has_position: boolean;
+  } | null;
+  eraMembers: EraMember[];
+  myGradYear: number | null;
 }
 
 export function HubPage({
@@ -40,7 +58,14 @@ export function HubPage({
   initialCursor,
   myAlumniId,
   myForwardToken,
+  showOnboarding,
+  alumniFirstName,
+  alumniId,
+  profileFields,
+  eraMembers,
+  myGradYear,
 }: HubPageProps) {
+  const [wizardDismissed, setWizardDismissed] = useState(false);
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);
   const [cursor, setCursor] = useState<string | null>(initialCursor);
   const [loading, startLoad] = useTransition();
@@ -74,6 +99,16 @@ export function HubPage({
         {/* Alumni presence strip */}
         <AlumniPresenceStrip presence={presence} />
 
+        {showOnboarding && !wizardDismissed && (
+          <OnboardingWizard
+            alumniId={alumniId ?? ""}
+            firstName={alumniFirstName ?? ""}
+            onDismiss={() => setWizardDismissed(true)}
+          />
+        )}
+
+        {profileFields && <ProfileCompletion fields={profileFields} />}
+
         {/* Upcoming games / events */}
         {upcoming.length > 0 && (
           <div className="pt-5">
@@ -90,6 +125,9 @@ export function HubPage({
         {recentJoins.length > 0 && (
           <NewJoinsStrip joins={recentJoins} />
         )}
+
+        {/* Your Era */}
+        <YourEraStrip members={eraMembers} myGradYear={myGradYear} />
 
         {/* Give — subtle reminder */}
         <div className="px-4 pt-4">

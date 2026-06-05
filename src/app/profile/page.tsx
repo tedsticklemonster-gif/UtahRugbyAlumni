@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Users, Share2, ArrowLeft, LogOut, Trophy } from "lucide-react";
+import { Users, Share2, ArrowLeft, LogOut, Trophy, Bell, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ProfileForm } from "@/components/profile-form";
@@ -160,9 +160,18 @@ export default async function ProfilePage() {
 
         {/* Notifications */}
         <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-            Notifications
-          </p>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+              Notifications
+            </p>
+            <Link
+              href="/notifications/settings"
+              className="flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white transition-colors"
+            >
+              <Settings className="size-3" />
+              Preferences
+            </Link>
+          </div>
           <PushSubscribe />
         </div>
 

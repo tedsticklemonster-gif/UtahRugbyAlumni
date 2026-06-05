@@ -7,6 +7,9 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { UserPhoto } from "@/components/user-photo";
 import { SponsorHalo } from "@/components/sponsor-halo";
+import { listJobsAction } from "@/actions/jobs";
+import { JobListingCard } from "@/components/job-listing-card";
+import { PostJobButton } from "@/components/post-job-button";
 
 export const metadata = {
   title: "Jobs — Utah Rugby Alumni",
@@ -40,7 +43,7 @@ export default async function JobsPage() {
 
   const admin = createAdminClient();
 
-  const [hiringRes, openRes] = await Promise.all([
+  const [hiringRes, openRes, jobListings] = await Promise.all([
     admin
       .from("alumni")
       .select(
@@ -61,6 +64,7 @@ export default async function JobsPage() {
       .in("availability", ["open_to_work", "looking_for_work"])
       .order("created_at", { ascending: false })
       .limit(24),
+    listJobsAction(),
   ]);
 
   const hiring = (hiringRes.data as HiringAlum[]) ?? [];
@@ -94,9 +98,12 @@ export default async function JobsPage() {
         >
           <ArrowLeft className="size-3.5" /> Home
         </Link>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">
-          Jobs
-        </h1>
+        <div className="mt-3 flex items-center justify-between">
+          <h1 className="text-2xl font-black tracking-tight text-white">
+            Jobs
+          </h1>
+          <PostJobButton />
+        </div>
         <p className="mt-1 text-sm text-zinc-400">
           Rugby alumni hiring right now, and teammates looking for their next
           move.
@@ -104,6 +111,25 @@ export default async function JobsPage() {
       </div>
 
       <div className="space-y-8 px-5 py-6 md:px-10">
+        {/* Job listings */}
+        {jobListings.length > 0 && (
+          <section>
+            <div className="mb-3 flex items-baseline justify-between">
+              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+                <Briefcase className="size-3" /> Job Listings
+              </p>
+              <span className="text-[10px] font-semibold text-zinc-500">
+                {jobListings.length} {jobListings.length === 1 ? "listing" : "listings"}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {jobListings.map((job) => (
+                <JobListingCard key={job.id} job={job} />
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Hiring now */}
         <section>
           <div className="mb-3 flex items-baseline justify-between">

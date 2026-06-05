@@ -21,6 +21,9 @@ export type FeedPost = {
   i_liked: boolean;
   reactions: ReactionSummary;
   my_reaction: string | null;
+  pinned: boolean;
+  category: string | null;
+  updated_at: string | null;
 };
 
 export type FeedComment = {
@@ -119,6 +122,9 @@ export async function getPostsAction(cursor?: string): Promise<{
         i_liked: myAlumniId ? postLikes.some((l) => l.alumni_id === myAlumniId) : false,
         reactions,
         my_reaction: myReaction,
+        pinned: (post as any).pinned ?? false,
+        category: (post as any).category ?? null,
+        updated_at: (post as any).updated_at ?? null,
       };
     })
   );
@@ -182,6 +188,9 @@ export async function getPostAction(postId: string): Promise<FeedPost | null> {
     i_liked: myAlumniId ? likes.some((l) => l.alumni_id === myAlumniId) : false,
     reactions,
     my_reaction: myReaction,
+    pinned: (post as any).pinned ?? false,
+    category: (post as any).category ?? null,
+    updated_at: (post as any).updated_at ?? null,
   };
 }
 
@@ -227,6 +236,28 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     .single();
 
   if (error || !newPost) return { error: error?.message ?? "Failed to create post" };
+
+  // Notify mentioned users
+  const mentionIdsRaw = formData.get("mention_ids") as string | null;
+  if (mentionIdsRaw) {
+    try {
+      const mentionIds = JSON.parse(mentionIdsRaw) as string[];
+      const uniqueMentions = [...new Set(mentionIds)].filter((id) => id !== alumni.id);
+      if (uniqueMentions.length > 0) {
+        await admin.from("notifications").insert(
+          uniqueMentions.map((recipientId) => ({
+            recipient_id: recipientId,
+            actor_id: alumni.id,
+            kind: "mention",
+            entity_type: "post",
+            entity_id: newPost.id,
+          }))
+        );
+      }
+    } catch {
+      // ignore invalid JSON
+    }
+  }
 
   // Push to Telegram channel (fire-and-forget)
   const authorName = authorInfo
@@ -416,5 +447,49 @@ export async function deleteCommentAction(commentId: string): Promise<{ error?: 
     .eq("author_id", alumni.id);
 
   if (error) return { error: error.message };
+  return {};
+}
+
+export async function editPostAction(postId: string, formData: FormData): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user?.email) return { error: "Not authenticated" };
+
+  const admin = createAdminClient();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  if (!alumni) return { error: "Not found" };
+
+  const body = (formData.get("body") as string)?.trim();
+  if (!body) return { error: "Post cannot be empty" };
+  if (body.length > 2000) return { error: "Post is too long" };
+
+  const { error } = await admin
+    .from("posts")
+    .update({ body, updated_at: new Date().toISOString() })
+    .eq("id", postId)
+    .eq("author_id", alumni.id);
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
+  return {};
+}
+
+export async function deletePostAction(postId: string): Promise<{ error?: string }> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user?.email) return { error: "Not authenticated" };
+
+  const admin = createAdminClient();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  if (!alumni) return { error: "Not found" };
+
+  const { error } = await admin
+    .from("posts")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", postId)
+    .eq("author_id", alumni.id);
+
+  if (error) return { error: error.message };
+  revalidatePath("/");
   return {};
 }

@@ -54,6 +54,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
     const fd = new FormData();
     fd.set("body", body);
     if (photo) fd.set("photo", photo);
+    if (mentionIds.length > 0) fd.set("mention_ids", JSON.stringify(mentionIds));
     startSubmit(async () => {
       const result = await createPostAction(fd);
       if (result.error) {

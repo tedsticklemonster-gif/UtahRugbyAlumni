@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { Bell, CheckCheck } from "lucide-react";
+import { Bell, CheckCheck, Settings } from "lucide-react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { listNotificationsAction, markAllReadAction } from "@/actions/notifications";
@@ -10,6 +10,7 @@ const KIND_COPY: Record<string, string> = {
   post_reaction:  "reacted to your post",
   post_comment:   "commented on your post",
   post_mention:   "mentioned you in a post",
+  mention:        "mentioned you in a post",
   message:        "sent you a message",
   event_invite:   "invited you to an event",
   new_join:       "joined the network",
@@ -57,17 +58,26 @@ export default async function NotificationsPage() {
               <p className="text-sm text-zinc-500">Activity from the network</p>
             </div>
           </div>
-          {notifications.some((n) => !n.read_at) && (
-            <form action={markAllReadAction}>
-              <button
-                type="submit"
-                className="flex items-center gap-1.5 rounded-xl border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:border-zinc-500 hover:text-white transition-colors"
-              >
-                <CheckCheck className="size-3.5" />
-                Mark all read
-              </button>
-            </form>
-          )}
+          <div className="flex items-center gap-2">
+            <Link
+              href="/notifications/settings"
+              className="flex items-center gap-1.5 rounded-xl border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:border-zinc-500 hover:text-white transition-colors"
+            >
+              <Settings className="size-3.5" />
+              Settings
+            </Link>
+            {notifications.some((n) => !n.read_at) && (
+              <form action={markAllReadAction}>
+                <button
+                  type="submit"
+                  className="flex items-center gap-1.5 rounded-xl border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-400 hover:border-zinc-500 hover:text-white transition-colors"
+                >
+                  <CheckCheck className="size-3.5" />
+                  Mark all read
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
 

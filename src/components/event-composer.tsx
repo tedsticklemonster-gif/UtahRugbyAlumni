@@ -10,6 +10,9 @@ const KIND_OPTIONS = [
   { value: "watch_party", label: "Watch Party" },
   { value: "reunion", label: "Reunion" },
   { value: "practice", label: "Practice" },
+  { value: "fundraiser", label: "Fundraiser" },
+  { value: "networking", label: "Networking" },
+  { value: "game_day", label: "Game Day" },
   { value: "other", label: "Other" },
 ];
 
@@ -116,6 +119,15 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           name="location"
           placeholder="Location (optional)"
           maxLength={200}
+          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+        />
+      </div>
+
+      <div>
+        <input
+          name="cost"
+          placeholder="Cost / ticket info (optional, e.g. $20, Free)"
+          maxLength={100}
           className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>

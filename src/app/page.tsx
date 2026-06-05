@@ -5,7 +5,10 @@ import Image from "next/image";
 import {
   ArrowRight,
   ArrowUpRight,
+  Briefcase,
   CalendarDays,
+  GraduationCap,
+  Handshake,
   HeartHandshake,
   Users,
   Newspaper,
@@ -248,6 +251,38 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ── Value proposition ──────────────────────────────────────────── */}
+      <section className="border-t border-zinc-900 bg-zinc-950">
+        <div className="mx-auto max-w-6xl grid grid-cols-1 gap-px bg-zinc-900 md:grid-cols-3">
+          {[
+            {
+              icon: Briefcase,
+              title: "Your Brothers Are Hiring",
+              desc: `${(hiringAlumni ?? []).length > 0 ? (hiringAlumni ?? []).length : "Alumni"} rugby alumni are actively hiring right now. Get the inside track.`,
+              color: RED,
+            },
+            {
+              icon: GraduationCap,
+              title: "Find Any Teammate",
+              desc: `Search ${count > 0 ? count + "+" : ""} alumni by profession, city, or graduation year. Need a lawyer? Contractor? Advisor?`,
+              color: "#fff",
+            },
+            {
+              icon: Handshake,
+              title: "Stay Connected",
+              desc: "Game schedules, alumni events, reunions, watch parties — all in one place, for the brotherhood.",
+              color: RED,
+            },
+          ].map(({ icon: Icon, title, desc, color }) => (
+            <div key={title} className="bg-zinc-950 p-6 md:p-8">
+              <Icon className="size-7 mb-4" style={{ color }} strokeWidth={1.75} />
+              <h3 className={`${display} text-xl text-white md:text-2xl`}>{title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-400">{desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 

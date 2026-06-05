@@ -209,6 +209,9 @@ export async function getAlumniRecentPostsAction(
       i_liked: myAlumniId ? postLikes.some((l) => l.alumni_id === myAlumniId) : false,
       reactions: [],
       my_reaction: null,
+      pinned: false,
+      category: null,
+      updated_at: null,
     };
   });
 

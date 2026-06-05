@@ -2,12 +2,14 @@
 
 import { useState, useTransition, useRef } from "react";
 import Link from "next/link";
-import { MessageCircle, Send } from "lucide-react";
+import { MessageCircle, MoreHorizontal, Pencil, Send, Trash2 } from "lucide-react";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { AttachPhoto } from "@/components/attach-photo";
 import {
   addCommentAction,
   deleteCommentAction,
+  editPostAction,
+  deletePostAction,
   getCommentsAction,
   type FeedComment,
   type FeedPost,
@@ -180,6 +182,11 @@ interface PostCardProps {
 export function PostCard({ post, myAlumniId }: PostCardProps) {
   const [myReaction, setMyReaction] = useState<string | null>(post.my_reaction);
   const [reactions, setReactions] = useState<ReactionSummary>(post.reactions);
+  const [editing, setEditing] = useState(false);
+  const [editBody, setEditBody] = useState(post.body);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [editPending, startEdit] = useTransition();
+  const isAuthor = post.author_id === myAlumniId;
 
   const [commentsOpen, setCommentsOpen] = useState(false);
   const [comments, setComments] = useState<FeedComment[]>([]);
@@ -256,14 +263,98 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           </Link>
           <p className={`${eyebrow} text-[9px] text-zinc-600`}>
             {relativeTime(post.created_at)}
+            {post.updated_at && <span className="text-zinc-700"> · edited</span>}
           </p>
         </div>
+        {isAuthor && (
+          <div className="relative">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-1 text-zinc-600 hover:text-white transition-colors"
+            >
+              <MoreHorizontal className="size-4" />
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 top-8 z-10 min-w-[140px] rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg">
+                <button
+                  onClick={() => { setEditing(true); setMenuOpen(false); }}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:bg-zinc-800"
+                >
+                  <Pencil className="size-3" /> Edit post
+                </button>
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    startEdit(async () => {
+                      await deletePostAction(post.id);
+                    });
+                  }}
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-red-400 hover:bg-zinc-800"
+                >
+                  <Trash2 className="size-3" /> Delete post
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
+      {/* Pinned badge */}
+      {post.pinned && (
+        <div className="px-4 pb-1">
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-400">
+            Pinned
+          </span>
+        </div>
+      )}
+
+      {/* Category tag */}
+      {post.category && (
+        <div className="px-4 pb-1">
+          <span className="inline-flex rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-semibold text-zinc-400">
+            {post.category}
+          </span>
+        </div>
+      )}
+
       {/* Post body */}
-      <p className="px-4 pb-3 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap">
-        {post.body}
-      </p>
+      {editing ? (
+        <div className="px-4 pb-3 space-y-2">
+          <textarea
+            value={editBody}
+            onChange={(e) => setEditBody(e.target.value)}
+            rows={3}
+            maxLength={2000}
+            className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
+          />
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                const fd = new FormData();
+                fd.set("body", editBody);
+                startEdit(async () => {
+                  await editPostAction(post.id, fd);
+                  setEditing(false);
+                });
+              }}
+              disabled={editPending}
+              className="rounded-lg bg-[#CC0000] px-3 py-1 text-xs font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+            >
+              {editPending ? "Saving..." : "Save"}
+            </button>
+            <button
+              onClick={() => { setEditing(false); setEditBody(post.body); }}
+              className="rounded-lg border border-zinc-700 px-3 py-1 text-xs text-zinc-400 hover:text-white"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <p className="px-4 pb-3 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap">
+          {post.body}
+        </p>
+      )}
 
       {/* Post photo */}
       {post.photo_signed_url && (

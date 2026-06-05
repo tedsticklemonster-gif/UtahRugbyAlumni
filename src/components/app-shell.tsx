@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Search } from "lucide-react";
 import { BottomNav } from "@/components/bottom-nav";
 import { BrandMark } from "@/components/brand-mark";
 import { HeaderAuth } from "@/components/header-auth";
@@ -30,7 +31,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               <BrandMark className="size-8" />
               <span className="hidden text-sm font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight text-white sm:block">
-                Utah Rugby <span className="text-[#CC0000]">Alumni</span>
+                Utah Rugby <span className="text-[#CC0000]">Alumni Network</span>
               </span>
             </Link>
 
@@ -47,6 +48,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </Link>
               ))}
             </nav>
+
+            {/* Search */}
+            <Link
+              href="/search"
+              className="flex size-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-white"
+              aria-label="Search"
+            >
+              <Search className="size-4" />
+            </Link>
 
             <HeaderAuth />
           </div>

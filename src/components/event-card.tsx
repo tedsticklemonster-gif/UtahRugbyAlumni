@@ -8,12 +8,15 @@ import type { AlumniEvent } from "@/actions/events";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
 
-const KIND_LABELS: Record<string, string> = {
-  social: "Social",
-  reunion: "Reunion",
-  watch_party: "Watch Party",
-  practice: "Practice",
-  other: "Event",
+const KIND_CONFIG: Record<string, { label: string; color: string }> = {
+  social: { label: "Social", color: "text-purple-400" },
+  reunion: { label: "Reunion", color: "text-[#CC0000]" },
+  watch_party: { label: "Watch Party", color: "text-sky-400" },
+  practice: { label: "Practice", color: "text-emerald-400" },
+  fundraiser: { label: "Fundraiser", color: "text-amber-400" },
+  networking: { label: "Networking", color: "text-blue-400" },
+  game_day: { label: "Game Day", color: "text-[#CC0000]" },
+  other: { label: "Event", color: "text-zinc-400" },
 };
 
 function formatDate(iso: string) {
@@ -32,8 +35,8 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
       <div className="p-4">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
-              {KIND_LABELS[event.kind] ?? "Event"}
+            <span className={`text-[10px] font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+              {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
             </span>
             <Link href={`/events/${event.id}`} className="block mt-0.5">
               <h3 className="text-base font-bold text-white hover:text-[#CC0000] transition-colors leading-snug">
@@ -52,7 +55,20 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
           {event.location && (
             <p className="flex items-center gap-1.5 text-xs text-zinc-400">
               <MapPin className="size-3.5 shrink-0 text-zinc-500" />
-              {event.location}
+              <a
+                href={event.location_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-zinc-700 underline-offset-2 hover:text-white hover:decoration-white transition-colors"
+              >
+                {event.location}
+              </a>
+            </p>
+          )}
+          {(event as any).cost && (
+            <p className="flex items-center gap-1.5 text-xs text-zinc-400">
+              <span className="size-3.5 shrink-0 text-center text-zinc-500 font-bold">$</span>
+              {(event as any).cost}
             </p>
           )}
           {event.rsvp_going > 0 && (
@@ -92,8 +108,8 @@ export function EventRailCard({ event, myAlumniId }: { event: AlumniEvent; myAlu
         <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#CC0000]/15">
           <CalendarDays className="size-3.5 text-[#CC0000]" />
         </span>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
-          {KIND_LABELS[event.kind] ?? "Event"}
+        <span className={`text-[10px] font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+          {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
         </span>
       </div>
       <p className="text-sm font-bold text-white leading-snug line-clamp-2">{event.title}</p>

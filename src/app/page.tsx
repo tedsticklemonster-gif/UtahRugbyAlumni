@@ -9,7 +9,6 @@ import {
   CalendarDays,
   GraduationCap,
   Handshake,
-  HeartHandshake,
   Users,
   Newspaper,
   Trophy,
@@ -229,8 +228,8 @@ export default async function HomePage() {
               </h1>
 
               <p className="mt-6 max-w-sm text-[13px] leading-relaxed text-zinc-300 md:text-sm">
-                The private network for every player who ever pulled on the U.
-                Find teammates, track the program, hire your brothers.
+                The private network for every player who pulled on the U.
+                Find old teammates. Hire from the brotherhood. Get hired by them.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-2">
@@ -260,20 +259,20 @@ export default async function HomePage() {
           {[
             {
               icon: Briefcase,
-              title: "Your Brothers Are Hiring",
-              desc: `${(hiringAlumni ?? []).length > 0 ? (hiringAlumni ?? []).length : "Alumni"} rugby alumni are actively hiring right now. Get the inside track.`,
+              title: "Hire Your Brothers",
+              desc: `Alumni are actively hiring right now. Need a job? Need to fill one? Start here.`,
               color: RED,
             },
             {
               icon: GraduationCap,
-              title: "Find Any Teammate",
-              desc: `Search ${count > 0 ? count + "+" : ""} alumni by profession, city, or graduation year. Need a lawyer? Contractor? Advisor?`,
+              title: "Source the Network",
+              desc: `${count > 0 ? count + "+" : ""} alumni searchable by profession, city, and year. Need a lawyer, contractor, or advisor? You already know one.`,
               color: "#fff",
             },
             {
               icon: Handshake,
-              title: "Stay Connected",
-              desc: "Game schedules, alumni events, reunions, watch parties — all in one place, for the brotherhood.",
+              title: "Stay in the Loop",
+              desc: "Game schedules, events, watch parties, and direct messaging. One place for all of it.",
               color: RED,
             },
           ].map(({ icon: Icon, title, desc, color }) => (
@@ -355,10 +354,10 @@ export default async function HomePage() {
               sub: "Games & events",
             },
             {
-              href: "/give",
-              icon: HeartHandshake,
-              title: "Give",
-              sub: "Support the program",
+              href: "/jobs",
+              icon: Briefcase,
+              title: "Jobs",
+              sub: "Who's hiring",
             },
           ].map(({ href, icon: Icon, title, sub }) => (
             <Link
@@ -676,9 +675,9 @@ export default async function HomePage() {
                 <span style={{ color: RED }}>Pull him in.</span>
               </h3>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-zinc-400">
-                We have almost no contact info for most alumni. Forward this to
-                every player in your phone — that&apos;s how we build the
-                network. No ads. No noise. Just the brotherhood.
+                We have almost no contact info for most alumni. Text this link
+                to every player in your phone. That&apos;s how we build the
+                network.
               </p>
               <Link
                 href="/thanks"
@@ -693,39 +692,37 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Official website links ────────────────────────────────────────── */}
-      <section className="border-t border-zinc-900 bg-zinc-950 px-5 py-8 md:px-10">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-4 flex items-center gap-3">
-            <span className="block h-[2px] w-8" style={{ backgroundColor: RED }} />
-            <p className={`${eyebrow} text-[10px] text-zinc-500`}>Official Site</p>
-          </div>
-          <div className="grid grid-cols-2 gap-px bg-zinc-900 sm:grid-cols-4">
-            {[
-              { href: "https://www.utah-rugby.com", label: "Home" },
-              {
-                href: "https://www.utah-rugby.com/new-page-2",
-                label: "Schedule",
-              },
-              { href: "https://www.utah-rugby.com/news", label: "News" },
-              { href: "https://www.utah-rugby.com/donate", label: "Donate" },
-            ].map(({ href, label }) => (
-              <a
-                key={href}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${eyebrow} group flex items-center justify-between bg-zinc-950 px-4 py-4 text-[10px] text-zinc-400 transition-colors hover:bg-black hover:text-white`}
-              >
-                {label}
-                <ArrowUpRight className="size-3 text-zinc-700 transition-colors group-hover:text-white" />
-              </a>
-            ))}
-          </div>
+      {/* ── Footer ────────────────────────────────────────────────────────── */}
+      <footer className="border-t border-zinc-900 bg-zinc-950 px-5 py-6 md:px-10">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <a
+            href="https://www.utah-rugby.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${eyebrow} inline-flex items-center gap-1.5 text-[10px] text-zinc-500 transition-colors hover:text-white`}
+          >
+            utah-rugby.com
+            <ArrowUpRight className="size-3" />
+          </a>
+          <p className={`${eyebrow} text-[9px] text-zinc-700`}>
+            Est. 1972
+          </p>
         </div>
-      </section>
+      </footer>
 
-      <div className="h-4 bg-black" />
+      {/* ── Sticky mobile join CTA ─────────────────────────────────────────── */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-800 bg-black/95 backdrop-blur-md px-4 py-3 md:hidden">
+        <Link
+          href="/join"
+          className="flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-colors"
+          style={{ backgroundColor: RED }}
+        >
+          Join the Network
+          <ArrowRight className="size-4" />
+        </Link>
+      </div>
+      {/* Spacer for sticky CTA */}
+      <div className="h-16 bg-black md:hidden" />
     </div>
   );
 }

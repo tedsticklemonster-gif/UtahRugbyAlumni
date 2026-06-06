@@ -9,8 +9,8 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/directory", label: "Directory" },
   { href: "/events", label: "Events" },
+  { href: "/jobs", label: "Jobs" },
   { href: "/messages", label: "Messages" },
-  { href: "/give", label: "Give" },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {

@@ -9,7 +9,7 @@ import { UpcomingRail } from "@/components/hub/upcoming-rail";
 import { AnnouncementsCard } from "@/components/hub/announcements-card";
 import { NewJoinsStrip } from "@/components/hub/new-joins-strip";
 import Link from "next/link";
-import { HeartHandshake } from "lucide-react";
+import { HeartHandshake, Briefcase, X } from "lucide-react";
 import { InviteBanner } from "@/components/hub/invite-banner";
 import { ProfileCompletion } from "@/components/hub/profile-completion";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
@@ -17,6 +17,8 @@ import { YourEraStrip, type EraMember } from "@/components/hub/your-era-strip";
 import { PullToRefresh } from "@/components/pull-to-refresh";
 import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
 import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
+
+const TELEGRAM_INVITE = "https://t.me/+ajaqw-YQ1ZsxYjQx";
 
 const display =
   "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
@@ -66,6 +68,12 @@ export function HubPage({
   myGradYear,
 }: HubPageProps) {
   const [wizardDismissed, setWizardDismissed] = useState(false);
+  const [telegramDismissed, setTelegramDismissed] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("telegram_banner_dismissed") === "1";
+    }
+    return false;
+  });
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);
   const [cursor, setCursor] = useState<string | null>(initialCursor);
   const [loading, startLoad] = useTransition();
@@ -109,6 +117,41 @@ export function HubPage({
 
         {profileFields && <ProfileCompletion fields={profileFields} />}
 
+        {/* Telegram banner — dismissible */}
+        {!telegramDismissed && (
+          <div className="mx-4 mt-4 rounded-xl border border-[#26A5E4]/30 bg-[#26A5E4]/10 px-4 py-3">
+            <div className="flex items-start gap-3">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="size-6 shrink-0 text-[#26A5E4] mt-0.5" aria-hidden="true">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+              </svg>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-white">Turn on notifications</p>
+                <p className="text-xs text-zinc-400 mt-0.5">
+                  Join the Telegram channel to get instant alerts for posts, events, and new members.
+                </p>
+                <a
+                  href={TELEGRAM_INVITE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[#26A5E4] px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-[#1E96D1]"
+                >
+                  Join Telegram
+                </a>
+              </div>
+              <button
+                onClick={() => {
+                  setTelegramDismissed(true);
+                  localStorage.setItem("telegram_banner_dismissed", "1");
+                }}
+                className="p-0.5 text-zinc-500 hover:text-white transition-colors"
+                aria-label="Dismiss"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Upcoming games / events */}
         {upcoming.length > 0 && (
           <div className="pt-5">
@@ -129,24 +172,24 @@ export function HubPage({
         {/* Your Era */}
         <YourEraStrip members={eraMembers} myGradYear={myGradYear} />
 
-        {/* Give — subtle reminder */}
+        {/* Jobs — network value */}
         <div className="px-4 pt-4">
           <Link
-            href="/give"
-            className="group flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 transition-colors hover:border-[#CC0000]/40 hover:bg-[#CC0000]/5"
+            href="/jobs"
+            className="group flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 transition-colors hover:border-sky-500/40 hover:bg-sky-500/5"
           >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-[#CC0000]/10 text-[#CC0000]">
-              <HeartHandshake className="size-4" />
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400">
+              <Briefcase className="size-4" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-xs font-bold text-zinc-300 group-hover:text-white">
-                Support the Program
+                Job Board
               </p>
               <p className="text-[10px] text-zinc-600">
-                25–26 Season Campaign
+                Alumni hiring and open positions
               </p>
             </div>
-            <span className={`${eyebrow} text-[9px] text-[#CC0000]`}>Give →</span>
+            <span className={`${eyebrow} text-[9px] text-sky-400`}>View →</span>
           </Link>
         </div>
 

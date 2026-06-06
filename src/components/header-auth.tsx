@@ -6,6 +6,8 @@ import { LogIn, User, LogOut } from "lucide-react";
 import { useMe } from "@/components/me-provider";
 import { InstallAppButton } from "@/components/install-app-button";
 import { NotificationsBell } from "@/components/notifications-bell";
+import { signOutAction } from "@/actions/auth";
+import { cn } from "@/lib/utils";
 
 const TELEGRAM_INVITE = "https://t.me/+ajaqw-YQ1ZsxYjQx";
 
@@ -38,9 +40,6 @@ function TelegramLink() {
     </a>
   );
 }
-import { signOutAction } from "@/actions/auth";
-import { cn } from "@/lib/utils";
-
 function AvatarMenu() {
   const { me } = useMe();
   const [open, setOpen] = useState(false);
@@ -139,6 +138,7 @@ export function HeaderAuth() {
   return (
     <div className="flex items-center gap-2">
       <TelegramLink />
+      <InstallAppButton />
       <Link
         href="/auth/login"
         className="flex items-center gap-1 px-2 py-1.5 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"

@@ -49,11 +49,32 @@ export async function createAnnouncementAction(
   revalidatePath("/admin/announcements");
   revalidatePath("/");
 
+  // In-app notification for all verified alumni
+  const { data: allAlumni } = await admin
+    .from("alumni")
+    .select("id")
+    .eq("verified", true);
+  if (allAlumni?.length) {
+    const preview = data.body.length > 80 ? data.body.slice(0, 80) + "…" : data.body;
+    await admin.from("notifications").insert(
+      allAlumni.map((a) => ({
+        recipient_id: a.id,
+        actor_id: actor.id,
+        kind: "announcement",
+        entity_type: "post",
+        entity_id: null,
+        body_preview: `${data.title}: ${preview}`,
+      }))
+    ).then(() => {}, () => {});
+  }
+
   // Push announcement to Telegram channel
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
   const truncated = data.body.length > 280 ? data.body.slice(0, 280) + "…" : data.body;
-  await postToTelegram(`<b>${esc(data.title)}</b>\n\n${esc(truncated)}`);
+  await postToTelegram(
+    `<b>${esc(data.title)}</b>\n\n${esc(truncated)}\n\n<a href="${appUrl}">View in app</a>`
+  );
 
   return { success: true, id: row.id };
 }

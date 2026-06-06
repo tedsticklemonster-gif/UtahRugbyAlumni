@@ -8,11 +8,13 @@ export type AppNotification = {
   kind: string;
   entity_type: string | null;
   entity_id: string | null;
+  actor_id: string | null;
   read_at: string | null;
   created_at: string;
   actor_first_name: string | null;
   actor_last_name: string | null;
   actor_photo_signed_url: string | null;
+  body_preview: string | null;
 };
 
 async function getMyId(): Promise<string | null> {
@@ -31,7 +33,7 @@ export async function listNotificationsAction(): Promise<AppNotification[]> {
   const admin = createAdminClient();
   const { data: notifs } = await admin
     .from("notifications")
-    .select("id, kind, entity_type, entity_id, read_at, created_at, actor_id")
+    .select("id, kind, entity_type, entity_id, read_at, created_at, actor_id, body_preview")
     .eq("recipient_id", myId)
     .order("created_at", { ascending: false })
     .limit(50);
@@ -59,11 +61,13 @@ export async function listNotificationsAction(): Promise<AppNotification[]> {
       kind: n.kind,
       entity_type: n.entity_type,
       entity_id: n.entity_id,
+      actor_id: n.actor_id ?? null,
       read_at: n.read_at,
       created_at: n.created_at,
       actor_first_name: actor?.first_name ?? null,
       actor_last_name: actor?.last_name ?? null,
       actor_photo_signed_url: actor?.photo_url ? (signedMap[actor.photo_url] ?? null) : null,
+      body_preview: n.body_preview ?? null,
     };
   });
 }

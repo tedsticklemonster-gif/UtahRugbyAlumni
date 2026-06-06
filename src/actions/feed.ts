@@ -244,13 +244,15 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
       const mentionIds = JSON.parse(mentionIdsRaw) as string[];
       const uniqueMentions = [...new Set(mentionIds)].filter((id) => id !== alumni.id);
       if (uniqueMentions.length > 0) {
+        const mentionPreview = body.length > 80 ? body.slice(0, 80) + "…" : body;
         await admin.from("notifications").insert(
           uniqueMentions.map((recipientId) => ({
             recipient_id: recipientId,
             actor_id: alumni.id,
-            kind: "mention",
+            kind: "post_mention",
             entity_type: "post",
             entity_id: newPost.id,
+            body_preview: mentionPreview,
           }))
         );
       }
@@ -320,14 +322,16 @@ export async function setReactionAction(postId: string, emoji: string | null): P
     );
     // Notify post author (skip self-reactions)
     if (isNew) {
-      const { data: post } = await admin.from("posts").select("author_id").eq("id", postId).single();
+      const { data: post } = await admin.from("posts").select("author_id, body").eq("id", postId).single();
       if (post?.author_id && post.author_id !== alumni.id) {
+        const preview = post.body?.length > 80 ? post.body.slice(0, 80) + "…" : post.body;
         await admin.from("notifications").insert({
           recipient_id: post.author_id,
           actor_id: alumni.id,
           kind: "post_reaction",
           entity_type: "post",
           entity_id: postId,
+          body_preview: preview,
         }).select();
       }
     }
@@ -415,16 +419,41 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
 
   if (error) return { error: error.message };
 
-  // Notify post author (skip self-comments)
-  const { data: post } = await admin.from("posts").select("author_id").eq("id", postId).single();
+  // Notify post author and other commenters
+  const { data: post } = await admin.from("posts").select("author_id, body").eq("id", postId).single();
+  const commentPreview = body.length > 80 ? body.slice(0, 80) + "…" : body;
+
+  const notifyIds = new Set<string>();
+
+  // Post author
   if (post?.author_id && post.author_id !== alumni.id) {
-    await admin.from("notifications").insert({
-      recipient_id: post.author_id,
+    notifyIds.add(post.author_id);
+  }
+
+  // Other commenters on this post (comment_reply)
+  const { data: priorComments } = await admin
+    .from("post_comments")
+    .select("author_id")
+    .eq("post_id", postId)
+    .is("deleted_at", null)
+    .neq("author_id", alumni.id);
+  for (const pc of priorComments ?? []) {
+    if (pc.author_id !== post?.author_id) notifyIds.add(pc.author_id);
+  }
+
+  const notifications = [];
+  for (const recipientId of notifyIds) {
+    notifications.push({
+      recipient_id: recipientId,
       actor_id: alumni.id,
-      kind: "post_comment",
+      kind: recipientId === post?.author_id ? "post_comment" : "comment_reply",
       entity_type: "post",
       entity_id: postId,
-    }).select();
+      body_preview: commentPreview,
+    });
+  }
+  if (notifications.length) {
+    await admin.from("notifications").insert(notifications);
   }
 
   return {};

@@ -99,7 +99,7 @@ export default function LoginPage() {
           <BrandMark className="size-14" />
           <div className="text-center">
             <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-              Utah Rugby Alumni
+              Utah Rugby Alumni Network
             </p>
             <h1 className="mt-1 text-2xl font-black text-white">Sign in</h1>
           </div>

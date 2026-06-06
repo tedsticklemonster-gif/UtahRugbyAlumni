@@ -205,7 +205,27 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
 
   revalidatePath("/events");
 
-  // Fire-and-forget: notify alumni about the new event
+  // In-app notification for all verified alumni about the new event
+  const { data: allAlumni } = await admin
+    .from("alumni")
+    .select("id")
+    .eq("verified", true)
+    .neq("id", alumni.id);
+  if (allAlumni?.length) {
+    const eventPreview = title.length > 80 ? title.slice(0, 80) + "…" : title;
+    await admin.from("notifications").insert(
+      allAlumni.map((a) => ({
+        recipient_id: a.id,
+        actor_id: alumni.id,
+        kind: "new_event",
+        entity_type: "event",
+        entity_id: data.id,
+        body_preview: eventPreview,
+      }))
+    ).then(() => {}, () => {});
+  }
+
+  // Fire-and-forget: notify alumni about the new event (email)
   void notifyNewEvent(data.id);
 
   // Auto-post event to Alumni Wall
@@ -249,6 +269,21 @@ export async function rsvpAction(eventId: string, status: "going" | "maybe" | "n
     await admin.from("event_rsvps").delete().eq("event_id", eventId).eq("alumni_id", alumni.id);
   } else {
     await admin.from("event_rsvps").upsert({ event_id: eventId, alumni_id: alumni.id, status }, { onConflict: "event_id,alumni_id" });
+
+    // Notify event creator about RSVP (going/maybe only, skip self)
+    if (status === "going" || status === "maybe") {
+      const { data: event } = await admin.from("events").select("creator_id, title").eq("id", eventId).single();
+      if (event?.creator_id && event.creator_id !== alumni.id) {
+        await admin.from("notifications").insert({
+          recipient_id: event.creator_id,
+          actor_id: alumni.id,
+          kind: "rsvp",
+          entity_type: "event",
+          entity_id: eventId,
+          body_preview: event.title,
+        }).then(() => {}, () => {});
+      }
+    }
   }
 
   revalidatePath(`/events/${eventId}`);

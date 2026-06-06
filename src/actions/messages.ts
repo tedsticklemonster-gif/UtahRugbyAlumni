@@ -222,11 +222,24 @@ export async function sendMessageAction(
 
   if (error) return { error: error.message };
 
+  const msgPreview = body.length > 80 ? body.slice(0, 80) + "…" : body;
+
+  // In-app notification
+  await admin.from("notifications").insert({
+    recipient_id: recipientId,
+    actor_id: me.id,
+    kind: "message",
+    entity_type: "message",
+    entity_id: null,
+    body_preview: msgPreview,
+  }).then(() => {}, () => {});
+
   // Fire-and-forget push notification to recipient
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
   sendPushToAlumni(recipientId, {
     title: `${me.first_name} ${me.last_name}`,
-    body: body.length > 80 ? body.slice(0, 80) + "…" : body,
-    url: `/messages/${me.id}`,
+    body: msgPreview,
+    url: `${appUrl}/messages/${me.id}`,
   }).catch(() => {});
 
   return {};

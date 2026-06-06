@@ -14,6 +14,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { HeroLogo } from "@/components/hero-logo";
+import { InstallTile } from "@/components/install-tile";
 import { UserPhoto } from "@/components/user-photo";
 import { SponsorHalo } from "@/components/sponsor-halo";
 import { createClient } from "@/lib/supabase/server";
@@ -94,7 +95,6 @@ export default async function HomePage() {
 
   const [
     { count: alumniCount },
-    { data: states },
     { data: recentJoins },
     { data: hiringAlumni },
     schedule,
@@ -104,12 +104,6 @@ export default async function HomePage() {
       .select("*", { count: "exact", head: true })
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true),
-    admin
-      .from("alumni")
-      .select("state")
-      .in("status", ["self_registered", "imported"])
-      .eq("directory_visible", true)
-      .not("state", "is", null),
     admin
       .from("alumni")
       .select(
@@ -130,7 +124,6 @@ export default async function HomePage() {
     fetchSchedule(),
   ]);
 
-  const uniqueStates = new Set(states?.map((r) => r.state)).size;
   const count = alumniCount ?? 0;
 
   // Sign photo URLs
@@ -291,13 +284,9 @@ export default async function HomePage() {
       {/* ── Stats bar ────────────────────────────────────────────────────── */}
       {count > 0 && (
         <section className="border-y border-zinc-900 bg-zinc-950">
-          <div className="mx-auto grid max-w-6xl grid-cols-3">
+          <div className="mx-auto grid max-w-6xl grid-cols-2">
             {[
               { value: count, label: "Alumni Registered" },
-              {
-                value: uniqueStates > 0 ? uniqueStates : null,
-                label: "States Represented",
-              },
               { value: new Date().getFullYear() - 1972, label: "Years of Tradition", suffix: "+" },
             ]
               .filter((s) => s.value !== null)
@@ -338,7 +327,7 @@ export default async function HomePage() {
 
       {/* ── Quick access grid ────────────────────────────────────────────── */}
       <section className="bg-black">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-zinc-900 md:grid-cols-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-zinc-900 md:grid-cols-5">
           {[
             { href: "/feed", icon: Newspaper, title: "Feed", sub: "Alumni wall" },
             {
@@ -382,6 +371,7 @@ export default async function HomePage() {
               <ArrowUpRight className="absolute right-4 top-4 size-4 text-zinc-700 transition-colors group-hover:text-white" />
             </Link>
           ))}
+            <InstallTile />
         </div>
       </section>
 

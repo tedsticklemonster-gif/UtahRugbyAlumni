@@ -221,7 +221,7 @@ export default async function HomePage() {
               </h1>
 
               <p className="mt-6 max-w-sm text-[13px] leading-relaxed text-zinc-300 md:text-sm">
-                The private network for every player who pulled on the U.
+                The private network for every player who played for the U.
                 Find old teammates. Hire from the brotherhood. Get hired by them.
               </p>
 

@@ -90,7 +90,9 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
             <p className="mt-1.5 text-sm text-zinc-400 max-w-xs mx-auto">
               {isPast
                 ? "Past reunions and watch parties will show up here."
-                : "Use the + button to create a watch party, reunion, or meetup."}
+                : myAlumniId
+                  ? "Use the + button to create a watch party, reunion, or meetup."
+                  : "Sign in to see and create watch parties, reunions, and meetups."}
             </p>
           </div>
         ) : (

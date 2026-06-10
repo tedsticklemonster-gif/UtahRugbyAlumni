@@ -31,10 +31,10 @@ function TelegramLink() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Join our Telegram channel"
-      className="flex h-8 items-center gap-1.5 rounded-lg px-2 text-[#26A5E4] transition-colors hover:bg-zinc-800"
+      className="flex h-9 items-center gap-1.5 rounded-lg px-2 text-[#26A5E4] transition-colors hover:bg-zinc-800"
     >
       <TelegramIcon className="size-5 shrink-0" />
-      <span className="text-[11px] font-extrabold uppercase tracking-wider">
+      <span className="hidden text-[11px] font-extrabold uppercase tracking-wider md:inline">
         Telegram
       </span>
     </a>
@@ -126,7 +126,7 @@ export function HeaderAuth() {
 
   if (me) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-0.5 sm:gap-2">
         <TelegramLink />
         <InstallAppButton />
         <NotificationsBell />
@@ -136,19 +136,19 @@ export function HeaderAuth() {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-0.5 sm:gap-2">
       <TelegramLink />
       <InstallAppButton />
       <Link
         href="/auth/login"
-        className="flex items-center gap-1 px-2 py-1.5 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"
+        className="flex h-9 items-center gap-1 whitespace-nowrap rounded-lg px-2 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"
       >
-        <LogIn className="size-4 shrink-0" />
+        <LogIn className="hidden size-4 shrink-0 sm:block" />
         <span>Sign In</span>
       </Link>
       <Link
         href="/join"
-        className="rounded-lg bg-[#CC0000] px-3.5 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-[#AA0000]"
+        className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-lg bg-[#CC0000] px-3.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
       >
         Join
       </Link>

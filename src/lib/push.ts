@@ -12,6 +12,13 @@ function initVapid() {
   vapidInitialized = true;
 }
 
+export async function sendPushToMany(
+  alumniIds: string[],
+  payload: { title: string; body: string; url?: string }
+) {
+  await Promise.allSettled(alumniIds.map((id) => sendPushToAlumni(id, payload)));
+}
+
 export async function sendPushToAlumni(
   alumniId: string,
   payload: { title: string; body: string; url?: string }

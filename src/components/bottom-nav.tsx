@@ -28,28 +28,30 @@ export function BottomNav() {
 
   return (
     <>
-      <ComposerSheet open={composerOpen} onClose={() => setComposerOpen(false)} />
+      {me && <ComposerSheet open={composerOpen} onClose={() => setComposerOpen(false)} />}
 
       <nav
         aria-label="Primary"
         className="fixed inset-x-0 bottom-0 z-40 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/80 md:hidden"
       >
-        {/* FAB — floats above the center of the nav */}
-        <button
-          onClick={() => {
-            navigator.vibrate?.(10);
-            setComposerOpen(true);
-          }}
-          aria-label="Create post"
-          className="absolute left-1/2 -translate-x-1/2 -top-6 z-10
-                     flex h-14 w-14 items-center justify-center
-                     rounded-full bg-[#CC0000] shadow-lg shadow-[#CC0000]/40
-                     text-white transition-transform active:scale-90"
-        >
-          <Plus className="size-6" strokeWidth={2.5} />
-        </button>
+        {/* FAB — floats above the center of the nav (members only) */}
+        {me && (
+          <button
+            onClick={() => {
+              navigator.vibrate?.(10);
+              setComposerOpen(true);
+            }}
+            aria-label="Create post"
+            className="absolute left-1/2 -translate-x-1/2 -top-6 z-10
+                       flex h-14 w-14 items-center justify-center
+                       rounded-full bg-[#CC0000] shadow-lg shadow-[#CC0000]/40
+                       text-white transition-transform active:scale-90"
+          >
+            <Plus className="size-6" strokeWidth={2.5} />
+          </button>
+        )}
 
-        <ul className="mx-auto grid max-w-md grid-cols-5 pb-safe pt-1.5">
+        <ul className={cn("mx-auto grid max-w-md pb-safe pt-1.5", me ? "grid-cols-5" : "grid-cols-4")}>
           {/* First two tabs */}
           {tabs.slice(0, 2).map(({ href, label, icon: Icon }) => {
             const active = isActive(pathname, href);
@@ -71,7 +73,7 @@ export function BottomNav() {
           })}
 
           {/* FAB spacer — center slot */}
-          <li aria-hidden className="pointer-events-none" />
+          {me && <li aria-hidden className="pointer-events-none" />}
 
           {/* Last two tabs */}
           {tabs.slice(2).map(({ href, label, icon: Icon }) => {

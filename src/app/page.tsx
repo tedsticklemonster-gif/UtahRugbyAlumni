@@ -45,10 +45,9 @@ function pickNextGame(games: Game[]): Game | null {
   const now = Date.now();
   const upcoming = games
     .map((g) => ({ g, t: parseGameDate(g.date)?.getTime() ?? null }))
-    .filter((x) => x.t !== null && x.t! >= now - 1000 * 60 * 60 * 12)
+    .filter((x) => x.t !== null && x.t! >= now && !x.g.result)
     .sort((a, b) => a.t! - b.t!);
-  if (upcoming.length > 0) return upcoming[0].g;
-  return games.find((g) => !g.result) ?? null;
+  return upcoming.length > 0 ? upcoming[0].g : null;
 }
 
 function formatDateParts(d: string) {
@@ -259,7 +258,7 @@ export default async function HomePage() {
             {
               icon: GraduationCap,
               title: "Source the Network",
-              desc: `${count > 0 ? count + "+" : ""} alumni searchable by profession, city, and year. Need a lawyer, contractor, or advisor? You already know one.`,
+              desc: `${count >= 25 ? count + "+ " : ""}Alumni searchable by profession, city, and year. Need a lawyer, contractor, or advisor? You already know one.`,
               color: "#fff",
             },
             {
@@ -286,7 +285,10 @@ export default async function HomePage() {
         <section className="border-y border-zinc-900 bg-zinc-950">
           <div className="mx-auto grid max-w-6xl grid-cols-2">
             {[
-              { value: count, label: "Alumni Registered" },
+              // Below 25 members the raw count hurts social proof — lead with heritage instead
+              count >= 25
+                ? { value: count, label: "Alumni Registered", suffix: undefined }
+                : { value: 1972, label: "Founded", suffix: undefined },
               { value: new Date().getFullYear() - 1972, label: "Years of Tradition", suffix: "+" },
             ]
               .filter((s) => s.value !== null)
@@ -700,19 +702,6 @@ export default async function HomePage() {
         </div>
       </footer>
 
-      {/* ── Sticky mobile join CTA ─────────────────────────────────────────── */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-800 bg-black/95 backdrop-blur-md px-4 py-3 md:hidden">
-        <Link
-          href="/join"
-          className="flex w-full items-center justify-center gap-2 rounded-lg py-3 text-sm font-extrabold uppercase tracking-wider text-white transition-colors"
-          style={{ backgroundColor: RED }}
-        >
-          Join the Network
-          <ArrowRight className="size-4" />
-        </Link>
-      </div>
-      {/* Spacer for sticky CTA */}
-      <div className="h-16 bg-black md:hidden" />
     </div>
   );
 }

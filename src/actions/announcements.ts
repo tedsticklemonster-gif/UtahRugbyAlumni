@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { logAdminAction } from "@/lib/audit";
 import { postToTelegram } from "@/lib/telegram";
+import { sendPushToMany } from "@/lib/push";
 
 export interface AnnouncementFormData {
   title: string;
@@ -66,6 +67,12 @@ export async function createAnnouncementAction(
         body_preview: `${data.title}: ${preview}`,
       }))
     ).then(() => {}, () => {});
+
+    sendPushToMany(allAlumni.map((a) => a.id), {
+      title: data.title,
+      body: preview,
+      url: process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com",
+    }).catch(() => {});
   }
 
   // Push announcement to Telegram channel

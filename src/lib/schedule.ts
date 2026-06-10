@@ -1,10 +1,12 @@
+import { createAdminClient } from "@/lib/supabase/admin";
+
 const SCHEDULE_URL = "https://www.utah-rugby.com/new-page-2";
 
 export type Game = {
   opponent: string;
   date: string;
   location: "Home" | "Away" | "Neutral";
-  result?: "Win" | "Loss";
+  result?: "Win" | "Loss" | "Draw";
   score?: string;
   manOfMatch?: string;
 };
@@ -14,7 +16,49 @@ export type ScheduleData = {
   practiceLines: string[];
 };
 
+/**
+ * Primary source: admin-managed games from the database.
+ * Fallback: scrape from utah-rugby.com (kept for backwards compat but unreliable).
+ */
 export async function fetchSchedule(): Promise<ScheduleData | null> {
+  // Try DB first
+  const dbGames = await fetchDbGames();
+  if (dbGames.length > 0) {
+    return { games: dbGames, practiceLines: [] };
+  }
+
+  // Fallback to web scraping
+  return fetchScheduleFromWeb();
+}
+
+async function fetchDbGames(): Promise<Game[]> {
+  try {
+    const admin = createAdminClient();
+    const { data } = await admin
+      .from("game_schedule")
+      .select("opponent, game_date, location, result, score, man_of_match")
+      .order("game_date", { ascending: true });
+
+    if (!data?.length) return [];
+
+    return data.map((g) => ({
+      opponent: g.opponent,
+      date: new Date(g.game_date).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      }),
+      location: g.location as Game["location"],
+      result: (g.result as Game["result"]) ?? undefined,
+      score: g.score ?? undefined,
+      manOfMatch: g.man_of_match ?? undefined,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function fetchScheduleFromWeb(): Promise<ScheduleData | null> {
   try {
     const res = await fetch(SCHEDULE_URL, {
       next: { revalidate: 3600 },

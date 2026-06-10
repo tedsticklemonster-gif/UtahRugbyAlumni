@@ -22,7 +22,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* 3-px red top rule */}
           <div className="h-[3px] w-full bg-[#CC0000]" />
 
-          <div className="mx-auto flex h-13 max-w-6xl items-center justify-between gap-4 px-4">
+          <div className="mx-auto flex h-13 max-w-6xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4">
             {/* Wordmark */}
             <Link
               href="/"
@@ -52,10 +52,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* Search */}
             <Link
               href="/search"
-              className="flex size-8 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-white"
+              className="ml-auto flex size-9 shrink-0 items-center justify-center rounded-lg text-zinc-400 transition-colors hover:bg-zinc-900 hover:text-white"
               aria-label="Search"
             >
-              <Search className="size-4" />
+              <Search className="size-[18px]" />
             </Link>
 
             <HeaderAuth />

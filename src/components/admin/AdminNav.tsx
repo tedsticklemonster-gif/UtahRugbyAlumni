@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: "/admin/announcements", label: "Announcements" },
   { href: "/admin/posts", label: "Posts" },
   { href: "/admin/events", label: "Events" },
+  { href: "/admin/schedule", label: "Schedule" },
   { href: "/admin/fundraising", label: "Fundraising" },
   { href: "/admin/tokens", label: "Tokens" },
   { href: "/admin/access", label: "Access" },

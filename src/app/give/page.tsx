@@ -1,8 +1,6 @@
 import { ExternalLink, HeartHandshake, Target, Trophy, Users, Star } from "lucide-react";
 import Script from "next/script";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Give — Utah Rugby Alumni" };
@@ -15,10 +13,39 @@ const display =
 const eyebrow =
   "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
 
-// Configurable goal — update as campaigns change
-const GOAL_AMOUNT = 25000;
-const RAISED_AMOUNT = 8750; // TODO: Pull from Donorbox API or pledges table
-const DONOR_COUNT = 34; // TODO: Pull from pledges table
+type CampaignProgress = {
+  name: string;
+  goalCents: number | null;
+  raisedCents: number;
+  donorCount: number;
+};
+
+async function fetchCampaignProgress(): Promise<CampaignProgress | null> {
+  try {
+    const admin = createAdminClient();
+    const { data: campaign } = await admin
+      .from("campaigns")
+      .select("id, name, goal_cents")
+      .eq("active", true)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (!campaign) return null;
+
+    const { data: pledges } = await admin
+      .from("pledges")
+      .select("amount_cents, donor_email, status")
+      .eq("campaign_id", campaign.id)
+      .in("status", ["pledged", "paid"]);
+
+    const raisedCents = (pledges ?? []).reduce((sum, p) => sum + p.amount_cents, 0);
+    const donorCount = new Set((pledges ?? []).map((p) => p.donor_email.toLowerCase())).size;
+
+    return { name: campaign.name, goalCents: campaign.goal_cents, raisedCents, donorCount };
+  } catch {
+    return null;
+  }
+}
 
 const IMPACT_ITEMS = [
   { amount: "$50", desc: "Covers practice jerseys for a new player" },
@@ -35,7 +62,11 @@ const SPONSOR_TIERS = [
 ];
 
 export default async function GivePage() {
-  const pct = Math.min(Math.round((RAISED_AMOUNT / GOAL_AMOUNT) * 100), 100);
+  const progress = await fetchCampaignProgress();
+  const pct =
+    progress?.goalCents && progress.goalCents > 0
+      ? Math.min(Math.round((progress.raisedCents / progress.goalCents) * 100), 100)
+      : null;
 
   return (
     <div className="min-h-screen bg-zinc-950">
@@ -52,35 +83,42 @@ export default async function GivePage() {
       </div>
 
       <div className="space-y-6 px-5 py-8 md:px-10 max-w-2xl mx-auto">
-        {/* Fundraising thermometer */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-          <div className="flex items-center gap-2 mb-1">
-            <Target className="size-4 text-[#CC0000]" />
-            <p className={`${eyebrow} text-[10px] text-[#CC0000]`}>25–26 Season Campaign</p>
+        {/* Fundraising thermometer — only shown when the board has an active campaign */}
+        {progress && (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+            <div className="flex items-center gap-2 mb-1">
+              <Target className="size-4 text-[#CC0000]" />
+              <p className={`${eyebrow} text-[10px] text-[#CC0000]`}>{progress.name}</p>
+            </div>
+            <div className="flex items-baseline gap-2 mt-2">
+              <span className={`${display} text-4xl text-white`}>
+                ${Math.round(progress.raisedCents / 100).toLocaleString()}
+              </span>
+              {progress.goalCents && (
+                <span className="text-sm text-zinc-500">
+                  of ${Math.round(progress.goalCents / 100).toLocaleString()} goal
+                </span>
+              )}
+            </div>
+            {pct !== null && (
+              <div className="mt-4 h-4 w-full rounded-full bg-zinc-800 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#CC0000] to-[#FF3333] transition-all duration-1000"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+            )}
+            <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
+              <span>{pct !== null ? `${pct}% funded` : ""}</span>
+              {progress.donorCount > 0 && (
+                <span className="flex items-center gap-1">
+                  <Users className="size-3" />
+                  {progress.donorCount} {progress.donorCount === 1 ? "donor" : "donors"}
+                </span>
+              )}
+            </div>
           </div>
-          <div className="flex items-baseline gap-2 mt-2">
-            <span className={`${display} text-4xl text-white`}>
-              ${RAISED_AMOUNT.toLocaleString()}
-            </span>
-            <span className="text-sm text-zinc-500">
-              of ${GOAL_AMOUNT.toLocaleString()} goal
-            </span>
-          </div>
-          {/* Thermometer bar */}
-          <div className="mt-4 h-4 w-full rounded-full bg-zinc-800 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-[#CC0000] to-[#FF3333] transition-all duration-1000"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
-          <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
-            <span>{pct}% funded</span>
-            <span className="flex items-center gap-1">
-              <Users className="size-3" />
-              {DONOR_COUNT} donors
-            </span>
-          </div>
-        </div>
+        )}
 
         {/* Impact section */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
@@ -108,6 +146,7 @@ export default async function GivePage() {
           <iframe
             src={`https://donorbox.org/embed/${DONORBOX_CAMPAIGN}?default_interval=o&show_content=true`}
             name="donorbox"
+            title="Donate to Utah Rugby"
             allow="payment"
             style={{
               maxWidth: "500px",

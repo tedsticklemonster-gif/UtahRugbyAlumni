@@ -11,45 +11,32 @@ export function NotificationsBell() {
   const { me } = useMe();
   const [count, setCount] = useState(0);
 
+  const meId = me?.id;
+
   // Initial load
   useEffect(() => {
-    if (!me) return;
+    if (!meId) return;
     getUnreadCountAction().then(setCount);
-  }, [me]);
+  }, [meId]);
 
-  // Realtime subscription — 1 channel per logged-in user (free-tier safe)
+  // Realtime subscription — 1 channel per logged-in user (free-tier safe).
+  // Unique topic suffix: supabase-js caches channels by topic, so a remount
+  // would otherwise return the already-subscribed channel and throw on .on().
   useEffect(() => {
-    if (!me) return;
+    if (!meId) return;
 
     const supabase = createClient();
-    let cleanup: (() => void) | undefined;
+    const channel = supabase
+      .channel(`notif:${meId}:${Math.random().toString(36).slice(2)}`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "notifications", filter: `recipient_id=eq.${meId}` },
+        () => { setCount((c) => c + 1); navigator.vibrate?.(10); }
+      )
+      .subscribe();
 
-    // Get alumni ID via auth session, then subscribe
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (!user?.email) return;
-      supabase
-        .from("alumni")
-        .select("id")
-        .eq("email", user.email)
-        .single()
-        .then(({ data }) => {
-          if (!data?.id) return;
-
-          const channel = supabase
-            .channel(`notif:${data.id}`)
-            .on(
-              "postgres_changes",
-              { event: "INSERT", schema: "public", table: "notifications", filter: `recipient_id=eq.${data.id}` },
-              () => { setCount((c) => c + 1); navigator.vibrate?.(10); }
-            )
-            .subscribe();
-
-          cleanup = () => { supabase.removeChannel(channel); };
-        });
-    });
-
-    return () => { cleanup?.(); };
-  }, [me]);
+    return () => { supabase.removeChannel(channel); };
+  }, [meId]);
 
   if (!me) return null;
 

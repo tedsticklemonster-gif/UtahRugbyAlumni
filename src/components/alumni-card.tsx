@@ -114,8 +114,19 @@ export function AlumniCard({
   const ribbonCfg = ribbonStyles(ribbon);
   const topServices = (services ?? []).slice(0, 2);
 
-  const card = (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-sm transition-all hover:border-zinc-700 hover:shadow-lg">
+  const clickable = Boolean(alumniId && !isGated);
+
+  return (
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-sm transition-all hover:border-zinc-700 hover:shadow-lg">
+      {/* Overlay link instead of wrapping the card in an <a> — the Message
+          action is also a link, and nested anchors are invalid HTML (breaks hydration) */}
+      {clickable && (
+        <Link
+          href={`/u/${alumniId}`}
+          aria-label={`View ${firstName} ${lastName}'s profile`}
+          className="absolute inset-0 z-0"
+        />
+      )}
       {/* Photo area — 4:5 portrait for that Instagram grid feel */}
       <SponsorHalo tier={sponsorTier ?? null} size="md" rounded="rounded-xl">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-950">
@@ -214,7 +225,7 @@ export function AlumniCard({
             <Link
               href={`/messages/${alumniId}`}
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1 text-[11px] font-semibold text-zinc-200 transition-colors hover:border-[#CC0000] hover:text-white"
+              className="relative z-10 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1 text-[11px] font-semibold text-zinc-200 transition-colors hover:border-[#CC0000] hover:text-white"
             >
               <MessageCircle className="size-3" />
               Message
@@ -229,15 +240,6 @@ export function AlumniCard({
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
-
-  if (alumniId && !isGated) {
-    return (
-      <Link href={`/u/${alumniId}`} className="block">
-        {card}
-      </Link>
-    );
-  }
-  return <article>{card}</article>;
 }

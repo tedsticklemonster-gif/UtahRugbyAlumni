@@ -4,8 +4,10 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchSchedule } from "@/lib/schedule";
+import { listUpcomingGames as listUpcomingDbGames } from "@/actions/schedule";
 import { notifyNewEvent } from "@/actions/event-emails";
 import { postToTelegram } from "@/lib/telegram";
+import { sendPushToAlumni, sendPushToMany } from "@/lib/push";
 import { generateOccurrences } from "@/lib/recurrence";
 import type { RecurrenceRule } from "@/lib/recurrence";
 
@@ -223,6 +225,13 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
         body_preview: eventPreview,
       }))
     ).then(() => {}, () => {});
+
+    const appUrlForPush = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+    sendPushToMany(allAlumni.map((a) => a.id), {
+      title: "New event: " + eventPreview,
+      body: "Tap to see details and RSVP",
+      url: appUrlForPush + "/events/" + data.id,
+    }).catch(() => {});
   }
 
   // Fire-and-forget: notify alumni about the new event (email)
@@ -262,7 +271,7 @@ export async function rsvpAction(eventId: string, status: "going" | "maybe" | "n
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).single();
   if (!alumni) return { error: "Not found" };
 
   if (status === null) {
@@ -282,6 +291,12 @@ export async function rsvpAction(eventId: string, status: "going" | "maybe" | "n
           entity_id: eventId,
           body_preview: event.title,
         }).then(() => {}, () => {});
+        const rsvpAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+        sendPushToAlumni(event.creator_id, {
+          title: `${alumni.first_name} ${alumni.last_name} ${status === "going" ? "is going to" : "might come to"} ${event.title}`,
+          body: "Tap to see who else is coming",
+          url: rsvpAppUrl + "/events/" + eventId,
+        }).catch(() => {});
       }
     }
   }
@@ -294,7 +309,7 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
   const admin = createAdminClient();
   const myAlumniId = await getMyAlumniId();
 
-  const [eventsRes, scheduleData] = await Promise.all([
+  const [eventsRes, dbGames] = await Promise.all([
     admin
       .from("events")
       .select("id, title, starts_at, kind, creator_id")
@@ -302,7 +317,7 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
       .gte("starts_at", new Date().toISOString())
       .order("starts_at", { ascending: true })
       .limit(5),
-    fetchSchedule().catch(() => null),
+    listUpcomingDbGames().catch(() => []),
   ]);
 
   const events = eventsRes.data ?? [];
@@ -327,18 +342,16 @@ export async function listUpcoming(): Promise<UpcomingItem[]> {
     };
   });
 
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-
-  const gameItems: UpcomingItem[] = (scheduleData?.games ?? [])
-    .filter((g) => {
-      if (g.result) return false;
-      if (!g.date) return true;
-      const d = new Date(g.date);
-      return !isNaN(d.getTime()) && d >= now;
-    })
+  // DB games are already filtered to future + no result by listUpcomingDbGames
+  const gameItems: UpcomingItem[] = dbGames
     .slice(0, 2)
-    .map((g) => ({ source: "game" as const, opponent: g.opponent, date: g.date, sort_date: g.date || "", location: g.location }));
+    .map((g) => ({
+      source: "game" as const,
+      opponent: g.opponent,
+      date: new Date(g.game_date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+      sort_date: g.game_date,
+      location: g.location,
+    }));
 
   return [...eventItems, ...gameItems]
     .sort((a, b) => {

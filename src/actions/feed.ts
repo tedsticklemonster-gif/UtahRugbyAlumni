@@ -4,6 +4,9 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { postToTelegram } from "@/lib/telegram";
+import { sendPushToAlumni, sendPushToMany } from "@/lib/push";
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
 
 export type ReactionSummary = { emoji: string; count: number }[];
 
@@ -255,6 +258,14 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
             body_preview: mentionPreview,
           }))
         );
+        const mentionAuthor = authorInfo
+          ? `${authorInfo.first_name} ${authorInfo.last_name}`.trim()
+          : "A teammate";
+        sendPushToMany(uniqueMentions, {
+          title: `${mentionAuthor} mentioned you`,
+          body: mentionPreview,
+          url: `${APP_URL}/feed/${newPost.id}`,
+        }).catch(() => {});
       }
     } catch {
       // ignore invalid JSON
@@ -309,7 +320,7 @@ export async function setReactionAction(postId: string, emoji: string | null): P
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).single();
   if (!alumni) return { error: "Not found" };
 
   if (emoji === null) {
@@ -333,6 +344,11 @@ export async function setReactionAction(postId: string, emoji: string | null): P
           entity_id: postId,
           body_preview: preview,
         }).select();
+        sendPushToAlumni(post.author_id, {
+          title: `${alumni.first_name} ${alumni.last_name} reacted ${emoji} to your post`,
+          body: preview ?? "",
+          url: `${APP_URL}/feed/${postId}`,
+        }).catch(() => {});
       }
     }
   }
@@ -392,7 +408,7 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
   const admin = createAdminClient();
   const { data: alumni } = await admin
     .from("alumni")
-    .select("id, verified")
+    .select("id, verified, first_name, last_name")
     .eq("email", user.email)
     .single();
   if (!alumni?.verified) return { error: "Account not verified" };
@@ -454,6 +470,18 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
   }
   if (notifications.length) {
     await admin.from("notifications").insert(notifications);
+
+    const commenterName = `${alumni.first_name} ${alumni.last_name}`.trim();
+    for (const n of notifications) {
+      sendPushToAlumni(n.recipient_id, {
+        title:
+          n.kind === "post_comment"
+            ? `${commenterName} commented on your post`
+            : `${commenterName} also commented`,
+        body: commentPreview,
+        url: `${APP_URL}/feed/${postId}`,
+      }).catch(() => {});
+    }
   }
 
   return {};

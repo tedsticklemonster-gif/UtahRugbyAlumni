@@ -41,11 +41,10 @@ function parseGameDate(d: string): Date | null {
   return Number.isNaN(t) ? null : new Date(t);
 }
 
-function pickNextGame(games: Game[]): Game | null {
-  const now = Date.now();
+function pickNextGame(games: Game[], nowMs: number): Game | null {
   const upcoming = games
     .map((g) => ({ g, t: parseGameDate(g.date)?.getTime() ?? null }))
-    .filter((x) => x.t !== null && x.t! >= now && !x.g.result)
+    .filter((x) => x.t !== null && x.t! >= nowMs && !x.g.result)
     .sort((a, b) => a.t! - b.t!);
   return upcoming.length > 0 ? upcoming[0].g : null;
 }
@@ -60,16 +59,16 @@ function formatDateParts(d: string) {
   };
 }
 
-function daysUntil(d: string): number | null {
+function daysUntil(d: string, nowMs: number): number | null {
   const date = parseGameDate(d);
   if (!date) return null;
-  const ms = date.getTime() - Date.now();
+  const ms = date.getTime() - nowMs;
   return ms < 0 ? 0 : Math.ceil(ms / (1000 * 60 * 60 * 24));
 }
 
-function isNew(createdAt?: string): boolean {
+function isNew(createdAt: string | undefined, nowMs: number): boolean {
   if (!createdAt) return false;
-  return Date.now() - new Date(createdAt).getTime() < 1000 * 60 * 60 * 24 * 7;
+  return nowMs - new Date(createdAt).getTime() < 1000 * 60 * 60 * 24 * 7;
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -133,7 +132,7 @@ export default async function HomePage() {
   if (recentPaths.length) {
     const { data } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrls(recentPaths, 3600);
+      .createSignedUrls(recentPaths, 86400);
     (data ?? []).forEach((s) => {
       if (s.signedUrl && s.path) recentMap[s.path] = s.signedUrl;
     });
@@ -146,19 +145,23 @@ export default async function HomePage() {
   if (hiringPaths.length) {
     const { data } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrls(hiringPaths, 3600);
+      .createSignedUrls(hiringPaths, 86400);
     (data ?? []).forEach((s) => {
       if (s.signedUrl && s.path) hiringMap[s.path] = s.signedUrl;
     });
   }
 
-  const nextGame = schedule ? pickNextGame(schedule.games) : null;
+  // Server component, runs once per request. Date.now() is safe here; the lint
+  // rule treats all component bodies as client-side render functions.
+  // eslint-disable-next-line react-hooks/purity
+  const nowMs = Date.now();
+  const nextGame = schedule ? pickNextGame(schedule.games, nowMs) : null;
   const recentResults = (schedule?.games ?? []).filter((g) => g.result).slice(0, 3);
   const upcomingGames = (schedule?.games ?? [])
     .filter((g) => {
       if (g.result) return false;
       const d = parseGameDate(g.date);
-      return d ? d.getTime() >= Date.now() : true;
+      return d ? d.getTime() >= nowMs : true;
     })
     .slice(0, 5);
 
@@ -278,7 +281,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── Next Match strip ─────────────────────────────────────────────── */}
-      <NextMatchStrip game={nextGame} />
+      <NextMatchStrip game={nextGame} nowMs={nowMs} />
 
       {/* ── Stats bar ────────────────────────────────────────────────────── */}
       {count > 0 && (
@@ -537,7 +540,7 @@ export default async function HomePage() {
                         background: `linear-gradient(to top, ${RED}99, transparent)`,
                       }}
                     />
-                    {isNew(a.created_at) && (
+                    {isNew(a.created_at, nowMs) && (
                       <span
                         className={`${eyebrow} absolute left-0 top-0 px-1.5 py-0.5 text-[8px] text-white`}
                         style={{ backgroundColor: RED }}
@@ -707,7 +710,7 @@ export default async function HomePage() {
 }
 
 // ─── Next Match strip (standalone so it can be server-composed) ──────────────
-function NextMatchStrip({ game }: { game: Game | null }) {
+function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
   if (!game) {
     return (
       <section className="bg-black py-6">
@@ -729,7 +732,7 @@ function NextMatchStrip({ game }: { game: Game | null }) {
   }
 
   const d = formatDateParts(game.date);
-  const days = daysUntil(game.date);
+  const days = daysUntil(game.date, nowMs);
 
   return (
     <section className="relative overflow-hidden bg-black">

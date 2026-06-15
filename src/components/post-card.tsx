@@ -164,7 +164,7 @@ function SwipeableComment({
               />
             )}
           </div>
-          <p className="mt-0.5 pl-3 text-[10px] text-zinc-600">
+          <p className="mt-0.5 pl-3 text-[10px] text-zinc-600" suppressHydrationWarning>
             {relativeTime(c.created_at)}
           </p>
         </div>
@@ -261,7 +261,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           >
             {post.author_first_name} {post.author_last_name}
           </Link>
-          <p className={`${eyebrow} text-[9px] text-zinc-600`}>
+          <p className={`${eyebrow} text-[9px] text-zinc-600`} suppressHydrationWarning>
             {relativeTime(post.created_at)}
             {post.updated_at && <span className="text-zinc-700"> · edited</span>}
           </p>

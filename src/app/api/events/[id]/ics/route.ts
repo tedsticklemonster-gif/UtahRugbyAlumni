@@ -24,7 +24,7 @@ export async function GET(
     .select("id, title, description, starts_at, ends_at, location, kind")
     .eq("id", id)
     .is("deleted_at", null)
-    .single();
+    .maybeSingle();
 
   if (!event) {
     return NextResponse.json({ error: "Event not found" }, { status: 404 });

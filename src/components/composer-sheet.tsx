@@ -15,6 +15,13 @@ interface ComposerSheetProps {
 
 export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
   const [tab, setTab] = useState<Tab>("post");
+  // Reset tab to "post" whenever the sheet transitions from open → closed.
+  // React 19 derived-state-from-props pattern (avoids cascading-render lint).
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
+    if (!open) setTab("post");
+  }
 
   useEffect(() => {
     if (open) {
@@ -23,11 +30,6 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [open]);
-
-  // Reset to Post tab when closed
-  useEffect(() => {
-    if (!open) setTab("post");
   }, [open]);
 
   return (

@@ -39,20 +39,21 @@ export function ReactionPicker({ postId, myAlumniId, myReaction, reactions, onOp
     pressTimer.current = setTimeout(openPicker, 500);
   }
 
-  function handlePointerUp(e: React.PointerEvent) {
+  function handlePointerUp() {
     if (!myAlumniId) return;
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
       pressTimer.current = null;
     }
-    // Double-tap
+    // Double-tap detection — runs in an event handler (not during render), so
+    // Date.now() is safe here. Suppress the React purity lint, which can't tell
+    // event handlers apart from render-time helpers defined in the component body.
+    // eslint-disable-next-line react-hooks/purity
     const now = Date.now();
     if (now - lastTap.current < 350) {
       openPicker();
     } else {
-      // Single tap = toggle 'like'
       lastTap.current = now;
-      // Small delay to detect double-tap before acting
       setTimeout(() => {
         if (Date.now() - lastTap.current >= 340) {
           handleReact("like");

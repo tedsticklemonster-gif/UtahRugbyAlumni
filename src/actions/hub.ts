@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getPostsAction } from "@/actions/feed";
-import { listUpcoming, type UpcomingItem } from "@/actions/events";
+import { listUpcoming } from "@/actions/events";
 
 export type HubPresenceMember = {
   id: string;
@@ -44,7 +44,7 @@ export async function getHubData() {
       .from("alumni")
       .select("id")
       .eq("email", user.email)
-      .single();
+      .maybeSingle();
     myAlumniId = data?.id ?? null;
 
     if (myAlumniId) {
@@ -77,7 +77,7 @@ export async function getHubData() {
       .from("alumni")
       .select("first_name, photo_url, bio, profession, company, city, linkedin_url, grad_year, position")
       .eq("id", myAlumniId)
-      .single();
+      .maybeSingle();
 
     if (alumniProfile) {
       profileFields = {
@@ -113,7 +113,7 @@ export async function getHubData() {
       .from("alumni")
       .select("grad_year")
       .eq("id", myAlumniId)
-      .single();
+      .maybeSingle();
     myGradYear = gradData?.grad_year ?? null;
 
     if (myGradYear) {
@@ -132,7 +132,7 @@ export async function getHubData() {
         const eraPaths = eraData.filter((a) => a.photo_url).map((a) => a.photo_url!);
         const eraSignedMap: Record<string, string> = {};
         if (eraPaths.length) {
-          const { data: sigs } = await admin.storage.from("alumni-photos").createSignedUrls(eraPaths, 3600);
+          const { data: sigs } = await admin.storage.from("alumni-photos").createSignedUrls(eraPaths, 86400);
           (sigs ?? []).forEach((s) => { if (s.signedUrl && s.path) eraSignedMap[s.path] = s.signedUrl; });
         }
         eraMembers = eraData.map((a) => ({
@@ -185,7 +185,7 @@ export async function getHubData() {
   if (photoPaths.length > 0) {
     const { data: sigs } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrls(photoPaths, 3600);
+      .createSignedUrls(photoPaths, 86400);
     (sigs ?? []).forEach((s) => {
       if (s.signedUrl && s.path) signedMap[s.path] = s.signedUrl;
     });

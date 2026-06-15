@@ -38,7 +38,7 @@ export default async function EventsAdminPage({
 
   // Fetch RSVP counts in one query
   const eventIds = (events ?? []).map((e) => e.id);
-  let rsvpCounts: Record<string, number> = {};
+  const rsvpCounts: Record<string, number> = {};
 
   if (eventIds.length > 0) {
     const { data: rsvps } = await admin

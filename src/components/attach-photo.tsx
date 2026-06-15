@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
 import { Camera, X } from "lucide-react";
 
@@ -13,6 +13,13 @@ export function AttachPhoto({ onFileReady, onClear }: AttachPhotoProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Revoke the blob URL when it's replaced or the component unmounts so we
+  // don't leak ObjectURL allocations on repeated photo attachments.
+  useEffect(() => {
+    if (!preview) return;
+    return () => URL.revokeObjectURL(preview);
+  }, [preview]);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

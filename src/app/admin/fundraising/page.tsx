@@ -5,7 +5,6 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { AdminPage } from "@/components/admin/AdminPage";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { CampaignForm } from "@/components/admin/CampaignForm";
-import { Button } from "@/components/ui/button";
 
 export const metadata = { title: "Fundraising — Admin" };
 
@@ -28,7 +27,7 @@ export default async function FundraisingPage() {
     .order("created_at", { ascending: false });
 
   const campaignIds = (campaigns ?? []).map((c) => c.id);
-  let pledgeTotals: Record<string, { pledged: number; paid: number; count: number }> = {};
+  const pledgeTotals: Record<string, { pledged: number; paid: number; count: number }> = {};
 
   if (campaignIds.length > 0) {
     const { data: pledges } = await admin

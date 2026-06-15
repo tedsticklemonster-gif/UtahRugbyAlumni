@@ -41,7 +41,7 @@ export async function notifyNewEvent(eventId: string) {
       .select("id, title, description, starts_at, location, kind")
       .eq("id", eventId)
       .is("deleted_at", null)
-      .single();
+      .maybeSingle();
 
     if (!event) return;
 

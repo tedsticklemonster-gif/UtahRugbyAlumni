@@ -76,7 +76,7 @@ export default async function DirectoryPage({
   let isVerifiedAlumni = false;
   let myAlumniId: string | null = null;
   let alumni: AlumniRow[] = [];
-  let photoUrls: Record<string, string> = {};
+  const photoUrls: Record<string, string> = {};
 
   try {
     const admin = createAdminClient();
@@ -130,7 +130,7 @@ export default async function DirectoryPage({
       if (photoPaths.length > 0) {
         const { data: signedUrls } = await admin.storage
           .from("alumni-photos")
-          .createSignedUrls(photoPaths, 3600);
+          .createSignedUrls(photoPaths, 86400);
 
         if (signedUrls) {
           for (const item of signedUrls) {

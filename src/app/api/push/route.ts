@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     .from("alumni")
     .select("id")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
 
   if (!alumni) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });

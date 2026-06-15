@@ -141,7 +141,6 @@ export function NotificationsList({
           </div>
         ) : (
           notifications.map((n) => {
-            const href = entityHref(n);
             const copy = KIND_COPY[n.kind] ?? n.kind;
             const icon = KIND_ICON[n.kind] ?? "🔔";
             const actorName = n.actor_first_name

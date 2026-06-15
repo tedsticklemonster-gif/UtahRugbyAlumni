@@ -46,7 +46,7 @@ export async function updateProfileAction(
     .from("alumni")
     .select("id, photo_url")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
 
   if (!alumni) {
     return { success: false, error: "Alumni record not found." };
@@ -152,7 +152,7 @@ export async function deleteAccountAction(): Promise<ProfileState> {
     .from("alumni")
     .select("id, photo_url")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
 
   if (!alumni) {
     return { success: false, error: "Alumni record not found." };

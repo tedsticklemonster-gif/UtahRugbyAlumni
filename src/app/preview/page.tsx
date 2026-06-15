@@ -117,7 +117,7 @@ export default async function PreviewHomePage() {
   const recentPaths = (recentJoins ?? []).filter((a) => a.photo_url).map((a) => a.photo_url!);
   const recentMap: Record<string, string> = {};
   if (recentPaths.length) {
-    const { data } = await admin.storage.from("alumni-photos").createSignedUrls(recentPaths, 3600);
+    const { data } = await admin.storage.from("alumni-photos").createSignedUrls(recentPaths, 86400);
     (data ?? []).forEach((s) => {
       if (s.signedUrl && s.path) recentMap[s.path] = s.signedUrl;
     });
@@ -125,7 +125,7 @@ export default async function PreviewHomePage() {
   const hiringPaths = (hiringAlumni ?? []).filter((a) => a.photo_url).map((a) => a.photo_url!);
   const hiringMap: Record<string, string> = {};
   if (hiringPaths.length) {
-    const { data } = await admin.storage.from("alumni-photos").createSignedUrls(hiringPaths, 3600);
+    const { data } = await admin.storage.from("alumni-photos").createSignedUrls(hiringPaths, 86400);
     (data ?? []).forEach((s) => {
       if (s.signedUrl && s.path) hiringMap[s.path] = s.signedUrl;
     });

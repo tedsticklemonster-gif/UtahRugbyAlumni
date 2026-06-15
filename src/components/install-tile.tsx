@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Download, ArrowUpRight } from "lucide-react";
 import { InstallGuide } from "@/components/install-guide";
 
@@ -25,17 +25,25 @@ function isIOS() {
 const display =
   "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
 
+const subscribeStandalone = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mq = window.matchMedia("(display-mode: standalone)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+
 export function InstallTile() {
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [guideOpen, setGuideOpen] = useState(false);
-  const [hidden, setHidden] = useState(true);
+  // Read standalone status from the platform on every render. Server snapshot
+  // returns false so SSR markup matches first client paint; no setState in effect.
+  const standalone = useSyncExternalStore(
+    subscribeStandalone,
+    () => isStandalone(),
+    () => false,
+  );
 
   useEffect(() => {
-    if (isStandalone()) return;
-
-    // Show tile for iOS and Android/desktop
-    setHidden(false);
-
     const onBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferred(e as BeforeInstallPromptEvent);
@@ -45,7 +53,7 @@ export function InstallTile() {
     return () => window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
   }, []);
 
-  if (hidden) return null;
+  if (standalone) return null;
 
   const handleClick = async () => {
     if (deferred) {

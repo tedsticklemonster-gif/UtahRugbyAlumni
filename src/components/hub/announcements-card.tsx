@@ -40,7 +40,7 @@ export function AnnouncementsCard({ items }: { items: HubAnnouncement[] }) {
             <div className="min-w-0 flex-1 pl-1">
               <div className="flex items-start justify-between gap-2">
                 <p className="text-sm font-bold leading-snug text-white">{ann.title}</p>
-                <span className={`${eyebrow} shrink-0 text-[9px] text-zinc-600`}>
+                <span className={`${eyebrow} shrink-0 text-[9px] text-zinc-600`} suppressHydrationWarning>
                   {relativeTime(ann.created_at)}
                 </span>
               </div>

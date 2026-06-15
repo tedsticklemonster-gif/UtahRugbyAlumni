@@ -22,7 +22,7 @@ async function getMyId(): Promise<string | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user?.email) return null;
   const admin = createAdminClient();
-  const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   return data?.id ?? null;
 }
 
@@ -50,7 +50,7 @@ export async function listNotificationsAction(): Promise<AppNotification[]> {
   const photoPaths = actors.filter((a) => a.photo_url).map((a) => a.photo_url!);
   const signedMap: Record<string, string> = {};
   if (photoPaths.length) {
-    const { data: sigs } = await admin.storage.from("alumni-photos").createSignedUrls(photoPaths, 3600);
+    const { data: sigs } = await admin.storage.from("alumni-photos").createSignedUrls(photoPaths, 86400);
     (sigs ?? []).forEach((s) => { if (s.signedUrl && s.path) signedMap[s.path] = s.signedUrl; });
   }
 

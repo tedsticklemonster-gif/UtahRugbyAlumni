@@ -76,7 +76,7 @@ export function MeProvider({ children }: { children: React.ReactNode }) {
       subscription.unsubscribe();
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <MeContext.Provider value={{ me, loading, refetch: fetchMe }}>

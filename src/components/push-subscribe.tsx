@@ -14,23 +14,29 @@ function urlBase64ToUint8Array(base64String: string) {
 
 type SubscribeState = "unsupported" | "denied" | "subscribed" | "unsubscribed" | "loading";
 
+function initialPushState(): SubscribeState {
+  // Runs once on mount before paint via lazy initializer — keeps `setState`
+  // out of effect bodies for the synchronous platform-detection branches.
+  if (typeof window === "undefined") return "loading";
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) return "unsupported";
+  if (Notification.permission === "denied") return "denied";
+  return "loading";
+}
+
 export function PushSubscribe() {
-  const [state, setState] = useState<SubscribeState>("loading");
+  const [state, setState] = useState<SubscribeState>(initialPushState);
 
   useEffect(() => {
-    if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
-      setState("unsupported");
-      return;
-    }
-    if (Notification.permission === "denied") {
-      setState("denied");
-      return;
-    }
+    if (state !== "loading") return;
+    let cancelled = false;
     navigator.serviceWorker.ready.then(async (reg) => {
       const sub = await reg.pushManager.getSubscription();
-      setState(sub ? "subscribed" : "unsubscribed");
+      if (!cancelled) setState(sub ? "subscribed" : "unsubscribed");
     });
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [state]);
 
   const subscribe = async () => {
     setState("loading");

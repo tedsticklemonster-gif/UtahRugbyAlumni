@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Users, Share2, ArrowLeft, LogOut, Trophy, Bell, Settings } from "lucide-react";
+import { Users, Share2, ArrowLeft, LogOut, Trophy, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ProfileForm } from "@/components/profile-form";
@@ -42,13 +42,12 @@ export default async function ProfilePage() {
     .eq("referrer_alumni_id", alumni.id);
 
   const totalReferrals = tokens?.reduce((sum, t) => sum + (t.signups_attributed ?? 0), 0) ?? 0;
-  const myForwardToken = tokens?.[0]?.token ?? null;
 
   let photoSignedUrl: string | null = null;
   if (alumni.photo_url) {
     const { data: signedData } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrl(alumni.photo_url, 3600);
+      .createSignedUrl(alumni.photo_url, 86400);
     photoSignedUrl = signedData?.signedUrl ?? null;
   }
 

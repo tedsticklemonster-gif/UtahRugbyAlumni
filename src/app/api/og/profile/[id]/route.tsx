@@ -31,7 +31,7 @@ export async function GET(
       "first_name, last_name, grad_year, position, profession, job_title, company, city, state, photo_url, availability, hiring, willing_to_mentor, verified, status, directory_visible"
     )
     .eq("id", id)
-    .single();
+    .maybeSingle();
 
   if (!a || !a.directory_visible || !["self_registered", "imported"].includes(a.status ?? "")) {
     return new ImageResponse(
@@ -60,7 +60,7 @@ export async function GET(
   if (a.photo_url) {
     const { data: sig } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrl(a.photo_url, 3600);
+      .createSignedUrl(a.photo_url, 86400);
     photoUrl = sig?.signedUrl ?? null;
   }
 
@@ -124,7 +124,6 @@ export async function GET(
           }}
         >
           {photoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={photoUrl}
               alt=""

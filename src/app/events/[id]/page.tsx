@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, CalendarPlus, MapPin, Users, ExternalLink, Repeat } from "lucide-react";
+import { ArrowLeft, CalendarDays, CalendarPlus, MapPin, Users, Repeat } from "lucide-react";
 import { getEvent, getEventAttendees } from "@/actions/events";
 import { RsvpChips } from "@/components/rsvp-chips";
 import { EventAttendees } from "@/components/event-attendees";
@@ -149,12 +149,12 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
             </div>
           )}
 
-          {(event as any).cost && (
+          {(event as Record<string, unknown>).cost ? (
             <div className="flex items-center gap-2.5">
               <span className="size-4 shrink-0 text-center text-zinc-500 font-bold text-sm">$</span>
-              <p className="text-sm text-zinc-200">{(event as any).cost}</p>
+              <p className="text-sm text-zinc-200">{(event as Record<string, unknown>).cost as string}</p>
             </div>
-          )}
+          ) : null}
 
           <div className="flex items-center gap-2.5">
             <Users className="size-4 shrink-0 text-zinc-500" />

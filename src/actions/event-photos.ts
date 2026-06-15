@@ -40,7 +40,7 @@ export async function listEventPhotos(eventId: string): Promise<EventPhoto[]> {
   const paths = photos.map((p) => p.storage_path);
   const { data: signedData } = await admin.storage
     .from("event-photos")
-    .createSignedUrls(paths, 3600);
+    .createSignedUrls(paths, 86400);
 
   const signedMap = new Map(
     (signedData ?? []).map((s) => [s.path, s.signedUrl])
@@ -74,7 +74,7 @@ export async function uploadEventPhotos(
     .from("alumni")
     .select("id, verified")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
 
   if (!alumni?.verified) return { count: 0, error: "Account not verified" };
 
@@ -129,7 +129,7 @@ export async function deleteEventPhoto(
     .from("alumni")
     .select("id")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
 
   if (!alumni) return { error: "Not found" };
 
@@ -139,7 +139,7 @@ export async function deleteEventPhoto(
     .select("id, event_id, alumni_id, storage_path")
     .eq("id", photoId)
     .is("deleted_at", null)
-    .single();
+    .maybeSingle();
 
   if (!photo) return { error: "Photo not found" };
 
@@ -148,7 +148,7 @@ export async function deleteEventPhoto(
     .from("events")
     .select("creator_id")
     .eq("id", photo.event_id)
-    .single();
+    .maybeSingle();
 
   if (photo.alumni_id !== alumni.id && event?.creator_id !== alumni.id) {
     return { error: "Not authorized" };

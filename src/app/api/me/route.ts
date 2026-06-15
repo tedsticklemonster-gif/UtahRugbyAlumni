@@ -19,7 +19,7 @@ export async function GET() {
     .from("alumni")
     .select("id, first_name, last_name, photo_url")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
 
   if (!alumni) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -29,7 +29,7 @@ export async function GET() {
   if (alumni.photo_url) {
     const { data } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrl(alumni.photo_url, 3600);
+      .createSignedUrl(alumni.photo_url, 86400);
     photo_signed_url = data?.signedUrl ?? null;
   }
 

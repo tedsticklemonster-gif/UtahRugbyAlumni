@@ -29,10 +29,9 @@ function TelegramIcon({ className }: { className?: string }) {
 }
 
 export function NotificationSettings({
-  alumniId,
   initialPrefs,
 }: {
-  alumniId: string;
+  alumniId?: string;
   initialPrefs: Record<string, boolean>;
 }) {
   const router = useRouter();

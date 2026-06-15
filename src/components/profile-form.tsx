@@ -2,7 +2,7 @@
 
 import { useActionState, useState, startTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   profileUpdateSchema,
@@ -61,7 +61,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     setValue,
     formState: { errors, isDirty },
   } = useForm<ProfileUpdateInput>({
@@ -94,14 +94,16 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
     },
   });
 
-  const phone = watch("phone");
-  const bio = watch("bio");
-  const smsConsent = watch("sms_consent");
-  const directoryVisible = watch("directory_visible");
-  const hiring = watch("hiring") ?? false;
-  const willingToMentor = watch("willing_to_mentor") ?? false;
-  const services = watch("services") ?? [];
-  const industries = watch("industries") ?? [];
+  // useWatch is compiler-safe (watch() from useForm() is not — it returns a
+  // non-memoizable function).
+  const phone = useWatch({ control, name: "phone" });
+  const bio = useWatch({ control, name: "bio" });
+  const smsConsent = useWatch({ control, name: "sms_consent" });
+  const directoryVisible = useWatch({ control, name: "directory_visible" });
+  const hiring = useWatch({ control, name: "hiring" }) ?? false;
+  const willingToMentor = useWatch({ control, name: "willing_to_mentor" }) ?? false;
+  const services = useWatch({ control, name: "services" }) ?? [];
+  const industries = useWatch({ control, name: "industries" }) ?? [];
 
   const [state, formAction, isPending] = useActionState<ProfileState, FormData>(
     updateProfileAction,

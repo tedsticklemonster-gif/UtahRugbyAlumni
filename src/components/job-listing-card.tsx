@@ -53,6 +53,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
         <Link
           href={`/u/${job.alumni_id}`}
           className="text-[10px] font-semibold text-zinc-500 hover:text-white transition-colors"
+          suppressHydrationWarning
         >
           Posted by {job.alumni_first_name} {job.alumni_last_name} · {timeAgo}
         </Link>

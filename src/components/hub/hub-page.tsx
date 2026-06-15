@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect, useRef } from "react";
+import { useState, useTransition, useEffect, useRef, useSyncExternalStore } from "react";
 import { getPostsAction, type FeedPost } from "@/actions/feed";
 import { PostCard } from "@/components/post-card";
 import { CreatePost } from "@/components/create-post";
@@ -9,7 +9,7 @@ import { UpcomingRail } from "@/components/hub/upcoming-rail";
 import { AnnouncementsCard } from "@/components/hub/announcements-card";
 import { NewJoinsStrip } from "@/components/hub/new-joins-strip";
 import Link from "next/link";
-import { HeartHandshake, Briefcase, X } from "lucide-react";
+import { Briefcase, X } from "lucide-react";
 import { InviteBanner } from "@/components/hub/invite-banner";
 import { ProfileCompletion } from "@/components/hub/profile-completion";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
@@ -19,6 +19,13 @@ import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/action
 import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
 
 const TELEGRAM_INVITE = "https://t.me/+ajaqw-YQ1ZsxYjQx";
+
+const TELEGRAM_DISMISS_KEY = "telegram_banner_dismissed";
+const subscribeStorage = (cb: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", cb);
+  return () => window.removeEventListener("storage", cb);
+};
 
 const display =
   "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
@@ -68,12 +75,17 @@ export function HubPage({
   myGradYear,
 }: HubPageProps) {
   const [wizardDismissed, setWizardDismissed] = useState(false);
-  const [telegramDismissed, setTelegramDismissed] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("telegram_banner_dismissed") === "1";
-    }
-    return false;
-  });
+  // Override flag so dismissing in this session takes effect immediately
+  // (the storage event only fires across tabs/windows, not within the same tab).
+  const [localDismiss, setLocalDismiss] = useState(false);
+  // Read the dismissed flag from localStorage via an external store so SSR
+  // returns "dismissed" (hides banner cleanly) and hydration is consistent.
+  const storedDismiss = useSyncExternalStore(
+    subscribeStorage,
+    () => localStorage.getItem(TELEGRAM_DISMISS_KEY) === "1",
+    () => true,
+  );
+  const telegramDismissed = storedDismiss || localDismiss;
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);
   const [cursor, setCursor] = useState<string | null>(initialCursor);
   const [loading, startLoad] = useTransition();
@@ -140,8 +152,8 @@ export function HubPage({
               </div>
               <button
                 onClick={() => {
-                  setTelegramDismissed(true);
-                  localStorage.setItem("telegram_banner_dismissed", "1");
+                  localStorage.setItem(TELEGRAM_DISMISS_KEY, "1");
+                  setLocalDismiss(true);
                 }}
                 className="p-0.5 text-zinc-500 hover:text-white transition-colors"
                 aria-label="Dismiss"

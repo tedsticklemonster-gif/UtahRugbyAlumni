@@ -40,7 +40,7 @@ export async function GET(
     .from("events")
     .select("title, description, starts_at, location, kind, photo_url, deleted_at")
     .eq("id", id)
-    .single();
+    .maybeSingle();
 
   if (!e || e.deleted_at) {
     return new ImageResponse(
@@ -69,7 +69,7 @@ export async function GET(
   if (e.photo_url) {
     const { data: sig } = await admin.storage
       .from("event-photos")
-      .createSignedUrl(e.photo_url, 3600);
+      .createSignedUrl(e.photo_url, 86400);
     photoUrl = sig?.signedUrl ?? null;
   }
 
@@ -91,7 +91,6 @@ export async function GET(
       >
         {/* Background photo */}
         {photoUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={photoUrl}
             alt=""

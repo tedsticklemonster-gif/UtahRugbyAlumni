@@ -68,8 +68,6 @@ export function PostsModeration({
     setConfirming(null);
   }
 
-  const confirmingPost = posts.find((p) => p.id === confirming?.id);
-
   return (
     <div className="space-y-4">
       {/* Toggle filter */}

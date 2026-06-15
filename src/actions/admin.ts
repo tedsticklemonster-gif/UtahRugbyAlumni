@@ -314,7 +314,7 @@ export async function createForwardTokenAction(
     .from("alumni")
     .select("first_name, last_name")
     .eq("id", alumniId)
-    .single();
+    .maybeSingle();
 
   if (!alumni) {
     return { success: false, error: "Alumni not found." };

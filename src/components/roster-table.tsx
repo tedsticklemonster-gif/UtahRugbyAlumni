@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -77,20 +77,24 @@ export function RosterTable({
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const now = Date.now();
-  const filtered = alumni.filter((a) => {
-    const matchesSearch =
-      !search ||
-      `${a.first_name} ${a.last_name} ${a.email}`
-        .toLowerCase()
-        .includes(search.toLowerCase());
-    const matchesStatus = !statusFilter || a.status === statusFilter;
-    const matchesStale =
-      staleDays === null ||
-      !a.last_contacted_at ||
-      now - new Date(a.last_contacted_at).getTime() > staleDays * 86_400_000;
-    return matchesSearch && matchesStatus && matchesStale;
-  });
+  // Re-filter only when inputs change; the "stale" cutoff anchors to a single
+  // Date.now() per memo computation so the React purity rule is satisfied.
+  const filtered = useMemo(() => {
+    // eslint-disable-next-line react-hooks/purity
+    const now = Date.now();
+    const needle = search.toLowerCase();
+    return alumni.filter((a) => {
+      const matchesSearch =
+        !needle ||
+        `${a.first_name} ${a.last_name} ${a.email}`.toLowerCase().includes(needle);
+      const matchesStatus = !statusFilter || a.status === statusFilter;
+      const matchesStale =
+        staleDays === null ||
+        !a.last_contacted_at ||
+        now - new Date(a.last_contacted_at).getTime() > staleDays * 86_400_000;
+      return matchesSearch && matchesStatus && matchesStale;
+    });
+  }, [alumni, search, statusFilter, staleDays]);
 
   function toggleSelect(id: string) {
     setSelectedIds((prev) => {

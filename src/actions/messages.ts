@@ -36,7 +36,7 @@ async function getCurrentAlumni() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user?.email) return null;
   const admin = createAdminClient();
-  const { data } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).single();
+  const { data } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).maybeSingle();
   return data ?? null;
 }
 
@@ -89,7 +89,7 @@ export async function getConversationsAction(): Promise<{
       if (other?.photo_url) {
         const { data } = await admin.storage
           .from("alumni-photos")
-          .createSignedUrl(other.photo_url, 3600);
+          .createSignedUrl(other.photo_url, 86400);
         photoSignedUrl = data?.signedUrl ?? null;
       }
 
@@ -125,13 +125,13 @@ export async function getThreadAction(otherAlumniId: string): Promise<{
     .from("alumni")
     .select("id, first_name, last_name, photo_url")
     .eq("id", otherAlumniId)
-    .single();
+    .maybeSingle();
 
   let partnerPhotoSignedUrl: string | null = null;
   if (partner?.photo_url) {
     const { data } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrl(partner.photo_url, 3600);
+      .createSignedUrl(partner.photo_url, 86400);
     partnerPhotoSignedUrl = data?.signedUrl ?? null;
   }
 
@@ -162,7 +162,7 @@ export async function getThreadAction(otherAlumniId: string): Promise<{
       if (m.photo_url) {
         const { data } = await admin.storage
           .from("post-photos")
-          .createSignedUrl(m.photo_url, 3600);
+          .createSignedUrl(m.photo_url, 86400);
         photoSignedUrl = data?.signedUrl ?? null;
       }
       return {
@@ -197,11 +197,28 @@ export async function sendMessageAction(
   const me = await getCurrentAlumni();
   if (!me) return { error: "Not authenticated" };
 
+  // Basic UUID sanity check + reject self-DM. Prevents accidental or
+  // malicious sends to non-existent or own-account IDs.
+  if (!recipientId || !/^[0-9a-f-]{36}$/i.test(recipientId)) {
+    return { error: "Invalid recipient" };
+  }
+  if (recipientId === me.id) {
+    return { error: "You can't message yourself" };
+  }
+
   const body = (formData.get("body") as string)?.trim();
   if (!body) return { error: "Message cannot be empty" };
   if (body.length > 2000) return { error: "Message too long" };
 
   const admin = createAdminClient();
+
+  // Confirm recipient is a real alumni record before we insert and notify.
+  const { data: recipient } = await admin
+    .from("alumni")
+    .select("id")
+    .eq("id", recipientId)
+    .maybeSingle();
+  if (!recipient) return { error: "Recipient not found" };
 
   let photo_url: string | null = null;
   const photoFile = formData.get("photo") as File | null;

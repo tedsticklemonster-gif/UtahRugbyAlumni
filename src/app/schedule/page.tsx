@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ExternalLink, CalendarDays, MapPin, Trophy, Clock } from "lucide-react";
 import { fetchSchedule, type Game } from "@/lib/schedule";
 

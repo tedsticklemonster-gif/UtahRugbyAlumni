@@ -4,8 +4,6 @@ import Link from "next/link";
 import { UserPlus } from "lucide-react";
 import type { HubRecentJoin } from "@/actions/hub";
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
 const eyebrow =
   "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
 

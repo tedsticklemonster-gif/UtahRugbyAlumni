@@ -65,12 +65,12 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
               </a>
             </p>
           )}
-          {(event as any).cost && (
+          {(event as Record<string, unknown>).cost ? (
             <p className="flex items-center gap-1.5 text-xs text-zinc-400">
               <span className="size-3.5 shrink-0 text-center text-zinc-500 font-bold">$</span>
-              {(event as any).cost}
+              {(event as Record<string, unknown>).cost as string}
             </p>
-          )}
+          ) : null}
           {event.rsvp_going > 0 && (
             <p className="flex items-center gap-1.5 text-xs text-zinc-500">
               <Users className="size-3.5 shrink-0" />
@@ -98,7 +98,7 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
   );
 }
 
-export function EventRailCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniId: string | null }) {
+export function EventRailCard({ event }: { event: AlumniEvent; myAlumniId?: string | null }) {
   return (
     <Link
       href={`/events/${event.id}`}

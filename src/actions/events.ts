@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { fetchSchedule } from "@/lib/schedule";
 import { listUpcomingGames as listUpcomingDbGames } from "@/actions/schedule";
 import { notifyNewEvent } from "@/actions/event-emails";
 import { postToTelegram } from "@/lib/telegram";
@@ -40,7 +39,7 @@ async function getMyAlumniId(): Promise<string | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user?.email) return null;
   const admin = createAdminClient();
-  const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   return data?.id ?? null;
 }
 
@@ -110,12 +109,12 @@ export async function getEvent(id: string): Promise<AlumniEvent | null> {
     .select("id, title, description, starts_at, ends_at, location, location_url, photo_url, kind, creator_id, series_id, recurrence_rule")
     .eq("id", id)
     .is("deleted_at", null)
-    .single();
+    .maybeSingle();
 
   if (!e) return null;
 
   const [creatorRes, rsvpsRes] = await Promise.all([
-    admin.from("alumni").select("id, first_name, last_name").eq("id", e.creator_id).single(),
+    admin.from("alumni").select("id, first_name, last_name").eq("id", e.creator_id).maybeSingle(),
     admin.from("event_rsvps").select("alumni_id, status").eq("event_id", id),
   ]);
 
@@ -150,7 +149,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id, verified").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id, verified").eq("email", user.email).maybeSingle();
   if (!alumni?.verified) return { error: "Account not verified" };
 
   const title = (formData.get("title") as string)?.trim();
@@ -271,7 +270,7 @@ export async function rsvpAction(eventId: string, status: "going" | "maybe" | "n
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).maybeSingle();
   if (!alumni) return { error: "Not found" };
 
   if (status === null) {
@@ -281,7 +280,7 @@ export async function rsvpAction(eventId: string, status: "going" | "maybe" | "n
 
     // Notify event creator about RSVP (going/maybe only, skip self)
     if (status === "going" || status === "maybe") {
-      const { data: event } = await admin.from("events").select("creator_id, title").eq("id", eventId).single();
+      const { data: event } = await admin.from("events").select("creator_id, title").eq("id", eventId).maybeSingle();
       if (event?.creator_id && event.creator_id !== alumni.id) {
         await admin.from("notifications").insert({
           recipient_id: event.creator_id,

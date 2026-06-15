@@ -228,7 +228,7 @@ export async function sendThankYouAction(
     .from("pledges")
     .select("donor_name, donor_email, amount_cents, payment_method, campaign_id, alumni_id")
     .eq("id", pledgeId)
-    .single();
+    .maybeSingle();
 
   if (!pledge) return { success: false, error: "Pledge not found." };
 
@@ -236,7 +236,7 @@ export async function sendThankYouAction(
     .from("campaigns")
     .select("name")
     .eq("id", campaignId)
-    .single();
+    .maybeSingle();
 
   if (!campaign) return { success: false, error: "Campaign not found." };
 

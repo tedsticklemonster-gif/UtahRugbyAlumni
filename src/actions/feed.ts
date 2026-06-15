@@ -42,7 +42,7 @@ export type FeedComment = {
 
 async function signedUrl(bucket: string, path: string | null, admin: ReturnType<typeof createAdminClient>): Promise<string | null> {
   if (!path) return null;
-  const { data } = await admin.storage.from(bucket).createSignedUrl(path, 3600);
+  const { data } = await admin.storage.from(bucket).createSignedUrl(path, 86400);
   return data?.signedUrl ?? null;
 }
 
@@ -57,7 +57,7 @@ export async function getPostsAction(cursor?: string): Promise<{
 
   let myAlumniId: string | null = null;
   if (user?.email) {
-    const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+    const { data } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
     myAlumniId = data?.id ?? null;
   }
 
@@ -125,9 +125,9 @@ export async function getPostsAction(cursor?: string): Promise<{
         i_liked: myAlumniId ? postLikes.some((l) => l.alumni_id === myAlumniId) : false,
         reactions,
         my_reaction: myReaction,
-        pinned: (post as any).pinned ?? false,
-        category: (post as any).category ?? null,
-        updated_at: (post as any).updated_at ?? null,
+        pinned: (post as Record<string, unknown>).pinned as boolean ?? false,
+        category: (post as Record<string, unknown>).category as string | null ?? null,
+        updated_at: (post as Record<string, unknown>).updated_at as string | null ?? null,
       };
     })
   );
@@ -143,7 +143,7 @@ export async function getPostAction(postId: string): Promise<FeedPost | null> {
 
   let myAlumniId: string | null = null;
   if (user?.email) {
-    const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+    const { data } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
     myAlumniId = data?.id ?? null;
   }
 
@@ -152,12 +152,12 @@ export async function getPostAction(postId: string): Promise<FeedPost | null> {
     .select("id, body, photo_url, created_at, author_id")
     .eq("id", postId)
     .is("deleted_at", null)
-    .single();
+    .maybeSingle();
 
   if (!post) return null;
 
   const [authorRes, likesRes, commentsRes, reactionsRes] = await Promise.all([
-    admin.from("alumni").select("id, first_name, last_name, photo_url").eq("id", post.author_id).single(),
+    admin.from("alumni").select("id, first_name, last_name, photo_url").eq("id", post.author_id).maybeSingle(),
     admin.from("post_likes").select("post_id, alumni_id").eq("post_id", postId),
     admin.from("post_comments").select("post_id").eq("post_id", postId).is("deleted_at", null),
     admin.from("post_reactions").select("post_id, alumni_id, emoji").eq("post_id", postId),
@@ -191,9 +191,9 @@ export async function getPostAction(postId: string): Promise<FeedPost | null> {
     i_liked: myAlumniId ? likes.some((l) => l.alumni_id === myAlumniId) : false,
     reactions,
     my_reaction: myReaction,
-    pinned: (post as any).pinned ?? false,
-    category: (post as any).category ?? null,
-    updated_at: (post as any).updated_at ?? null,
+    pinned: (post as Record<string, unknown>).pinned as boolean ?? false,
+    category: (post as Record<string, unknown>).category as string | null ?? null,
+    updated_at: (post as Record<string, unknown>).updated_at as string | null ?? null,
   };
 }
 
@@ -207,7 +207,7 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     .from("alumni")
     .select("id, verified")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
   if (!alumni?.verified) return { error: "Account not verified" };
 
   const body = (formData.get("body") as string)?.trim();
@@ -230,7 +230,7 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
     .from("alumni")
     .select("first_name, last_name")
     .eq("id", alumni.id)
-    .single();
+    .maybeSingle();
 
   const { data: newPost, error } = await admin
     .from("posts")
@@ -295,7 +295,7 @@ export async function toggleLikeAction(postId: string): Promise<{ liked: boolean
   if (!user?.email) return { liked: false, error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   if (!alumni) return { liked: false, error: "Not found" };
 
   const { data: existing } = await admin
@@ -303,7 +303,7 @@ export async function toggleLikeAction(postId: string): Promise<{ liked: boolean
     .select("id")
     .eq("post_id", postId)
     .eq("alumni_id", alumni.id)
-    .single();
+    .maybeSingle();
 
   if (existing) {
     await admin.from("post_likes").delete().eq("id", existing.id);
@@ -320,20 +320,20 @@ export async function setReactionAction(postId: string, emoji: string | null): P
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id, first_name, last_name").eq("email", user.email).maybeSingle();
   if (!alumni) return { error: "Not found" };
 
   if (emoji === null) {
     await admin.from("post_reactions").delete().eq("post_id", postId).eq("alumni_id", alumni.id);
   } else {
-    const isNew = !(await admin.from("post_reactions").select("id").eq("post_id", postId).eq("alumni_id", alumni.id).single()).data;
+    const isNew = !(await admin.from("post_reactions").select("id").eq("post_id", postId).eq("alumni_id", alumni.id).maybeSingle()).data;
     await admin.from("post_reactions").upsert(
       { post_id: postId, alumni_id: alumni.id, emoji },
       { onConflict: "post_id,alumni_id" }
     );
     // Notify post author (skip self-reactions)
     if (isNew) {
-      const { data: post } = await admin.from("posts").select("author_id, body").eq("id", postId).single();
+      const { data: post } = await admin.from("posts").select("author_id, body").eq("id", postId).maybeSingle();
       if (post?.author_id && post.author_id !== alumni.id) {
         const preview = post.body?.length > 80 ? post.body.slice(0, 80) + "…" : post.body;
         await admin.from("notifications").insert({
@@ -410,7 +410,7 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
     .from("alumni")
     .select("id, verified, first_name, last_name")
     .eq("email", user.email)
-    .single();
+    .maybeSingle();
   if (!alumni?.verified) return { error: "Account not verified" };
 
   const body = (formData.get("body") as string)?.trim();
@@ -427,7 +427,7 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
     if (!uploadErr) photo_url = path;
   }
 
-  const { data: comment, error } = await admin
+  const { error } = await admin
     .from("post_comments")
     .insert({ post_id: postId, author_id: alumni.id, body, photo_url })
     .select("id")
@@ -436,7 +436,7 @@ export async function addCommentAction(postId: string, formData: FormData): Prom
   if (error) return { error: error.message };
 
   // Notify post author and other commenters
-  const { data: post } = await admin.from("posts").select("author_id, body").eq("id", postId).single();
+  const { data: post } = await admin.from("posts").select("author_id, body").eq("id", postId).maybeSingle();
   const commentPreview = body.length > 80 ? body.slice(0, 80) + "…" : body;
 
   const notifyIds = new Set<string>();
@@ -493,7 +493,7 @@ export async function deleteCommentAction(commentId: string): Promise<{ error?: 
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   if (!alumni) return { error: "Not found" };
 
   // Only allow deleting own comments
@@ -513,7 +513,7 @@ export async function editPostAction(postId: string, formData: FormData): Promis
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   if (!alumni) return { error: "Not found" };
 
   const body = (formData.get("body") as string)?.trim();
@@ -537,7 +537,7 @@ export async function deletePostAction(postId: string): Promise<{ error?: string
   if (!user?.email) return { error: "Not authenticated" };
 
   const admin = createAdminClient();
-  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data: alumni } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   if (!alumni) return { error: "Not found" };
 
   const { error } = await admin

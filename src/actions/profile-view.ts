@@ -46,7 +46,7 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
   const admin = createAdminClient();
 
   const [viewerRes, alumniRes] = await Promise.all([
-    admin.from("alumni").select("id, verified").eq("email", user.email).single(),
+    admin.from("alumni").select("id, verified").eq("email", user.email).maybeSingle(),
     admin
       .from("alumni")
       .select(
@@ -55,7 +55,7 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
       .eq("id", id)
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
-      .single(),
+      .maybeSingle(),
   ]);
 
   if (!alumniRes.data) return null;
@@ -68,7 +68,7 @@ export async function getAlumniProfileAction(id: string): Promise<AlumniProfile 
   if (isVerified && a.photo_url) {
     const { data: sig } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrl(a.photo_url, 3600);
+      .createSignedUrl(a.photo_url, 86400);
     photo_signed_url = sig?.signedUrl ?? null;
   }
 
@@ -139,7 +139,7 @@ export async function getAlumniRecentPostsAction(
 
   let myAlumniId: string | null = null;
   if (user?.email) {
-    const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+    const { data } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
     myAlumniId = data?.id ?? null;
   }
 
@@ -159,7 +159,7 @@ export async function getAlumniRecentPostsAction(
       .from("alumni")
       .select("id, first_name, last_name, photo_url")
       .eq("id", authorId)
-      .single(),
+      .maybeSingle(),
     admin.from("post_likes").select("post_id, alumni_id").in("post_id", postIds),
     admin
       .from("post_comments")
@@ -176,7 +176,7 @@ export async function getAlumniRecentPostsAction(
   if (author?.photo_url) {
     const { data: sig } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrl(author.photo_url, 3600);
+      .createSignedUrl(author.photo_url, 86400);
     authorPhotoUrl = sig?.signedUrl ?? null;
   }
 
@@ -186,7 +186,7 @@ export async function getAlumniRecentPostsAction(
   if (postPhotoPaths.length > 0) {
     const { data: sigs } = await admin.storage
       .from("post-photos")
-      .createSignedUrls(postPhotoPaths, 3600);
+      .createSignedUrls(postPhotoPaths, 86400);
     (sigs ?? []).forEach((s) => {
       if (s.signedUrl && s.path) postPhotoMap[s.path] = s.signedUrl;
     });

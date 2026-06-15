@@ -16,7 +16,7 @@ interface ForwardPageProps {
   params: Promise<{ token: string }>;
 }
 
-export async function generateMetadata({ params }: ForwardPageProps) {
+export async function generateMetadata(_props: ForwardPageProps) {
   return {
     title: "Join the Utah Rugby Alumni Network",
     description:

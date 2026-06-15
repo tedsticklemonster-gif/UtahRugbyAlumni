@@ -78,7 +78,7 @@ export default async function JobsPage() {
   if (allPaths.length > 0) {
     const { data: sigs } = await admin.storage
       .from("alumni-photos")
-      .createSignedUrls(allPaths, 3600);
+      .createSignedUrls(allPaths, 86400);
     (sigs ?? []).forEach((s) => {
       if (s.signedUrl && s.path) photoMap[s.path] = s.signedUrl;
     });

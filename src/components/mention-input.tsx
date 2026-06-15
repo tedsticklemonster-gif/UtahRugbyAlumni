@@ -27,11 +27,12 @@ export function MentionInput({ value, onChange, placeholder, rows = 2, maxLength
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (mentionQuery === null || mentionQuery.length < 1) {
-      setCandidates([]);
-      return;
-    }
-    const q = mentionQuery.toLowerCase();
+    if (mentionQuery === null || mentionQuery.length < 1) return;
+    // Escape postgrest operator metacharacters in user input so a `,` or `)` in
+    // the query can't break out of the .or() expression.
+    const q = mentionQuery.toLowerCase().replace(/[%,()]/g, "");
+    if (!q) return;
+    let cancelled = false;
     const supabase = createClient();
     supabase
       .from("alumni")
@@ -39,7 +40,12 @@ export function MentionInput({ value, onChange, placeholder, rows = 2, maxLength
       .eq("verified", true)
       .or(`handle.ilike.%${q}%,first_name.ilike.%${q}%,last_name.ilike.%${q}%`)
       .limit(6)
-      .then(({ data }) => setCandidates(data ?? []));
+      .then(({ data }) => {
+        if (!cancelled) setCandidates(data ?? []);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [mentionQuery]);
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {

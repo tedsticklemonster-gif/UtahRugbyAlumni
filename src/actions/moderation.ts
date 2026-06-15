@@ -9,7 +9,7 @@ async function getMyId(): Promise<string | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user?.email) return null;
   const admin = createAdminClient();
-  const { data } = await admin.from("alumni").select("id").eq("email", user.email).single();
+  const { data } = await admin.from("alumni").select("id").eq("email", user.email).maybeSingle();
   return data?.id ?? null;
 }
 

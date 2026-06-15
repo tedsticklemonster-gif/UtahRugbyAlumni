@@ -26,7 +26,7 @@ const STEPS = [
   { title: "Stay in the Loop", desc: "Get notified when things happen in the network." },
 ];
 
-export function OnboardingWizard({ alumniId, firstName, onDismiss }: OnboardingWizardProps) {
+export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps) {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [submitting, startSubmit] = useTransition();

@@ -64,6 +64,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
 
+        <footer className="border-t border-zinc-900 bg-black pb-20 md:pb-0">
+          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-[11px] text-zinc-600 sm:flex-row">
+            <p className="text-center sm:text-left">
+              © {new Date().getFullYear()} Utah Rugby Alumni Network
+            </p>
+            <nav aria-label="Legal" className="flex items-center gap-4">
+              <Link
+                href="/privacy"
+                className="transition-colors hover:text-zinc-300"
+              >
+                Privacy
+              </Link>
+              <Link
+                href="/terms"
+                className="transition-colors hover:text-zinc-300"
+              >
+                Terms
+              </Link>
+            </nav>
+          </div>
+        </footer>
+
         <BottomNav />
       </div>
     </MeProvider>

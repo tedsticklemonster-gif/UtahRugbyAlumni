@@ -68,7 +68,7 @@ export async function createScheduleGame(formData: FormData): Promise<{ error?: 
   if (error) return { error: error.message };
 
   revalidatePath("/admin/schedule");
-  revalidatePath("/schedule");
+  revalidatePath("/events");
   revalidatePath("/");
   return {};
 }
@@ -113,7 +113,7 @@ export async function updateScheduleGame(
   if (error) return { error: error.message };
 
   revalidatePath("/admin/schedule");
-  revalidatePath("/schedule");
+  revalidatePath("/events");
   revalidatePath("/");
   return {};
 }
@@ -130,7 +130,7 @@ export async function deleteScheduleGame(id: string): Promise<{ error?: string }
   if (error) return { error: error.message };
 
   revalidatePath("/admin/schedule");
-  revalidatePath("/schedule");
+  revalidatePath("/events");
   revalidatePath("/");
   return {};
 }

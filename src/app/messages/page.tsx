@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { relativeTime } from "@/lib/time";
 import Link from "next/link";
+import { MemberAvatar } from "@/components/member-avatar";
 import { redirect } from "next/navigation";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -55,17 +56,12 @@ export default async function MessagesPage() {
             href={`/messages/${conv.other_id}`}
             className="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-zinc-900"
           >
-            {conv.other_photo_signed_url ? (
-              <img
-                src={conv.other_photo_signed_url}
-                alt={`${conv.other_first_name} ${conv.other_last_name}`}
-                className="h-12 w-12 shrink-0 rounded-full object-cover"
-              />
-            ) : (
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-zinc-300">
-                {conv.other_first_name[0]}{conv.other_last_name[0]}
-              </div>
-            )}
+            <MemberAvatar
+              photoUrl={conv.other_photo_signed_url}
+              firstName={conv.other_first_name}
+              lastName={conv.other_last_name}
+              size="lg"
+            />
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">

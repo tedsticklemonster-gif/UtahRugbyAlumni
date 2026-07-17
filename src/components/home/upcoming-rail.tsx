@@ -16,7 +16,7 @@ const KIND_LABELS: Record<string, string> = {
 function GameCard({ item }: { item: Extract<UpcomingItem, { source: "game" }> }) {
   return (
     <Link
-      href="/schedule"
+      href="/events?tab=season"
       className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-zinc-950 p-4 transition-colors hover:border-zinc-700 active:scale-[0.98]"
     >
       {/* Red left accent */}

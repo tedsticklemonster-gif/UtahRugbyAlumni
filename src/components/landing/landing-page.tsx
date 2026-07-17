@@ -275,7 +275,7 @@ export async function LandingPage() {
               sub: "Find a teammate",
             },
             {
-              href: "/schedule",
+              href: "/events?tab=season",
               icon: CalendarDays,
               title: "Schedule",
               sub: "Games & events",
@@ -324,7 +324,7 @@ export async function LandingPage() {
                 </h2>
               </div>
               <Link
-                href="/schedule"
+                href="/events?tab=season"
                 className="text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white"
               >
                 View All
@@ -689,7 +689,7 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
 
           {/* CTA — desktop only */}
           <Link
-            href="/schedule"
+            href="/events?tab=season"
             className="hidden shrink-0 items-center self-center gap-2 rounded-sm border-2 border-white/25 px-4 py-2.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-colors hover:border-white hover:bg-white hover:text-black md:inline-flex"
           >
             Full Schedule

@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
       { source: "/directory", destination: "/network", permanent: false },
       { source: "/jobs", destination: "/network?tab=jobs", permanent: false },
       { source: "/profile", destination: "/me", permanent: false },
+      { source: "/schedule", destination: "/events?tab=season", permanent: false },
       { source: "/feed", destination: "/", permanent: false },
     ];
   },

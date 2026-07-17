@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 function toICSDate(iso: string): string {
   const d = new Date(iso);
@@ -43,7 +43,7 @@ export async function GET(
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
-    `UID:${event.id}@alumni.utah-rugby.com`,
+    `UID:${event.id}@utah-rugby-alumni.vercel.app`,
     `DTSTART:${dtStart}`,
     `DTEND:${dtEnd}`,
     `SUMMARY:${escapeICS(event.title)}`,

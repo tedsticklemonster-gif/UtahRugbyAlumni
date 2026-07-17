@@ -19,7 +19,7 @@ function ShareButtonVisual() {
         {/* Safari address bar */}
         <div className="flex items-center gap-2 border-b border-zinc-700 bg-zinc-800 px-3 py-2">
           <div className="h-5 flex-1 rounded-md bg-zinc-700 px-2 flex items-center">
-            <span className="text-[9px] text-zinc-400 truncate">alumni.utah-rugby.com</span>
+            <span className="text-[9px] text-zinc-400 truncate">utah-rugby-alumni.vercel.app</span>
           </div>
         </div>
         {/* Page content preview */}
@@ -153,7 +153,7 @@ function InstalledVisual() {
 const STEPS: Step[] = [
   {
     title: "Open in Safari",
-    instruction: "Make sure you're using Safari — this won't work in Chrome or other browsers on iPhone. The address bar should show alumni.utah-rugby.com.",
+    instruction: "Make sure you're using Safari — this won't work in Chrome or other browsers on iPhone. The address bar should show utah-rugby-alumni.vercel.app.",
     visual: <ShareButtonVisual />,
   },
   {

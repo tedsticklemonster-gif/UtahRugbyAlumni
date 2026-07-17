@@ -28,7 +28,7 @@ import { SponsorHalo } from "@/components/sponsor-halo";
 import { PhotoLightbox } from "@/components/photo-lightbox";
 import { TIER_LABELS, formatLifetime } from "@/lib/sponsor";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 export async function generateMetadata({
   params,

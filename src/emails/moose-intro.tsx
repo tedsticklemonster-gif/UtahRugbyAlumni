@@ -18,8 +18,8 @@ interface MooseIntroEmailProps {
 
 export function MooseIntroEmail({
   firstName = "Friend",
-  profileLink = "https://alumni.utah-rugby.com/join",
-  forwardLink = "https://alumni.utah-rugby.com/forward/example",
+  profileLink = "https://utah-rugby-alumni.vercel.app/join",
+  forwardLink = "https://utah-rugby-alumni.vercel.app/forward/example",
   unsubscribeUrl,
 }: MooseIntroEmailProps) {
   return (

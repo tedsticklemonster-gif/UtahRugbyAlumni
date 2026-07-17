@@ -17,5 +17,8 @@ export const resend = new Proxy({} as Resend, {
   },
 });
 
-export const FROM_EMAIL = "moose@alumni.utah-rugby.com";
+// Resend's shared test sender — works without a verified domain, but only
+// reliably delivers to the Resend account's own email. Swap this for an
+// address on a verified custom domain before emailing all alumni.
+export const FROM_EMAIL = "onboarding@resend.dev";
 export const FROM_NAME = "Moose (Utah Rugby Alumni)";

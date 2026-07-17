@@ -33,7 +33,7 @@ export function NewEventEmail({
   eventKind = "social",
   eventDate = "Saturday, May 10, 2025 at 6:00 PM",
   eventLocation = null,
-  eventUrl = "https://alumni.utah-rugby.com/events/example",
+  eventUrl = "https://utah-rugby-alumni.vercel.app/events/example",
   unsubscribeUrl = "#",
 }: NewEventEmailProps) {
   const kindLabel = KIND_LABELS[eventKind] ?? "Event";

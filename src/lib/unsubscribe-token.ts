@@ -36,7 +36,7 @@ export function verifyUnsubscribeToken(token: string): string | null {
 
 /** Build the full unsubscribe URL for use in emails */
 export function unsubscribeUrl(alumniId: string): string {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://alumni.utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://utah-rugby-alumni.vercel.app";
   const token = createUnsubscribeToken(alumniId);
   return `${appUrl}/api/unsubscribe?token=${encodeURIComponent(token)}`;
 }

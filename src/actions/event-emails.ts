@@ -6,7 +6,7 @@ import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { NewEventEmail } from "@/emails/new-event";
 import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://utah-rugby-alumni.vercel.app";
 
 const KIND_LABELS: Record<string, string> = {
   social: "Social",

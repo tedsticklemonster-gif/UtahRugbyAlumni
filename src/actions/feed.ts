@@ -6,7 +6,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { postToTelegram } from "@/lib/telegram";
 import { sendPushToAlumni, sendPushToMany } from "@/lib/push";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 export type ReactionSummary = { emoji: string; count: number }[];
 
@@ -276,7 +276,7 @@ export async function createPostAction(formData: FormData): Promise<{ error?: st
   const authorName = authorInfo
     ? `${authorInfo.first_name} ${authorInfo.last_name}`
     : "A rugger";
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
   const postUrl = `${appUrl}/feed/${newPost.id}`;
   // Escape HTML entities so user content doesn't break Telegram's HTML parse mode
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

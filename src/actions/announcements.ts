@@ -71,13 +71,13 @@ export async function createAnnouncementAction(
     sendPushToMany(allAlumni.map((a) => a.id), {
       title: data.title,
       body: preview,
-      url: process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com",
+      url: process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app",
     }).catch(() => {});
   }
 
   // Push announcement to Telegram channel
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
   const truncated = data.body.length > 280 ? data.body.slice(0, 280) + "…" : data.body;
   await postToTelegram(
     `<b>${esc(data.title)}</b>\n\n${esc(truncated)}\n\n<a href="${appUrl}">View in app</a>`

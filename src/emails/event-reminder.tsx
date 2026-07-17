@@ -23,7 +23,7 @@ export function EventReminderEmail({
   eventTitle = "Alumni Banquet",
   eventDate = "Tomorrow at 6:00 PM",
   eventLocation = null,
-  eventUrl = "https://alumni.utah-rugby.com/events/example",
+  eventUrl = "https://utah-rugby-alumni.vercel.app/events/example",
   unsubscribeUrl = "#",
 }: EventReminderEmailProps) {
   return (

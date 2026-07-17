@@ -6,7 +6,7 @@ import { RsvpChips } from "@/components/rsvp-chips";
 import { ShareButton } from "@/components/share-button";
 import type { AlumniEvent } from "@/actions/events";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
   social: { label: "Social", color: "text-purple-400" },

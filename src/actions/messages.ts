@@ -252,7 +252,7 @@ export async function sendMessageAction(
   }).then(() => {}, () => {});
 
   // Fire-and-forget push notification to recipient
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
   sendPushToAlumni(recipientId, {
     title: `${me.first_name} ${me.last_name}`,
     body: msgPreview,

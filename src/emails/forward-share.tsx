@@ -17,7 +17,7 @@ interface ForwardShareEmailProps {
 
 export function ForwardShareEmail({
   referrerName = "A fellow alum",
-  joinLink = "https://alumni.utah-rugby.com/join",
+  joinLink = "https://utah-rugby-alumni.vercel.app/join",
   unsubscribeUrl,
 }: ForwardShareEmailProps) {
   return (

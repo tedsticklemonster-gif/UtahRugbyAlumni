@@ -49,7 +49,7 @@ export async function sendEmailsAction(
     return { success: false, error: "No valid recipients found." };
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://alumni.utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://utah-rugby-alumni.vercel.app";
   let sent = 0;
   let failed = 0;
 

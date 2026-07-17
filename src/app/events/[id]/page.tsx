@@ -11,7 +11,7 @@ import { listEventPhotos } from "@/actions/event-photos";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
   social: { label: "Social", color: "text-purple-400" },

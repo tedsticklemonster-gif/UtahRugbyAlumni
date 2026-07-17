@@ -6,7 +6,7 @@ import { EventReminderEmail } from "@/emails/event-reminder";
 import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 import type { JobDefinition, JobResult } from "@/jobs/index";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://alumni.utah-rugby.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://utah-rugby-alumni.vercel.app";
 
 function formatEventDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {

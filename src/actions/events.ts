@@ -225,7 +225,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
       }))
     ).then(() => {}, () => {});
 
-    const appUrlForPush = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+    const appUrlForPush = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
     sendPushToMany(allAlumni.map((a) => a.id), {
       title: "New event: " + eventPreview,
       body: "Tap to see details and RSVP",
@@ -237,7 +237,7 @@ export async function createEventAction(formData: FormData): Promise<{ id?: stri
   void notifyNewEvent(data.id);
 
   // Auto-post event to Alumni Wall
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
   const eventUrl = `${appUrl}/events/${data.id}`;
   const location = (formData.get("location") as string)?.trim() || null;
   const dateLabel = new Date(starts_at).toLocaleDateString("en-US", {
@@ -290,7 +290,7 @@ export async function rsvpAction(eventId: string, status: "going" | "maybe" | "n
           entity_id: eventId,
           body_preview: event.title,
         }).then(() => {}, () => {});
-        const rsvpAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://alumni.utah-rugby.com";
+        const rsvpAppUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
         sendPushToAlumni(event.creator_id, {
           title: `${alumni.first_name} ${alumni.last_name} ${status === "going" ? "is going to" : "might come to"} ${event.title}`,
           body: "Tap to see who else is coming",

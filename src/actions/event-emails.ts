@@ -2,7 +2,7 @@
 
 import { render } from "@react-email/components";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
+import { getResend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { NewEventEmail } from "@/emails/new-event";
 import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 
@@ -90,7 +90,7 @@ export async function notifyNewEvent(eventId: string) {
           })
         );
 
-        const { data: sendResult } = await resend.emails.send({
+        const { data: sendResult } = await getResend().emails.send({
           from: `${FROM_NAME} <${FROM_EMAIL}>`,
           to: recipient.email,
           subject: `New ${kindLabel}: ${event.title}`,
@@ -113,7 +113,6 @@ export async function notifyNewEvent(eventId: string) {
       }
     }
 
-    console.log(`[notifyNewEvent] Sent ${sent} emails for event ${eventId}`);
   } catch (err) {
     console.error("[notifyNewEvent] Error:", err);
   }

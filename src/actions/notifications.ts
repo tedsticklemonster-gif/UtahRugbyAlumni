@@ -94,7 +94,7 @@ export async function getUnreadCountAction(): Promise<number> {
   const admin = createAdminClient();
   const { count } = await admin
     .from("notifications")
-    .select("*", { count: "exact", head: true })
+    .select("id", { count: "exact", head: true })
     .eq("recipient_id", myId)
     .is("read_at", null);
   return count ?? 0;

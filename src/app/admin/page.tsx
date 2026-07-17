@@ -45,25 +45,25 @@ export default async function AdminDashboardPage() {
     { count: upcomingEvents },
     { data: expiringAnnouncements },
   ] = await Promise.all([
-    supabase.from("alumni").select("*", { count: "exact", head: true }),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "self_registered"),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "imported"),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "opted_out"),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "unreachable"),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("status", "needs_research"),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).eq("verified", true),
-    supabase.from("alumni").select("*", { count: "exact", head: true }).gte("created_at", oneWeekAgo),
-    supabase.from("email_sends").select("*", { count: "exact", head: true }).gte("sent_at", oneWeekAgo),
+    supabase.from("alumni").select("id", { count: "exact", head: true }),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).eq("status", "self_registered"),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).eq("status", "imported"),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).eq("status", "opted_out"),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).eq("status", "unreachable"),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).eq("status", "needs_research"),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).eq("verified", true),
+    supabase.from("alumni").select("id", { count: "exact", head: true }).gte("created_at", oneWeekAgo),
+    supabase.from("email_sends").select("id", { count: "exact", head: true }).gte("sent_at", oneWeekAgo),
     supabase.from("email_sends").select("opened_at").gte("sent_at", oneWeekAgo),
     supabase.from("pledges").select("amount_cents, status").eq("status", "pledged"),
     supabase
       .from("alumni")
-      .select("*", { count: "exact", head: true })
+      .select("id", { count: "exact", head: true })
       .or(`last_contacted_at.is.null,last_contacted_at.lt.${ninetyDaysAgo}`)
       .in("status", ["imported", "self_registered"]),
     supabase
       .from("events")
-      .select("*", { count: "exact", head: true })
+      .select("id", { count: "exact", head: true })
       .gte("starts_at", nowIso)
       .is("cancelled_at", null)
       .is("deleted_at", null),

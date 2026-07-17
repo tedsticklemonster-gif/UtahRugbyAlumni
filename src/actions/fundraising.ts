@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/require-admin";
 import { logAdminAction } from "@/lib/audit";
-import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
+import { getResend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { PledgeThankYouEmail } from "@/emails/pledge-thank-you";
 import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 
@@ -257,7 +257,7 @@ export async function sendThankYouAction(
   );
 
   try {
-    const { data: sendResult } = await resend.emails.send({
+    const { data: sendResult } = await getResend().emails.send({
       from: `${FROM_NAME} <${FROM_EMAIL}>`,
       to: pledge.donor_email,
       subject: `Thank you for supporting ${campaign.name}`,

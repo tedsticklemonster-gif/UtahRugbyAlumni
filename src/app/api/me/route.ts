@@ -35,7 +35,7 @@ export async function GET() {
 
   const { count: unread_count } = await admin
     .from("messages")
-    .select("*", { count: "exact", head: true })
+    .select("id", { count: "exact", head: true })
     .eq("recipient_id", alumni.id)
     .is("read_at", null);
 

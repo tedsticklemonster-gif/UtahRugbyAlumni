@@ -54,7 +54,7 @@ export function DirectoryFilters() {
   );
 
   function clearFilters() {
-    router.push("/directory");
+    router.push("/network");
   }
 
   const hasFilters =

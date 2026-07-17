@@ -145,7 +145,7 @@ export default async function JobsPage() {
               icon={<Hammer className="size-6 text-sky-400" />}
               title="No one hiring right now"
               body="Toggle 'Hiring' on your profile to post here."
-              cta={{ href: "/profile", label: "Edit my profile" }}
+              cta={{ href: "/me", label: "Edit my profile" }}
             />
           ) : (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

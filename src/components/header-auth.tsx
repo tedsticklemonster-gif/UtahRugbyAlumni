@@ -93,7 +93,7 @@ function AvatarMenu() {
 
           <div className="py-1">
             <Link
-              href="/profile"
+              href="/me"
               onClick={() => setOpen(false)}
               className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
             >

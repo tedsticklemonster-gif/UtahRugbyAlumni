@@ -16,7 +16,7 @@ export default function NotFound() {
           Go home
         </Link>
         <Link
-          href="/directory"
+          href="/network"
           className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-zinc-500"
         >
           Directory

@@ -7,10 +7,10 @@ import { MeProvider } from "@/components/me-provider";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/directory", label: "Directory" },
+  { href: "/network", label: "Network" },
   { href: "/events", label: "Events" },
-  { href: "/jobs", label: "Jobs" },
   { href: "/messages", label: "Messages" },
+  { href: "/me", label: "Me" },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -30,7 +30,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               aria-label="University of Utah Rugby Alumni — Home"
             >
               <BrandMark className="size-8" />
-              <span className="hidden text-sm font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight text-white sm:block">
+              <span className="text-display hidden text-sm text-white sm:block">
                 Utah Rugby <span className="text-utah-red">Alumni Network</span>
               </span>
             </Link>

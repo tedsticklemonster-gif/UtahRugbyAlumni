@@ -237,7 +237,7 @@ export default async function HomePage() {
                   <ArrowRight className="size-4" />
                 </Link>
                 <Link
-                  href="/directory"
+                  href="/network"
                   className="inline-flex items-center gap-2 rounded-sm border-2 border-white/30 bg-black/30 px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-black"
                 >
                   Browse Directory
@@ -334,9 +334,9 @@ export default async function HomePage() {
       <section className="bg-black">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-zinc-900 md:grid-cols-5">
           {[
-            { href: "/feed", icon: Newspaper, title: "Feed", sub: "Alumni wall" },
+            { href: "/", icon: Newspaper, title: "Feed", sub: "Alumni wall" },
             {
-              href: "/directory",
+              href: "/network",
               icon: Users,
               title: "Directory",
               sub: "Find a teammate",
@@ -510,7 +510,7 @@ export default async function HomePage() {
                 </h2>
               </div>
               <Link
-                href="/directory"
+                href="/network"
                 className={`text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white`}
               >
                 All Alumni

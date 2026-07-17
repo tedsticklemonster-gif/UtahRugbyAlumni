@@ -117,7 +117,7 @@ export default async function ThanksPage() {
                 who&rsquo;s hiring right now.
               </p>
               <Link
-                href="/directory"
+                href="/network"
                 className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
               >
                 Browse Directory

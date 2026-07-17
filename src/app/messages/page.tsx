@@ -41,7 +41,7 @@ export default async function MessagesPage() {
             <p className="text-sm font-semibold text-zinc-400">No messages yet</p>
             <p className="text-xs text-zinc-600">
               Find a teammate in the{" "}
-              <Link href="/directory" className="text-zinc-400 underline hover:text-white">
+              <Link href="/network" className="text-zinc-400 underline hover:text-white">
                 directory
               </Link>{" "}
               and send them a message.
@@ -94,7 +94,7 @@ export default async function MessagesPage() {
       {/* Link to find people to message */}
       {conversations.length > 0 && (
         <div className="px-5 py-4 text-center">
-          <Link href="/directory" className="text-xs font-semibold text-zinc-500 hover:text-white">
+          <Link href="/network" className="text-xs font-semibold text-zinc-500 hover:text-white">
             Find more teammates to message →
           </Link>
         </div>

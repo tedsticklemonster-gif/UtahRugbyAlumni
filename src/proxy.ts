@@ -30,8 +30,11 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect /profile — require auth
-  if (request.nextUrl.pathname.startsWith("/profile") && !user) {
+  // Protect /me (and legacy /profile) — require auth
+  const path = request.nextUrl.pathname;
+  const needsAuth =
+    path === "/me" || path.startsWith("/me/") || path.startsWith("/profile");
+  if (needsAuth && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.redirect(url);

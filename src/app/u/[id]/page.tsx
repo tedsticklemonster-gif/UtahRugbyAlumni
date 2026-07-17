@@ -117,7 +117,7 @@ export default async function AlumniProfilePage({
       {/* Back nav */}
       <div className="sticky top-14 z-20 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm px-4 py-3">
         <Link
-          href="/directory"
+          href="/network"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-400 hover:text-white transition-colors"
         >
           <ArrowLeft className="size-4" />

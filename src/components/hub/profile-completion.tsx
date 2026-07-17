@@ -39,7 +39,7 @@ export function ProfileCompletion({ fields }: { fields: ProfileFields }) {
   return (
     <div className="mx-4 mt-4">
       <Link
-        href="/profile"
+        href="/me"
         className="block rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 transition-colors hover:border-utah-red/40"
       >
         <div className="flex items-center justify-between mb-2">

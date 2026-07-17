@@ -40,11 +40,11 @@ export function TagInput({
   return (
     <div className="space-y-2">
       <Label>{label}</Label>
-      <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 focus-within:ring-1 focus-within:ring-[#CC0000]">
+      <div className="flex flex-wrap items-center gap-2 rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1.5 focus-within:ring-1 focus-within:ring-utah-red">
         {value.map((tag, i) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1 rounded-md bg-[#CC0000]/15 px-2 py-0.5 text-xs font-semibold text-[#FF5555]"
+            className="inline-flex items-center gap-1 rounded-md bg-utah-red/15 px-2 py-0.5 text-xs font-semibold text-[#FF5555]"
           >
             {tag}
             <button
@@ -74,7 +74,7 @@ export function TagInput({
           className="min-w-[120px] flex-1 bg-transparent py-1 text-sm text-white outline-none placeholder:text-zinc-500"
         />
       </div>
-      <p className="text-[11px] text-zinc-500">
+      <p className="text-xs text-zinc-500">
         Press Enter or comma to add. {value.length}/{maxTags}
       </p>
     </div>

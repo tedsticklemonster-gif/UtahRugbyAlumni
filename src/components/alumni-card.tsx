@@ -144,7 +144,7 @@ export function AlumniCard({
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5">
           {ribbonCfg ? (
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wider shadow-sm ${ribbonCfg.className}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-black uppercase tracking-wider shadow-sm ${ribbonCfg.className}`}
             >
               <ribbonCfg.icon className="size-3" />
               {ribbonCfg.label}
@@ -154,7 +154,7 @@ export function AlumniCard({
           )}
           {verified && (
             <span
-              className="inline-flex items-center gap-0.5 rounded-full bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur"
+              className="inline-flex items-center gap-0.5 rounded-full bg-black/60 px-1.5 py-0.5 text-2xs font-semibold text-white backdrop-blur"
               title="Verified alumnus"
             >
               <BadgeCheck className="size-3 text-sky-400" />
@@ -169,12 +169,12 @@ export function AlumniCard({
           </p>
           <div className="mt-1 flex flex-wrap items-center gap-1">
             {gradYear && (
-              <span className="rounded-md bg-[#CC0000] px-1.5 py-0.5 text-[10px] font-black text-white">
+              <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white">
                 &rsquo;{String(gradYear).slice(-2)}
               </span>
             )}
             {position && (
-              <span className="rounded-md bg-white/15 px-1.5 py-0.5 text-[10px] font-semibold capitalize text-white backdrop-blur-sm">
+              <span className="rounded-md bg-white/15 px-1.5 py-0.5 text-2xs font-semibold capitalize text-white backdrop-blur-sm">
                 {position}
               </span>
             )}
@@ -208,7 +208,7 @@ export function AlumniCard({
             {topServices.map((s) => (
               <span
                 key={s}
-                className="rounded-md border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-300"
+                className="rounded-md border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-2xs font-medium text-zinc-300"
               >
                 {s}
               </span>
@@ -225,7 +225,7 @@ export function AlumniCard({
             <Link
               href={`/messages/${alumniId}`}
               onClick={(e) => e.stopPropagation()}
-              className="relative z-10 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1 text-[11px] font-semibold text-zinc-200 transition-colors hover:border-[#CC0000] hover:text-white"
+              className="relative z-10 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1 text-xs font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
             >
               <MessageCircle className="size-3" />
               Message
@@ -234,7 +234,7 @@ export function AlumniCard({
             <span />
           )}
           {isGated && (
-            <p className="text-[10px] italic text-zinc-500">
+            <p className="text-2xs italic text-zinc-500">
               Sign in to see photo
             </p>
           )}

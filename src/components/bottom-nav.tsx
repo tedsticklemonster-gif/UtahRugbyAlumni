@@ -44,7 +44,7 @@ export function BottomNav() {
             aria-label="Create post"
             className="absolute left-1/2 -translate-x-1/2 -top-6 z-10
                        flex h-14 w-14 items-center justify-center
-                       rounded-full bg-[#CC0000] shadow-lg shadow-[#CC0000]/40
+                       rounded-full bg-utah-red shadow-lg shadow-utah-red/40
                        text-white transition-transform active:scale-90"
           >
             <Plus className="size-6" strokeWidth={2.5} />
@@ -61,8 +61,8 @@ export function BottomNav() {
                   href={href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex flex-col items-center justify-center gap-0.5 py-1 text-[10px] font-semibold tracking-wide uppercase transition-colors",
-                    active ? "text-[#CC0000]" : "text-zinc-500 hover:text-zinc-300"
+                    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-semibold tracking-wide uppercase transition-colors",
+                    active ? "text-utah-red" : "text-zinc-500 hover:text-zinc-300"
                   )}
                 >
                   <Icon className={cn("size-5", active && "stroke-[2.5]")} aria-hidden />
@@ -85,14 +85,14 @@ export function BottomNav() {
                   href={href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex flex-col items-center justify-center gap-0.5 py-1 text-[10px] font-semibold tracking-wide uppercase transition-colors",
-                    active ? "text-[#CC0000]" : "text-zinc-500 hover:text-zinc-300"
+                    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-semibold tracking-wide uppercase transition-colors",
+                    active ? "text-utah-red" : "text-zinc-500 hover:text-zinc-300"
                   )}
                 >
                   <span className="relative">
                     <Icon className={cn("size-5", active && "stroke-[2.5]")} aria-hidden />
                     {showBadge && (
-                      <span className="absolute -right-1.5 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#CC0000] px-1 text-[9px] font-bold text-white">
+                      <span className="absolute -right-1.5 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-utah-red px-1 text-3xs font-bold text-white">
                         {unread > 9 ? "9+" : unread}
                       </span>
                     )}

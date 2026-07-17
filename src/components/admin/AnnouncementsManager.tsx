@@ -253,12 +253,12 @@ export function AnnouncementsManager({
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-medium text-sm">{item.title}</p>
                   {item.pinned && (
-                    <span className="rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 text-[10px] font-semibold">
+                    <span className="rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 text-2xs font-semibold">
                       Pinned
                     </span>
                   )}
                   {item.expires_at && (
-                    <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+                    <span className="rounded-full bg-muted px-2 py-0.5 text-2xs text-muted-foreground">
                       Expires {new Date(item.expires_at).toLocaleDateString()}
                     </span>
                   )}
@@ -266,7 +266,7 @@ export function AnnouncementsManager({
                 <p className="text-xs text-muted-foreground line-clamp-2">
                   {item.body}
                 </p>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-2xs text-muted-foreground">
                   Created {new Date(item.created_at).toLocaleDateString()}
                   {item.updated_at &&
                     item.updated_at !== item.created_at &&

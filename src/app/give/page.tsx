@@ -8,10 +8,6 @@ export const metadata = { title: "Give — Utah Rugby Alumni" };
 const DONORBOX_CAMPAIGN = "25-26-season-campaign";
 const OFFICIAL_GIVING_URL = "https://www.utah-rugby.com/donations";
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
-const eyebrow =
-  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
 
 type CampaignProgress = {
   name: string;
@@ -72,11 +68,11 @@ export default async function GivePage() {
     <div className="min-h-screen bg-zinc-950">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
-          <span className="inline-flex size-10 items-center justify-center rounded-xl bg-[#CC0000]/15 text-[#CC0000]">
+          <span className="inline-flex size-10 items-center justify-center rounded-xl bg-utah-red/15 text-utah-red">
             <HeartHandshake className="size-5" />
           </span>
           <div>
-            <h1 className={`${display} text-3xl text-white`}>Give Back</h1>
+            <h1 className={`text-display text-3xl text-white`}>Give Back</h1>
             <p className="text-sm text-zinc-500">Support University of Utah Rugby</p>
           </div>
         </div>
@@ -87,11 +83,11 @@ export default async function GivePage() {
         {progress && (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
             <div className="flex items-center gap-2 mb-1">
-              <Target className="size-4 text-[#CC0000]" />
-              <p className={`${eyebrow} text-[10px] text-[#CC0000]`}>{progress.name}</p>
+              <Target className="size-4 text-utah-red" />
+              <p className={`text-eyebrow text-2xs text-utah-red`}>{progress.name}</p>
             </div>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className={`${display} text-4xl text-white`}>
+              <span className={`text-display text-4xl text-white`}>
                 ${Math.round(progress.raisedCents / 100).toLocaleString()}
               </span>
               {progress.goalCents && (
@@ -103,7 +99,7 @@ export default async function GivePage() {
             {pct !== null && (
               <div className="mt-4 h-4 w-full rounded-full bg-zinc-800 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#CC0000] to-[#FF3333] transition-all duration-1000"
+                  className="h-full rounded-full bg-gradient-to-r from-utah-red to-[#FF3333] transition-all duration-1000"
                   style={{ width: `${pct}%` }}
                 />
               </div>
@@ -124,7 +120,7 @@ export default async function GivePage() {
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
           <div className="flex items-center gap-2 mb-4">
             <Trophy className="size-4 text-amber-400" />
-            <p className={`${eyebrow} text-[10px] text-zinc-400`}>Your Impact</p>
+            <p className={`text-eyebrow text-2xs text-zinc-400`}>Your Impact</p>
           </div>
           <p className="text-sm text-zinc-300 mb-4">
             Every dollar goes directly to the program — travel, kit, recruiting, and alumni events.
@@ -132,7 +128,7 @@ export default async function GivePage() {
           <div className="space-y-2">
             {IMPACT_ITEMS.map(({ amount, desc }) => (
               <div key={amount} className="flex items-baseline gap-3 py-2 border-b border-zinc-800 last:border-0">
-                <span className={`${display} text-xl text-[#CC0000] w-20 shrink-0`}>{amount}</span>
+                <span className={`text-display text-xl text-utah-red w-20 shrink-0`}>{amount}</span>
                 <span className="text-sm text-zinc-400">{desc}</span>
               </div>
             ))}
@@ -141,7 +137,7 @@ export default async function GivePage() {
 
         {/* Donorbox widget */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-          <p className={`${eyebrow} text-[10px] text-[#CC0000] mb-3`}>Donate Now</p>
+          <p className={`text-eyebrow text-2xs text-utah-red mb-3`}>Donate Now</p>
           <Script src="https://donorbox.org/widget.js" strategy="lazyOnload" />
           <iframe
             src={`https://donorbox.org/embed/${DONORBOX_CAMPAIGN}?default_interval=o&show_content=true`}
@@ -163,14 +159,14 @@ export default async function GivePage() {
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
           <div className="flex items-center gap-2 mb-4">
             <Star className="size-4 text-yellow-400" />
-            <p className={`${eyebrow} text-[10px] text-zinc-400`}>Sponsor Tiers</p>
+            <p className={`text-eyebrow text-2xs text-zinc-400`}>Sponsor Tiers</p>
           </div>
           <div className="space-y-3">
             {SPONSOR_TIERS.map(({ tier, amount, perks, color, bg }) => (
               <div key={tier} className={`rounded-xl border p-4 ${bg}`}>
                 <div className="flex items-baseline justify-between">
-                  <span className={`${display} text-xl ${color}`}>{tier}</span>
-                  <span className={`${eyebrow} text-[10px] ${color}`}>{amount}</span>
+                  <span className={`text-display text-xl ${color}`}>{tier}</span>
+                  <span className={`text-eyebrow text-2xs ${color}`}>{amount}</span>
                 </div>
                 <p className="mt-1 text-xs text-zinc-400">{perks}</p>
               </div>
@@ -180,7 +176,7 @@ export default async function GivePage() {
 
         {/* More ways to give */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-          <p className={`${eyebrow} text-[10px] text-zinc-500 mb-2`}>More ways to give</p>
+          <p className={`text-eyebrow text-2xs text-zinc-500 mb-2`}>More ways to give</p>
           <p className="text-sm leading-relaxed text-zinc-400">
             View all giving options, sponsorship opportunities, and more on the official Utah Rugby site.
           </p>

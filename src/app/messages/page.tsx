@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 
+import { relativeTime } from "@/lib/time";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft, MessageCircle } from "lucide-react";
@@ -9,18 +10,6 @@ import { getConversationsAction } from "@/actions/messages";
 export const metadata = {
   title: "Messages — Utah Rugby Alumni Network",
 };
-
-function relativeTime(iso: string) {
-  const diff = Date.now() - new Date(iso).getTime();
-  const m = Math.floor(diff / 60_000);
-  if (m < 1) return "just now";
-  if (m < 60) return `${m}m`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h`;
-  const d = Math.floor(h / 24);
-  if (d < 7) return `${d}d`;
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
 
 export default async function MessagesPage() {
   const supabase = await createClient();
@@ -83,7 +72,7 @@ export default async function MessagesPage() {
                 <p className="truncate text-sm font-semibold text-white">
                   {conv.other_first_name} {conv.other_last_name}
                 </p>
-                <span className="shrink-0 text-[10px] text-zinc-500">
+                <span className="shrink-0 text-2xs text-zinc-500">
                   {relativeTime(conv.last_message_at)}
                 </span>
               </div>
@@ -94,7 +83,7 @@ export default async function MessagesPage() {
             </div>
 
             {conv.unread_count > 0 && (
-              <div className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-[#CC0000] px-1.5 text-[10px] font-bold text-white">
+              <div className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-utah-red px-1.5 text-2xs font-bold text-white">
                 {conv.unread_count > 9 ? "9+" : conv.unread_count}
               </div>
             )}

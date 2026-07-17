@@ -328,8 +328,8 @@ function Rail({
 function DirectoryEmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
     <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/40 px-6 py-12 text-center">
-      <div className="flex size-14 items-center justify-center rounded-2xl bg-[#CC0000]/15">
-        <Users className="size-7 text-[#CC0000]" />
+      <div className="flex size-14 items-center justify-center rounded-2xl bg-utah-red/15">
+        <Users className="size-7 text-utah-red" />
       </div>
       <h2 className="mt-4 text-lg font-black text-white">
         {hasFilters ? "No matches" : "Be the first to show up here"}
@@ -341,7 +341,7 @@ function DirectoryEmptyState({ hasFilters }: { hasFilters: boolean }) {
       </p>
       <Link
         href="/thanks"
-        className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-[#CC0000] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
       >
         <UserPlus className="size-4" />
         Invite a teammate
@@ -392,7 +392,7 @@ function DirectorySignInWall() {
         </Link>
         <Link
           href="/join"
-          className="inline-flex items-center justify-center rounded-xl bg-[#CC0000] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+          className="inline-flex items-center justify-center rounded-xl bg-utah-red px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
         >
           Join the Network
         </Link>

@@ -1,5 +1,7 @@
 "use client";
 
+import { MemberAvatar } from "@/components/member-avatar";
+import { relativeTime } from "@/lib/time";
 import { useState, useTransition, useRef } from "react";
 import Link from "next/link";
 import { MessageCircle, MoreHorizontal, Pencil, Send, Trash2 } from "lucide-react";
@@ -18,54 +20,6 @@ import {
 import { ReactionPicker } from "@/components/reaction-picker";
 import { cn } from "@/lib/utils";
 
-const eyebrow =
-  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
-
-function relativeTime(iso: string) {
-  const diff = Date.now() - new Date(iso).getTime();
-  const m = Math.floor(diff / 60_000);
-  if (m < 1) return "just now";
-  if (m < 60) return `${m}m`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h`;
-  const d = Math.floor(h / 24);
-  if (d < 7) return `${d}d`;
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
-
-function Avatar({
-  photoUrl,
-  firstName,
-  lastName,
-  size = "md",
-}: {
-  photoUrl: string | null;
-  firstName: string;
-  lastName: string;
-  size?: "sm" | "md";
-}) {
-  const sz = size === "sm" ? "h-7 w-7 text-[10px]" : "h-9 w-9 text-xs";
-  if (photoUrl) {
-    return (
-      <img
-        src={photoUrl}
-        alt={`${firstName} ${lastName}`}
-        className={cn("rounded-full object-cover shrink-0", sz)}
-      />
-    );
-  }
-  return (
-    <div
-      className={cn(
-        "flex shrink-0 items-center justify-center rounded-full bg-zinc-800 font-bold text-zinc-300",
-        sz
-      )}
-    >
-      {firstName[0]}
-      {lastName[0]}
-    </div>
-  );
-}
 
 function SwipeableComment({
   comment: c,
@@ -108,11 +62,11 @@ function SwipeableComment({
     <div className="relative overflow-hidden">
       {/* Delete reveal */}
       {isOwn && (
-        <div className="absolute inset-y-0 right-0 flex w-20 items-center justify-center bg-[#CC0000]">
+        <div className="absolute inset-y-0 right-0 flex w-20 items-center justify-center bg-utah-red">
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className={`${eyebrow} text-[9px] text-white px-3`}
+            className={`text-eyebrow text-3xs text-white px-3`}
           >
             {deleting ? "…" : "Delete"}
           </button>
@@ -131,7 +85,7 @@ function SwipeableComment({
           href={`/u/${c.author_id}`}
           className="shrink-0 hover:opacity-80 transition-opacity"
         >
-          <Avatar
+          <MemberAvatar
             photoUrl={c.author_photo_signed_url}
             firstName={c.author_first_name}
             lastName={c.author_last_name}
@@ -142,7 +96,7 @@ function SwipeableComment({
           <div className="bg-zinc-800 px-3 py-2">
             <Link
               href={`/u/${c.author_id}`}
-              className="text-xs font-bold text-white transition-colors hover:text-[#CC0000]"
+              className="text-xs font-bold text-white transition-colors hover:text-utah-red"
             >
               {c.author_first_name} {c.author_last_name}
             </Link>
@@ -164,7 +118,7 @@ function SwipeableComment({
               />
             )}
           </div>
-          <p className="mt-0.5 pl-3 text-[10px] text-zinc-600" suppressHydrationWarning>
+          <p className="mt-0.5 pl-3 text-2xs text-zinc-600" suppressHydrationWarning>
             {relativeTime(c.created_at)}
           </p>
         </div>
@@ -248,7 +202,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           href={`/u/${post.author_id}`}
           className="shrink-0 hover:opacity-80 transition-opacity"
         >
-          <Avatar
+          <MemberAvatar
             photoUrl={post.author_photo_signed_url}
             firstName={post.author_first_name}
             lastName={post.author_last_name}
@@ -257,11 +211,11 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
         <div className="min-w-0 flex-1">
           <Link
             href={`/u/${post.author_id}`}
-            className="text-sm font-bold text-white transition-colors hover:text-[#CC0000]"
+            className="text-sm font-bold text-white transition-colors hover:text-utah-red"
           >
             {post.author_first_name} {post.author_last_name}
           </Link>
-          <p className={`${eyebrow} text-[9px] text-zinc-600`} suppressHydrationWarning>
+          <p className={`text-eyebrow text-3xs text-zinc-600`} suppressHydrationWarning>
             {relativeTime(post.created_at)}
             {post.updated_at && <span className="text-zinc-700"> · edited</span>}
           </p>
@@ -302,7 +256,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       {/* Pinned badge */}
       {post.pinned && (
         <div className="px-4 pb-1">
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-400">
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-amber-400">
             Pinned
           </span>
         </div>
@@ -311,7 +265,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       {/* Category tag */}
       {post.category && (
         <div className="px-4 pb-1">
-          <span className="inline-flex rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-semibold text-zinc-400">
+          <span className="inline-flex rounded-full bg-zinc-800 px-2 py-0.5 text-2xs font-semibold text-zinc-400">
             {post.category}
           </span>
         </div>
@@ -338,7 +292,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                 });
               }}
               disabled={editPending}
-              className="rounded-lg bg-[#CC0000] px-3 py-1 text-xs font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+              className="rounded-lg bg-utah-red px-3 py-1 text-xs font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
             >
               {editPending ? "Saving..." : "Save"}
             </button>
@@ -386,7 +340,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
         <button
           onClick={toggleComments}
-          className={`${eyebrow} flex items-center gap-1.5 px-3 py-2 text-[10px] text-zinc-500 transition-colors hover:text-zinc-300`}
+          className={`text-eyebrow flex items-center gap-1.5 px-3 py-2 text-2xs text-zinc-500 transition-colors hover:text-zinc-300`}
         >
           <MessageCircle className="size-4" />
           {post.comment_count > 0 && <span>{post.comment_count}</span>}
@@ -398,7 +352,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       {commentsOpen && (
         <div className="border-t border-zinc-900 px-4 pb-4 pt-3 space-y-3">
           {commentsLoading && (
-            <p className={`${eyebrow} text-[10px] text-zinc-500`}>Loading…</p>
+            <p className={`text-eyebrow text-2xs text-zinc-500`}>Loading…</p>
           )}
 
           {comments.map((c) => (
@@ -438,7 +392,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                   <button
                     onClick={handleComment}
                     disabled={submitting || (!commentBody.trim() && !commentPhoto)}
-                    className={`${eyebrow} flex items-center gap-1 rounded-sm bg-[#CC0000] px-2.5 py-1 text-[9px] text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40`}
+                    className={`text-eyebrow flex items-center gap-1 rounded-sm bg-utah-red px-2.5 py-1 text-3xs text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40`}
                   >
                     <Send className="size-3" />
                     {submitting ? "…" : "Send"}

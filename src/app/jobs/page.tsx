@@ -115,10 +115,10 @@ export default async function JobsPage() {
         {jobListings.length > 0 && (
           <section>
             <div className="mb-3 flex items-baseline justify-between">
-              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+              <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-utah-red">
                 <Briefcase className="size-3" /> Job Listings
               </p>
-              <span className="text-[10px] font-semibold text-zinc-500">
+              <span className="text-2xs font-semibold text-zinc-500">
                 {jobListings.length} {jobListings.length === 1 ? "listing" : "listings"}
               </span>
             </div>
@@ -133,10 +133,10 @@ export default async function JobsPage() {
         {/* Hiring now */}
         <section>
           <div className="mb-3 flex items-baseline justify-between">
-            <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-sky-400">
+            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-sky-400">
               <Hammer className="size-3" /> Alumni Hiring Now
             </p>
-            <span className="text-[10px] font-semibold text-zinc-500">
+            <span className="text-2xs font-semibold text-zinc-500">
               {hiring.length} {hiring.length === 1 ? "alum" : "alumni"}
             </span>
           </div>
@@ -159,10 +159,10 @@ export default async function JobsPage() {
         {/* Open to work */}
         <section>
           <div className="mb-3 flex items-baseline justify-between">
-            <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-emerald-400">
+            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-emerald-400">
               <Sparkles className="size-3" /> Open To Work
             </p>
-            <span className="text-[10px] font-semibold text-zinc-500">
+            <span className="text-2xs font-semibold text-zinc-500">
               {open.length} {open.length === 1 ? "alum" : "alumni"}
             </span>
           </div>
@@ -226,13 +226,13 @@ function JobCard({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-wider ${badge.className}`}
+            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-3xs font-black uppercase tracking-wider ${badge.className}`}
           >
             <badge.Icon className="size-2.5" />
             {badge.label}
           </span>
           {alum.grad_year && (
-            <span className="rounded-md bg-[#CC0000] px-1.5 py-0.5 text-[10px] font-black text-white">
+            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white">
               &rsquo;{String(alum.grad_year).slice(-2)}
             </span>
           )}
@@ -256,7 +256,7 @@ function JobCard({
             {location}
           </p>
         )}
-        <div className="mt-1.5 flex items-center gap-1.5 text-[10px] font-semibold text-[#CC0000]">
+        <div className="mt-1.5 flex items-center gap-1.5 text-2xs font-semibold text-utah-red">
           <MessageCircle className="size-3" />
           View profile
         </div>
@@ -285,7 +285,7 @@ function EmptyCard({
       <p className="mx-auto mt-1 max-w-xs text-xs text-zinc-500">{body}</p>
       <Link
         href={cta.href}
-        className="mt-3 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:border-[#CC0000]"
+        className="mt-3 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:border-utah-red"
       >
         {cta.label}
       </Link>

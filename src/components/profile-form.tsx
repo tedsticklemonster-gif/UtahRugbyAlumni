@@ -274,7 +274,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             <select
               id="availability"
               {...register("availability")}
-              className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#CC0000]"
+              className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
             >
               {AVAILABILITY_VALUES.map((v) => (
                 <option key={v} value={v}>

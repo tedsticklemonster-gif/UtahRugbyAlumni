@@ -153,7 +153,7 @@ export default async function AdminDashboardPage() {
               <CardContent>
                 <p className="text-2xl font-bold">{stat.value}</p>
                 {stat.sub && (
-                  <p className="text-[10px] text-muted-foreground mt-1 leading-tight">{stat.sub}</p>
+                  <p className="text-2xs text-muted-foreground mt-1 leading-tight">{stat.sub}</p>
                 )}
               </CardContent>
             </Card>

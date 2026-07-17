@@ -76,7 +76,7 @@ export function DirectoryFilters() {
     <div className="space-y-4">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         <div className="space-y-1 lg:col-span-2">
-          <Label htmlFor="q" className="text-[11px] uppercase tracking-wide text-zinc-400">
+          <Label htmlFor="q" className="text-xs uppercase tracking-wide text-zinc-400">
             Search
           </Label>
           <Input
@@ -87,14 +87,14 @@ export function DirectoryFilters() {
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="availability" className="text-[11px] uppercase tracking-wide text-zinc-400">
+          <Label htmlFor="availability" className="text-xs uppercase tracking-wide text-zinc-400">
             Availability
           </Label>
           <select
             id="availability"
             value={availability}
             onChange={(e) => updateFilter("availability", e.target.value)}
-            className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#CC0000]"
+            className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
           >
             {AVAILABILITY_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
@@ -104,7 +104,7 @@ export function DirectoryFilters() {
           </select>
         </div>
         <div className="space-y-1">
-          <Label htmlFor="service" className="text-[11px] uppercase tracking-wide text-zinc-400">
+          <Label htmlFor="service" className="text-xs uppercase tracking-wide text-zinc-400">
             Service
           </Label>
           <Input
@@ -115,7 +115,7 @@ export function DirectoryFilters() {
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="yearFrom" className="text-[11px] uppercase tracking-wide text-zinc-400">
+          <Label htmlFor="yearFrom" className="text-xs uppercase tracking-wide text-zinc-400">
             Year from
           </Label>
           <Input
@@ -128,7 +128,7 @@ export function DirectoryFilters() {
           />
         </div>
         <div className="space-y-1">
-          <Label htmlFor="yearTo" className="text-[11px] uppercase tracking-wide text-zinc-400">
+          <Label htmlFor="yearTo" className="text-xs uppercase tracking-wide text-zinc-400">
             Year to
           </Label>
           <Input

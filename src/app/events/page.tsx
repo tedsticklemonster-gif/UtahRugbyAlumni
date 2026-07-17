@@ -62,7 +62,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
           <Link
             href="/events"
             className={`rounded-lg px-4 py-1.5 text-sm font-semibold transition-colors ${
-              !isPast ? "bg-[#CC0000] text-white" : "text-zinc-400 hover:text-white"
+              !isPast ? "bg-utah-red text-white" : "text-zinc-400 hover:text-white"
             }`}
           >
             Upcoming
@@ -70,7 +70,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
           <Link
             href="/events?tab=past"
             className={`rounded-lg px-4 py-1.5 text-sm font-semibold transition-colors ${
-              isPast ? "bg-[#CC0000] text-white" : "text-zinc-400 hover:text-white"
+              isPast ? "bg-utah-red text-white" : "text-zinc-400 hover:text-white"
             }`}
           >
             Past
@@ -81,8 +81,8 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
       <div className="px-5 py-6 md:px-10 space-y-3 max-w-2xl">
         {events.length === 0 ? (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#CC0000]/15">
-              <CalendarDays className="size-7 text-[#CC0000]" />
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-utah-red/15">
+              <CalendarDays className="size-7 text-utah-red" />
             </div>
             <h2 className="text-base font-bold text-white">
               {isPast ? "No past events" : "No upcoming events"}

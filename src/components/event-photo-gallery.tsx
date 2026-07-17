@@ -65,7 +65,7 @@ function PhotoTile({ photo, canDelete }: { photo: EventPhoto; canDelete: boolean
         }
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 pb-1.5 pt-6 opacity-0 transition-opacity group-hover:opacity-100">
-        <p className="text-[10px] text-zinc-300 truncate">
+        <p className="text-2xs text-zinc-300 truncate">
           {photo.first_name} {photo.last_name}
         </p>
       </div>

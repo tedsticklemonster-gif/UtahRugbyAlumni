@@ -123,11 +123,11 @@ export function PostsModeration({
                       ? `${post.author.first_name} ${post.author.last_name}`
                       : "Unknown"}
                   </p>
-                  <span className="text-[10px] text-muted-foreground">
+                  <span className="text-2xs text-muted-foreground">
                     {new Date(post.created_at).toLocaleDateString()}
                   </span>
                   {post.deleted_at && (
-                    <span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-[10px] font-semibold">
+                    <span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-2xs font-semibold">
                       Hidden
                     </span>
                   )}

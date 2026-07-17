@@ -208,14 +208,14 @@ export default async function HomePage() {
               {/* Eyebrow */}
               <div className="mb-4 flex items-center gap-3">
                 <span className="block h-[2px] w-10" style={{ backgroundColor: RED }} />
-                <p className={`${eyebrow} text-[10px] text-zinc-300 md:text-[11px]`}>
+                <p className={`text-eyebrow text-2xs text-zinc-300 md:text-xs`}>
                   University of Utah Rugby · Alumni Network
                 </p>
               </div>
 
               {/* Main headline */}
               <h1
-                className={`${display} text-[17vw] leading-[0.88] text-white sm:text-6xl md:text-[7.5rem]`}
+                className={`text-display text-[17vw] leading-[0.88] text-white sm:text-6xl md:text-[7.5rem]`}
               >
                 Once a Ute,
                 <br />
@@ -273,7 +273,7 @@ export default async function HomePage() {
           ].map(({ icon: Icon, title, desc, color }) => (
             <div key={title} className="bg-zinc-950 p-6 md:p-8">
               <Icon className="size-7 mb-4" style={{ color }} strokeWidth={1.75} />
-              <h3 className={`${display} text-xl text-white md:text-2xl`}>{title}</h3>
+              <h3 className={`text-display text-xl text-white md:text-2xl`}>{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">{desc}</p>
             </div>
           ))}
@@ -302,13 +302,13 @@ export default async function HomePage() {
                 >
                   <div className="flex items-baseline gap-1">
                     <span
-                      className={`${display} text-4xl tabular-nums leading-none text-white md:text-6xl`}
+                      className={`text-display text-4xl tabular-nums leading-none text-white md:text-6xl`}
                     >
                       {s.value}
                     </span>
                     {s.suffix && (
                       <span
-                        className={`${display} text-2xl leading-none md:text-3xl`}
+                        className={`text-display text-2xl leading-none md:text-3xl`}
                         style={{ color: RED }}
                       >
                         {s.suffix}
@@ -320,7 +320,7 @@ export default async function HomePage() {
                     style={{ backgroundColor: RED }}
                   />
                   <p
-                    className={`${eyebrow} mt-2 text-[9px] text-zinc-500 md:text-[10px]`}
+                    className={`text-eyebrow mt-2 text-3xs text-zinc-500 md:text-2xs`}
                   >
                     {s.label}
                   </p>
@@ -364,14 +364,14 @@ export default async function HomePage() {
                 strokeWidth={1.75}
               />
               <div>
-                <p className={`${display} text-2xl leading-none text-white md:text-3xl`}>
+                <p className={`text-display text-2xl leading-none text-white md:text-3xl`}>
                   {title}
                 </p>
-                <p className="mt-1.5 text-[11px] text-zinc-500">{sub}</p>
+                <p className="mt-1.5 text-xs text-zinc-500">{sub}</p>
               </div>
               {/* Red bottom border on hover */}
               <span
-                className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-[#CC0000] transition-transform duration-200 group-hover:scale-x-100"
+                className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-utah-red transition-transform duration-200 group-hover:scale-x-100"
               />
               <ArrowUpRight className="absolute right-4 top-4 size-4 text-zinc-700 transition-colors group-hover:text-white" />
             </Link>
@@ -387,14 +387,14 @@ export default async function HomePage() {
             <div className="mb-6 flex items-end justify-between">
               <div>
                 <span className="block h-[2px] w-10" style={{ backgroundColor: RED }} />
-                <p className={`${eyebrow} mt-2 text-[10px] text-zinc-500`}>Season</p>
-                <h2 className={`${display} mt-1 text-3xl text-white md:text-5xl`}>
+                <p className={`text-eyebrow mt-2 text-2xs text-zinc-500`}>Season</p>
+                <h2 className={`text-display mt-1 text-3xl text-white md:text-5xl`}>
                   The Schedule
                 </h2>
               </div>
               <Link
                 href="/schedule"
-                className={`${eyebrow} group inline-flex items-center gap-1.5 text-[10px] text-zinc-400 transition-colors hover:text-white`}
+                className={`text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white`}
               >
                 View All
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
@@ -404,7 +404,7 @@ export default async function HomePage() {
             <div className="grid gap-8 md:grid-cols-2">
               {/* Upcoming */}
               <div>
-                <p className={`${eyebrow} mb-3 text-[10px]`} style={{ color: RED }}>
+                <p className={`text-eyebrow mb-3 text-2xs`} style={{ color: RED }}>
                   Upcoming
                 </p>
                 {upcomingGames.length === 0 ? (
@@ -417,12 +417,12 @@ export default async function HomePage() {
                         <li key={i} className="flex items-center gap-4 py-3">
                           <div className="flex w-12 shrink-0 flex-col items-center border-r border-zinc-900 pr-3">
                             <span
-                              className={`${display} text-2xl leading-none text-white`}
+                              className={`text-display text-2xl leading-none text-white`}
                             >
                               {d.day}
                             </span>
                             <span
-                              className={`${eyebrow} text-[9px]`}
+                              className={`text-eyebrow text-3xs`}
                               style={{ color: RED }}
                             >
                               {d.month}
@@ -430,11 +430,11 @@ export default async function HomePage() {
                           </div>
                           <div className="min-w-0 flex-1">
                             <p
-                              className={`${display} truncate text-base leading-none text-white md:text-xl`}
+                              className={`text-display truncate text-base leading-none text-white md:text-xl`}
                             >
                               vs {g.opponent}
                             </p>
-                            <p className={`${eyebrow} mt-1 text-[9px] text-zinc-500`}>
+                            <p className={`text-eyebrow mt-1 text-3xs text-zinc-500`}>
                               {g.location} · {g.date}
                             </p>
                           </div>
@@ -447,7 +447,7 @@ export default async function HomePage() {
 
               {/* Results */}
               <div>
-                <p className={`${eyebrow} mb-3 text-[10px] text-zinc-400`}>
+                <p className={`text-eyebrow mb-3 text-2xs text-zinc-400`}>
                   Recent Results
                 </p>
                 {recentResults.length === 0 ? (
@@ -461,7 +461,7 @@ export default async function HomePage() {
                       return (
                         <li key={i} className="flex items-center gap-4 py-3">
                           <span
-                            className={`${display} flex h-9 w-9 shrink-0 items-center justify-center text-base leading-none text-white`}
+                            className={`text-display flex h-9 w-9 shrink-0 items-center justify-center text-base leading-none text-white`}
                             style={{
                               backgroundColor: win ? RED : "#1a1a1a",
                               border: win ? "none" : "1px solid #2a2a2a",
@@ -471,11 +471,11 @@ export default async function HomePage() {
                           </span>
                           <div className="min-w-0 flex-1">
                             <p
-                              className={`${display} truncate text-base leading-none text-white md:text-xl`}
+                              className={`text-display truncate text-base leading-none text-white md:text-xl`}
                             >
                               vs {g.opponent}
                             </p>
-                            <p className={`${eyebrow} mt-1 text-[9px] text-zinc-500`}>
+                            <p className={`text-eyebrow mt-1 text-3xs text-zinc-500`}>
                               {g.score}
                               {g.manOfMatch ? ` · MoM ${g.manOfMatch}` : ""}
                             </p>
@@ -502,16 +502,16 @@ export default async function HomePage() {
             <div className="mb-5 flex items-end justify-between">
               <div>
                 <span className="block h-[2px] w-10" style={{ backgroundColor: RED }} />
-                <p className={`${eyebrow} mt-2 text-[10px] text-zinc-500`}>
+                <p className={`text-eyebrow mt-2 text-2xs text-zinc-500`}>
                   The Brotherhood
                 </p>
-                <h2 className={`${display} mt-1 text-3xl text-white md:text-4xl`}>
+                <h2 className={`text-display mt-1 text-3xl text-white md:text-4xl`}>
                   Recently Joined
                 </h2>
               </div>
               <Link
                 href="/directory"
-                className={`${eyebrow} group inline-flex items-center gap-1.5 text-[10px] text-zinc-400 transition-colors hover:text-white`}
+                className={`text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white`}
               >
                 All Alumni
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
@@ -542,7 +542,7 @@ export default async function HomePage() {
                     />
                     {isNew(a.created_at, nowMs) && (
                       <span
-                        className={`${eyebrow} absolute left-0 top-0 px-1.5 py-0.5 text-[8px] text-white`}
+                        className={`text-eyebrow absolute left-0 top-0 px-1.5 py-0.5 text-[8px] text-white`}
                         style={{ backgroundColor: RED }}
                       >
                         New
@@ -551,11 +551,11 @@ export default async function HomePage() {
                   </div>
                   </SponsorHalo>
                   <p
-                    className={`${display} mt-2 truncate text-base leading-tight text-white`}
+                    className={`text-display mt-2 truncate text-base leading-tight text-white`}
                   >
                     {a.first_name} {a.last_name}
                   </p>
-                  <p className={`${eyebrow} text-[9px] text-zinc-500`}>
+                  <p className={`text-eyebrow text-3xs text-zinc-500`}>
                     {a.grad_year
                       ? `Class of ${a.grad_year}`
                       : [a.city, a.state].filter(Boolean).join(", ") || "—"}
@@ -574,16 +574,16 @@ export default async function HomePage() {
             <div className="mb-5 flex items-end justify-between">
               <div>
                 <span className="block h-[2px] w-10" style={{ backgroundColor: RED }} />
-                <p className={`${eyebrow} mt-2 text-[10px]`} style={{ color: RED }}>
+                <p className={`text-eyebrow mt-2 text-2xs`} style={{ color: RED }}>
                   Network
                 </p>
-                <h2 className={`${display} mt-1 text-3xl text-white md:text-4xl`}>
+                <h2 className={`text-display mt-1 text-3xl text-white md:text-4xl`}>
                   Alumni Hiring
                 </h2>
               </div>
               <Link
                 href="/jobs"
-                className={`${eyebrow} group inline-flex items-center gap-1.5 text-[10px] text-zinc-400 transition-colors hover:text-white`}
+                className={`text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white`}
               >
                 All Jobs
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
@@ -614,7 +614,7 @@ export default async function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                     {/* Diagonal HIRING ribbon */}
                     <div
-                      className={`${eyebrow} absolute left-[-32px] top-3 px-10 py-0.5 text-[9px] text-white shadow-md`}
+                      className={`text-eyebrow absolute left-[-32px] top-3 px-10 py-0.5 text-3xs text-white shadow-md`}
                       style={{
                         backgroundColor: RED,
                         transform: "rotate(-30deg)",
@@ -624,12 +624,12 @@ export default async function HomePage() {
                     </div>
                     <div className="absolute inset-x-2 bottom-2">
                       <p
-                        className={`${display} truncate text-base leading-tight text-white`}
+                        className={`text-display truncate text-base leading-tight text-white`}
                       >
                         {a.first_name} {a.last_name}
                       </p>
                       {a.company && (
-                        <p className={`${eyebrow} truncate text-[9px] text-zinc-300`}>
+                        <p className={`text-eyebrow truncate text-3xs text-zinc-300`}>
                           {a.company}
                         </p>
                       )}
@@ -660,11 +660,11 @@ export default async function HomePage() {
               }}
             />
             <div className="relative">
-              <p className={`${eyebrow} text-[10px]`} style={{ color: RED }}>
+              <p className={`text-eyebrow text-2xs`} style={{ color: RED }}>
                 Help Build the Network
               </p>
               <h3
-                className={`${display} mt-2 max-w-2xl text-3xl leading-[0.95] text-white md:text-5xl`}
+                className={`text-display mt-2 max-w-2xl text-3xl leading-[0.95] text-white md:text-5xl`}
               >
                 Know a former Ute rugger?{" "}
                 <span style={{ color: RED }}>Pull him in.</span>
@@ -676,7 +676,7 @@ export default async function HomePage() {
               </p>
               <Link
                 href="/thanks"
-                className="mt-6 inline-flex items-center gap-2 rounded-sm px-5 py-3 text-[11px] font-extrabold uppercase tracking-[0.18em] text-white transition-transform hover:-translate-y-px"
+                className="mt-6 inline-flex items-center gap-2 rounded-sm px-5 py-3 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-transform hover:-translate-y-px"
                 style={{ backgroundColor: RED }}
               >
                 Get Your Forward Link
@@ -694,12 +694,12 @@ export default async function HomePage() {
             href="https://www.utah-rugby.com"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${eyebrow} inline-flex items-center gap-1.5 text-[10px] text-zinc-500 transition-colors hover:text-white`}
+            className={`text-eyebrow inline-flex items-center gap-1.5 text-2xs text-zinc-500 transition-colors hover:text-white`}
           >
             utah-rugby.com
             <ArrowUpRight className="size-3" />
           </a>
-          <p className={`${eyebrow} text-[9px] text-zinc-700`}>
+          <p className={`text-eyebrow text-3xs text-zinc-700`}>
             Est. 1972
           </p>
         </div>
@@ -719,10 +719,10 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
           style={{ borderColor: RED }}
         >
           <div>
-            <p className={`${eyebrow} text-[10px]`} style={{ color: RED }}>
+            <p className={`text-eyebrow text-2xs`} style={{ color: RED }}>
               Off-Season
             </p>
-            <p className={`${display} mt-1 text-2xl text-white md:text-3xl`}>
+            <p className={`text-display mt-1 text-2xl text-white md:text-3xl`}>
               See you in the spring.
             </p>
           </div>
@@ -750,27 +750,27 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
         >
           {/* Date block */}
           <div className="flex shrink-0 flex-col items-start justify-center border-r border-zinc-900 pr-5 md:pr-8">
-            <p className={`${eyebrow} text-[10px] text-zinc-500`}>{d.weekday}</p>
-            <p className={`${display} -mt-1 text-5xl leading-none text-white md:text-6xl`}>
+            <p className={`text-eyebrow text-2xs text-zinc-500`}>{d.weekday}</p>
+            <p className={`text-display -mt-1 text-5xl leading-none text-white md:text-6xl`}>
               {d.day}
             </p>
-            <p className={`${eyebrow} text-[10px]`} style={{ color: RED }}>
+            <p className={`text-eyebrow text-2xs`} style={{ color: RED }}>
               {d.month}
             </p>
           </div>
 
           {/* Match info */}
           <div className="flex min-w-0 flex-1 flex-col justify-center">
-            <p className={`${eyebrow} text-[10px]`} style={{ color: RED }}>
+            <p className={`text-eyebrow text-2xs`} style={{ color: RED }}>
               Next Match
             </p>
             <p
-              className={`${display} mt-0.5 truncate text-3xl leading-none text-white md:text-5xl`}
+              className={`text-display mt-0.5 truncate text-3xl leading-none text-white md:text-5xl`}
             >
               vs {game.opponent}
             </p>
-            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-zinc-400">
-              <span className={eyebrow}>
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-400">
+              <span className="text-eyebrow">
                 <span
                   className="inline-block h-1.5 w-1.5 align-middle"
                   style={{
@@ -781,11 +781,11 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
                 <span className="ml-1.5 align-middle">{game.location}</span>
               </span>
               <span className="text-zinc-800">|</span>
-              <span className={eyebrow}>{game.date}</span>
+              <span className="text-eyebrow">{game.date}</span>
               {days !== null && days <= 30 && (
                 <>
                   <span className="text-zinc-800">|</span>
-                  <span className={eyebrow} style={{ color: RED }}>
+                  <span className="text-eyebrow" style={{ color: RED }}>
                     {days === 0
                       ? "Today"
                       : days === 1
@@ -800,7 +800,7 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
           {/* CTA — desktop only */}
           <Link
             href="/schedule"
-            className="hidden shrink-0 items-center self-center gap-2 rounded-sm border-2 border-white/25 px-4 py-2.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-white transition-colors hover:border-white hover:bg-white hover:text-black md:inline-flex"
+            className="hidden shrink-0 items-center self-center gap-2 rounded-sm border-2 border-white/25 px-4 py-2.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-colors hover:border-white hover:bg-white hover:text-black md:inline-flex"
           >
             Full Schedule
             <ArrowRight className="size-3.5" />

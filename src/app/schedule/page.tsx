@@ -14,11 +14,11 @@ function resultBadge(game: Game) {
   if (!game.result) {
     const past = game.date && isPastDate(game.date);
     return past ? (
-      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-zinc-500">
+      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-500">
         Past
       </span>
     ) : (
-      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-zinc-400">
+      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-400">
         Upcoming
       </span>
     );
@@ -26,7 +26,7 @@ function resultBadge(game: Game) {
   const isWin = game.result === "Win";
   return (
     <span
-      className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+      className={`rounded-md px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${
         isWin
           ? "bg-emerald-900/40 text-emerald-400"
           : "bg-red-900/40 text-red-400"
@@ -64,7 +64,7 @@ export default async function SchedulePage() {
           <>
             {/* Fixtures */}
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+              <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
                 2026 Fixtures &amp; Results
               </p>
               <div className="space-y-2">
@@ -107,7 +107,7 @@ export default async function SchedulePage() {
             {/* Practice schedule */}
             {data.practiceLines.length > 0 && (
               <div>
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
                   Practice Schedule
                 </p>
                 <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-1.5">

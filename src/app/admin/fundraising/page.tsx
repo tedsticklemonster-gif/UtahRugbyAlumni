@@ -90,7 +90,7 @@ export default async function FundraisingPage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="font-semibold">{campaign.name}</p>
                       {!campaign.active && (
-                        <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
+                        <span className="rounded-full bg-muted px-2 py-0.5 text-2xs text-muted-foreground">
                           Inactive
                         </span>
                       )}
@@ -119,7 +119,7 @@ export default async function FundraisingPage() {
                             />
                           )}
                         </div>
-                        <p className="text-[10px] text-muted-foreground">
+                        <p className="text-2xs text-muted-foreground">
                           {formatGoal(totals.paid)} paid ·{" "}
                           {formatGoal(totals.pledged)} pledged of{" "}
                           {formatGoal(goalCents)} goal

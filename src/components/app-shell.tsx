@@ -20,7 +20,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <header className="sticky top-0 z-30 border-b border-zinc-900 bg-black">
           {/* 3-px red top rule */}
-          <div className="h-[3px] w-full bg-[#CC0000]" />
+          <div className="h-[3px] w-full bg-utah-red" />
 
           <div className="mx-auto flex h-13 max-w-6xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4">
             {/* Wordmark */}
@@ -31,7 +31,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               <BrandMark className="size-8" />
               <span className="hidden text-sm font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight text-white sm:block">
-                Utah Rugby <span className="text-[#CC0000]">Alumni Network</span>
+                Utah Rugby <span className="text-utah-red">Alumni Network</span>
               </span>
             </Link>
 
@@ -41,10 +41,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <Link
                   key={href}
                   href={href}
-                  className="group relative px-3 py-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-white"
+                  className="group relative px-3 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-white"
                 >
                   {label}
-                  <span className="absolute inset-x-3 bottom-1 h-[2px] origin-left scale-x-0 bg-[#CC0000] transition-transform duration-200 group-hover:scale-x-100" />
+                  <span className="absolute inset-x-3 bottom-1 h-[2px] origin-left scale-x-0 bg-utah-red transition-transform duration-200 group-hover:scale-x-100" />
                 </Link>
               ))}
             </nav>
@@ -65,7 +65,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
 
         <footer className="border-t border-zinc-900 bg-black pb-20 md:pb-0">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-[11px] text-zinc-600 sm:flex-row">
+          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-zinc-600 sm:flex-row">
             <p className="text-center sm:text-left">
               © {new Date().getFullYear()} Utah Rugby Alumni Network
             </p>

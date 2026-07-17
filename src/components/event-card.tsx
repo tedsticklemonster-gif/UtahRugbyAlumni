@@ -10,12 +10,12 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.ve
 
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
   social: { label: "Social", color: "text-purple-400" },
-  reunion: { label: "Reunion", color: "text-[#CC0000]" },
+  reunion: { label: "Reunion", color: "text-utah-red" },
   watch_party: { label: "Watch Party", color: "text-sky-400" },
   practice: { label: "Practice", color: "text-emerald-400" },
   fundraiser: { label: "Fundraiser", color: "text-amber-400" },
   networking: { label: "Networking", color: "text-blue-400" },
-  game_day: { label: "Game Day", color: "text-[#CC0000]" },
+  game_day: { label: "Game Day", color: "text-utah-red" },
   other: { label: "Event", color: "text-zinc-400" },
 };
 
@@ -35,11 +35,11 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
       <div className="p-4">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">
-            <span className={`text-[10px] font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+            <span className={`text-2xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
               {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
             </span>
             <Link href={`/events/${event.id}`} className="block mt-0.5">
-              <h3 className="text-base font-bold text-white hover:text-[#CC0000] transition-colors leading-snug">
+              <h3 className="text-base font-bold text-white hover:text-utah-red transition-colors leading-snug">
                 {event.title}
               </h3>
             </Link>
@@ -83,7 +83,7 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
           <div className="mb-3">
             <p className="text-xs leading-relaxed text-zinc-400 line-clamp-2">{event.description}</p>
             {event.description.length > 120 && (
-              <Link href={`/events/${event.id}`} className="text-[11px] font-semibold text-zinc-500 hover:text-white transition-colors">
+              <Link href={`/events/${event.id}`} className="text-xs font-semibold text-zinc-500 hover:text-white transition-colors">
                 Read more
               </Link>
             )}
@@ -105,10 +105,10 @@ export function EventRailCard({ event }: { event: AlumniEvent; myAlumniId?: stri
       className="flex-shrink-0 w-52 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 hover:border-zinc-600 transition-colors active:scale-[0.98] block"
     >
       <div className="flex items-center gap-2 mb-3">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-[#CC0000]/15">
-          <CalendarDays className="size-3.5 text-[#CC0000]" />
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-utah-red/15">
+          <CalendarDays className="size-3.5 text-utah-red" />
         </span>
-        <span className={`text-[10px] font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+        <span className={`text-2xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
           {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
         </span>
       </div>

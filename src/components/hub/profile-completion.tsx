@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { User, Briefcase, MapPin, FileText, Camera, Link2 } from "lucide-react";
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
 
 interface ProfileFields {
   has_photo: boolean;
@@ -42,16 +40,16 @@ export function ProfileCompletion({ fields }: { fields: ProfileFields }) {
     <div className="mx-4 mt-4">
       <Link
         href="/profile"
-        className="block rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 transition-colors hover:border-[#CC0000]/40"
+        className="block rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 transition-colors hover:border-utah-red/40"
       >
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-bold text-white">Profile Strength</p>
-          <span className={`${display} text-lg text-[#CC0000]`}>{pct}%</span>
+          <span className={`text-display text-lg text-utah-red`}>{pct}%</span>
         </div>
         {/* Progress bar */}
         <div className="h-2 w-full rounded-full bg-zinc-800 overflow-hidden">
           <div
-            className="h-full rounded-full bg-[#CC0000] transition-all duration-500"
+            className="h-full rounded-full bg-utah-red transition-all duration-500"
             style={{ width: `${pct}%` }}
           />
         </div>

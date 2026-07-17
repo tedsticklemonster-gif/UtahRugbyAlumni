@@ -22,8 +22,6 @@ function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent);
 }
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
 
 const subscribeStandalone = (cb: () => void) => {
   if (typeof window === "undefined") return () => {};
@@ -75,12 +73,12 @@ export function InstallTile() {
           strokeWidth={1.75}
         />
         <div>
-          <p className={`${display} text-2xl leading-none text-white md:text-3xl`}>
+          <p className={`text-display text-2xl leading-none text-white md:text-3xl`}>
             Get App
           </p>
-          <p className="mt-1.5 text-[11px] text-zinc-500">Add to home screen</p>
+          <p className="mt-1.5 text-xs text-zinc-500">Add to home screen</p>
         </div>
-        <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-[#CC0000] transition-transform duration-200 group-hover:scale-x-100" />
+        <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-utah-red transition-transform duration-200 group-hover:scale-x-100" />
         <ArrowUpRight className="absolute right-4 top-4 size-4 text-zinc-700 transition-colors group-hover:text-white" />
       </button>
 

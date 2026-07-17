@@ -3,7 +3,7 @@ import type { EventAttendee } from "@/actions/events";
 
 function Initials({ first, last }: { first: string; last: string }) {
   return (
-    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-[10px] font-bold text-zinc-300">
+    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-2xs font-bold text-zinc-300">
       {first[0]}
       {last[0]}
     </div>

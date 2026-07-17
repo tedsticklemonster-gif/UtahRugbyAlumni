@@ -9,7 +9,7 @@ import { sendMessageAction, getNewMessagesAction, type Message, type ThreadPartn
 import { useMe } from "@/components/me-provider";
 import { cn } from "@/lib/utils";
 
-function relativeTime(iso: string) {
+function timeOfDay(iso: string) {
   const d = new Date(iso);
   return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 }
@@ -132,7 +132,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
         {groups.map((group) => (
           <div key={group.date}>
             <div className="flex items-center justify-center py-3">
-              <span className="rounded-full bg-zinc-800 px-3 py-0.5 text-[10px] font-medium text-zinc-500">
+              <span className="rounded-full bg-zinc-800 px-3 py-0.5 text-2xs font-medium text-zinc-500">
                 {dateSeparator(group.messages[0].created_at)}
               </span>
             </div>
@@ -145,7 +145,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                       className={cn(
                         "rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                         isMe
-                          ? "rounded-br-sm bg-[#CC0000] text-white"
+                          ? "rounded-br-sm bg-utah-red text-white"
                           : "rounded-bl-sm bg-zinc-800 text-zinc-100"
                       )}
                     >
@@ -160,7 +160,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                         />
                       )}
                     </div>
-                    <span className="px-1 text-[10px] text-zinc-600">{relativeTime(msg.created_at)}</span>
+                    <span className="px-1 text-2xs text-zinc-600">{timeOfDay(msg.created_at)}</span>
                   </div>
                 </div>
               );
@@ -199,7 +199,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
           <button
             onClick={handleSend}
             disabled={sending || (!body.trim() && !photo)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#CC0000] text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-utah-red text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40"
           >
             <Send className="size-4" />
           </button>

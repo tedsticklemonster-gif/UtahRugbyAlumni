@@ -27,10 +27,6 @@ const subscribeStorage = (cb: () => void) => {
   return () => window.removeEventListener("storage", cb);
 };
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
-const eyebrow =
-  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
 
 interface HubPageProps {
   presence: HubPresenceMember[];
@@ -197,11 +193,11 @@ export function HubPage({
               <p className="text-xs font-bold text-zinc-300 group-hover:text-white">
                 Job Board
               </p>
-              <p className="text-[10px] text-zinc-600">
+              <p className="text-2xs text-zinc-600">
                 Alumni hiring and open positions
               </p>
             </div>
-            <span className={`${eyebrow} text-[9px] text-sky-400`}>View →</span>
+            <span className={`text-eyebrow text-3xs text-sky-400`}>View →</span>
           </Link>
         </div>
 
@@ -210,9 +206,9 @@ export function HubPage({
           {/* Section header */}
           <div className="flex items-end justify-between pt-5 pb-1 border-b border-zinc-900">
             <div>
-              <span className="block h-[2px] w-8 bg-[#CC0000]" />
-              <p className={`${eyebrow} mt-2 text-[10px] text-zinc-500`}>Brotherhood</p>
-              <h2 className={`${display} mt-0.5 text-2xl leading-none text-white`}>
+              <span className="block h-[2px] w-8 bg-utah-red" />
+              <p className={`text-eyebrow mt-2 text-2xs text-zinc-500`}>Brotherhood</p>
+              <h2 className={`text-display mt-0.5 text-2xl leading-none text-white`}>
                 Alumni Wall
               </h2>
             </div>
@@ -222,7 +218,7 @@ export function HubPage({
 
           {posts.length === 0 && (
             <div className="border border-zinc-900 bg-zinc-950 py-12 text-center">
-              <p className={`${display} text-xl text-zinc-400`}>No posts yet</p>
+              <p className={`text-display text-xl text-zinc-400`}>No posts yet</p>
               <p className="mt-1 text-xs text-zinc-600">Be the first to post something.</p>
             </div>
           )}
@@ -235,7 +231,7 @@ export function HubPage({
             <button
               onClick={loadMore}
               disabled={loading}
-              className={`${eyebrow} w-full border border-zinc-800 bg-zinc-950 py-3 text-[10px] text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white disabled:opacity-40`}
+              className={`text-eyebrow w-full border border-zinc-800 bg-zinc-950 py-3 text-2xs text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white disabled:opacity-40`}
             >
               {loading ? "Loading…" : "Load More"}
             </button>

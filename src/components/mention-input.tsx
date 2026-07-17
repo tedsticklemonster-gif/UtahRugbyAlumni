@@ -115,12 +115,12 @@ export function MentionInput({ value, onChange, placeholder, rows = 2, maxLength
               onMouseDown={(e) => { e.preventDefault(); insertMention(c); }}
               className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-800"
             >
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-[10px] font-bold text-zinc-300">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-2xs font-bold text-zinc-300">
                 {c.first_name[0]}{c.last_name[0]}
               </div>
               <div>
                 <p className="font-semibold text-white">{c.first_name} {c.last_name}</p>
-                {c.handle && <p className="text-[10px] text-zinc-500">@{c.handle}</p>}
+                {c.handle && <p className="text-2xs text-zinc-500">@{c.handle}</p>}
               </div>
             </button>
           ))}

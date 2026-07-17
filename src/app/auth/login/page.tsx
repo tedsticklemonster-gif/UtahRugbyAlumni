@@ -72,8 +72,8 @@ export default function LoginPage() {
   if (sent) {
     return (
       <div className="flex min-h-[80vh] flex-col items-center justify-center px-5 py-16 text-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#CC0000]/15">
-          <Mail className="size-7 text-[#CC0000]" />
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-utah-red/15">
+          <Mail className="size-7 text-utah-red" />
         </div>
         <h1 className="mt-5 text-2xl font-black text-white">Check your email</h1>
         <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
@@ -98,7 +98,7 @@ export default function LoginPage() {
         <div className="mb-8 flex flex-col items-center gap-3">
           <BrandMark className="size-14" />
           <div className="text-center">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
               Utah Rugby Alumni Network
             </p>
             <h1 className="mt-1 text-2xl font-black text-white">Sign in</h1>
@@ -142,14 +142,14 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-[#CC0000] focus:outline-none focus:ring-1 focus:ring-[#CC0000]"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-utah-red focus:outline-none focus:ring-1 focus:ring-utah-red"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#CC0000] py-3 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-utah-red py-3 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-60"
           >
             {loading ? "Sending…" : "Send Sign-In Link"}
             {!loading && <ArrowRight className="size-4" />}
@@ -158,7 +158,7 @@ export default function LoginPage() {
 
         <p className="mt-6 text-center text-xs text-zinc-500">
           No account yet?{" "}
-          <Link href="/join" className="font-semibold text-white hover:text-[#CC0000]">
+          <Link href="/join" className="font-semibold text-white hover:text-utah-red">
             Join the network
           </Link>
         </p>

@@ -133,7 +133,7 @@ export function ReactionPicker({ postId, myAlumniId, myReaction, reactions, onOp
           className={cn(
             "flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors select-none",
             myReaction
-              ? "text-[#CC0000]"
+              ? "text-utah-red"
               : "text-zinc-500 hover:text-zinc-300 disabled:cursor-default"
           )}
         >

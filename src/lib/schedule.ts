@@ -16,6 +16,37 @@ export type ScheduleData = {
   practiceLines: string[];
 };
 
+export function parseGameDate(d: string): Date | null {
+  if (!d) return null;
+  const t = Date.parse(d);
+  return Number.isNaN(t) ? null : new Date(t);
+}
+
+export function pickNextGame(games: Game[], nowMs: number): Game | null {
+  const upcoming = games
+    .map((g) => ({ g, t: parseGameDate(g.date)?.getTime() ?? null }))
+    .filter((x) => x.t !== null && x.t! >= nowMs && !x.g.result)
+    .sort((a, b) => a.t! - b.t!);
+  return upcoming.length > 0 ? upcoming[0].g : null;
+}
+
+export function formatGameDateParts(d: string) {
+  const date = parseGameDate(d);
+  if (!date) return { weekday: "—", day: "—", month: d || "TBD" };
+  return {
+    weekday: date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
+    day: String(date.getDate()),
+    month: date.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
+  };
+}
+
+export function daysUntil(d: string, nowMs: number): number | null {
+  const date = parseGameDate(d);
+  if (!date) return null;
+  const ms = date.getTime() - nowMs;
+  return ms < 0 ? 0 : Math.ceil(ms / (1000 * 60 * 60 * 24));
+}
+
 /**
  * Primary source: admin-managed games from the database.
  * Fallback: scrape from utah-rugby.com (kept for backwards compat but unreliable).

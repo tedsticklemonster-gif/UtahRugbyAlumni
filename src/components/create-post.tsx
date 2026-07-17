@@ -136,7 +136,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
               disabled={busy || (!body.trim() && !photo)}
               className={cn(
                 "rounded-xl px-4 py-1.5 text-xs font-bold transition-colors",
-                "bg-[#CC0000] text-white hover:bg-[#AA0000] disabled:opacity-40"
+                "bg-utah-red text-white hover:bg-[#AA0000] disabled:opacity-40"
               )}
             >
               {submitting ? "Posting…" : "Post"}
@@ -144,7 +144,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
           </div>
 
           {body.length > 1800 && (
-            <p className="mt-1 text-right text-[10px] text-zinc-500">{body.length}/2000</p>
+            <p className="mt-1 text-right text-2xs text-zinc-500">{body.length}/2000</p>
           )}
         </div>
       </div>

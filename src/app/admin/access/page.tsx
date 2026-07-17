@@ -12,7 +12,7 @@ export default async function AccessPage() {
     listAuthUsersAction(),
     (await import("@/lib/supabase/admin")).createAdminClient()
       .from("alumni")
-      .select("*", { count: "exact", head: true })
+      .select("id", { count: "exact", head: true })
       .in("status", ["self_registered", "imported"]),
   ]);
 

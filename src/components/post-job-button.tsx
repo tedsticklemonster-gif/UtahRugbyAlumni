@@ -34,7 +34,7 @@ export function PostJobButton() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-xl bg-[#CC0000] px-4 py-2 text-xs font-bold text-white hover:bg-[#AA0000] transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-xs font-bold text-white hover:bg-[#AA0000] transition-colors"
       >
         <Plus className="size-4" /> Post a Job
       </button>
@@ -63,7 +63,7 @@ export function PostJobButton() {
                 <input name="company" placeholder="Company *" required className={inputCls} />
                 <input name="location" placeholder="Location (e.g. Salt Lake City, UT)" className={inputCls} />
                 <label className="flex items-center gap-2 text-sm text-zinc-300 cursor-pointer">
-                  <input type="checkbox" name="remote" value="true" className="accent-[#CC0000]" />
+                  <input type="checkbox" name="remote" value="true" className="accent-utah-red" />
                   Remote position
                 </label>
                 <textarea
@@ -80,7 +80,7 @@ export function PostJobButton() {
                 <button
                   type="submit"
                   disabled={pending}
-                  className="w-full rounded-xl bg-[#CC0000] py-2.5 text-sm font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+                  className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
                 >
                   {pending ? "Posting..." : "Post Job"}
                 </button>

@@ -210,7 +210,7 @@ export function ScheduleAdmin({ games }: { games: ScheduleGame[] }) {
             vs {g.opponent}
             {g.result && (
               <span
-                className={`ml-2 inline-block rounded px-1.5 py-0.5 text-[10px] font-bold uppercase ${
+                className={`ml-2 inline-block rounded px-1.5 py-0.5 text-2xs font-bold uppercase ${
                   g.result === "Win"
                     ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
                     : g.result === "Draw"

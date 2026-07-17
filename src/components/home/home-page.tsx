@@ -4,19 +4,20 @@ import { useState, useTransition, useEffect, useRef, useSyncExternalStore } from
 import { getPostsAction, type FeedPost } from "@/actions/feed";
 import { PostCard } from "@/components/post-card";
 import { CreatePost } from "@/components/create-post";
-import { AlumniPresenceStrip } from "@/components/hub/alumni-presence-strip";
-import { UpcomingRail } from "@/components/hub/upcoming-rail";
-import { AnnouncementsCard } from "@/components/hub/announcements-card";
-import { NewJoinsStrip } from "@/components/hub/new-joins-strip";
+import { UpcomingRail } from "@/components/home/upcoming-rail";
+import { AnnouncementsCard } from "@/components/home/announcements-card";
+import { CommunityStrip, type EraMember } from "@/components/home/community-strip";
+import { NextGameCard } from "@/components/home/next-game-card";
 import Link from "next/link";
 import { Briefcase, X } from "lucide-react";
-import { InviteBanner } from "@/components/hub/invite-banner";
-import { ProfileCompletion } from "@/components/hub/profile-completion";
+import { InviteBanner } from "@/components/home/invite-banner";
+import { ProfileCompletion } from "@/components/home/profile-completion";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
-import { YourEraStrip, type EraMember } from "@/components/hub/your-era-strip";
 import { PullToRefresh } from "@/components/pull-to-refresh";
+import { EmptyState } from "@/components/empty-state";
 import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
 import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
+import type { Game } from "@/lib/schedule";
 
 const TELEGRAM_INVITE = "https://t.me/+ajaqw-YQ1ZsxYjQx";
 
@@ -27,12 +28,7 @@ const subscribeStorage = (cb: () => void) => {
   return () => window.removeEventListener("storage", cb);
 };
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
-const eyebrow =
-  "font-[family-name:var(--font-barlow)] font-extrabold uppercase tracking-[0.25em]";
-
-interface HubPageProps {
+interface HomePageProps {
   presence: HubPresenceMember[];
   upcoming: HubUpcomingItem[];
   announcements: HubAnnouncement[];
@@ -56,9 +52,11 @@ interface HubPageProps {
   } | null;
   eraMembers: EraMember[];
   myGradYear: number | null;
+  nextGame: Game | null;
+  nowMs: number;
 }
 
-export function HubPage({
+export function HomePage({
   presence,
   upcoming,
   announcements,
@@ -73,7 +71,9 @@ export function HubPage({
   profileFields,
   eraMembers,
   myGradYear,
-}: HubPageProps) {
+  nextGame,
+  nowMs,
+}: HomePageProps) {
   const [wizardDismissed, setWizardDismissed] = useState(false);
   // Override flag so dismissing in this session takes effect immediately
   // (the storage event only fires across tabs/windows, not within the same tab).
@@ -116,9 +116,6 @@ export function HubPage({
       <InviteBanner forwardToken={myForwardToken} />
 
       <div className="mx-auto max-w-2xl">
-        {/* Alumni presence strip */}
-        <AlumniPresenceStrip presence={presence} />
-
         {showOnboarding && !wizardDismissed && (
           <OnboardingWizard
             alumniId={alumniId ?? ""}
@@ -128,6 +125,48 @@ export function HubPage({
         )}
 
         {profileFields && <ProfileCompletion fields={profileFields} />}
+
+        {/* Next match */}
+        <NextGameCard game={nextGame} nowMs={nowMs} />
+
+        {/* Announcements — the reason this app exists */}
+        {announcements.length > 0 && <AnnouncementsCard items={announcements} />}
+
+        {/* Upcoming games / events */}
+        {upcoming.length > 0 && (
+          <div className="pt-5">
+            <UpcomingRail items={upcoming} />
+          </div>
+        )}
+
+        {/* Community — active, new, and your era */}
+        <CommunityStrip
+          presence={presence}
+          joins={recentJoins}
+          eraMembers={eraMembers}
+          myGradYear={myGradYear}
+        />
+
+        {/* Jobs — network value */}
+        <div className="px-4 pt-5">
+          <Link
+            href="/network?tab=jobs"
+            className="group flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 transition-colors hover:border-sky-500/40 hover:bg-sky-500/5"
+          >
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400">
+              <Briefcase className="size-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-bold text-zinc-300 group-hover:text-white">
+                Job Board
+              </p>
+              <p className="text-2xs text-zinc-600">
+                Alumni hiring and open positions
+              </p>
+            </div>
+            <span className="text-eyebrow text-3xs text-sky-400">View →</span>
+          </Link>
+        </div>
 
         {/* Telegram banner — dismissible */}
         {!telegramDismissed && (
@@ -164,55 +203,14 @@ export function HubPage({
           </div>
         )}
 
-        {/* Upcoming games / events */}
-        {upcoming.length > 0 && (
-          <div className="pt-5">
-            <UpcomingRail items={upcoming} />
-          </div>
-        )}
-
-        {/* Announcements */}
-        {announcements.length > 0 && (
-          <AnnouncementsCard items={announcements} />
-        )}
-
-        {/* New members */}
-        {recentJoins.length > 0 && (
-          <NewJoinsStrip joins={recentJoins} />
-        )}
-
-        {/* Your Era */}
-        <YourEraStrip members={eraMembers} myGradYear={myGradYear} />
-
-        {/* Jobs — network value */}
-        <div className="px-4 pt-4">
-          <Link
-            href="/jobs"
-            className="group flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 transition-colors hover:border-sky-500/40 hover:bg-sky-500/5"
-          >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400">
-              <Briefcase className="size-4" />
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-zinc-300 group-hover:text-white">
-                Job Board
-              </p>
-              <p className="text-[10px] text-zinc-600">
-                Alumni hiring and open positions
-              </p>
-            </div>
-            <span className={`${eyebrow} text-[9px] text-sky-400`}>View →</span>
-          </Link>
-        </div>
-
         {/* Alumni Wall / Feed */}
         <div className="px-4 pb-8 space-y-3">
           {/* Section header */}
           <div className="flex items-end justify-between pt-5 pb-1 border-b border-zinc-900">
             <div>
-              <span className="block h-[2px] w-8 bg-[#CC0000]" />
-              <p className={`${eyebrow} mt-2 text-[10px] text-zinc-500`}>Brotherhood</p>
-              <h2 className={`${display} mt-0.5 text-2xl leading-none text-white`}>
+              <span className="block h-[2px] w-8 bg-utah-red" />
+              <p className="text-eyebrow mt-2 text-2xs text-zinc-500">Brotherhood</p>
+              <h2 className="text-display mt-0.5 text-2xl leading-none text-white">
                 Alumni Wall
               </h2>
             </div>
@@ -221,10 +219,10 @@ export function HubPage({
           <CreatePost />
 
           {posts.length === 0 && (
-            <div className="border border-zinc-900 bg-zinc-950 py-12 text-center">
-              <p className={`${display} text-xl text-zinc-400`}>No posts yet</p>
-              <p className="mt-1 text-xs text-zinc-600">Be the first to post something.</p>
-            </div>
+            <EmptyState
+              title="No posts yet"
+              description="Be the first to post something."
+            />
           )}
 
           {posts.map((post) => (
@@ -235,7 +233,7 @@ export function HubPage({
             <button
               onClick={loadMore}
               disabled={loading}
-              className={`${eyebrow} w-full border border-zinc-800 bg-zinc-950 py-3 text-[10px] text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white disabled:opacity-40`}
+              className="text-eyebrow w-full border border-zinc-800 bg-zinc-950 py-3 text-2xs text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white disabled:opacity-40"
             >
               {loading ? "Loading…" : "Load More"}
             </button>

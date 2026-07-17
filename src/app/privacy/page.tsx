@@ -10,11 +10,11 @@ const CONTACT = "richmwhite@gmail.com";
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-zinc-950">
-      <div className="h-1.5 bg-[#CC0000]" />
+      <div className="h-1.5 bg-utah-red" />
 
       <div className="mx-auto max-w-2xl px-5 py-10 md:px-10">
         <header className="mb-8">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+          <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
             Legal
           </p>
           <h1 className="mt-1 text-3xl font-black tracking-tight text-white">
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
               delete your account at any time. Email{" "}
               <a
                 href={`mailto:${CONTACT}`}
-                className="text-[#CC0000] underline-offset-2 hover:underline"
+                className="text-utah-red underline-offset-2 hover:underline"
               >
                 {CONTACT}
               </a>{" "}
@@ -130,7 +130,7 @@ export default function PrivacyPage() {
               Questions? Email{" "}
               <a
                 href={`mailto:${CONTACT}`}
-                className="text-[#CC0000] underline-offset-2 hover:underline"
+                className="text-utah-red underline-offset-2 hover:underline"
               >
                 {CONTACT}
               </a>

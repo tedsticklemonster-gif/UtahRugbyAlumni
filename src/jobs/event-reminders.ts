@@ -1,7 +1,7 @@
 import { render } from "@react-email/components";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { sendPushToAlumni } from "@/lib/push";
-import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
+import { getResend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { EventReminderEmail } from "@/emails/event-reminder";
 import { unsubscribeUrl } from "@/lib/unsubscribe-token";
 import type { JobDefinition, JobResult } from "@/jobs/index";
@@ -115,7 +115,7 @@ export const eventReminders: JobDefinition = {
               })
             );
 
-            const { data: sendResult } = await resend.emails.send({
+            const { data: sendResult } = await getResend().emails.send({
               from: `${FROM_NAME} <${FROM_EMAIL}>`,
               to: alum.email,
               subject: `Reminder: ${event.title} is tomorrow!`,

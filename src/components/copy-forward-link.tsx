@@ -43,7 +43,7 @@ export function CopyForwardLink({ forwardToken }: { forwardToken?: string | null
       <button
         type="button"
         onClick={handleShare}
-        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#CC0000] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
       >
         {copied ? (
           <>

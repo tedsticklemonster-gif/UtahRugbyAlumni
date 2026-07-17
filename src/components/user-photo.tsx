@@ -14,7 +14,7 @@ interface UserPhotoProps {
 }
 
 const HASH_COLORS = [
-  "from-[#CC0000] to-[#7a0000]",
+  "from-utah-red to-[#7a0000]",
   "from-indigo-600 to-indigo-900",
   "from-emerald-600 to-emerald-900",
   "from-amber-500 to-amber-800",

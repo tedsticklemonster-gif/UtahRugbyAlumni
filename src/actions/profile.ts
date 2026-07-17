@@ -123,8 +123,8 @@ export async function updateProfileAction(
     return { success: false, error: "Update failed. Please try again." };
   }
 
-  revalidatePath("/profile");
-  revalidatePath("/directory");
+  revalidatePath("/me");
+  revalidatePath("/network");
 
   return { success: true };
 }

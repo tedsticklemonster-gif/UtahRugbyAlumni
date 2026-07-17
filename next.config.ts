@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Old IA → 5-tab IA. Non-permanent while the new structure settles.
+  // /jobs, /schedule, /give redirects land with the phases that re-home them.
+  async redirects() {
+    return [
+      { source: "/directory", destination: "/network", permanent: false },
+      { source: "/jobs", destination: "/network?tab=jobs", permanent: false },
+      { source: "/profile", destination: "/me", permanent: false },
+      { source: "/give", destination: "/me/giving", permanent: false },
+      { source: "/schedule", destination: "/events?tab=season", permanent: false },
+      { source: "/feed", destination: "/", permanent: false },
+    ];
+  },
 };
 
 // Only wrap with serwist in production builds. In dev, Next 16 uses Turbopack

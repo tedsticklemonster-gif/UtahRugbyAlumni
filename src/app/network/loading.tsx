@@ -1,13 +1,11 @@
-export default function DirectoryLoading() {
+export default function NetworkLoading() {
   return (
     <div className="min-h-screen bg-zinc-950">
-      {/* Filter bar skeleton */}
-      <div className="sticky top-14 z-10 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm">
-        <div className="flex gap-2 overflow-x-auto px-4 py-3">
-          {[80, 120, 60, 96, 72].map((w, i) => (
-            <div key={i} className="h-8 shrink-0 animate-pulse rounded-lg bg-zinc-800" style={{ width: w }} />
-          ))}
-        </div>
+      {/* Header skeleton */}
+      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
+        <div className="h-7 w-36 animate-pulse rounded bg-zinc-800" />
+        <div className="mt-2 h-3.5 w-64 animate-pulse rounded bg-zinc-800" />
+        <div className="mt-4 h-9 w-44 animate-pulse rounded-full bg-zinc-800" />
       </div>
 
       {/* Rails skeleton */}

@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 
+import { relativeTime } from "@/lib/time";
 import Link from "next/link";
+import { MemberAvatar } from "@/components/member-avatar";
 import { redirect } from "next/navigation";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -9,18 +11,6 @@ import { getConversationsAction } from "@/actions/messages";
 export const metadata = {
   title: "Messages — Utah Rugby Alumni Network",
 };
-
-function relativeTime(iso: string) {
-  const diff = Date.now() - new Date(iso).getTime();
-  const m = Math.floor(diff / 60_000);
-  if (m < 1) return "just now";
-  if (m < 60) return `${m}m`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h`;
-  const d = Math.floor(h / 24);
-  if (d < 7) return `${d}d`;
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
 
 export default async function MessagesPage() {
   const supabase = await createClient();
@@ -52,7 +42,7 @@ export default async function MessagesPage() {
             <p className="text-sm font-semibold text-zinc-400">No messages yet</p>
             <p className="text-xs text-zinc-600">
               Find a teammate in the{" "}
-              <Link href="/directory" className="text-zinc-400 underline hover:text-white">
+              <Link href="/network" className="text-zinc-400 underline hover:text-white">
                 directory
               </Link>{" "}
               and send them a message.
@@ -66,24 +56,19 @@ export default async function MessagesPage() {
             href={`/messages/${conv.other_id}`}
             className="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-zinc-900"
           >
-            {conv.other_photo_signed_url ? (
-              <img
-                src={conv.other_photo_signed_url}
-                alt={`${conv.other_first_name} ${conv.other_last_name}`}
-                className="h-12 w-12 shrink-0 rounded-full object-cover"
-              />
-            ) : (
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-zinc-300">
-                {conv.other_first_name[0]}{conv.other_last_name[0]}
-              </div>
-            )}
+            <MemberAvatar
+              photoUrl={conv.other_photo_signed_url}
+              firstName={conv.other_first_name}
+              lastName={conv.other_last_name}
+              size="lg"
+            />
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
                 <p className="truncate text-sm font-semibold text-white">
                   {conv.other_first_name} {conv.other_last_name}
                 </p>
-                <span className="shrink-0 text-[10px] text-zinc-500">
+                <span className="shrink-0 text-2xs text-zinc-500">
                   {relativeTime(conv.last_message_at)}
                 </span>
               </div>
@@ -94,7 +79,7 @@ export default async function MessagesPage() {
             </div>
 
             {conv.unread_count > 0 && (
-              <div className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-[#CC0000] px-1.5 text-[10px] font-bold text-white">
+              <div className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-utah-red px-1.5 text-2xs font-bold text-white">
                 {conv.unread_count > 9 ? "9+" : conv.unread_count}
               </div>
             )}
@@ -105,7 +90,7 @@ export default async function MessagesPage() {
       {/* Link to find people to message */}
       {conversations.length > 0 && (
         <div className="px-5 py-4 text-center">
-          <Link href="/directory" className="text-xs font-semibold text-zinc-500 hover:text-white">
+          <Link href="/network" className="text-xs font-semibold text-zinc-500 hover:text-white">
             Find more teammates to message →
           </Link>
         </div>

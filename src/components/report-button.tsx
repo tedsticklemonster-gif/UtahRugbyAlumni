@@ -37,7 +37,7 @@ export function ReportButton({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 text-[10px] font-semibold text-zinc-600 hover:text-red-400 transition-colors"
+        className="flex items-center gap-1.5 text-2xs font-semibold text-zinc-600 hover:text-red-400 transition-colors"
         title="Report"
       >
         <Flag className="size-3" />
@@ -73,7 +73,7 @@ export function ReportButton({
                         value={value}
                         checked={reason === value}
                         onChange={() => setReason(value)}
-                        className="accent-[#CC0000]"
+                        className="accent-utah-red"
                       />
                       <span className="text-sm text-zinc-300">{label}</span>
                     </label>
@@ -90,7 +90,7 @@ export function ReportButton({
                 <button
                   onClick={handleSubmit}
                   disabled={pending}
-                  className="w-full rounded-xl bg-[#CC0000] py-2.5 text-sm font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+                  className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
                 >
                   {pending ? "Submitting..." : "Submit Report"}
                 </button>

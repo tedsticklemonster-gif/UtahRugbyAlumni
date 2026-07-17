@@ -105,24 +105,24 @@ export default async function ProfilePage() {
             )}
           </div>
           {photoSignedUrl && (
-            <p className="text-[10px] text-zinc-600">Tap photo to enlarge</p>
+            <p className="text-2xs text-zinc-600">Tap photo to enlarge</p>
           )}
         </div>
 
         {/* Impact summary — donor tier + referrals */}
         <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+          <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your Impact
           </p>
           <div className="grid grid-cols-2 gap-4">
             {/* Referrals */}
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#CC0000]/15">
-                <Users className="size-5 text-[#CC0000]" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-utah-red/15">
+                <Users className="size-5 text-utah-red" />
               </div>
               <div>
                 <p className="text-xl font-black tabular-nums text-white">{totalReferrals}</p>
-                <p className="text-[11px] text-zinc-500">
+                <p className="text-xs text-zinc-500">
                   {totalReferrals === 1 ? "teammate" : "teammates"} gathered
                 </p>
               </div>
@@ -138,7 +138,7 @@ export default async function ProfilePage() {
                     ? TIER_LABELS[alumni.sponsor_tier as keyof typeof TIER_LABELS]
                     : "—"}
                 </p>
-                <p className="text-[11px] text-zinc-500">
+                <p className="text-xs text-zinc-500">
                   {alumni.lifetime_giving_cents > 0
                     ? `${formatLifetime(alumni.lifetime_giving_cents)} lifetime`
                     : "No donations yet"}
@@ -149,7 +149,7 @@ export default async function ProfilePage() {
           <div className="mt-4">
             <Link
               href="/thanks"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#CC0000] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
             >
               <Share2 className="size-3.5" />
               Share your forward link
@@ -160,7 +160,7 @@ export default async function ProfilePage() {
         {/* Notifications */}
         <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
               Notifications
             </p>
             <Link
@@ -176,7 +176,7 @@ export default async function ProfilePage() {
 
         {/* Profile form */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+          <p className="mb-4 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your information
           </p>
           <ProfileForm

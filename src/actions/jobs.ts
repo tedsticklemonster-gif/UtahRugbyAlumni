@@ -84,7 +84,7 @@ export async function createJobAction(formData: FormData): Promise<{ error?: str
   });
 
   if (error) return { error: error.message };
-  revalidatePath("/jobs");
+  revalidatePath("/network");
   return {};
 }
 
@@ -100,7 +100,7 @@ export async function closeJobAction(jobId: string): Promise<{ error?: string }>
     .eq("alumni_id", myId);
 
   if (error) return { error: error.message };
-  revalidatePath("/jobs");
+  revalidatePath("/network");
   return {};
 }
 

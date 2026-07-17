@@ -56,7 +56,7 @@ export function ShareProfileButton({
         <button
           type="button"
           onClick={handleShare}
-          className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-[#CC0000] hover:text-white"
+          className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
           aria-label="Share profile"
         >
           {copied ? (
@@ -78,7 +78,7 @@ export function ShareProfileButton({
         <button
           type="button"
           onClick={() => setShowQR(true)}
-          className="inline-flex items-center justify-center size-9 rounded-xl border border-zinc-700 text-zinc-400 transition-colors hover:border-[#CC0000] hover:text-white"
+          className="inline-flex items-center justify-center size-9 rounded-xl border border-zinc-700 text-zinc-400 transition-colors hover:border-utah-red hover:text-white"
           aria-label="Show QR code"
         >
           <QrCode className="size-4" />
@@ -96,7 +96,7 @@ export function ShareProfileButton({
             >
               <X className="size-5" />
             </button>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#CC0000] mb-3">
+            <p className="text-xs font-bold uppercase tracking-widest text-utah-red mb-3">
               Scan to view profile
             </p>
             <QRCodeSVG value={url} size={200} />

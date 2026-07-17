@@ -95,7 +95,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="mb-1 block text-[10px] font-bold uppercase tracking-wide text-zinc-500">Start</label>
+          <label className="mb-1 block text-2xs font-bold uppercase tracking-wide text-zinc-500">Start</label>
           <input
             name="starts_at"
             type="datetime-local"
@@ -104,7 +104,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           />
         </div>
         <div>
-          <label className="mb-1 block text-[10px] font-bold uppercase tracking-wide text-zinc-500">End (opt)</label>
+          <label className="mb-1 block text-2xs font-bold uppercase tracking-wide text-zinc-500">End (opt)</label>
           <input
             name="ends_at"
             type="datetime-local"
@@ -112,7 +112,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           />
         </div>
       </div>
-      <p className="text-[10px] text-zinc-600">Times are in your local timezone</p>
+      <p className="text-2xs text-zinc-600">Times are in your local timezone</p>
 
       <div>
         <input
@@ -133,7 +133,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
       </div>
 
       <div>
-        <label className="mb-1 block text-[10px] font-bold uppercase tracking-wide text-zinc-500">Repeats</label>
+        <label className="mb-1 block text-2xs font-bold uppercase tracking-wide text-zinc-500">Repeats</label>
         <select
           name="recurrence_rule"
           value={recurrence}
@@ -148,7 +148,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
 
       {recurrence && (
         <div>
-          <label className="mb-1 block text-[10px] font-bold uppercase tracking-wide text-zinc-500">Repeat until (opt)</label>
+          <label className="mb-1 block text-2xs font-bold uppercase tracking-wide text-zinc-500">Repeat until (opt)</label>
           <input
             name="recurrence_end"
             type="date"
@@ -162,7 +162,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-[#CC0000] py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+        className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
       >
         {pending ? "Creating…" : "Create Event"}
       </button>

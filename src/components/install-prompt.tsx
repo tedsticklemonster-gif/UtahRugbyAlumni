@@ -106,7 +106,7 @@ export function InstallPrompt() {
             {mode === "ios" ? (
               <Button
                 size="sm"
-                className="bg-[#CC0000] text-white hover:bg-[#AA0000]"
+                className="bg-utah-red text-white hover:bg-[#AA0000]"
                 onClick={() => setGuideOpen(true)}
               >
                 Show me how
@@ -114,7 +114,7 @@ export function InstallPrompt() {
             ) : (
               <Button
                 size="sm"
-                className="bg-[#CC0000] text-white hover:bg-[#AA0000]"
+                className="bg-utah-red text-white hover:bg-[#AA0000]"
                 onClick={install}
               >
                 Install

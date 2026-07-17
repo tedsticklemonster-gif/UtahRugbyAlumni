@@ -34,7 +34,7 @@ function TelegramLink() {
       className="flex h-9 items-center gap-1.5 rounded-lg px-2 text-[#26A5E4] transition-colors hover:bg-zinc-800"
     >
       <TelegramIcon className="size-5 shrink-0" />
-      <span className="hidden text-[11px] font-extrabold uppercase tracking-wider md:inline">
+      <span className="hidden text-xs font-extrabold uppercase tracking-wider md:inline">
         Telegram
       </span>
     </a>
@@ -66,7 +66,7 @@ function AvatarMenu() {
         aria-expanded={open}
         className={cn(
           "flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 transition-colors",
-          open ? "border-[#CC0000]" : "border-zinc-700 hover:border-[#CC0000]"
+          open ? "border-utah-red" : "border-zinc-700 hover:border-utah-red"
         )}
       >
         {me.photo_signed_url ? (
@@ -93,7 +93,7 @@ function AvatarMenu() {
 
           <div className="py-1">
             <Link
-              href="/profile"
+              href="/me"
               onClick={() => setOpen(false)}
               className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
             >
@@ -148,7 +148,7 @@ export function HeaderAuth() {
       </Link>
       <Link
         href="/join"
-        className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-lg bg-[#CC0000] px-3.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-lg bg-utah-red px-3.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
       >
         Join
       </Link>

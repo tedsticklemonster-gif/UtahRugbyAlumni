@@ -97,7 +97,7 @@ export default async function CampaignDetailPage({
           <div key={s.label} className="rounded-lg border bg-muted/30 p-3">
             <p className="text-xs text-muted-foreground">{s.label}</p>
             <p className="text-xl font-bold">{s.value}</p>
-            {s.sub && <p className="text-[10px] text-muted-foreground">{s.sub}</p>}
+            {s.sub && <p className="text-2xs text-muted-foreground">{s.sub}</p>}
           </div>
         ))}
       </div>
@@ -119,7 +119,7 @@ export default async function CampaignDetailPage({
               />
             )}
           </div>
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-2xs text-muted-foreground">
             <span>{paidPct}% paid · {pledgedPct}% committed</span>
             <span>Goal: {formatMoney(goalCents)}</span>
           </div>

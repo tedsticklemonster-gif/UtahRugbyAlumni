@@ -19,7 +19,7 @@ function ShareButtonVisual() {
         {/* Safari address bar */}
         <div className="flex items-center gap-2 border-b border-zinc-700 bg-zinc-800 px-3 py-2">
           <div className="h-5 flex-1 rounded-md bg-zinc-700 px-2 flex items-center">
-            <span className="text-[9px] text-zinc-400 truncate">utah-rugby-alumni.vercel.app</span>
+            <span className="text-3xs text-zinc-400 truncate">utah-rugby-alumni.vercel.app</span>
           </div>
         </div>
         {/* Page content preview */}
@@ -33,15 +33,15 @@ function ShareButtonVisual() {
           {/* Share button — highlighted */}
           <div className="relative">
             <div className="flex flex-col items-center">
-              <div className="flex h-7 w-7 animate-pulse items-center justify-center rounded-lg bg-[#CC0000]">
+              <div className="flex h-7 w-7 animate-pulse items-center justify-center rounded-lg bg-utah-red">
                 <svg viewBox="0 0 24 24" className="size-4 text-white" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <span className="mt-0.5 text-[7px] font-medium text-[#CC0000]">tap here</span>
+              <span className="mt-0.5 text-[7px] font-medium text-utah-red">tap here</span>
             </div>
             {/* Arrow indicator */}
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[#CC0000]">↓</div>
+            <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-utah-red">↓</div>
           </div>
           <div className="text-zinc-500">⊞</div>
           <div className="text-zinc-500">⋯</div>
@@ -75,13 +75,13 @@ function ShareSheetVisual() {
           ].map(({ icon, label }) => (
             <div key={label} className="flex items-center gap-2 rounded-lg bg-zinc-700 px-2 py-2 mb-1">
               <span className="text-xs">{icon}</span>
-              <span className="text-[9px] text-zinc-300">{label}</span>
+              <span className="text-3xs text-zinc-300">{label}</span>
             </div>
           ))}
           {/* Highlighted row */}
-          <div className="flex items-center gap-2 rounded-lg bg-[#CC0000] px-2 py-2 mb-1">
+          <div className="flex items-center gap-2 rounded-lg bg-utah-red px-2 py-2 mb-1">
             <span className="text-xs">➕</span>
-            <span className="text-[9px] font-bold text-white">Add to Home Screen</span>
+            <span className="text-3xs font-bold text-white">Add to Home Screen</span>
             <span className="ml-auto text-[8px] text-white/70">← tap</span>
           </div>
         </div>
@@ -99,17 +99,17 @@ function NameConfirmVisual() {
         <div className="bg-zinc-800 px-4 pt-4 pb-3">
           {/* Dialog title bar */}
           <div className="mb-3 flex items-center justify-between">
-            <button className="text-[9px] text-zinc-400">Cancel</button>
-            <span className="text-[9px] font-semibold text-white">Add to Home Screen</span>
+            <button className="text-3xs text-zinc-400">Cancel</button>
+            <span className="text-3xs font-semibold text-white">Add to Home Screen</span>
             {/* Add button highlighted */}
-            <button className="rounded bg-[#CC0000] px-2 py-0.5 text-[9px] font-bold text-white">
+            <button className="rounded bg-utah-red px-2 py-0.5 text-3xs font-bold text-white">
               Add
             </button>
           </div>
           {/* Icon + name preview */}
           <div className="flex flex-col items-center gap-2 py-2">
             <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white">
-              <div className="text-[10px] font-black text-[#CC0000]">UU</div>
+              <div className="text-2xs font-black text-utah-red">UU</div>
             </div>
             <div className="h-4 w-24 rounded bg-zinc-700 flex items-center justify-center">
               <span className="text-[7px] text-zinc-400">UU Rugby</span>
@@ -137,10 +137,10 @@ function InstalledVisual() {
           ))}
           {/* Our app — highlighted */}
           <div className="flex flex-col items-center gap-1">
-            <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white ring-2 ring-[#CC0000] ring-offset-1 ring-offset-zinc-950">
-              <div className="text-xs font-black text-[#CC0000]">UU</div>
+            <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white ring-2 ring-utah-red ring-offset-1 ring-offset-zinc-950">
+              <div className="text-xs font-black text-utah-red">UU</div>
               {/* Sparkle */}
-              <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#CC0000] text-[7px] font-bold text-white">✓</div>
+              <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-utah-red text-[7px] font-bold text-white">✓</div>
             </div>
             <span className="text-[7px] font-medium text-white">UU Rugby</span>
           </div>
@@ -207,14 +207,14 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
             <div
               key={i}
               className={`h-1.5 rounded-full transition-all ${
-                i === step ? "w-6 bg-[#CC0000]" : "w-1.5 bg-zinc-700"
+                i === step ? "w-6 bg-utah-red" : "w-1.5 bg-zinc-700"
               }`}
             />
           ))}
         </div>
 
         {/* Step label */}
-        <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+        <p className="mb-1 text-center text-2xs font-bold uppercase tracking-widest text-utah-red">
           Step {step + 1} of {STEPS.length}
         </p>
         <h2 className="mb-4 text-center text-lg font-black text-white">
@@ -242,7 +242,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
           )}
           <button
             onClick={isLast ? onClose : () => setStep(s => s + 1)}
-            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-[#CC0000] py-2.5 text-sm font-bold text-white hover:bg-[#AA0000]"
+            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-[#AA0000]"
           >
             {isLast ? "Done" : "Next"}
             {!isLast && <ChevronRight className="size-4" />}

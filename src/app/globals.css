@@ -7,6 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-utah-red: var(--utah-red);
+  --text-2xs: 0.625rem;
+  --text-3xs: 0.5625rem;
   --font-sans: var(--font-barlow);
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   --font-display: var(--font-barlow-condensed);
@@ -86,6 +89,7 @@
 }
 
 .dark {
+  --utah-red: oklch(0.525 0.222 27.33);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -153,6 +157,16 @@
       --safe-right: env(safe-area-inset-right);
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @utility pb-safe {
@@ -162,11 +176,25 @@
   padding-top: calc(env(safe-area-inset-top) + 0.5rem);
 }
 
-@utility utah-red-bg {
-  background-color: #CC0000;
+/* Brand typography — the two voices of the app. Pair with a normal text-size
+   step, e.g. className="text-display text-2xl". */
+@utility text-display {
+  font-family: var(--font-barlow-condensed);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
 }
-@utility utah-red-text {
-  color: #CC0000;
+@utility text-eyebrow {
+  font-family: var(--font-barlow);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+}
+/* Landing hero headline — one fluid size instead of per-breakpoint overrides */
+@utility text-hero {
+  font-size: clamp(3.5rem, 17vw, 7.5rem);
+  line-height: 0.88;
 }
 
 /* Hide scrollbars on horizontal rails while keeping them scrollable */

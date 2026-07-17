@@ -196,14 +196,14 @@ export function PledgeTable({ pledges: initial, campaignId }: PledgeTableProps) 
                   <div className="flex items-center gap-1.5">
                     <p className="font-medium text-sm">{pledge.donor_name}</p>
                     {pledge.anonymous && (
-                      <span className="rounded-full bg-muted px-1.5 py-0.5 text-[9px] font-medium text-muted-foreground uppercase tracking-wide">
+                      <span className="rounded-full bg-muted px-1.5 py-0.5 text-3xs font-medium text-muted-foreground uppercase tracking-wide">
                         Anon
                       </span>
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">{pledge.donor_email}</p>
                   {pledge.notes && (
-                    <p className="text-[10px] text-muted-foreground mt-0.5 italic">
+                    <p className="text-2xs text-muted-foreground mt-0.5 italic">
                       {pledge.notes}
                     </p>
                   )}

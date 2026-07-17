@@ -18,7 +18,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
           </p>
         </div>
         {job.alumni_grad_year && (
-          <span className="rounded-md bg-[#CC0000] px-1.5 py-0.5 text-[10px] font-black text-white shrink-0">
+          <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white shrink-0">
             &rsquo;{String(job.alumni_grad_year).slice(-2)}
           </span>
         )}
@@ -52,7 +52,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
       <div className="mt-3 flex items-center justify-between">
         <Link
           href={`/u/${job.alumni_id}`}
-          className="text-[10px] font-semibold text-zinc-500 hover:text-white transition-colors"
+          className="text-2xs font-semibold text-zinc-500 hover:text-white transition-colors"
           suppressHydrationWarning
         >
           Posted by {job.alumni_first_name} {job.alumni_last_name} · {timeAgo}
@@ -62,7 +62,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
             href={job.apply_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 rounded-lg bg-[#CC0000] px-3 py-1.5 text-xs font-bold text-white hover:bg-[#AA0000] transition-colors"
+            className="inline-flex items-center gap-1 rounded-lg bg-utah-red px-3 py-1.5 text-xs font-bold text-white hover:bg-[#AA0000] transition-colors"
           >
             Apply <ExternalLink className="size-3" />
           </a>

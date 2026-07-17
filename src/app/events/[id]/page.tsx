@@ -15,12 +15,12 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.ve
 
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
   social: { label: "Social", color: "text-purple-400" },
-  reunion: { label: "Reunion", color: "text-[#CC0000]" },
+  reunion: { label: "Reunion", color: "text-utah-red" },
   watch_party: { label: "Watch Party", color: "text-sky-400" },
   practice: { label: "Practice", color: "text-emerald-400" },
   fundraiser: { label: "Fundraiser", color: "text-amber-400" },
   networking: { label: "Networking", color: "text-blue-400" },
-  game_day: { label: "Game Day", color: "text-[#CC0000]" },
+  game_day: { label: "Game Day", color: "text-utah-red" },
   other: { label: "Event", color: "text-zinc-400" },
 };
 
@@ -102,11 +102,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
       <div className="px-5 py-6 md:px-10 max-w-2xl space-y-5">
         {/* Kind badge + recurring indicator */}
         <div className="flex items-center gap-2">
-          <span className={`inline-block text-[10px] font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+          <span className={`inline-block text-2xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
             {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
           </span>
           {(event.series_id || event.recurrence_rule) && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+            <span className="inline-flex items-center gap-1 text-2xs font-bold uppercase tracking-widest text-zinc-500">
               <Repeat className="size-3" />
               Recurring
             </span>
@@ -195,7 +195,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
         ) : (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
             <p className="text-sm text-zinc-400">
-              <Link href="/auth/login" className="font-semibold text-white hover:text-[#CC0000] transition-colors">Sign in</Link>
+              <Link href="/auth/login" className="font-semibold text-white hover:text-utah-red transition-colors">Sign in</Link>
               {" "}to RSVP
             </p>
           </div>

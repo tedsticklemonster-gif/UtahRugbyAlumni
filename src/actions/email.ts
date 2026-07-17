@@ -3,7 +3,7 @@
 import { render } from "@react-email/components";
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { resend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
+import { getResend, FROM_EMAIL, FROM_NAME } from "@/lib/resend";
 import { MooseIntroEmail } from "@/emails/moose-intro";
 import { ForwardShareEmail } from "@/emails/forward-share";
 import { requireAdmin } from "@/lib/auth/require-admin";
@@ -99,7 +99,7 @@ export async function sendEmailsAction(
     }
 
     try {
-      const { data: sendResult } = await resend.emails.send({
+      const { data: sendResult } = await getResend().emails.send({
         from: `${FROM_NAME} <${FROM_EMAIL}>`,
         to: recipient.email,
         subject,

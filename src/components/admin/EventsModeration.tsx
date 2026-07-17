@@ -146,11 +146,11 @@ export function EventsModeration({
               <div className="min-w-0 flex-1 space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-medium text-sm">{event.title}</p>
-                  <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] capitalize text-muted-foreground">
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-2xs capitalize text-muted-foreground">
                     {event.kind}
                   </span>
                   {event.cancelled_at && (
-                    <span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-[10px] font-semibold">
+                    <span className="rounded-full bg-destructive/10 text-destructive px-2 py-0.5 text-2xs font-semibold">
                       Cancelled
                     </span>
                   )}
@@ -159,7 +159,7 @@ export function EventsModeration({
                   {new Date(event.starts_at).toLocaleString()}
                   {event.location && ` · ${event.location}`}
                 </p>
-                <p className="text-[10px] text-muted-foreground">
+                <p className="text-2xs text-muted-foreground">
                   By{" "}
                   {event.creator
                     ? `${event.creator.first_name} ${event.creator.last_name}`

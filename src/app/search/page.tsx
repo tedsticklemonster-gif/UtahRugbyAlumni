@@ -73,7 +73,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     {[r.profession, r.company, r.grad_year ? `Class of ${r.grad_year}` : null].filter(Boolean).join(" · ") || "Alumni"}
                   </p>
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-600">Alumni</span>
+                <span className="text-3xs font-bold uppercase tracking-widest text-zinc-600">Alumni</span>
               </Link>
             );
           }
@@ -91,7 +91,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   <p className="text-sm text-zinc-300 truncate">{r.body}</p>
                   <p className="text-xs text-zinc-600 truncate">by {r.author_name}</p>
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-600">Post</span>
+                <span className="text-3xs font-bold uppercase tracking-widest text-zinc-600">Post</span>
               </Link>
             );
           }
@@ -101,7 +101,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               href={`/events/${r.id}`}
               className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 p-3 transition-colors hover:border-zinc-700"
             >
-              <div className="flex size-10 items-center justify-center rounded-full bg-[#CC0000]/15 text-[#CC0000]">
+              <div className="flex size-10 items-center justify-center rounded-full bg-utah-red/15 text-utah-red">
                 <CalendarDays className="size-4" />
               </div>
               <div className="min-w-0 flex-1">
@@ -110,7 +110,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   {new Date(r.starts_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                 </p>
               </div>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-600">Event</span>
+              <span className="text-3xs font-bold uppercase tracking-widest text-zinc-600">Event</span>
             </Link>
           );
         })}

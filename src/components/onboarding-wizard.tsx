@@ -6,8 +6,6 @@ import { Camera, ChevronRight, Check, X } from "lucide-react";
 import imageCompression from "browser-image-compression";
 import { updateProfileAction } from "@/actions/profile";
 
-const display =
-  "font-[family-name:var(--font-barlow-condensed)] font-black uppercase italic tracking-tight";
 
 interface OnboardingWizardProps {
   alumniId: string;
@@ -89,14 +87,14 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
   const inputCls = "w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none";
 
   return (
-    <div className="mx-4 mt-4 rounded-2xl border border-[#CC0000]/30 bg-zinc-900 overflow-hidden">
+    <div className="mx-4 mt-4 rounded-2xl border border-utah-red/30 bg-zinc-900 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+          <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
             Welcome, {firstName}
           </p>
-          <h3 className={`${display} text-xl text-white`}>Complete Your Profile</h3>
+          <h3 className={`text-display text-xl text-white`}>Complete Your Profile</h3>
         </div>
         <button onClick={onDismiss} className="p-1 text-zinc-600 hover:text-white transition-colors" aria-label="Dismiss">
           <X className="size-5" />
@@ -109,7 +107,7 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
           <div
             key={i}
             className={`h-1 flex-1 rounded-full transition-colors ${
-              i <= step ? "bg-[#CC0000]" : "bg-zinc-800"
+              i <= step ? "bg-utah-red" : "bg-zinc-800"
             }`}
           />
         ))}
@@ -124,11 +122,11 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
           <div className="flex flex-col items-center gap-3">
             <input ref={fileRef} type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
             {photoPreview ? (
-              <img src={photoPreview} alt="" className="size-24 rounded-full object-cover border-2 border-[#CC0000]" />
+              <img src={photoPreview} alt="" className="size-24 rounded-full object-cover border-2 border-utah-red" />
             ) : (
               <button
                 onClick={() => fileRef.current?.click()}
-                className="flex size-24 items-center justify-center rounded-full border-2 border-dashed border-zinc-700 text-zinc-500 hover:border-[#CC0000] hover:text-[#CC0000] transition-colors"
+                className="flex size-24 items-center justify-center rounded-full border-2 border-dashed border-zinc-700 text-zinc-500 hover:border-utah-red hover:text-utah-red transition-colors"
               >
                 <Camera className="size-8" />
               </button>
@@ -166,11 +164,11 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
               <option value="student">Student</option>
             </select>
             <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-800/50 px-3 py-3 cursor-pointer">
-              <input type="checkbox" checked={hiring} onChange={(e) => setHiring(e.target.checked)} className="accent-[#CC0000]" />
+              <input type="checkbox" checked={hiring} onChange={(e) => setHiring(e.target.checked)} className="accent-utah-red" />
               <span className="text-sm text-white">I&apos;m hiring</span>
             </label>
             <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-800/50 px-3 py-3 cursor-pointer">
-              <input type="checkbox" checked={willingToMentor} onChange={(e) => setWillingToMentor(e.target.checked)} className="accent-[#CC0000]" />
+              <input type="checkbox" checked={willingToMentor} onChange={(e) => setWillingToMentor(e.target.checked)} className="accent-utah-red" />
               <span className="text-sm text-white">Open to mentoring</span>
             </label>
           </div>
@@ -207,7 +205,7 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
           <button
             onClick={next}
             disabled={submitting}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-[#CC0000] px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
           >
             {submitting ? "Saving..." : step < STEPS.length - 1 ? (
               <>Next <ChevronRight className="size-4" /></>

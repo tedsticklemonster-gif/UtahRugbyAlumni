@@ -30,7 +30,7 @@ export default function Error({
         </button>
         <Link
           href="/"
-          className="rounded-xl bg-[#CC0000] px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+          className="rounded-xl bg-utah-red px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
         >
           Go home
         </Link>

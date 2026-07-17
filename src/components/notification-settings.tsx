@@ -105,7 +105,7 @@ export function NotificationSettings({
                 aria-checked={prefs[key]}
                 onClick={() => toggle(key)}
                 className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors ${
-                  prefs[key] ? "bg-[#CC0000]" : "bg-zinc-700"
+                  prefs[key] ? "bg-utah-red" : "bg-zinc-700"
                 }`}
               >
                 <span
@@ -123,7 +123,7 @@ export function NotificationSettings({
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full rounded-xl bg-[#CC0000] py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+          className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
         >
           {saving ? "Saving\u2026" : saved ? "Saved!" : "Save Preferences"}
         </button>

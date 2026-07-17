@@ -22,7 +22,7 @@ export default async function ModerationPage() {
     <div className="min-h-screen bg-zinc-950">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
-          <Shield className="size-5 text-[#CC0000]" />
+          <Shield className="size-5 text-utah-red" />
           <h1 className="text-2xl font-black tracking-tight text-white">Moderation</h1>
         </div>
         <p className="mt-1 text-sm text-zinc-500">Review reported content and user issues</p>
@@ -31,7 +31,7 @@ export default async function ModerationPage() {
       <div className="px-5 py-6 md:px-10 space-y-6 max-w-2xl">
         {/* Pending */}
         <section>
-          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-400 mb-3">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-amber-400 mb-3">
             <AlertTriangle className="size-3" /> Pending Review ({pending.length})
           </p>
           {pending.length === 0 ? (
@@ -63,7 +63,7 @@ export default async function ModerationPage() {
         {/* Resolved */}
         {resolved.length > 0 && (
           <section>
-            <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-3">
+            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-zinc-500 mb-3">
               <XCircle className="size-3" /> Resolved ({resolved.length})
             </p>
             <div className="space-y-2">

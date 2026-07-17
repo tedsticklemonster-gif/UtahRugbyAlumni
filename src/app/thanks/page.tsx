@@ -36,7 +36,7 @@ export default async function ThanksPage() {
   return (
     <div className="min-h-screen bg-zinc-950">
       {/* Red accent bar */}
-      <div className="h-1.5 bg-[#CC0000]" />
+      <div className="h-1.5 bg-utah-red" />
 
       <div className="mx-auto max-w-xl px-5 py-8 md:px-10">
         {/* Hero */}
@@ -55,11 +55,11 @@ export default async function ThanksPage() {
         {/* Step 1 — verify email */}
         <div className="mb-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
           <div className="flex items-start gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#CC0000]/15">
-              <Mail className="size-4 text-[#CC0000]" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-utah-red/15">
+              <Mail className="size-4 text-utah-red" />
             </div>
             <div className="flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#CC0000]">
+              <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
                 Step 1
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -81,7 +81,7 @@ export default async function ThanksPage() {
               <Share2 className="size-4 text-sky-400" />
             </div>
             <div className="flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-sky-400">
+              <p className="text-2xs font-bold uppercase tracking-widest text-sky-400">
                 Step 2
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -106,7 +106,7 @@ export default async function ThanksPage() {
               <Users className="size-4 text-amber-400" />
             </div>
             <div className="flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400">
+              <p className="text-2xs font-bold uppercase tracking-widest text-amber-400">
                 Step 3
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -117,8 +117,8 @@ export default async function ThanksPage() {
                 who&rsquo;s hiring right now.
               </p>
               <Link
-                href="/directory"
-                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-[#CC0000] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+                href="/network"
+                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
               >
                 Browse Directory
                 <ArrowRight className="size-4" />

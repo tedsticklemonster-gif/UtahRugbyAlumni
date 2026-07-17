@@ -137,7 +137,7 @@ export function EventPhotoUploader({ eventId }: { eventId: string }) {
           <button
             onClick={handleUpload}
             disabled={pending}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#CC0000] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
           >
             {pending ? "Uploading..." : `Upload ${previews.length}`}
           </button>

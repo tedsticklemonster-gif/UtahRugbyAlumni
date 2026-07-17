@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/directory", destination: "/network", permanent: false },
+      { source: "/jobs", destination: "/network?tab=jobs", permanent: false },
       { source: "/profile", destination: "/me", permanent: false },
       { source: "/feed", destination: "/", permanent: false },
     ];

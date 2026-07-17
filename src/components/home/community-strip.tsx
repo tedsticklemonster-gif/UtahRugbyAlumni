@@ -120,7 +120,7 @@ export function CommunityStrip({
                 Your Era · &rsquo;{String(startYear).slice(-2)}&ndash;&rsquo;{String(endYear).slice(-2)}
               </p>
               <Link
-                href={`/network?year_start=${startYear}&year_end=${endYear}`}
+                href={`/network?yearFrom=${startYear}&yearTo=${endYear}`}
                 className="text-eyebrow text-3xs text-zinc-500 transition-colors hover:text-white"
               >
                 View All →

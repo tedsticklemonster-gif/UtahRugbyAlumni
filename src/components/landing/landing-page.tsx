@@ -281,7 +281,7 @@ export async function LandingPage() {
               sub: "Games & events",
             },
             {
-              href: "/jobs",
+              href: "/network?tab=jobs",
               icon: Briefcase,
               title: "Jobs",
               sub: "Who's hiring",
@@ -498,7 +498,7 @@ export async function LandingPage() {
                 </h2>
               </div>
               <Link
-                href="/jobs"
+                href="/network?tab=jobs"
                 className="text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white"
               >
                 All Jobs

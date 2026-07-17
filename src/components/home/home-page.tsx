@@ -150,7 +150,7 @@ export function HomePage({
         {/* Jobs — network value */}
         <div className="px-4 pt-5">
           <Link
-            href="/jobs"
+            href="/network?tab=jobs"
             className="group flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 transition-colors hover:border-sky-500/40 hover:bg-sky-500/5"
           >
             <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400">

@@ -27,7 +27,7 @@ export function DirectoryFilters() {
       } else {
         params.delete(key);
       }
-      router.push(`/directory?${params.toString()}`);
+      router.push(`/network?${params.toString()}`);
     },
     [router, searchParams]
   );
@@ -48,7 +48,7 @@ export function DirectoryFilters() {
       } else {
         params.set(key, "1");
       }
-      router.push(`/directory?${params.toString()}`);
+      router.push(`/network?${params.toString()}`);
     },
     [router, searchParams]
   );
@@ -152,6 +152,19 @@ export function DirectoryFilters() {
           }`}
         >
           Hiring now
+        </button>
+        <button
+          type="button"
+          onClick={() =>
+            updateFilter("availability", availability === "open_to_work" ? "" : "open_to_work")
+          }
+          className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+            availability === "open_to_work"
+              ? "bg-emerald-500 text-white"
+              : "border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500"
+          }`}
+        >
+          Open to work
         </button>
         <button
           type="button"

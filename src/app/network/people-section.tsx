@@ -1,31 +1,20 @@
-export const dynamic = "force-dynamic";
-
 import { Suspense } from "react";
 import Link from "next/link";
-import { LogIn, Users, AlertCircle, Sparkles, Hammer, Briefcase, Handshake, UserPlus } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
+import { Users, Sparkles, Hammer, Briefcase, Handshake, UserPlus } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { AlumniCard, type Availability } from "@/components/alumni-card";
 import { DirectoryFilters } from "@/components/directory-filters";
 
-export const metadata = {
-  title: "Directory — Utah Rugby Alumni Network",
-  description: "Browse the Utah Rugby Alumni directory.",
-};
-
-interface DirectoryPageProps {
-  searchParams: Promise<{
-    q?: string;
-    yearFrom?: string;
-    yearTo?: string;
-    position?: string;
-    state?: string;
-    sort?: string;
-    availability?: string;
-    hiring?: string;
-    mentor?: string;
-    service?: string;
-  }>;
+export interface PeopleParams {
+  q?: string;
+  yearFrom?: string;
+  yearTo?: string;
+  position?: string;
+  state?: string;
+  availability?: string;
+  hiring?: string;
+  mentor?: string;
+  service?: string;
 }
 
 type AlumniRow = {
@@ -50,99 +39,78 @@ type AlumniRow = {
   sponsor_tier: "bronze" | "silver" | "gold" | null;
 };
 
-export default async function DirectoryPage({
-  searchParams,
-}: DirectoryPageProps) {
-  const params = await searchParams;
-
-  // getSession() reads the JWT from the cookie (no network call).
-  // getUser() makes a live API call that can intermittently return null for
-  // a valid session, incorrectly showing the sign-in wall.
-  let session = null;
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase.auth.getSession();
-    session = data.session;
-  } catch {
-    return <DirectoryErrorWall />;
-  }
-
-  if (!session?.user) {
-    return <DirectorySignInWall />;
-  }
-
-  const user = session.user;
+export async function PeopleSection({
+  params,
+  userEmail,
+}: {
+  params: PeopleParams;
+  userEmail: string | null;
+}) {
+  const admin = createAdminClient();
 
   let isVerifiedAlumni = false;
   let myAlumniId: string | null = null;
-  let alumni: AlumniRow[] = [];
-  const photoUrls: Record<string, string> = {};
 
-  try {
-    const admin = createAdminClient();
-
-    if (user.email) {
-      const { data: me } = await admin
-        .from("alumni")
-        .select("id, verified")
-        .eq("email", user.email)
-        .single();
-      isVerifiedAlumni = me?.verified ?? false;
-      myAlumniId = me?.id ?? null;
-    }
-
-    let query = admin
+  if (userEmail) {
+    const { data: me } = await admin
       .from("alumni")
-      .select(
-        "id, first_name, last_name, grad_year, position, profession, company, city, state, photo_url, linkedin_url, bio, verified, availability, hiring, services, willing_to_mentor, created_at, sponsor_tier"
-      )
-      .eq("directory_visible", true)
-      .in("status", ["self_registered", "imported"])
-      .order("last_name", { ascending: true });
+      .select("id, verified")
+      .eq("email", userEmail)
+      .single();
+    isVerifiedAlumni = me?.verified ?? false;
+    myAlumniId = me?.id ?? null;
+  }
 
-    if (params.q) {
-      const t = `%${params.q}%`;
-      query = query.or(
-        `first_name.ilike.${t},last_name.ilike.${t},profession.ilike.${t},company.ilike.${t}`
-      );
-    }
-    if (params.yearFrom) query = query.gte("grad_year", parseInt(params.yearFrom));
-    if (params.yearTo) query = query.lte("grad_year", parseInt(params.yearTo));
-    if (params.position) query = query.ilike("position", `%${params.position}%`);
-    if (params.state) query = query.ilike("state", `%${params.state}%`);
-    if (params.availability) query = query.eq("availability", params.availability);
-    if (params.hiring === "1") query = query.eq("hiring", true);
-    if (params.mentor === "1") query = query.eq("willing_to_mentor", true);
-    if (params.service) {
-      // Array contains match on services[]
-      query = query.contains("services", [params.service.toLowerCase()]);
-    }
+  let query = admin
+    .from("alumni")
+    .select(
+      "id, first_name, last_name, grad_year, position, profession, company, city, state, photo_url, linkedin_url, bio, verified, availability, hiring, services, willing_to_mentor, created_at, sponsor_tier"
+    )
+    .eq("directory_visible", true)
+    .in("status", ["self_registered", "imported"])
+    .order("last_name", { ascending: true });
 
-    const { data: rows, error } = await query;
-    if (error) throw error;
-    alumni = (rows ?? []) as AlumniRow[];
+  if (params.q) {
+    const t = `%${params.q}%`;
+    query = query.or(
+      `first_name.ilike.${t},last_name.ilike.${t},profession.ilike.${t},company.ilike.${t}`
+    );
+  }
+  if (params.yearFrom) query = query.gte("grad_year", parseInt(params.yearFrom));
+  if (params.yearTo) query = query.lte("grad_year", parseInt(params.yearTo));
+  if (params.position) query = query.ilike("position", `%${params.position}%`);
+  if (params.state) query = query.ilike("state", `%${params.state}%`);
+  if (params.availability) query = query.eq("availability", params.availability);
+  if (params.hiring === "1") query = query.eq("hiring", true);
+  if (params.mentor === "1") query = query.eq("willing_to_mentor", true);
+  if (params.service) {
+    // Array contains match on services[]
+    query = query.contains("services", [params.service.toLowerCase()]);
+  }
 
-    if (isVerifiedAlumni && alumni.length > 0) {
-      const photoPaths = alumni
-        .map((a) => a.photo_url)
-        .filter((p): p is string => !!p);
+  const { data: rows, error } = await query;
+  if (error) throw error;
+  const alumni = (rows ?? []) as AlumniRow[];
 
-      if (photoPaths.length > 0) {
-        const { data: signedUrls } = await admin.storage
-          .from("alumni-photos")
-          .createSignedUrls(photoPaths, 86400);
+  const photoUrls: Record<string, string> = {};
+  if (isVerifiedAlumni && alumni.length > 0) {
+    const photoPaths = alumni
+      .map((a) => a.photo_url)
+      .filter((p): p is string => !!p);
 
-        if (signedUrls) {
-          for (const item of signedUrls) {
-            if (item.signedUrl && item.path) {
-              photoUrls[item.path] = item.signedUrl;
-            }
+    if (photoPaths.length > 0) {
+      const { data: signedUrls } = await admin.storage
+        .from("alumni-photos")
+        .createSignedUrls(photoPaths, 86400);
+
+      if (signedUrls) {
+        for (const item of signedUrls) {
+          if (item.signedUrl && item.path) {
+            photoUrls[item.path] = item.signedUrl;
           }
         }
       }
     }
-  } catch {
-    return <DirectoryErrorWall />;
   }
 
   const renderCard = (a: AlumniRow) => (
@@ -192,20 +160,14 @@ export default async function DirectoryPage({
     .slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-zinc-950">
-      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
-        <h1 className="text-2xl font-black tracking-tight text-white">
-          Alumni Directory
-        </h1>
-        <p className="mt-1 text-sm text-zinc-400">
+    <>
+      <div className="px-5 pt-5 md:px-10">
+        <p className="mb-4 text-sm text-zinc-400">
           {alumni.length} {alumni.length === 1 ? "member" : "members"}
           {!isVerifiedAlumni && (
             <span> · Verify your account to see photos, bios &amp; LinkedIn</span>
           )}
         </p>
-      </div>
-
-      <div className="px-5 pt-5 md:px-10">
         <Suspense>
           <DirectoryFilters />
         </Suspense>
@@ -219,7 +181,7 @@ export default async function DirectoryPage({
               title="Hiring now"
               icon={Hammer}
               tint="text-sky-400"
-              href="/directory?hiring=1"
+              href="/network?hiring=1"
             >
               {hiringRail.map(renderCard)}
             </Rail>
@@ -229,7 +191,7 @@ export default async function DirectoryPage({
               title="Open to work"
               icon={Sparkles}
               tint="text-emerald-400"
-              href="/directory?availability=open_to_work"
+              href="/network?availability=open_to_work"
             >
               {openToWorkRail.map(renderCard)}
             </Rail>
@@ -239,7 +201,7 @@ export default async function DirectoryPage({
               title="Self-employed"
               icon={Briefcase}
               tint="text-fuchsia-400"
-              href="/directory?availability=self_employed"
+              href="/network?availability=self_employed"
             >
               {selfEmployedRail.map(renderCard)}
             </Rail>
@@ -249,7 +211,7 @@ export default async function DirectoryPage({
               title="Open to mentoring"
               icon={Handshake}
               tint="text-amber-400"
-              href="/directory?mentor=1"
+              href="/network?mentor=1"
             >
               {mentorRail.map(renderCard)}
             </Rail>
@@ -273,9 +235,9 @@ export default async function DirectoryPage({
           {alumni.map(renderCard)}
         </div>
 
-        {alumni.length === 0 && <DirectoryEmptyState hasFilters={hasAnyFilter} />}
+        {alumni.length === 0 && <PeopleEmptyState hasFilters={hasAnyFilter} />}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -325,7 +287,7 @@ function Rail({
   );
 }
 
-function DirectoryEmptyState({ hasFilters }: { hasFilters: boolean }) {
+function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
     <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/40 px-6 py-12 text-center">
       <div className="flex size-14 items-center justify-center rounded-2xl bg-utah-red/15">
@@ -346,57 +308,6 @@ function DirectoryEmptyState({ hasFilters }: { hasFilters: boolean }) {
         <UserPlus className="size-4" />
         Invite a teammate
       </Link>
-    </div>
-  );
-}
-
-function DirectoryErrorWall() {
-  return (
-    <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
-        <AlertCircle className="size-8 text-zinc-400" />
-      </div>
-      <h1 className="mt-5 text-2xl font-black text-white">Directory unavailable</h1>
-      <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
-        We couldn&apos;t load the directory right now. Please try again in a
-        moment or contact us if the problem persists.
-      </p>
-      <Link
-        href="/"
-        className="mt-6 inline-flex items-center justify-center rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-zinc-500"
-      >
-        Back to home
-      </Link>
-    </div>
-  );
-}
-
-function DirectorySignInWall() {
-  return (
-    <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
-        <Users className="size-8 text-zinc-400" />
-      </div>
-      <h1 className="mt-5 text-2xl font-black text-white">Alumni Directory</h1>
-      <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
-        The directory is only available to registered alumni. Sign in or create
-        an account to find your teammates.
-      </p>
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <Link
-          href="/auth/login"
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-zinc-500"
-        >
-          <LogIn className="size-4" />
-          Sign In
-        </Link>
-        <Link
-          href="/join"
-          className="inline-flex items-center justify-center rounded-xl bg-utah-red px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
-        >
-          Join the Network
-        </Link>
-      </div>
     </div>
   );
 }

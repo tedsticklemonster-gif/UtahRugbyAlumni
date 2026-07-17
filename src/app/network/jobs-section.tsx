@@ -1,20 +1,10 @@
-export const dynamic = "force-dynamic";
-
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { Briefcase, Hammer, MapPin, ArrowLeft, MessageCircle, Sparkles } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
+import { Briefcase, Hammer, MapPin, MessageCircle, Sparkles } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { UserPhoto } from "@/components/user-photo";
 import { SponsorHalo } from "@/components/sponsor-halo";
 import { listJobsAction } from "@/actions/jobs";
 import { JobListingCard } from "@/components/job-listing-card";
-import { PostJobButton } from "@/components/post-job-button";
-
-export const metadata = {
-  title: "Jobs — Utah Rugby Alumni",
-  description: "Rugby alumni who are hiring and alumni who are open to work.",
-};
 
 type HiringAlum = {
   id: string;
@@ -34,21 +24,16 @@ type HiringAlum = {
   sponsor_tier: "bronze" | "silver" | "gold" | null;
 };
 
-export default async function JobsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user?.email) redirect("/auth/login?next=/jobs");
+const ALUM_FIELDS =
+  "id, first_name, last_name, grad_year, company, job_title, profession, city, state, photo_url, services, industries, availability, hiring, sponsor_tier";
 
+export async function JobsSection() {
   const admin = createAdminClient();
 
   const [hiringRes, openRes, jobListings] = await Promise.all([
     admin
       .from("alumni")
-      .select(
-        "id, first_name, last_name, grad_year, company, job_title, profession, city, state, photo_url, services, industries, availability, hiring, sponsor_tier"
-      )
+      .select(ALUM_FIELDS)
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
       .eq("hiring", true)
@@ -56,9 +41,7 @@ export default async function JobsPage() {
       .limit(24),
     admin
       .from("alumni")
-      .select(
-        "id, first_name, last_name, grad_year, company, job_title, profession, city, state, photo_url, services, industries, availability, hiring, sponsor_tier"
-      )
+      .select(ALUM_FIELDS)
       .in("status", ["self_registered", "imported"])
       .eq("directory_visible", true)
       .in("availability", ["open_to_work", "looking_for_work"])
@@ -89,99 +72,77 @@ export default async function JobsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
-      {/* Header */}
-      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white transition-colors"
-        >
-          <ArrowLeft className="size-3.5" /> Home
-        </Link>
-        <div className="mt-3 flex items-center justify-between">
-          <h1 className="text-2xl font-black tracking-tight text-white">
-            Jobs
-          </h1>
-          <PostJobButton />
+    <div className="space-y-8 px-5 py-6 md:px-10">
+      {/* Job listings */}
+      {jobListings.length > 0 && (
+        <section>
+          <div className="mb-3 flex items-baseline justify-between">
+            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-utah-red">
+              <Briefcase className="size-3" /> Job Listings
+            </p>
+            <span className="text-2xs font-semibold text-zinc-500">
+              {jobListings.length} {jobListings.length === 1 ? "listing" : "listings"}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {jobListings.map((job) => (
+              <JobListingCard key={job.id} job={job} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Hiring now */}
+      <section>
+        <div className="mb-3 flex items-baseline justify-between">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-sky-400">
+            <Hammer className="size-3" /> Alumni Hiring Now
+          </p>
+          <span className="text-2xs font-semibold text-zinc-500">
+            {hiring.length} {hiring.length === 1 ? "alum" : "alumni"}
+          </span>
         </div>
-        <p className="mt-1 text-sm text-zinc-400">
-          Rugby alumni hiring right now, and teammates looking for their next
-          move.
-        </p>
-      </div>
-
-      <div className="space-y-8 px-5 py-6 md:px-10">
-        {/* Job listings */}
-        {jobListings.length > 0 && (
-          <section>
-            <div className="mb-3 flex items-baseline justify-between">
-              <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-utah-red">
-                <Briefcase className="size-3" /> Job Listings
-              </p>
-              <span className="text-2xs font-semibold text-zinc-500">
-                {jobListings.length} {jobListings.length === 1 ? "listing" : "listings"}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {jobListings.map((job) => (
-                <JobListingCard key={job.id} job={job} />
-              ))}
-            </div>
-          </section>
+        {hiring.length === 0 ? (
+          <EmptyCard
+            icon={<Hammer className="size-6 text-sky-400" />}
+            title="No one hiring right now"
+            body="Toggle 'Hiring' on your profile to post here."
+            cta={{ href: "/me", label: "Edit my profile" }}
+          />
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {hiring.map((a) => (
+              <JobCard key={a.id} alum={a} photo={photoFor(a)} mode="hiring" />
+            ))}
+          </div>
         )}
+      </section>
 
-        {/* Hiring now */}
-        <section>
-          <div className="mb-3 flex items-baseline justify-between">
-            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-sky-400">
-              <Hammer className="size-3" /> Alumni Hiring Now
-            </p>
-            <span className="text-2xs font-semibold text-zinc-500">
-              {hiring.length} {hiring.length === 1 ? "alum" : "alumni"}
-            </span>
+      {/* Open to work */}
+      <section>
+        <div className="mb-3 flex items-baseline justify-between">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-emerald-400">
+            <Sparkles className="size-3" /> Open To Work
+          </p>
+          <span className="text-2xs font-semibold text-zinc-500">
+            {open.length} {open.length === 1 ? "alum" : "alumni"}
+          </span>
+        </div>
+        {open.length === 0 ? (
+          <EmptyCard
+            icon={<Sparkles className="size-6 text-emerald-400" />}
+            title="No one listed as open to work"
+            body="Know someone looking? Forward them the network."
+            cta={{ href: "/thanks", label: "Get forward link" }}
+          />
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {open.map((a) => (
+              <JobCard key={a.id} alum={a} photo={photoFor(a)} mode="open" />
+            ))}
           </div>
-          {hiring.length === 0 ? (
-            <EmptyCard
-              icon={<Hammer className="size-6 text-sky-400" />}
-              title="No one hiring right now"
-              body="Toggle 'Hiring' on your profile to post here."
-              cta={{ href: "/me", label: "Edit my profile" }}
-            />
-          ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {hiring.map((a) => (
-                <JobCard key={a.id} alum={a} photo={photoFor(a)} mode="hiring" />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Open to work */}
-        <section>
-          <div className="mb-3 flex items-baseline justify-between">
-            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-emerald-400">
-              <Sparkles className="size-3" /> Open To Work
-            </p>
-            <span className="text-2xs font-semibold text-zinc-500">
-              {open.length} {open.length === 1 ? "alum" : "alumni"}
-            </span>
-          </div>
-          {open.length === 0 ? (
-            <EmptyCard
-              icon={<Sparkles className="size-6 text-emerald-400" />}
-              title="No one listed as open to work"
-              body="Know someone looking? Forward them the network."
-              cta={{ href: "/thanks", label: "Get forward link" }}
-            />
-          ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {open.map((a) => (
-                <JobCard key={a.id} alum={a} photo={photoFor(a)} mode="open" />
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
+        )}
+      </section>
     </div>
   );
 }

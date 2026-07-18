@@ -135,7 +135,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
           </div>
         )}
         {state.success && (
-          <div className="rounded-md bg-emerald-950 border border-emerald-800 p-3 text-sm text-emerald-300">
+          <div className="rounded-md bg-success/10 border border-success/30 p-3 text-sm text-success">
             Profile updated!
           </div>
         )}

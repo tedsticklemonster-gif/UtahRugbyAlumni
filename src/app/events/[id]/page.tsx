@@ -14,11 +14,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
-  social: { label: "Social", color: "text-purple-400" },
+  social: { label: "Social", color: "text-zinc-400" },
   reunion: { label: "Reunion", color: "text-utah-red" },
-  watch_party: { label: "Watch Party", color: "text-sky-400" },
-  practice: { label: "Practice", color: "text-emerald-400" },
-  fundraiser: { label: "Fundraiser", color: "text-amber-400" },
+  watch_party: { label: "Watch Party", color: "text-info" },
+  practice: { label: "Practice", color: "text-success" },
+  fundraiser: { label: "Fundraiser", color: "text-warning" },
   networking: { label: "Networking", color: "text-blue-400" },
   game_day: { label: "Game Day", color: "text-utah-red" },
   other: { label: "Event", color: "text-zinc-400" },

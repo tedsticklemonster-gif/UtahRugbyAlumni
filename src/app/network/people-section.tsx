@@ -180,7 +180,7 @@ export async function PeopleSection({
             <Rail
               title="Hiring now"
               icon={Hammer}
-              tint="text-sky-400"
+              tint="text-info"
               href="/network?hiring=1"
             >
               {hiringRail.map(renderCard)}
@@ -190,7 +190,7 @@ export async function PeopleSection({
             <Rail
               title="Open to work"
               icon={Sparkles}
-              tint="text-emerald-400"
+              tint="text-success"
               href="/network?availability=open_to_work"
             >
               {openToWorkRail.map(renderCard)}
@@ -200,7 +200,7 @@ export async function PeopleSection({
             <Rail
               title="Self-employed"
               icon={Briefcase}
-              tint="text-fuchsia-400"
+              tint="text-zinc-300"
               href="/network?availability=self_employed"
             >
               {selfEmployedRail.map(renderCard)}
@@ -210,7 +210,7 @@ export async function PeopleSection({
             <Rail
               title="Open to mentoring"
               icon={Handshake}
-              tint="text-amber-400"
+              tint="text-warning"
               href="/network?mentor=1"
             >
               {mentorRail.map(renderCard)}

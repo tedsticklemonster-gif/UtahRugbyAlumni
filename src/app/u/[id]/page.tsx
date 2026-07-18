@@ -72,19 +72,19 @@ function availabilityLabel(availability: string | null): {
     case "open_to_work":
       return {
         label: "Open to work",
-        className: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+        className: "bg-success/12 text-success border-success/30",
         Icon: Sparkles,
       };
     case "looking_for_work":
       return {
         label: "Actively looking",
-        className: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+        className: "bg-success/12 text-success border-success/30",
         Icon: Sparkles,
       };
     case "self_employed":
       return {
         label: "Self-employed",
-        className: "bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/30",
+        className: "bg-white/10 text-zinc-300 border-white/15",
         Icon: Briefcase,
       };
     default:
@@ -180,7 +180,7 @@ export default async function AlumniProfilePage({
           <div className="pb-2 flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               {profile.hiring && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-sky-500 px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-white">
+                <span className="inline-flex items-center gap-1 rounded-full bg-info px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-white">
                   <Hammer className="size-3" /> Hiring
                 </span>
               )}
@@ -206,7 +206,7 @@ export default async function AlumniProfilePage({
               {profile.first_name} {profile.last_name}
             </h1>
             {profile.verified && (
-              <BadgeCheck className="size-5 text-sky-400" aria-label="Verified" />
+              <BadgeCheck className="size-5 text-info" aria-label="Verified" />
             )}
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">

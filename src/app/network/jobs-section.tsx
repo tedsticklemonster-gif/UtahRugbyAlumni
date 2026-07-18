@@ -95,7 +95,7 @@ export async function JobsSection() {
       {/* Hiring now */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-sky-400">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-info">
             <Hammer className="size-3" /> Alumni Hiring Now
           </p>
           <span className="text-2xs font-semibold text-zinc-500">
@@ -104,7 +104,7 @@ export async function JobsSection() {
         </div>
         {hiring.length === 0 ? (
           <EmptyCard
-            icon={<Hammer className="size-6 text-sky-400" />}
+            icon={<Hammer className="size-6 text-info" />}
             title="No one hiring right now"
             body="Toggle 'Hiring' on your profile to post here."
             cta={{ href: "/me", label: "Edit my profile" }}
@@ -121,7 +121,7 @@ export async function JobsSection() {
       {/* Open to work */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-emerald-400">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-success">
             <Sparkles className="size-3" /> Open To Work
           </p>
           <span className="text-2xs font-semibold text-zinc-500">
@@ -130,7 +130,7 @@ export async function JobsSection() {
         </div>
         {open.length === 0 ? (
           <EmptyCard
-            icon={<Sparkles className="size-6 text-emerald-400" />}
+            icon={<Sparkles className="size-6 text-success" />}
             title="No one listed as open to work"
             body="Know someone looking? Forward them the network."
             cta={{ href: "/thanks", label: "Get forward link" }}
@@ -160,10 +160,10 @@ function JobCard({
   const role = alum.job_title ?? alum.profession;
   const badge =
     mode === "hiring"
-      ? { label: "Hiring", className: "bg-sky-500 text-white", Icon: Hammer }
+      ? { label: "Hiring", className: "bg-info text-white", Icon: Hammer }
       : {
           label: "Open to work",
-          className: "bg-emerald-500 text-white",
+          className: "bg-success text-zinc-950",
           Icon: Sparkles,
         };
 

@@ -52,7 +52,7 @@ export function PostJobButton() {
 
             {success ? (
               <div className="py-8 text-center">
-                <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-emerald-900/50 text-emerald-400">
+                <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-success/15 text-success">
                   <Check className="size-6" />
                 </div>
                 <p className="text-sm font-bold text-white">Job posted!</p>

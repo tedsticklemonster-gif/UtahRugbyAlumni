@@ -26,7 +26,7 @@ function resultBadge(game: Game) {
     <span
       className={`rounded-md px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${
         isWin
-          ? "bg-emerald-900/40 text-emerald-400"
+          ? "bg-success/15 text-success"
           : "bg-red-900/40 text-red-400"
       }`}
     >

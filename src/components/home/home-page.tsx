@@ -151,9 +151,9 @@ export function HomePage({
         <div className="px-4 pt-5">
           <Link
             href="/network?tab=jobs"
-            className="group flex items-center gap-3 rounded-xl border border-border-subtle bg-surface-1/60 px-4 py-3 transition-colors hover:border-sky-500/40 hover:bg-sky-500/5"
+            className="group flex items-center gap-3 rounded-xl border border-border-subtle bg-surface-1/60 px-4 py-3 transition-colors hover:border-info/40 hover:bg-info/5"
           >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-info/10 text-info">
               <Briefcase className="size-4" />
             </span>
             <div className="min-w-0 flex-1">
@@ -164,15 +164,15 @@ export function HomePage({
                 Alumni hiring and open positions
               </p>
             </div>
-            <span className="text-eyebrow text-3xs text-sky-400">View →</span>
+            <span className="text-eyebrow text-3xs text-info">View →</span>
           </Link>
         </div>
 
         {/* Telegram banner — dismissible */}
         {!telegramDismissed && (
-          <div className="mx-4 mt-4 rounded-xl border border-[#26A5E4]/30 bg-[#26A5E4]/10 px-4 py-3">
+          <div className="mx-4 mt-4 rounded-xl border border-telegram/30 bg-telegram/10 px-4 py-3">
             <div className="flex items-start gap-3">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="size-6 shrink-0 text-[#26A5E4] mt-0.5" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="size-6 shrink-0 text-telegram mt-0.5" aria-hidden="true">
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
               </svg>
               <div className="flex-1 min-w-0">
@@ -184,7 +184,7 @@ export function HomePage({
                   href={TELEGRAM_INVITE}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[#26A5E4] px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-[#1E96D1]"
+                  className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-telegram px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-telegram/85"
                 >
                   Join Telegram
                 </a>

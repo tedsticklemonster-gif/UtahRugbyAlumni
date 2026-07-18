@@ -147,7 +147,7 @@ export function DirectoryFilters() {
           onClick={() => toggleFlag("hiring")}
           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
             hiring
-              ? "bg-sky-500 text-white"
+              ? "bg-info text-white"
               : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-white/25"
           }`}
         >
@@ -160,7 +160,7 @@ export function DirectoryFilters() {
           }
           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
             availability === "open_to_work"
-              ? "bg-emerald-500 text-white"
+              ? "bg-success text-zinc-950"
               : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-white/25"
           }`}
         >
@@ -171,7 +171,7 @@ export function DirectoryFilters() {
           onClick={() => toggleFlag("mentor")}
           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
             mentor
-              ? "bg-amber-500 text-zinc-950"
+              ? "bg-warning text-zinc-950"
               : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-white/25"
           }`}
         >

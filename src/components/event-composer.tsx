@@ -50,7 +50,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
   if (success) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center">
-        <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-emerald-900/50 text-emerald-400">
+        <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-success/15 text-success">
           <Check className="size-6" />
         </div>
         <p className="text-sm font-bold text-white">Event created!</p>

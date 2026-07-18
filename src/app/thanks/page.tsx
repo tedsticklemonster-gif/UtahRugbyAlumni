@@ -41,8 +41,8 @@ export default async function ThanksPage() {
       <div className="mx-auto max-w-xl px-5 py-8 md:px-10">
         {/* Hero */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15">
-            <CheckCircle2 className="size-8 text-emerald-400" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success/15">
+            <CheckCircle2 className="size-8 text-success" />
           </div>
           <h1 className="text-display text-3xl text-white">
             You&rsquo;re in.
@@ -77,11 +77,11 @@ export default async function ThanksPage() {
         {/* Step 2 — share with teammates */}
         <div className="mb-3 surface-card p-5">
           <div className="flex items-start gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-sky-500/15">
-              <Share2 className="size-4 text-sky-400" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-info/15">
+              <Share2 className="size-4 text-info" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-sky-400">
+              <p className="text-2xs font-bold uppercase tracking-widest text-info">
                 Step 2
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -102,11 +102,11 @@ export default async function ThanksPage() {
         {/* Step 3 — explore */}
         <div className="mb-8 surface-card p-5">
           <div className="flex items-start gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-              <Users className="size-4 text-amber-400" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-warning/15">
+              <Users className="size-4 text-warning" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-amber-400">
+              <p className="text-2xs font-bold uppercase tracking-widest text-warning">
                 Step 3
               </p>
               <p className="mt-0.5 text-base font-bold text-white">

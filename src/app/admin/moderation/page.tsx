@@ -31,19 +31,19 @@ export default async function ModerationPage() {
       <div className="px-5 py-6 md:px-10 space-y-6 max-w-2xl">
         {/* Pending */}
         <section>
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-amber-400 mb-3">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-warning mb-3">
             <AlertTriangle className="size-3" /> Pending Review ({pending.length})
           </p>
           {pending.length === 0 ? (
             <div className="surface-card p-6 text-center">
-              <CheckCircle className="mx-auto size-8 text-emerald-500 mb-2" />
+              <CheckCircle className="mx-auto size-8 text-success mb-2" />
               <p className="text-sm font-bold text-white">All clear</p>
               <p className="text-xs text-zinc-500">No pending reports.</p>
             </div>
           ) : (
             <div className="space-y-2">
               {pending.map((r) => (
-                <div key={r.id} className="rounded-xl border border-amber-900/50 bg-surface-1 p-4">
+                <div key={r.id} className="rounded-xl border border-warning/30 bg-surface-1 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-bold text-white capitalize">{r.reason}</p>

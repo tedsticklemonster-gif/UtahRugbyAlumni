@@ -171,7 +171,7 @@ export default async function AdminDashboardPage() {
             <Link key={stat.label} href={stat.href}>
               <Card
                 className={`hover:border-primary/50 transition-colors cursor-pointer ${
-                  stat.highlight ? "border-amber-300 dark:border-amber-700" : ""
+                  stat.highlight ? "border-warning/40" : ""
                 }`}
               >
                 <CardHeader className="pb-2">

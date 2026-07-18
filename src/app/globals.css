@@ -17,6 +17,8 @@
   --color-success: var(--accent-success);
   --color-info: var(--accent-info);
   --color-warning: var(--accent-warning);
+  /* Telegram brand blue — the one allowed foreign brand color. */
+  --color-telegram: oklch(0.686 0.13 237);
   --color-tier-gold: var(--tier-gold);
   --color-tier-silver: var(--tier-silver);
   --color-tier-bronze: var(--tier-bronze);

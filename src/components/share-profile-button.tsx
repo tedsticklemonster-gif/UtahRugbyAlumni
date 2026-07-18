@@ -61,7 +61,7 @@ export function ShareProfileButton({
         >
           {copied ? (
             <>
-              <Check className="size-4 text-emerald-400" />
+              <Check className="size-4 text-success" />
               Copied
             </>
           ) : (

@@ -52,7 +52,7 @@ const IMPACT_ITEMS = [
 ];
 
 const SPONSOR_TIERS = [
-  { tier: "Bronze", amount: "$100+", perks: "Name on donor wall, alumni network badge", color: "text-amber-600", bg: "bg-amber-900/20 border-amber-800/40" },
+  { tier: "Bronze", amount: "$100+", perks: "Name on donor wall, alumni network badge", color: "text-tier-bronze", bg: "bg-tier-bronze/10 border-tier-bronze/30" },
   { tier: "Silver", amount: "$500+", perks: "Bronze perks + silver profile halo + event VIP", color: "text-zinc-300", bg: "bg-surface-2/50 border-zinc-600/40" },
   { tier: "Gold", amount: "$1,000+", perks: "Silver perks + gold halo + featured in directory + 1:1 with coaching staff", color: "text-yellow-400", bg: "bg-yellow-900/20 border-yellow-700/40" },
 ];
@@ -119,7 +119,7 @@ export default async function GivePage() {
         {/* Impact section */}
         <div className="surface-card p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Trophy className="size-4 text-amber-400" />
+            <Trophy className="size-4 text-warning" />
             <p className={`text-eyebrow text-2xs text-zinc-400`}>Your Impact</p>
           </div>
           <p className="text-sm text-zinc-300 mb-4">

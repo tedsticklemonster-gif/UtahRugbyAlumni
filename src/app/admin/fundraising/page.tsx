@@ -107,14 +107,14 @@ export default async function FundraisingPage() {
                           {/* Pledged bar (lighter) */}
                           {pledgedPct !== null && pledgedPct > 0 && (
                             <div
-                              className="absolute inset-y-0 left-0 rounded-full bg-emerald-200 dark:bg-emerald-900"
+                              className="absolute inset-y-0 left-0 rounded-full bg-success/25"
                               style={{ width: `${pledgedPct}%` }}
                             />
                           )}
                           {/* Paid bar (solid) */}
                           {paidPct !== null && paidPct > 0 && (
                             <div
-                              className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
+                              className="absolute inset-y-0 left-0 rounded-full bg-success"
                               style={{ width: `${paidPct}%` }}
                             />
                           )}

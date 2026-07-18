@@ -253,7 +253,7 @@ export function AnnouncementsManager({
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="font-medium text-sm">{item.title}</p>
                   {item.pinned && (
-                    <span className="rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 text-2xs font-semibold">
+                    <span className="rounded-full bg-warning/12 text-warning px-2 py-0.5 text-2xs font-semibold">
                       Pinned
                     </span>
                   )}

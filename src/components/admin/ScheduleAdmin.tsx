@@ -212,7 +212,7 @@ export function ScheduleAdmin({ games }: { games: ScheduleGame[] }) {
               <span
                 className={`ml-2 inline-block rounded px-1.5 py-0.5 text-2xs font-bold uppercase ${
                   g.result === "Win"
-                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                    ? "bg-success/12 text-success"
                     : g.result === "Draw"
                       ? "bg-zinc-100 text-zinc-700 dark:bg-surface-2 dark:text-zinc-300"
                       : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"

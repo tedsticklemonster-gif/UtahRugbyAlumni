@@ -130,8 +130,8 @@ export default async function MePage() {
             </div>
             {/* Donor tier */}
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-500/15">
-                <Trophy className="size-5 text-amber-400" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-warning/15">
+                <Trophy className="size-5 text-warning" />
               </div>
               <div>
                 <p className="text-xl font-bold text-white">

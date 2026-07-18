@@ -8,6 +8,18 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-utah-red: var(--utah-red);
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-success: var(--accent-success);
+  --color-info: var(--accent-info);
+  --color-warning: var(--accent-warning);
+  --color-tier-gold: var(--tier-gold);
+  --color-tier-silver: var(--tier-silver);
+  --color-tier-bronze: var(--tier-bronze);
   --text-2xs: 0.625rem;
   --text-3xs: 0.5625rem;
   --font-sans: var(--font-app-sans);
@@ -69,6 +81,21 @@
   --color-zinc-950: oklch(0.165 0.004 80);
 }
 
+/* Elevation — dark shadows barely read on their own, so every level pairs an
+   inset top-light (the "lit edge") with a soft drop shadow. glow-red is for
+   the hero CTA only. */
+@theme {
+  --shadow-card:
+    inset 0 1px 0 oklch(1 0 0 / 5%), 0 1px 2px oklch(0 0 0 / 0.4),
+    0 8px 24px -8px oklch(0 0 0 / 0.35);
+  --shadow-raised:
+    inset 0 1px 0 oklch(1 0 0 / 7%), 0 2px 6px oklch(0 0 0 / 0.45),
+    0 16px 40px -12px oklch(0 0 0 / 0.5);
+  --shadow-overlay:
+    inset 0 1px 0 oklch(1 0 0 / 8%), 0 24px 64px -16px oklch(0 0 0 / 0.6);
+  --shadow-glow-red: 0 0 32px -8px oklch(0.525 0.222 27.33 / 0.45);
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -108,24 +135,53 @@
 
 .dark {
   --utah-red: oklch(0.525 0.222 27.33);
-  --background: oklch(0.165 0.004 80);
-  --foreground: oklch(0.97 0.003 80);
-  --card: oklch(0.215 0.005 80);
-  --card-foreground: oklch(0.97 0.003 80);
-  --popover: oklch(0.215 0.005 80);
-  --popover-foreground: oklch(0.97 0.003 80);
+
+  /* Surface ladder — the four elevation levels of the dark UI. */
+  --surface-0: oklch(0.165 0.004 80); /* page background */
+  --surface-1: oklch(0.215 0.005 80); /* cards */
+  --surface-2: oklch(0.245 0.006 80); /* nested: bubbles, inputs-on-card, hover */
+  --surface-3: oklch(0.285 0.006 80); /* popovers, dialogs */
+
+  /* Border tones. */
+  --border-subtle: oklch(1 0 0 / 6%); /* resting card hairline */
+  --border-strong: oklch(1 0 0 / 16%); /* hover / delineated controls */
+
+  /* Text ladder — AA-checked on surface-1. zinc-600 and darker are
+     decorative-only (icons, dividers), never text. */
+  --text-primary: oklch(0.97 0.003 80);
+  --text-secondary: oklch(0.85 0.005 80);
+  --text-tertiary: oklch(0.73 0.007 80); /* the muted workhorse, ~7:1 */
+  --text-faint: oklch(0.63 0.008 80); /* captions/timestamps only, ~5:1 */
+
+  /* Semantic accents — four, ever. utah-red is the sole loud color; these
+     carry status. Pills use the /12 tint pattern: bg-info/12 text-info. */
+  --accent-success: oklch(0.72 0.17 155);
+  --accent-info: oklch(0.72 0.12 235);
+  --accent-warning: oklch(0.8 0.15 85);
+
+  /* Sponsor tiers. */
+  --tier-gold: oklch(0.85 0.155 90);
+  --tier-silver: oklch(0.8 0.01 80);
+  --tier-bronze: oklch(0.62 0.1 55);
+
+  --background: var(--surface-0);
+  --foreground: var(--text-primary);
+  --card: var(--surface-1);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-3);
+  --popover-foreground: var(--text-primary);
   --primary: oklch(0.525 0.222 27.33); /* Utah red — same as light mode */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.275 0.006 80);
-  --secondary-foreground: oklch(0.97 0.003 80);
-  --muted: oklch(0.275 0.006 80);
-  --muted-foreground: oklch(0.73 0.007 80);
-  --accent: oklch(0.275 0.006 80);
-  --accent-foreground: oklch(0.97 0.003 80);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--text-primary);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--text-tertiary);
+  --accent: var(--surface-2);
+  --accent-foreground: var(--text-primary);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.525 0.222 27.33 / 60%);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -157,6 +213,8 @@
   }
   h1 {
     font-family: var(--font-app-display);
+    font-weight: 560;
+    letter-spacing: -0.01em;
   }
   /* Prevent text selection on interactive elements for native feel */
   button, a, [role="button"] {
@@ -194,24 +252,82 @@
   padding-top: calc(env(safe-area-inset-top) + 0.5rem);
 }
 
-/* Brand typography — the two voices of the app. Pair with a normal text-size
-   step, e.g. className="text-display text-2xl". */
+/* Brand typography — two voices: Fraunces (serif display) for headlines,
+   names, and numbers; Inter (sans) for body and UI.
+
+   Spacing rhythm (enforced in sweeps, not by CSS):
+   page shell px-4 py-6 (sm:px-6 sm:py-8) · sections space-y-8 ·
+   card internals p-4 gap-3 (sm:p-5) · grids gap-3 sm:gap-4.
+
+   Motion: transition specific properties (never transition-all on cards),
+   duration-200 ease-out. Interactive cards: hover:border-border-strong
+   hover:shadow-raised hover:-translate-y-0.5 active:scale-[0.99]. */
 @utility text-display {
+  /* Display voice for arbitrary sizes — pair with a text-size step. */
   font-family: var(--font-app-display);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 40;
+}
+@utility text-hero {
+  /* Landing hero — fluid size, max optical contrast. Pair with text-display. */
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  font-weight: 450;
+  font-variation-settings: "opsz" 144;
+}
+@utility text-title-1 {
+  /* Page h1 */
+  font-family: var(--font-app-display);
+  font-weight: 560;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+@utility text-title-2 {
+  /* Section heading */
+  font-family: var(--font-app-display);
+  font-weight: 560;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+@utility text-card-title {
+  font-family: var(--font-app-display);
+  font-weight: 560;
+  font-size: 1.0625rem;
+  line-height: 1.3;
+}
+@utility text-stat {
+  /* Big numbers — stats, pledge amounts, counts. */
+  font-family: var(--font-app-display);
+  font-weight: 620;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.01em;
+}
+@utility text-caption {
+  /* Quiet meta: timestamps, counts, helper text. */
+  font-family: var(--font-app-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  color: var(--text-faint);
 }
 @utility text-eyebrow {
+  /* Section labels ONLY — never timestamps or bylines (use text-caption). */
   font-family: var(--font-app-sans);
+  font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
 }
-/* Landing hero headline — one fluid size instead of per-breakpoint overrides */
-@utility text-hero {
-  font-size: clamp(2.5rem, 10vw, 5.25rem);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+@utility surface-card {
+  /* The one card recipe. */
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-card);
 }
 
 /* Hide scrollbars on horizontal rails while keeping them scrollable */

@@ -17,17 +17,16 @@ export function EmptyState({
 }) {
   return (
     <div
-      className={cn(
-        "rounded-xl border border-dashed border-zinc-800 px-6 py-12 text-center",
-        className
-      )}
+      className={cn("surface-card px-6 py-12 text-center", className)}
     >
       {Icon && (
-        <Icon className="mx-auto mb-3 size-8 text-zinc-600" strokeWidth={1.5} aria-hidden />
+        <span className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-surface-2">
+          <Icon className="size-6 text-zinc-400" strokeWidth={1.5} aria-hidden />
+        </span>
       )}
-      <p className="text-sm font-semibold text-zinc-200">{title}</p>
-      {description && <p className="mt-1 text-sm text-zinc-500">{description}</p>}
-      {action && <div className="mt-4 flex justify-center">{action}</div>}
+      <p className="text-card-title text-zinc-100">{title}</p>
+      {description && <p className="text-caption mt-1.5">{description}</p>}
+      {action && <div className="mt-5 flex justify-center">{action}</div>}
     </div>
   );
 }

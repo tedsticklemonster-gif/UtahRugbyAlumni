@@ -21,7 +21,7 @@ function isActive(pathname: string, href: string) {
 
 const tabClass = (active: boolean) =>
   cn(
-    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-semibold tracking-wide uppercase transition-colors",
+    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-medium transition-colors",
     active ? "text-utah-red" : "text-zinc-500 hover:text-zinc-300"
   );
 
@@ -88,7 +88,7 @@ export function BottomNav() {
           <li className="flex items-center justify-center">
             <Link
               href="/join"
-              className="rounded-full bg-utah-red px-3.5 py-1.5 text-2xs font-black uppercase tracking-wide text-white"
+              className="rounded-full bg-utah-red px-4 py-1.5 text-xs font-semibold text-white"
             >
               Join
             </Link>

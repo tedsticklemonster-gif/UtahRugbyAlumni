@@ -68,7 +68,7 @@ export default async function MePage() {
     <div className="min-h-screen bg-zinc-950">
       {/* Page header */}
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
-        <h1 className="text-2xl font-black tracking-tight text-white">Me</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-white">Me</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Your profile, giving, and settings.
         </p>
@@ -91,7 +91,7 @@ export default async function MePage() {
               }
             />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-black text-zinc-300">
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-bold text-zinc-300">
               {alumni.first_name[0]}{alumni.last_name[0]}
             </div>
           )}
@@ -122,7 +122,7 @@ export default async function MePage() {
                 <Users className="size-5 text-utah-red" />
               </div>
               <div>
-                <p className="text-xl font-black tabular-nums text-white">{totalReferrals}</p>
+                <p className="text-xl font-bold tabular-nums text-white">{totalReferrals}</p>
                 <p className="text-xs text-zinc-500">
                   {totalReferrals === 1 ? "teammate" : "teammates"} gathered
                 </p>
@@ -134,7 +134,7 @@ export default async function MePage() {
                 <Trophy className="size-5 text-amber-400" />
               </div>
               <div>
-                <p className="text-xl font-black text-white">
+                <p className="text-xl font-bold text-white">
                   {alumni.sponsor_tier
                     ? TIER_LABELS[alumni.sponsor_tier as keyof typeof TIER_LABELS]
                     : "—"}

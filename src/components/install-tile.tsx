@@ -66,7 +66,7 @@ export function InstallTile() {
     <>
       <button
         onClick={handleClick}
-        className="group relative flex flex-col items-start gap-3 bg-black p-5 transition-colors hover:bg-zinc-950 md:p-6 text-left"
+        className="group relative flex flex-col items-start gap-3 bg-zinc-950 p-5 transition-colors hover:bg-zinc-900/60 md:p-6 text-left"
       >
         <Download
           className="size-6 text-zinc-500 transition-colors group-hover:text-white"

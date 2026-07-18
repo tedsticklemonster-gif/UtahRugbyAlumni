@@ -144,7 +144,7 @@ export function AlumniCard({
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5">
           {ribbonCfg ? (
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-black uppercase tracking-wider shadow-sm ${ribbonCfg.className}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-bold uppercase tracking-wider shadow-sm ${ribbonCfg.className}`}
             >
               <ribbonCfg.icon className="size-3" />
               {ribbonCfg.label}
@@ -164,12 +164,12 @@ export function AlumniCard({
 
         {/* Bottom gradient + name */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-10">
-          <p className="text-base font-black leading-tight text-white drop-shadow-md">
+          <p className="text-base font-bold leading-tight text-white drop-shadow-md">
             {firstName} {lastName}
           </p>
           <div className="mt-1 flex flex-wrap items-center gap-1">
             {gradYear && (
-              <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white">
+              <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white">
                 &rsquo;{String(gradYear).slice(-2)}
               </span>
             )}

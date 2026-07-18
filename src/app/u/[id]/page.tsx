@@ -180,7 +180,7 @@ export default async function AlumniProfilePage({
           <div className="pb-2 flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               {profile.hiring && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-sky-500 px-2 py-0.5 text-2xs font-black uppercase tracking-wider text-white">
+                <span className="inline-flex items-center gap-1 rounded-full bg-sky-500 px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-white">
                   <Hammer className="size-3" /> Hiring
                 </span>
               )}
@@ -202,7 +202,7 @@ export default async function AlumniProfilePage({
 
         <div className="mt-4">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black tracking-tight text-white leading-tight">
+            <h1 className="text-2xl font-bold tracking-tight text-white leading-tight">
               {profile.first_name} {profile.last_name}
             </h1>
             {profile.verified && (
@@ -211,7 +211,7 @@ export default async function AlumniProfilePage({
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {profile.grad_year && (
-              <span className="rounded-md bg-utah-red px-2 py-0.5 text-xs font-black text-white">
+              <span className="rounded-md bg-utah-red px-2 py-0.5 text-xs font-bold text-white">
                 &rsquo;{String(profile.grad_year).slice(-2)}
               </span>
             )}

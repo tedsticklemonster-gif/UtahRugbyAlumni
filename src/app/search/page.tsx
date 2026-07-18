@@ -28,7 +28,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white transition-colors">
           <ArrowLeft className="size-3.5" /> Home
         </Link>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">Search</h1>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">Search</h1>
       </div>
 
       <div className="px-5 py-4 md:px-10">

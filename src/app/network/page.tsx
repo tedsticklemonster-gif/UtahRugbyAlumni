@@ -42,7 +42,7 @@ export default async function NetworkPage({ searchParams }: NetworkPageProps) {
     <div className="min-h-screen bg-zinc-950">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-black tracking-tight text-white">Network</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white">Network</h1>
           {tab === "jobs" && <PostJobButton />}
         </div>
         <p className="mt-1 text-sm text-zinc-400">
@@ -70,7 +70,7 @@ function NetworkErrorWall() {
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
         <AlertCircle className="size-8 text-zinc-400" />
       </div>
-      <h1 className="mt-5 text-2xl font-black text-white">Network unavailable</h1>
+      <h1 className="mt-5 text-2xl font-bold text-white">Network unavailable</h1>
       <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
         We couldn&apos;t load the network right now. Please try again in a
         moment or contact us if the problem persists.
@@ -91,7 +91,7 @@ function NetworkSignInWall() {
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
         <Users className="size-8 text-zinc-400" />
       </div>
-      <h1 className="mt-5 text-2xl font-black text-white">The Network</h1>
+      <h1 className="mt-5 text-2xl font-bold text-white">The Network</h1>
       <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
         The alumni network is only available to registered alumni. Sign in or
         create an account to find your teammates.

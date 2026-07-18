@@ -44,7 +44,7 @@ export default async function ThanksPage() {
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15">
             <CheckCircle2 className="size-8 text-emerald-400" />
           </div>
-          <h1 className="text-3xl font-black tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-white">
             You&rsquo;re in.
           </h1>
           <p className="mt-2 text-sm text-zinc-400">

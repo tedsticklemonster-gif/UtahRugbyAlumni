@@ -34,7 +34,7 @@ function TelegramLink() {
       className="flex h-9 items-center gap-1.5 rounded-lg px-2 text-[#26A5E4] transition-colors hover:bg-zinc-800"
     >
       <TelegramIcon className="size-5 shrink-0" />
-      <span className="hidden text-xs font-extrabold uppercase tracking-wider md:inline">
+      <span className="hidden text-sm font-medium md:inline">
         Telegram
       </span>
     </a>

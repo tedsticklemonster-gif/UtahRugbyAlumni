@@ -90,7 +90,7 @@ export function NotificationsList({
               <Bell className="size-5" />
             </span>
             <div>
-              <h1 className="text-2xl font-black tracking-tight text-white">Notifications</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-white">Notifications</h1>
               <p className="text-sm text-zinc-500">Activity from the network</p>
             </div>
           </div>

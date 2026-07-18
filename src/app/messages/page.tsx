@@ -30,7 +30,7 @@ export default async function MessagesPage() {
         >
           <ArrowLeft className="size-3.5" /> Home
         </Link>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">Messages</h1>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">Messages</h1>
       </div>
 
       <div className="mx-auto max-w-xl divide-y divide-zinc-800">

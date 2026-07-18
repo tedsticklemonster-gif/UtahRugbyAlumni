@@ -18,7 +18,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
           </p>
         </div>
         {job.alumni_grad_year && (
-          <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white shrink-0">
+          <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white shrink-0">
             &rsquo;{String(job.alumni_grad_year).slice(-2)}
           </span>
         )}

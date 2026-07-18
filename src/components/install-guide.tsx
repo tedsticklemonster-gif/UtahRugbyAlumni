@@ -109,7 +109,7 @@ function NameConfirmVisual() {
           {/* Icon + name preview */}
           <div className="flex flex-col items-center gap-2 py-2">
             <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white">
-              <div className="text-2xs font-black text-utah-red">UU</div>
+              <div className="text-2xs font-bold text-utah-red">UU</div>
             </div>
             <div className="h-4 w-24 rounded bg-zinc-700 flex items-center justify-center">
               <span className="text-[7px] text-zinc-400">UU Rugby</span>
@@ -138,7 +138,7 @@ function InstalledVisual() {
           {/* Our app — highlighted */}
           <div className="flex flex-col items-center gap-1">
             <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white ring-2 ring-utah-red ring-offset-1 ring-offset-zinc-950">
-              <div className="text-xs font-black text-utah-red">UU</div>
+              <div className="text-xs font-bold text-utah-red">UU</div>
               {/* Sparkle */}
               <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-utah-red text-[7px] font-bold text-white">✓</div>
             </div>
@@ -217,7 +217,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
         <p className="mb-1 text-center text-2xs font-bold uppercase tracking-widest text-utah-red">
           Step {step + 1} of {STEPS.length}
         </p>
-        <h2 className="mb-4 text-center text-lg font-black text-white">
+        <h2 className="mb-4 text-center text-lg font-bold text-white">
           {current.title}
         </h2>
 

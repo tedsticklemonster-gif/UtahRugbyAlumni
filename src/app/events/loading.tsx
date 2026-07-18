@@ -9,7 +9,7 @@ export default function EventsLoading() {
             <CalendarDays className="size-5" />
           </span>
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-white">Events</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-white">Events</h1>
             <p className="text-sm text-zinc-500">Reunions, watch parties &amp; meetups</p>
           </div>
         </div>

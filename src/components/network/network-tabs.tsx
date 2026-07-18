@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function NetworkTabs({ active }: { active: "people" | "jobs" }) {
   const pill = (isActive: boolean) =>
     cn(
-      "rounded-full px-4 py-1.5 text-xs font-extrabold uppercase tracking-wide transition-colors",
+      "rounded-full px-4 py-1.5 text-sm font-semibold transition-colors",
       isActive
         ? "bg-utah-red text-white"
         : "text-zinc-400 hover:text-white"

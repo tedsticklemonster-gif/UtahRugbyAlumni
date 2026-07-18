@@ -293,7 +293,7 @@ function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
       <div className="flex size-14 items-center justify-center rounded-2xl bg-utah-red/15">
         <Users className="size-7 text-utah-red" />
       </div>
-      <h2 className="mt-4 text-lg font-black text-white">
+      <h2 className="mt-4 text-lg font-bold text-white">
         {hasFilters ? "No matches" : "Be the first to show up here"}
       </h2>
       <p className="mt-2 max-w-sm text-sm text-zinc-400">

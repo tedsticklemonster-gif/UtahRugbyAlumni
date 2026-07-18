@@ -115,7 +115,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
         {/* Title + Share */}
         <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-black leading-tight tracking-tight text-white">
+          <h1 className="text-2xl font-bold leading-tight tracking-tight text-white">
             {event.title}
           </h1>
           <ShareButton url={`${APP_URL}/events/${id}`} title={event.title} />

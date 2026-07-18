@@ -18,9 +18,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <MeProvider>
       <div className="flex min-h-full flex-col">
         {/* ── Header ─────────────────────────────────────────────────────── */}
-        <header className="sticky top-0 z-30 border-b border-zinc-900 bg-black">
-          {/* 3-px red top rule */}
-          <div className="h-[3px] w-full bg-utah-red" />
+        <header className="sticky top-0 z-30 border-b border-zinc-800/60 bg-zinc-950/90 backdrop-blur-xl">
+          <div className="h-0.5 w-full bg-utah-red" />
 
           <div className="mx-auto flex h-13 max-w-6xl items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4">
             {/* Wordmark */}
@@ -36,15 +35,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
 
             {/* Desktop nav */}
-            <nav aria-label="Primary" className="hidden items-center gap-0 md:flex">
+            <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
               {NAV_LINKS.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="group relative px-3 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-zinc-400 transition-colors hover:text-white"
+                  className="rounded-full px-3.5 py-1.5 text-sm font-medium text-zinc-400 transition-colors hover:bg-zinc-800/60 hover:text-white"
                 >
                   {label}
-                  <span className="absolute inset-x-3 bottom-1 h-[2px] origin-left scale-x-0 bg-utah-red transition-transform duration-200 group-hover:scale-x-100" />
                 </Link>
               ))}
             </nav>
@@ -64,7 +62,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
 
-        <footer className="border-t border-zinc-900 bg-black pb-20 md:pb-0">
+        <footer className="border-t border-zinc-800/60 pb-20 md:pb-0">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-zinc-600 sm:flex-row">
             <p className="text-center sm:text-left">
               © {new Date().getFullYear()} Utah Rugby Alumni Network

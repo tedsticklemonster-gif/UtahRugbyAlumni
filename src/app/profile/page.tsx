@@ -71,7 +71,7 @@ export default async function ProfilePage() {
             </button>
           </form>
         </div>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">My Profile</h1>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">My Profile</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Manage your info and privacy settings.
         </p>
@@ -94,7 +94,7 @@ export default async function ProfilePage() {
               }
             />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-black text-zinc-300">
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-bold text-zinc-300">
               {alumni.first_name[0]}{alumni.last_name[0]}
             </div>
           )}
@@ -121,7 +121,7 @@ export default async function ProfilePage() {
                 <Users className="size-5 text-utah-red" />
               </div>
               <div>
-                <p className="text-xl font-black tabular-nums text-white">{totalReferrals}</p>
+                <p className="text-xl font-bold tabular-nums text-white">{totalReferrals}</p>
                 <p className="text-xs text-zinc-500">
                   {totalReferrals === 1 ? "teammate" : "teammates"} gathered
                 </p>
@@ -133,7 +133,7 @@ export default async function ProfilePage() {
                 <Trophy className="size-5 text-amber-400" />
               </div>
               <div>
-                <p className="text-xl font-black text-white">
+                <p className="text-xl font-bold text-white">
                   {alumni.sponsor_tier
                     ? TIER_LABELS[alumni.sponsor_tier as keyof typeof TIER_LABELS]
                     : "—"}

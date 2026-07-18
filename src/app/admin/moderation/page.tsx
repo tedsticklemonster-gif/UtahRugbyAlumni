@@ -23,7 +23,7 @@ export default async function ModerationPage() {
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
           <Shield className="size-5 text-utah-red" />
-          <h1 className="text-2xl font-black tracking-tight text-white">Moderation</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white">Moderation</h1>
         </div>
         <p className="mt-1 text-sm text-zinc-500">Review reported content and user issues</p>
       </div>

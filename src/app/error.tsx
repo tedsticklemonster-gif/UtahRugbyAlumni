@@ -16,8 +16,8 @@ export default function Error({
 
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16 text-center">
-      <p className="text-4xl font-black text-zinc-700">!</p>
-      <h1 className="mt-3 text-xl font-black text-white">Something went wrong</h1>
+      <p className="text-4xl font-bold text-zinc-700">!</p>
+      <h1 className="mt-3 text-xl font-bold text-white">Something went wrong</h1>
       <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
         An unexpected error occurred. Try again, or head back home.
       </p>

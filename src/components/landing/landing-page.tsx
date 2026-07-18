@@ -25,9 +25,6 @@ import {
   type Game,
 } from "@/lib/schedule";
 
-// Diagonal bottom-slash on the hero section
-const heroSlash = { clipPath: "polygon(0 0, 100% 0, 100% 95.5%, 0 100%)" };
-
 function isNew(createdAt: string | undefined, nowMs: number): boolean {
   if (!createdAt) return false;
   return nowMs - new Date(createdAt).getTime() < 1000 * 60 * 60 * 24 * 7;
@@ -111,11 +108,11 @@ export async function LandingPage() {
     .slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-black text-white antialiased">
+    <div className="min-h-screen bg-zinc-950 text-white antialiased">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative">
-        <div className="relative h-[580px] overflow-hidden md:h-[700px]" style={heroSlash}>
+        <div className="relative h-[580px] overflow-hidden md:h-[700px]">
           <Image
             src="/hero-bg.jpg"
             alt="University of Utah Rugby alumni"
@@ -134,15 +131,6 @@ export async function LandingPage() {
                 "linear-gradient(95deg, rgb(139 0 0 / 0.6) 0%, transparent 55%)",
             }}
           />
-          {/* Subtle diagonal stripe in upper-right */}
-          <div
-            className="absolute right-0 top-0 h-36 w-72 opacity-[0.06]"
-            style={{
-              background:
-                "repeating-linear-gradient(135deg, white 0 2px, transparent 2px 12px)",
-            }}
-          />
-
           {/* Content */}
           <div className="absolute inset-x-0 bottom-0 px-5 pb-14 md:px-10 md:pb-20">
             <div className="mx-auto max-w-6xl">
@@ -174,14 +162,14 @@ export async function LandingPage() {
               <div className="mt-7 flex flex-wrap gap-2">
                 <Link
                   href="/join"
-                  className="inline-flex items-center gap-2 rounded-sm bg-utah-red px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-transform motion-safe:hover:-translate-y-px"
+                  className="inline-flex items-center gap-2 rounded-full bg-utah-red px-6 py-3 text-sm font-semibold text-white transition-transform motion-safe:hover:-translate-y-px"
                 >
                   Join the Network
                   <ArrowRight className="size-4" />
                 </Link>
                 <Link
                   href="/network"
-                  className="inline-flex items-center gap-2 rounded-sm border-2 border-white/30 bg-black/30 px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-black"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-black/30 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-black"
                 >
                   Browse Directory
                 </Link>
@@ -264,7 +252,7 @@ export async function LandingPage() {
       )}
 
       {/* ── Quick access grid ────────────────────────────────────────────── */}
-      <section className="bg-black">
+      <section className="bg-zinc-950">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-zinc-900 md:grid-cols-5">
           {[
             { href: "/", icon: Newspaper, title: "Feed", sub: "Alumni wall" },
@@ -290,7 +278,7 @@ export async function LandingPage() {
             <Link
               key={href}
               href={href}
-              className="group relative flex flex-col items-start gap-3 bg-black p-5 transition-colors hover:bg-zinc-950 md:p-6"
+              className="group relative flex flex-col items-start gap-3 bg-zinc-950 p-5 transition-colors hover:bg-zinc-900/60 md:p-6"
             >
               <Icon
                 className="size-6 text-zinc-500 transition-colors group-hover:text-white"
@@ -313,7 +301,7 @@ export async function LandingPage() {
 
       {/* ── Schedule preview ─────────────────────────────────────────────── */}
       {(upcomingGames.length > 0 || recentResults.length > 0) && (
-        <section className="bg-black px-5 py-10 md:px-10 md:py-14">
+        <section className="bg-zinc-950 px-5 py-10 md:px-10 md:py-14">
           <div className="mx-auto max-w-6xl">
             <div className="mb-6 flex items-end justify-between">
               <div>
@@ -417,7 +405,7 @@ export async function LandingPage() {
 
       {/* ── Recently Joined rail ─────────────────────────────────────────── */}
       {recentJoins && recentJoins.length > 0 && (
-        <section className="border-t border-zinc-900 bg-black px-5 py-10 md:px-10 md:py-12">
+        <section className="border-t border-zinc-900 bg-zinc-950 px-5 py-10 md:px-10 md:py-12">
           <div className="mx-auto max-w-6xl">
             <div className="mb-5 flex items-end justify-between">
               <div>
@@ -485,7 +473,7 @@ export async function LandingPage() {
 
       {/* ── Alumni Hiring rail ───────────────────────────────────────────── */}
       {hiringAlumni && hiringAlumni.length > 0 && (
-        <section className="border-t border-zinc-900 bg-black px-5 py-10 md:px-10 md:py-12">
+        <section className="border-t border-zinc-900 bg-zinc-950 px-5 py-10 md:px-10 md:py-12">
           <div className="mx-auto max-w-6xl">
             <div className="mb-5 flex items-end justify-between">
               <div>
@@ -548,7 +536,7 @@ export async function LandingPage() {
       )}
 
       {/* ── Brotherhood CTA ──────────────────────────────────────────────── */}
-      <section className="bg-black px-5 py-12 md:px-10 md:py-16">
+      <section className="bg-zinc-950 px-5 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-6xl">
           <div className="relative overflow-hidden border border-zinc-900 bg-gradient-to-br from-zinc-950 to-black p-7 md:p-12">
             {/* Left red accent bar */}
@@ -576,7 +564,7 @@ export async function LandingPage() {
               </p>
               <Link
                 href="/thanks"
-                className="mt-6 inline-flex items-center gap-2 rounded-sm bg-utah-red px-5 py-3 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-transform motion-safe:hover:-translate-y-px"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-utah-red px-5 py-2.5 text-sm font-semibold text-white transition-transform motion-safe:hover:-translate-y-px"
               >
                 Get Your Forward Link
                 <ArrowRight className="size-3.5" />
@@ -612,7 +600,7 @@ export async function LandingPage() {
 function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
   if (!game) {
     return (
-      <section className="bg-black py-6">
+      <section className="bg-zinc-950 py-6">
         <div className="mx-auto flex max-w-6xl items-center gap-4 border-l-4 border-utah-red px-5 md:px-10">
           <div>
             <p className="text-eyebrow text-2xs text-utah-red">
@@ -631,7 +619,7 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
   const days = daysUntil(game.date, nowMs);
 
   return (
-    <section className="relative overflow-hidden bg-black">
+    <section className="relative overflow-hidden bg-zinc-950">
       {/* Red diagonal wash */}
       <div
         className="absolute right-0 top-0 h-full w-2/5 opacity-10"
@@ -690,7 +678,7 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
           {/* CTA — desktop only */}
           <Link
             href="/events?tab=season"
-            className="hidden shrink-0 items-center self-center gap-2 rounded-sm border-2 border-white/25 px-4 py-2.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition-colors hover:border-white hover:bg-white hover:text-black md:inline-flex"
+            className="hidden shrink-0 items-center self-center gap-2 rounded-full border border-white/25 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-black md:inline-flex"
           >
             Full Schedule
             <ArrowRight className="size-3.5" />

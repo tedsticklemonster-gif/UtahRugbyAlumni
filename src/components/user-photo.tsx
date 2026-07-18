@@ -87,7 +87,7 @@ export function UserPhoto({
     <div
       aria-label={alt}
       style={fill ? undefined : { width: size, height: size, fontSize }}
-      className={`flex items-center justify-center bg-gradient-to-br font-black text-white ${color} ${roundedClass} ${
+      className={`flex items-center justify-center bg-gradient-to-br font-bold text-white ${color} ${roundedClass} ${
         fill ? "absolute inset-0 text-[clamp(1.5rem,8vw,4rem)]" : ""
       } ${className}`}
     >

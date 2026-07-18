@@ -187,13 +187,13 @@ function JobCard({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-3xs font-black uppercase tracking-wider ${badge.className}`}
+            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-3xs font-bold uppercase tracking-wider ${badge.className}`}
           >
             <badge.Icon className="size-2.5" />
             {badge.label}
           </span>
           {alum.grad_year && (
-            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white">
+            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white">
               &rsquo;{String(alum.grad_year).slice(-2)}
             </span>
           )}

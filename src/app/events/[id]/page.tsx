@@ -87,7 +87,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
   if (!event) notFound();
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Back nav */}
       <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
         <Link
@@ -122,7 +122,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
         </div>
 
         {/* Details */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-2.5">
+        <div className="surface-card p-4 space-y-2.5">
           <div className="flex items-start gap-2.5">
             <CalendarDays className="size-4 shrink-0 mt-0.5 text-zinc-500" />
             <div>
@@ -172,7 +172,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
           <a
             href={`/api/events/${id}/ics`}
             download
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border-strong bg-surface-2 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
           >
             <CalendarPlus className="size-3.5" />
             Add to Calendar
@@ -181,19 +181,19 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
         {/* Description */}
         {event.description && (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <div className="surface-card p-4">
             <p className="text-sm leading-relaxed text-zinc-300 whitespace-pre-wrap">{event.description}</p>
           </div>
         )}
 
         {/* RSVP */}
         {myAlumniId ? (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <div className="surface-card p-4">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">Are you going?</p>
             <RsvpChips eventId={event.id} initial={event.my_rsvp} />
           </div>
         ) : (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <div className="surface-card p-4">
             <p className="text-sm text-zinc-400">
               <Link href="/auth/login" className="font-semibold text-white hover:text-utah-red transition-colors">Sign in</Link>
               {" "}to RSVP

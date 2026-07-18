@@ -107,13 +107,13 @@ export function MentionInput({ value, onChange, placeholder, rows = 2, maxLength
       />
 
       {candidates.length > 0 && (
-        <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900 shadow-xl">
+        <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded-xl border border-border-strong bg-surface-1 shadow-xl">
           {candidates.map((c) => (
             <button
               key={c.id}
               type="button"
               onMouseDown={(e) => { e.preventDefault(); insertMention(c); }}
-              className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-zinc-800"
+              className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-surface-2"
             >
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-2xs font-bold text-zinc-300">
                 {c.first_name[0]}{c.last_name[0]}

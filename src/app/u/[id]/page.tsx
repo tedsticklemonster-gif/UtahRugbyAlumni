@@ -113,9 +113,9 @@ export default async function AlumniProfilePage({
     : `${APP_URL}/u/${profile.id}`;
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Back nav */}
-      <div className="sticky top-14 z-20 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-sm px-4 py-3">
+      <div className="sticky top-14 z-20 border-b border-zinc-800 bg-surface-0/90 backdrop-blur-sm px-4 py-3">
         <Link
           href="/network"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-400 hover:text-white transition-colors"
@@ -126,7 +126,7 @@ export default async function AlumniProfilePage({
       </div>
 
       {/* Hero banner — blurred photo backdrop */}
-      <div className="relative h-40 w-full overflow-hidden bg-zinc-900">
+      <div className="relative h-40 w-full overflow-hidden bg-surface-1">
         {profile.photo_signed_url && (
           <div
             aria-hidden
@@ -295,7 +295,7 @@ export default async function AlumniProfilePage({
                     <Link
                       key={s}
                       href={`/directory?service=${encodeURIComponent(s)}`}
-                      className="rounded-md border border-zinc-700 bg-zinc-900 px-2 py-0.5 text-xs font-semibold text-zinc-200 hover:border-utah-red"
+                      className="rounded-md border border-border-strong bg-surface-1 px-2 py-0.5 text-xs font-semibold text-zinc-200 hover:border-utah-red"
                     >
                       {s}
                     </Link>
@@ -312,7 +312,7 @@ export default async function AlumniProfilePage({
                   {profile.industries.map((s) => (
                     <span
                       key={s}
-                      className="rounded-md border border-zinc-800 bg-zinc-900 px-2 py-0.5 text-xs font-medium text-zinc-400"
+                      className="rounded-md border border-border-subtle bg-surface-1 px-2 py-0.5 text-xs font-medium text-zinc-400"
                     >
                       {s}
                     </span>
@@ -333,7 +333,7 @@ export default async function AlumniProfilePage({
           {profile.canMessage && (
             <Link
               href={`/messages/${profile.id}`}
-              className="inline-flex items-center gap-2 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+              className="inline-flex items-center gap-2 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
             >
               <MessageCircle className="size-4" />
               Message
@@ -387,7 +387,7 @@ export default async function AlumniProfilePage({
         </p>
 
         {posts.length === 0 ? (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-10 text-center">
+          <div className="surface-card py-10 text-center">
             <Shield className="mx-auto mb-2 size-7 text-zinc-700" />
             <p className="text-sm text-zinc-500">No posts yet</p>
           </div>

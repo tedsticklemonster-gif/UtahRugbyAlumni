@@ -170,7 +170,7 @@ function JobCard({
   return (
     <Link
       href={`/u/${alum.id}`}
-      className="group flex gap-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-3 transition-colors hover:border-zinc-700"
+      className="group flex gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
     >
       <SponsorHalo tier={alum.sponsor_tier ?? null} size="md" rounded="rounded-xl">
         <div className="relative size-20 shrink-0 overflow-hidden rounded-xl">
@@ -238,8 +238,8 @@ function EmptyCard({
   cta: { href: string; label: string };
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-10 text-center">
-      <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-zinc-800">
+    <div className="surface-card py-10 text-center">
+      <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-surface-2">
         {icon}
       </div>
       <p className="text-sm font-bold text-white">{title}</p>

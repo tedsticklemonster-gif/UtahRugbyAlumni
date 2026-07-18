@@ -39,7 +39,7 @@ export default async function NetworkPage({ searchParams }: NetworkPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight text-white">Network</h1>
@@ -67,7 +67,7 @@ export default async function NetworkPage({ searchParams }: NetworkPageProps) {
 function NetworkErrorWall() {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
+      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2">
         <AlertCircle className="size-8 text-zinc-400" />
       </div>
       <h1 className="mt-5 text-2xl font-bold text-white">Network unavailable</h1>
@@ -88,7 +88,7 @@ function NetworkErrorWall() {
 function NetworkSignInWall() {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
+      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2">
         <Users className="size-8 text-zinc-400" />
       </div>
       <h1 className="mt-5 text-2xl font-bold text-white">The Network</h1>
@@ -106,7 +106,7 @@ function NetworkSignInWall() {
         </Link>
         <Link
           href="/join"
-          className="inline-flex items-center justify-center rounded-xl bg-utah-red px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+          className="inline-flex items-center justify-center rounded-xl bg-utah-red px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
         >
           Join the Network
         </Link>

@@ -28,13 +28,13 @@ export function PostJobButton() {
     });
   }
 
-  const inputCls = "w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none";
+  const inputCls = "w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none";
 
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-xs font-bold text-white hover:bg-[#AA0000] transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-xs font-bold text-white hover:bg-utah-red/90 transition-colors"
       >
         <Plus className="size-4" /> Post a Job
       </button>
@@ -42,7 +42,7 @@ export function PostJobButton() {
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
-          <div className="relative w-full max-w-md rounded-t-2xl sm:rounded-2xl border border-zinc-800 bg-zinc-900 p-5 max-h-[85vh] overflow-y-auto">
+          <div className="relative w-full max-w-md rounded-t-2xl sm:surface-card p-5 max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white">Post a Job</h3>
               <button onClick={() => setOpen(false)} className="text-zinc-500 hover:text-white">
@@ -80,7 +80,7 @@ export function PostJobButton() {
                 <button
                   type="submit"
                   disabled={pending}
-                  className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+                  className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-utah-red/90 disabled:opacity-50"
                 >
                   {pending ? "Posting..." : "Post Job"}
                 </button>

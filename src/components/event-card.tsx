@@ -8,13 +8,15 @@ import type { AlumniEvent } from "@/actions/events";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
+/* Event kinds map onto the four semantic accents — brand red for the marquee
+   moments, info/success/warning for the rest, neutral for everything else. */
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
-  social: { label: "Social", color: "text-purple-400" },
+  social: { label: "Social", color: "text-zinc-400" },
   reunion: { label: "Reunion", color: "text-utah-red" },
-  watch_party: { label: "Watch Party", color: "text-sky-400" },
-  practice: { label: "Practice", color: "text-emerald-400" },
-  fundraiser: { label: "Fundraiser", color: "text-amber-400" },
-  networking: { label: "Networking", color: "text-blue-400" },
+  watch_party: { label: "Watch Party", color: "text-info" },
+  practice: { label: "Practice", color: "text-success" },
+  fundraiser: { label: "Fundraiser", color: "text-warning" },
+  networking: { label: "Networking", color: "text-info" },
   game_day: { label: "Game Day", color: "text-utah-red" },
   other: { label: "Event", color: "text-zinc-400" },
 };
@@ -31,15 +33,15 @@ function formatDate(iso: string) {
 
 export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniId: string | null }) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden transition-colors active:bg-zinc-800/60">
+    <div className="surface-card overflow-hidden transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong active:bg-surface-2/60">
       <div className="p-4">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">
-            <span className={`text-2xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+            <span className={`text-eyebrow ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
               {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
             </span>
             <Link href={`/events/${event.id}`} className="block mt-0.5">
-              <h3 className="text-base font-bold text-white hover:text-utah-red transition-colors leading-snug">
+              <h3 className="text-card-title text-white hover:text-utah-red transition-colors">
                 {event.title}
               </h3>
             </Link>
@@ -102,17 +104,17 @@ export function EventRailCard({ event }: { event: AlumniEvent; myAlumniId?: stri
   return (
     <Link
       href={`/events/${event.id}`}
-      className="flex-shrink-0 w-52 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 hover:border-zinc-600 transition-colors active:scale-[0.98] block"
+      className="surface-card flex-shrink-0 w-52 p-4 hover:border-border-strong transition-[border-color,box-shadow] duration-200 ease-out active:scale-[0.98] block"
     >
       <div className="flex items-center gap-2 mb-3">
         <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-utah-red/15">
           <CalendarDays className="size-3.5 text-utah-red" />
         </span>
-        <span className={`text-2xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+        <span className={`text-eyebrow ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
           {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
         </span>
       </div>
-      <p className="text-sm font-bold text-white leading-snug line-clamp-2">{event.title}</p>
+      <p className="text-display text-sm text-white leading-snug line-clamp-2">{event.title}</p>
       {event.starts_at && (
         <p className="mt-1.5 flex items-center gap-1 text-xs text-zinc-500">
           <CalendarDays className="size-3 shrink-0" />

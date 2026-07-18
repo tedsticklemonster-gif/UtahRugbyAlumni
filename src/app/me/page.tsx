@@ -65,7 +65,7 @@ export default async function MePage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Page header */}
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <h1 className="text-2xl font-bold tracking-tight text-white">Me</h1>
@@ -111,7 +111,7 @@ export default async function MePage() {
         </div>
 
         {/* Impact summary — donor tier + referrals */}
-        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-6 surface-card p-5">
           <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your Impact
           </p>
@@ -150,7 +150,7 @@ export default async function MePage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <Link
               href="/thanks"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-utah-red/90"
             >
               <Share2 className="size-3.5" />
               Share your forward link
@@ -166,7 +166,7 @@ export default async function MePage() {
         </div>
 
         {/* Settings rows */}
-        <div className="mb-6 divide-y divide-zinc-800 rounded-2xl border border-zinc-800 bg-zinc-900">
+        <div className="mb-6 divide-y divide-zinc-800 surface-card">
           <div className="p-5">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
@@ -191,7 +191,7 @@ export default async function MePage() {
           {isAdmin && (
             <Link
               href="/admin"
-              className="flex items-center justify-between px-5 py-4 transition-colors hover:bg-zinc-800/50"
+              className="flex items-center justify-between px-5 py-4 transition-colors hover:bg-surface-2/50"
             >
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-300">
                 <ShieldCheck className="size-4 text-utah-red" />
@@ -204,7 +204,7 @@ export default async function MePage() {
           <form action={signOutAction}>
             <button
               type="submit"
-              className="flex w-full items-center gap-2 px-5 py-4 text-left text-sm font-semibold text-zinc-400 transition-colors hover:bg-zinc-800/50 hover:text-white"
+              className="flex w-full items-center gap-2 px-5 py-4 text-left text-sm font-semibold text-zinc-400 transition-colors hover:bg-surface-2/50 hover:text-white"
             >
               <LogOut className="size-4" />
               Sign out
@@ -213,7 +213,7 @@ export default async function MePage() {
         </div>
 
         {/* Profile form */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="surface-card p-5">
           <p className="mb-4 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your information
           </p>

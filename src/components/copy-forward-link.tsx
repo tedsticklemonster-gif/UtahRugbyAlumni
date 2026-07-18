@@ -37,13 +37,13 @@ export function CopyForwardLink({ forwardToken }: { forwardToken?: string | null
 
   return (
     <div className="flex items-center gap-2">
-      <code className="flex-1 truncate rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-zinc-300">
+      <code className="flex-1 truncate rounded-lg border border-zinc-700 bg-surface-0 px-3 py-2 text-xs text-zinc-300">
         {forwardUrl}
       </code>
       <button
         type="button"
         onClick={handleShare}
-        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-utah-red/90"
       >
         {copied ? (
           <>

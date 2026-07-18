@@ -13,15 +13,13 @@ interface UserPhotoProps {
   sizes?: string;
 }
 
+/* Muted brand-family duotones — red, umber, slate, stone. Restrained on
+   purpose: the grid should read as one team, not a bag of Skittles. */
 const HASH_COLORS = [
-  "from-utah-red to-[#7a0000]",
-  "from-indigo-600 to-indigo-900",
-  "from-emerald-600 to-emerald-900",
-  "from-amber-500 to-amber-800",
-  "from-fuchsia-600 to-fuchsia-900",
-  "from-sky-600 to-sky-900",
-  "from-rose-600 to-rose-900",
-  "from-teal-600 to-teal-900",
+  "from-utah-red/80 to-[oklch(0.30_0.09_27)]",
+  "from-[oklch(0.45_0.06_55)] to-[oklch(0.28_0.04_55)]",
+  "from-[oklch(0.42_0.04_260)] to-[oklch(0.27_0.03_260)]",
+  "from-zinc-600 to-zinc-800",
 ];
 
 function hashName(first: string, last: string): number {
@@ -87,7 +85,7 @@ export function UserPhoto({
     <div
       aria-label={alt}
       style={fill ? undefined : { width: size, height: size, fontSize }}
-      className={`flex items-center justify-center bg-gradient-to-br font-bold text-white ${color} ${roundedClass} ${
+      className={`text-display flex items-center justify-center bg-gradient-to-br text-white ${color} ${roundedClass} ${
         fill ? "absolute inset-0 text-[clamp(1.5rem,8vw,4rem)]" : ""
       } ${className}`}
     >

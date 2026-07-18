@@ -43,7 +43,7 @@ export function InviteBanner({ forwardToken }: { forwardToken?: string | null })
         </div>
         <button
           onClick={handleShare}
-          className={`text-eyebrow inline-flex shrink-0 items-center gap-1.5 rounded-sm bg-utah-red px-3 py-2 text-2xs text-white transition-colors hover:bg-[#AA0000] active:bg-[#880000]`}
+          className={`text-eyebrow inline-flex shrink-0 items-center gap-1.5 rounded-sm bg-utah-red px-3 py-2 text-2xs text-white transition-colors hover:bg-utah-red/90 active:bg-utah-red/80`}
         >
           {copied ? <Check className="size-3.5" /> : <Share2 className="size-3.5" />}
           {copied ? "Copied!" : "Share"}

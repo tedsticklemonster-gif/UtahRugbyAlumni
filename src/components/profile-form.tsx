@@ -261,7 +261,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
         </div>
 
         {/* Professional availability */}
-        <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-4">
+        <div className="rounded-xl border border-zinc-800 bg-surface-0/60 p-4 space-y-4">
           <div>
             <p className="text-sm font-bold text-white">Career signal</p>
             <p className="mt-0.5 text-xs text-zinc-400">
@@ -274,7 +274,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             <select
               id="availability"
               {...register("availability")}
-              className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
+              className="flex h-10 w-full rounded-md border border-border-strong bg-surface-1 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
             >
               {AVAILABILITY_VALUES.map((v) => (
                 <option key={v} value={v}>

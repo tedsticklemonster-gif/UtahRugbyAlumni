@@ -289,7 +289,7 @@ function Rail({
 
 function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
-    <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/40 px-6 py-12 text-center">
+    <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 bg-surface-1/40 px-6 py-12 text-center">
       <div className="flex size-14 items-center justify-center rounded-2xl bg-utah-red/15">
         <Users className="size-7 text-utah-red" />
       </div>
@@ -303,7 +303,7 @@ function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
       </p>
       <Link
         href="/thanks"
-        className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
       >
         <UserPlus className="size-4" />
         Invite a teammate

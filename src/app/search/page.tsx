@@ -23,7 +23,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const results: SearchResult[] = query.length >= 2 ? await searchAction(query) : [];
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
         <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white transition-colors">
           <ArrowLeft className="size-3.5" /> Home
@@ -41,7 +41,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               defaultValue={query}
               placeholder="Search alumni, posts, events…"
               autoFocus
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-900 pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+              className="w-full rounded-xl border border-border-strong bg-surface-1 pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
             />
           </div>
         </form>
@@ -62,9 +62,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <Link
                 key={`alumni-${r.id}`}
                 href={`/u/${r.id}`}
-                className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 p-3 transition-colors hover:border-zinc-700"
+                className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
               >
-                <div className="flex size-10 items-center justify-center rounded-full bg-zinc-800 text-zinc-400">
+                <div className="flex size-10 items-center justify-center rounded-full bg-surface-2 text-zinc-400">
                   <User className="size-4" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -82,9 +82,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <Link
                 key={`post-${r.id}`}
                 href={`/feed/${r.id}`}
-                className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 p-3 transition-colors hover:border-zinc-700"
+                className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
               >
-                <div className="flex size-10 items-center justify-center rounded-full bg-zinc-800 text-zinc-400">
+                <div className="flex size-10 items-center justify-center rounded-full bg-surface-2 text-zinc-400">
                   <FileText className="size-4" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -99,7 +99,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <Link
               key={`event-${r.id}`}
               href={`/events/${r.id}`}
-              className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 p-3 transition-colors hover:border-zinc-700"
+              className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
             >
               <div className="flex size-10 items-center justify-center rounded-full bg-utah-red/15 text-utah-red">
                 <CalendarDays className="size-4" />

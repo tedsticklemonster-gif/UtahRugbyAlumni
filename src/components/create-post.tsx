@@ -75,7 +75,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
   const busy = submitting || compressing;
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+    <div className="surface-card p-4">
       <div className="flex gap-3">
         {/* Avatar */}
         {me.photo_signed_url ? (
@@ -93,7 +93,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
             placeholder="What's on your mind, rugger?"
             rows={body ? 3 : 2}
             maxLength={2000}
-            className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+            className="w-full resize-none rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
           />
 
           {preview && (
@@ -102,7 +102,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
               <button
                 type="button"
                 onClick={clearPhoto}
-                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-900 border border-zinc-700 text-zinc-400 hover:text-white"
+                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-surface-1 border border-zinc-700 text-zinc-400 hover:text-white"
               >
                 <X className="size-3.5" />
               </button>
@@ -124,7 +124,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
                 type="button"
                 onClick={() => fileRef.current?.click()}
                 disabled={busy}
-                className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300 disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-500 hover:bg-surface-2 hover:text-zinc-300 disabled:opacity-50"
               >
                 <ImageIcon className="size-4" />
                 {compressing ? "Processing…" : "Photo"}
@@ -136,7 +136,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
               disabled={busy || (!body.trim() && !photo)}
               className={cn(
                 "rounded-xl px-4 py-1.5 text-xs font-bold transition-colors",
-                "bg-utah-red text-white hover:bg-[#AA0000] disabled:opacity-40"
+                "bg-utah-red text-white hover:bg-utah-red/90 disabled:opacity-40"
               )}
             >
               {submitting ? "Posting…" : "Post"}

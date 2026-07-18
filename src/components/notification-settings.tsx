@@ -90,7 +90,7 @@ export function NotificationSettings({
           {PREF_OPTIONS.map(({ key, label, desc, icon: Icon }) => (
             <label
               key={key}
-              className="flex items-center justify-between gap-3 rounded-xl p-3 hover:bg-zinc-900 transition-colors cursor-pointer"
+              className="flex items-center justify-between gap-3 rounded-xl p-3 hover:bg-surface-1 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Icon className="size-4 shrink-0 text-zinc-500" />
@@ -123,7 +123,7 @@ export function NotificationSettings({
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+          className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-50"
         >
           {saving ? "Saving\u2026" : saved ? "Saved!" : "Save Preferences"}
         </button>

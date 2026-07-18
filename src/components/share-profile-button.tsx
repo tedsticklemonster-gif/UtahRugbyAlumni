@@ -89,7 +89,7 @@ export function ShareProfileButton({
       {showQR && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/70" onClick={() => setShowQR(false)} />
-          <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
+          <div className="relative surface-card p-6 text-center">
             <button
               onClick={() => setShowQR(false)}
               className="absolute right-3 top-3 text-zinc-500 hover:text-white"

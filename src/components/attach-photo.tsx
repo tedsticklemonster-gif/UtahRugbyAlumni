@@ -64,7 +64,7 @@ export function AttachPhoto({ onFileReady, onClear }: AttachPhotoProps) {
           <button
             type="button"
             onClick={clear}
-            className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-900 border border-zinc-700 text-zinc-400 hover:text-white"
+            className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-surface-1 border border-zinc-700 text-zinc-400 hover:text-white"
           >
             <X className="size-3" />
           </button>
@@ -74,7 +74,7 @@ export function AttachPhoto({ onFileReady, onClear }: AttachPhotoProps) {
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={loading}
-          className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-medium text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300 disabled:opacity-50"
+          className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-xs font-medium text-zinc-500 hover:bg-surface-2 hover:text-zinc-300 disabled:opacity-50"
         >
           <Camera className="size-4" />
           {loading ? "…" : "Photo"}

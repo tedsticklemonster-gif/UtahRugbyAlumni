@@ -84,10 +84,10 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
     });
   }
 
-  const inputCls = "w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none";
+  const inputCls = "w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none";
 
   return (
-    <div className="mx-4 mt-4 rounded-2xl border border-utah-red/30 bg-zinc-900 overflow-hidden">
+    <div className="mx-4 mt-4 rounded-2xl border border-utah-red/30 bg-surface-1 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <div>
@@ -107,7 +107,7 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
           <div
             key={i}
             className={`h-1 flex-1 rounded-full transition-colors ${
-              i <= step ? "bg-utah-red" : "bg-zinc-800"
+              i <= step ? "bg-utah-red" : "bg-surface-2"
             }`}
           />
         ))}
@@ -163,11 +163,11 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
               <option value="retired">Retired</option>
               <option value="student">Student</option>
             </select>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-800/50 px-3 py-3 cursor-pointer">
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-surface-2/50 px-3 py-3 cursor-pointer">
               <input type="checkbox" checked={hiring} onChange={(e) => setHiring(e.target.checked)} className="accent-utah-red" />
               <span className="text-sm text-white">I&apos;m hiring</span>
             </label>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-800/50 px-3 py-3 cursor-pointer">
+            <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-surface-2/50 px-3 py-3 cursor-pointer">
               <input type="checkbox" checked={willingToMentor} onChange={(e) => setWillingToMentor(e.target.checked)} className="accent-utah-red" />
               <span className="text-sm text-white">Open to mentoring</span>
             </label>
@@ -205,7 +205,7 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
           <button
             onClick={next}
             disabled={submitting}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-50"
           >
             {submitting ? "Saving..." : step < STEPS.length - 1 ? (
               <>Next <ChevronRight className="size-4" /></>

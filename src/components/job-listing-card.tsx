@@ -8,17 +8,17 @@ export function JobListingCard({ job }: { job: JobListing }) {
   const timeAgo = getTimeAgo(job.created_at);
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition-colors hover:border-zinc-700">
+    <div className="surface-card p-4 transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <h3 className="text-base font-bold text-white leading-snug">{job.title}</h3>
+          <h3 className="text-card-title text-white">{job.title}</h3>
           <p className="flex items-center gap-1.5 mt-1 text-sm text-zinc-300">
             <Briefcase className="size-3.5 shrink-0 text-zinc-500" />
             {job.company}
           </p>
         </div>
         {job.alumni_grad_year && (
-          <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white shrink-0">
+          <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-semibold text-white shrink-0">
             &rsquo;{String(job.alumni_grad_year).slice(-2)}
           </span>
         )}
@@ -32,7 +32,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
           </p>
         )}
         {job.remote && (
-          <p className="flex items-center gap-1 text-xs text-emerald-400">
+          <p className="flex items-center gap-1 text-xs text-success">
             <Globe className="size-3" />
             Remote
           </p>
@@ -52,7 +52,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
       <div className="mt-3 flex items-center justify-between">
         <Link
           href={`/u/${job.alumni_id}`}
-          className="text-2xs font-semibold text-zinc-500 hover:text-white transition-colors"
+          className="text-caption text-2xs hover:text-white transition-colors"
           suppressHydrationWarning
         >
           Posted by {job.alumni_first_name} {job.alumni_last_name} · {timeAgo}
@@ -62,7 +62,7 @@ export function JobListingCard({ job }: { job: JobListing }) {
             href={job.apply_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 rounded-lg bg-utah-red px-3 py-1.5 text-xs font-bold text-white hover:bg-[#AA0000] transition-colors"
+            className="inline-flex items-center gap-1 rounded-full bg-utah-red px-3.5 py-1.5 text-xs font-semibold text-white shadow-card hover:bg-utah-red/90 transition-colors"
           >
             Apply <ExternalLink className="size-3" />
           </a>

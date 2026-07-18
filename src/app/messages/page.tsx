@@ -22,7 +22,7 @@ export default async function MessagesPage() {
   const { conversations } = await getConversationsAction();
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="border-b border-zinc-800 px-5 py-4">
         <Link
           href="/"
@@ -36,7 +36,7 @@ export default async function MessagesPage() {
       <div className="mx-auto max-w-xl divide-y divide-zinc-800">
         {conversations.length === 0 && (
           <div className="flex flex-col items-center gap-3 py-20 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-800">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2">
               <MessageCircle className="size-8 text-zinc-600" />
             </div>
             <p className="text-sm font-semibold text-zinc-400">No messages yet</p>
@@ -54,7 +54,7 @@ export default async function MessagesPage() {
           <Link
             key={conv.other_id}
             href={`/messages/${conv.other_id}`}
-            className="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-zinc-900"
+            className="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-surface-1"
           >
             <MemberAvatar
               photoUrl={conv.other_photo_signed_url}

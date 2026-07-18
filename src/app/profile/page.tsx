@@ -52,7 +52,7 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Page header */}
       <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
         <div className="flex items-center justify-between">
@@ -110,7 +110,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Impact summary — donor tier + referrals */}
-        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-6 surface-card p-5">
           <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your Impact
           </p>
@@ -149,7 +149,7 @@ export default async function ProfilePage() {
           <div className="mt-4">
             <Link
               href="/thanks"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-utah-red/90"
             >
               <Share2 className="size-3.5" />
               Share your forward link
@@ -158,7 +158,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Notifications */}
-        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-6 surface-card p-5">
           <div className="flex items-center justify-between mb-3">
             <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
               Notifications
@@ -175,7 +175,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Profile form */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="surface-card p-5">
           <p className="mb-4 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your information
           </p>

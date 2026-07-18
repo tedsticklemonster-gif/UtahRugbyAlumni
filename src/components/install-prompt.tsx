@@ -85,7 +85,7 @@ export function InstallPrompt() {
         aria-label="Install Utah Rugby Alumni"
         className="fixed inset-x-0 bottom-16 z-40 mx-auto max-w-md px-3 md:hidden"
       >
-        <div className="relative rounded-2xl border border-zinc-700 bg-zinc-900 p-4 shadow-xl">
+        <div className="relative rounded-2xl border border-border-strong bg-surface-1 p-4 shadow-xl">
           <button
             type="button"
             aria-label="Dismiss install prompt"
@@ -106,7 +106,7 @@ export function InstallPrompt() {
             {mode === "ios" ? (
               <Button
                 size="sm"
-                className="bg-utah-red text-white hover:bg-[#AA0000]"
+                className="bg-utah-red text-white hover:bg-utah-red/90"
                 onClick={() => setGuideOpen(true)}
               >
                 Show me how
@@ -114,7 +114,7 @@ export function InstallPrompt() {
             ) : (
               <Button
                 size="sm"
-                className="bg-utah-red text-white hover:bg-[#AA0000]"
+                className="bg-utah-red text-white hover:bg-utah-red/90"
                 onClick={install}
               >
                 Install

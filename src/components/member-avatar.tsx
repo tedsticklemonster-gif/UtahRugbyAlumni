@@ -39,7 +39,7 @@ export function MemberAvatar({
     <div
       aria-hidden
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-full bg-zinc-800 font-bold text-zinc-300",
+        "text-display flex shrink-0 items-center justify-center rounded-full bg-surface-2 text-zinc-300",
         SIZES[size],
         className
       )}

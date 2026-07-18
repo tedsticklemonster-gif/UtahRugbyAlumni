@@ -66,7 +66,7 @@ function SwipeableComment({
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className={`text-eyebrow text-3xs text-white px-3`}
+            className="text-2xs font-semibold text-white px-3"
           >
             {deleting ? "…" : "Delete"}
           </button>
@@ -75,7 +75,7 @@ function SwipeableComment({
 
       {/* Comment row */}
       <div
-        className="flex gap-2 bg-zinc-900 transition-transform"
+        className="flex gap-2 bg-surface-0 transition-transform"
         style={{ transform: `translateX(${offsetX}px)` }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -93,10 +93,10 @@ function SwipeableComment({
           />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="bg-zinc-800 px-3 py-2">
+          <div className="rounded-2xl rounded-tl-md bg-surface-2 px-3 py-2">
             <Link
               href={`/u/${c.author_id}`}
-              className="text-xs font-bold text-white transition-colors hover:text-utah-red"
+              className="text-xs font-semibold text-white transition-colors hover:text-utah-red"
             >
               {c.author_first_name} {c.author_last_name}
             </Link>
@@ -111,14 +111,14 @@ function SwipeableComment({
                   <img
                     src={c.photo_signed_url}
                     alt=""
-                    className="mt-2 max-h-40 rounded-md object-cover bg-zinc-900"
+                    className="mt-2 max-h-40 rounded-md object-cover bg-surface-1"
                     loading="lazy"
                   />
                 }
               />
             )}
           </div>
-          <p className="mt-0.5 pl-3 text-2xs text-zinc-600" suppressHydrationWarning>
+          <p className="text-caption mt-0.5 pl-3 text-2xs" suppressHydrationWarning>
             {relativeTime(c.created_at)}
           </p>
         </div>
@@ -195,7 +195,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
   }
 
   return (
-    <div className="border border-zinc-900 bg-zinc-950 overflow-hidden">
+    <div className="surface-card overflow-hidden">
       {/* Author row */}
       <div className="flex items-center gap-2.5 px-4 pt-4 pb-3">
         <Link
@@ -211,11 +211,11 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
         <div className="min-w-0 flex-1">
           <Link
             href={`/u/${post.author_id}`}
-            className="text-sm font-bold text-white transition-colors hover:text-utah-red"
+            className="text-sm font-semibold text-white transition-colors hover:text-utah-red"
           >
             {post.author_first_name} {post.author_last_name}
           </Link>
-          <p className={`text-eyebrow text-3xs text-zinc-600`} suppressHydrationWarning>
+          <p className="text-caption text-2xs" suppressHydrationWarning>
             {relativeTime(post.created_at)}
             {post.updated_at && <span className="text-zinc-700"> · edited</span>}
           </p>
@@ -229,10 +229,10 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
               <MoreHorizontal className="size-4" />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-8 z-10 min-w-[140px] rounded-xl border border-zinc-800 bg-zinc-900 py-1 shadow-lg">
+              <div className="absolute right-0 top-8 z-10 min-w-[140px] rounded-xl border border-border-subtle bg-surface-3 py-1 shadow-overlay">
                 <button
                   onClick={() => { setEditing(true); setMenuOpen(false); }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:bg-zinc-800"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:bg-white/6"
                 >
                   <Pencil className="size-3" /> Edit post
                 </button>
@@ -243,7 +243,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                       await deletePostAction(post.id);
                     });
                   }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-red-400 hover:bg-zinc-800"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-destructive hover:bg-white/6"
                 >
                   <Trash2 className="size-3" /> Delete post
                 </button>
@@ -256,7 +256,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       {/* Pinned badge */}
       {post.pinned && (
         <div className="px-4 pb-1">
-          <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-amber-400">
+          <span className="inline-flex items-center gap-1 rounded-full bg-warning/12 px-2 py-0.5 text-2xs font-semibold text-warning">
             Pinned
           </span>
         </div>
@@ -265,7 +265,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       {/* Category tag */}
       {post.category && (
         <div className="px-4 pb-1">
-          <span className="inline-flex rounded-full bg-zinc-800 px-2 py-0.5 text-2xs font-semibold text-zinc-400">
+          <span className="inline-flex rounded-full bg-surface-2 px-2 py-0.5 text-2xs font-semibold text-zinc-400">
             {post.category}
           </span>
         </div>
@@ -279,7 +279,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
             onChange={(e) => setEditBody(e.target.value)}
             rows={3}
             maxLength={2000}
-            className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
+            className="w-full resize-none rounded-xl border border-input bg-surface-2 px-3 py-2 text-sm text-white focus:border-ring focus:outline-none"
           />
           <div className="flex gap-2">
             <button
@@ -292,13 +292,13 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                 });
               }}
               disabled={editPending}
-              className="rounded-lg bg-utah-red px-3 py-1 text-xs font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+              className="rounded-full bg-utah-red px-3 py-1 text-xs font-semibold text-white hover:bg-utah-red/90 disabled:opacity-50"
             >
               {editPending ? "Saving..." : "Save"}
             </button>
             <button
               onClick={() => { setEditing(false); setEditBody(post.body); }}
-              className="rounded-lg border border-zinc-700 px-3 py-1 text-xs text-zinc-400 hover:text-white"
+              className="rounded-full border border-border-strong px-3 py-1 text-xs text-zinc-400 hover:text-white"
             >
               Cancel
             </button>
@@ -320,7 +320,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
               <img
                 src={post.photo_signed_url}
                 alt="Post photo"
-                className="w-full max-h-80 rounded-lg object-cover bg-zinc-900"
+                className="w-full max-h-80 rounded-lg object-cover bg-surface-0"
                 loading="lazy"
               />
             }
@@ -329,7 +329,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
       )}
 
       {/* Action bar */}
-      <div className="flex items-center gap-1 border-t border-zinc-900 px-3 py-1">
+      <div className="flex items-center gap-1 border-t border-white/6 px-3 py-1">
         <ReactionPicker
           postId={post.id}
           myAlumniId={myAlumniId}
@@ -340,7 +340,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
         <button
           onClick={toggleComments}
-          className={`text-eyebrow flex items-center gap-1.5 px-3 py-2 text-2xs text-zinc-500 transition-colors hover:text-zinc-300`}
+          className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-500 transition-colors hover:text-zinc-300"
         >
           <MessageCircle className="size-4" />
           {post.comment_count > 0 && <span>{post.comment_count}</span>}
@@ -350,9 +350,9 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Comments section */}
       {commentsOpen && (
-        <div className="border-t border-zinc-900 px-4 pb-4 pt-3 space-y-3">
+        <div className="border-t border-white/6 px-4 pb-4 pt-3 space-y-3">
           {commentsLoading && (
-            <p className={`text-eyebrow text-2xs text-zinc-500`}>Loading…</p>
+            <p className="text-caption text-2xs">Loading…</p>
           )}
 
           {comments.map((c) => (
@@ -369,7 +369,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           {/* Add comment input */}
           {myAlumniId && (
             <div className="flex gap-2 pt-1">
-              <div className="flex-1 border border-zinc-800 bg-zinc-900 px-3 py-2">
+              <div className="flex-1 rounded-2xl border border-border-subtle bg-surface-2 px-3 py-2">
                 <textarea
                   ref={commentInputRef}
                   value={commentBody}
@@ -392,7 +392,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                   <button
                     onClick={handleComment}
                     disabled={submitting || (!commentBody.trim() && !commentPhoto)}
-                    className={`text-eyebrow flex items-center gap-1 rounded-sm bg-utah-red px-2.5 py-1 text-3xs text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40`}
+                    className="flex items-center gap-1 rounded-full bg-utah-red px-2.5 py-1 text-2xs font-semibold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-40"
                   >
                     <Send className="size-3" />
                     {submitting ? "…" : "Send"}
@@ -403,7 +403,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           )}
 
           {commentError && (
-            <p className="text-xs text-red-400">{commentError}</p>
+            <p className="text-xs text-destructive">{commentError}</p>
           )}
         </div>
       )}

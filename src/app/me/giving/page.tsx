@@ -53,7 +53,7 @@ const IMPACT_ITEMS = [
 
 const SPONSOR_TIERS = [
   { tier: "Bronze", amount: "$100+", perks: "Name on donor wall, alumni network badge", color: "text-amber-600", bg: "bg-amber-900/20 border-amber-800/40" },
-  { tier: "Silver", amount: "$500+", perks: "Bronze perks + silver profile halo + event VIP", color: "text-zinc-300", bg: "bg-zinc-800/50 border-zinc-600/40" },
+  { tier: "Silver", amount: "$500+", perks: "Bronze perks + silver profile halo + event VIP", color: "text-zinc-300", bg: "bg-surface-2/50 border-zinc-600/40" },
   { tier: "Gold", amount: "$1,000+", perks: "Silver perks + gold halo + featured in directory + 1:1 with coaching staff", color: "text-yellow-400", bg: "bg-yellow-900/20 border-yellow-700/40" },
 ];
 
@@ -65,7 +65,7 @@ export default async function GivePage() {
       : null;
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
           <span className="inline-flex size-10 items-center justify-center rounded-xl bg-utah-red/15 text-utah-red">
@@ -81,7 +81,7 @@ export default async function GivePage() {
       <div className="space-y-6 px-5 py-8 md:px-10 max-w-2xl mx-auto">
         {/* Fundraising thermometer — only shown when the board has an active campaign */}
         {progress && (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="surface-card p-6">
             <div className="flex items-center gap-2 mb-1">
               <Target className="size-4 text-utah-red" />
               <p className={`text-eyebrow text-2xs text-utah-red`}>{progress.name}</p>
@@ -97,7 +97,7 @@ export default async function GivePage() {
               )}
             </div>
             {pct !== null && (
-              <div className="mt-4 h-4 w-full rounded-full bg-zinc-800 overflow-hidden">
+              <div className="mt-4 h-4 w-full rounded-full bg-surface-2 overflow-hidden">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-utah-red to-[#FF3333] transition-all duration-1000"
                   style={{ width: `${pct}%` }}
@@ -117,7 +117,7 @@ export default async function GivePage() {
         )}
 
         {/* Impact section */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+        <div className="surface-card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Trophy className="size-4 text-amber-400" />
             <p className={`text-eyebrow text-2xs text-zinc-400`}>Your Impact</p>
@@ -136,7 +136,7 @@ export default async function GivePage() {
         </div>
 
         {/* Donorbox widget */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+        <div className="surface-card p-6">
           <p className={`text-eyebrow text-2xs text-utah-red mb-3`}>Donate Now</p>
           <Script src="https://donorbox.org/widget.js" strategy="lazyOnload" />
           <iframe
@@ -156,7 +156,7 @@ export default async function GivePage() {
         </div>
 
         {/* Sponsor tiers */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+        <div className="surface-card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Star className="size-4 text-yellow-400" />
             <p className={`text-eyebrow text-2xs text-zinc-400`}>Sponsor Tiers</p>
@@ -175,7 +175,7 @@ export default async function GivePage() {
         </div>
 
         {/* More ways to give */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+        <div className="surface-card p-6">
           <p className={`text-eyebrow text-2xs text-zinc-500 mb-2`}>More ways to give</p>
           <p className="text-sm leading-relaxed text-zinc-400">
             View all giving options, sponsorship opportunities, and more on the official Utah Rugby site.

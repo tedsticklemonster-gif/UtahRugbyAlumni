@@ -19,7 +19,7 @@ export default async function ModerationPage() {
   const resolved = reports.filter((r) => r.status !== "pending");
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
           <Shield className="size-5 text-utah-red" />
@@ -35,7 +35,7 @@ export default async function ModerationPage() {
             <AlertTriangle className="size-3" /> Pending Review ({pending.length})
           </p>
           {pending.length === 0 ? (
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
+            <div className="surface-card p-6 text-center">
               <CheckCircle className="mx-auto size-8 text-emerald-500 mb-2" />
               <p className="text-sm font-bold text-white">All clear</p>
               <p className="text-xs text-zinc-500">No pending reports.</p>
@@ -43,7 +43,7 @@ export default async function ModerationPage() {
           ) : (
             <div className="space-y-2">
               {pending.map((r) => (
-                <div key={r.id} className="rounded-xl border border-amber-900/50 bg-zinc-900 p-4">
+                <div key={r.id} className="rounded-xl border border-amber-900/50 bg-surface-1 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-bold text-white capitalize">{r.reason}</p>
@@ -68,7 +68,7 @@ export default async function ModerationPage() {
             </p>
             <div className="space-y-2">
               {resolved.map((r) => (
-                <div key={r.id} className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 opacity-60">
+                <div key={r.id} className="surface-card p-4 opacity-60">
                   <p className="text-sm text-zinc-400 capitalize">{r.reason}</p>
                   <p className="text-xs text-zinc-600 mt-0.5">
                     {r.target_type} · {r.status} · {new Date(r.created_at).toLocaleDateString()}

@@ -6,23 +6,23 @@ const TIER_STYLES: Record<
   { ring: string; glow: string }
 > = {
   bronze: {
-    ring: "ring-[3px] ring-[#B87333]",
-    glow: "shadow-[0_0_12px_rgba(184,115,51,0.4)]",
+    ring: "ring-2 ring-tier-bronze",
+    glow: "shadow-[0_0_12px_var(--tier-bronze)]",
   },
   silver: {
-    ring: "ring-[3px] ring-[#C0C0C0]",
-    glow: "shadow-[0_0_14px_rgba(192,192,192,0.5)]",
+    ring: "ring-2 ring-tier-silver",
+    glow: "shadow-[0_0_14px_var(--tier-silver)]",
   },
   gold: {
-    ring: "ring-[3px] ring-[#FFD700]",
-    glow: "shadow-[0_0_16px_rgba(255,215,0,0.55)]",
+    ring: "ring-2 ring-tier-gold",
+    glow: "shadow-[0_0_14px_var(--tier-gold)]",
   },
 };
 
 const RING_OFFSET: Record<"sm" | "md" | "lg", string> = {
   sm: "",
-  md: "ring-offset-2 ring-offset-zinc-950",
-  lg: "ring-offset-4 ring-offset-zinc-950",
+  md: "ring-offset-2 ring-offset-surface-0",
+  lg: "ring-offset-4 ring-offset-surface-0",
 };
 
 interface SponsorHaloProps {

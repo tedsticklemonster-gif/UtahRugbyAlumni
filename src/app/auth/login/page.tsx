@@ -115,7 +115,7 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleSignIn}
           disabled={googleLoading}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-zinc-700 bg-zinc-900 py-3 text-sm font-semibold text-white transition-colors hover:border-zinc-500 hover:bg-zinc-800 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-3 rounded-xl border border-border-strong bg-surface-1 py-3 text-sm font-semibold text-white transition-colors hover:border-zinc-500 hover:bg-surface-2 disabled:opacity-60"
         >
           <GoogleIcon />
           {googleLoading ? "Redirecting…" : "Continue with Google"}
@@ -123,9 +123,9 @@ export default function LoginPage() {
 
         {/* Divider */}
         <div className="my-5 flex items-center gap-3">
-          <div className="h-px flex-1 bg-zinc-800" />
+          <div className="h-px flex-1 bg-surface-2" />
           <span className="text-xs text-zinc-600">or sign in with email</span>
-          <div className="h-px flex-1 bg-zinc-800" />
+          <div className="h-px flex-1 bg-surface-2" />
         </div>
 
         {/* Email magic link */}
@@ -142,14 +142,14 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-utah-red focus:outline-none focus:ring-1 focus:ring-utah-red"
+              className="w-full rounded-xl border border-border-strong bg-surface-1 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-utah-red focus:outline-none focus:ring-1 focus:ring-utah-red"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-utah-red py-3 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-utah-red py-3 text-sm font-bold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-60"
           >
             {loading ? "Sending…" : "Send Sign-In Link"}
             {!loading && <ArrowRight className="size-4" />}

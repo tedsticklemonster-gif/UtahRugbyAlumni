@@ -92,7 +92,7 @@ export function EventPhotoUploader({ eventId }: { eventId: string }) {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+    <div className="surface-card p-4">
       <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
         Add Photos
       </p>
@@ -101,7 +101,7 @@ export function EventPhotoUploader({ eventId }: { eventId: string }) {
       {previews.length > 0 && (
         <div className="mb-3 grid grid-cols-4 gap-2">
           {previews.map((p, i) => (
-            <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-zinc-800">
+            <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-surface-2">
               <img src={p.url} alt="" className="h-full w-full object-cover" />
               <button
                 onClick={() => removePreview(i)}
@@ -127,7 +127,7 @@ export function EventPhotoUploader({ eventId }: { eventId: string }) {
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={compressing || pending}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-border-strong bg-surface-2 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white disabled:opacity-50"
         >
           <Camera className="size-3.5" />
           {compressing ? "Processing..." : "Select Photos"}
@@ -137,7 +137,7 @@ export function EventPhotoUploader({ eventId }: { eventId: string }) {
           <button
             onClick={handleUpload}
             disabled={pending}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-50"
           >
             {pending ? "Uploading..." : `Upload ${previews.length}`}
           </button>

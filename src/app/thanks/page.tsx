@@ -34,7 +34,7 @@ export default async function ThanksPage() {
     // Not logged in yet — use generic link
   }
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Red accent bar */}
       <div className="h-1.5 bg-utah-red" />
 
@@ -53,7 +53,7 @@ export default async function ThanksPage() {
         </div>
 
         {/* Step 1 — verify email */}
-        <div className="mb-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-3 surface-card p-5">
           <div className="flex items-start gap-3">
             <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-utah-red/15">
               <Mail className="size-4 text-utah-red" />
@@ -75,7 +75,7 @@ export default async function ThanksPage() {
         </div>
 
         {/* Step 2 — share with teammates */}
-        <div className="mb-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-3 surface-card p-5">
           <div className="flex items-start gap-3">
             <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-sky-500/15">
               <Share2 className="size-4 text-sky-400" />
@@ -100,7 +100,7 @@ export default async function ThanksPage() {
         </div>
 
         {/* Step 3 — explore */}
-        <div className="mb-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-8 surface-card p-5">
           <div className="flex items-start gap-3">
             <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber-500/15">
               <Users className="size-4 text-amber-400" />
@@ -118,7 +118,7 @@ export default async function ThanksPage() {
               </p>
               <Link
                 href="/network"
-                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
               >
                 Browse Directory
                 <ArrowRight className="size-4" />

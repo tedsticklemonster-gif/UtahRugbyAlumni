@@ -103,7 +103,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
   }
 
   return (
-    <div className="flex h-[100dvh] flex-col bg-zinc-950">
+    <div className="flex h-[100dvh] flex-col bg-surface-0">
       {/* Header */}
       <div className="flex shrink-0 items-center gap-3 border-b border-zinc-800 px-4 py-3">
         <Link href="/messages" className="text-zinc-500 hover:text-white">
@@ -132,7 +132,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
         {groups.map((group) => (
           <div key={group.date}>
             <div className="flex items-center justify-center py-3">
-              <span className="rounded-full bg-zinc-800 px-3 py-0.5 text-2xs font-medium text-zinc-500">
+              <span className="rounded-full bg-surface-2 px-3 py-0.5 text-2xs font-medium text-zinc-500">
                 {dateSeparator(group.messages[0].created_at)}
               </span>
             </div>
@@ -146,7 +146,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                         "rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                         isMe
                           ? "rounded-br-sm bg-utah-red text-white"
-                          : "rounded-bl-sm bg-zinc-800 text-zinc-100"
+                          : "rounded-bl-sm bg-surface-2 text-zinc-100"
                       )}
                     >
                       {msg.body && <p className="whitespace-pre-wrap">{msg.body}</p>}
@@ -174,7 +174,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
       <div className="shrink-0 border-t border-zinc-800 px-4 pb-safe pt-3 pb-4">
         {error && <p className="mb-2 text-xs text-red-400">{error}</p>}
         <div className="flex items-end gap-2">
-          <div className="flex-1 rounded-2xl border border-zinc-700 bg-zinc-800 px-3 py-2">
+          <div className="flex-1 rounded-2xl border border-border-strong bg-surface-2 px-3 py-2">
             <textarea
               value={body}
               onChange={(e) => setBody(e.target.value)}
@@ -199,7 +199,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
           <button
             onClick={handleSend}
             disabled={sending || (!body.trim() && !photo)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-utah-red text-white transition-colors hover:bg-[#AA0000] disabled:opacity-40"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-utah-red text-white transition-colors hover:bg-utah-red/90 disabled:opacity-40"
           >
             <Send className="size-4" />
           </button>

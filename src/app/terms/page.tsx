@@ -9,7 +9,7 @@ const CONTACT = "richmwhite@gmail.com";
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="h-1.5 bg-utah-red" />
 
       <div className="mx-auto max-w-2xl px-5 py-10 md:px-10">

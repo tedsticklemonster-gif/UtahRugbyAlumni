@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function JoinPage() {
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
         <h1 className="text-2xl font-bold tracking-tight text-white">Join the Network</h1>
         <p className="mt-1 text-sm text-zinc-400">
@@ -18,7 +18,7 @@ export default function JoinPage() {
       </div>
 
       <div className="mx-auto max-w-xl px-5 py-8 md:px-10">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="surface-card p-5">
           <Suspense>
             <SignupForm />
           </Suspense>

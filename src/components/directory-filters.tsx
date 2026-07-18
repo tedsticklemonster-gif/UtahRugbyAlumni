@@ -94,7 +94,7 @@ export function DirectoryFilters() {
             id="availability"
             value={availability}
             onChange={(e) => updateFilter("availability", e.target.value)}
-            className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
+            className="flex h-10 w-full rounded-md border border-border-strong bg-surface-1 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
           >
             {AVAILABILITY_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
@@ -148,7 +148,7 @@ export function DirectoryFilters() {
           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
             hiring
               ? "bg-sky-500 text-white"
-              : "border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500"
+              : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-zinc-500"
           }`}
         >
           Hiring now
@@ -161,7 +161,7 @@ export function DirectoryFilters() {
           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
             availability === "open_to_work"
               ? "bg-emerald-500 text-white"
-              : "border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500"
+              : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-zinc-500"
           }`}
         >
           Open to work
@@ -172,7 +172,7 @@ export function DirectoryFilters() {
           className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
             mentor
               ? "bg-amber-500 text-zinc-950"
-              : "border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-zinc-500"
+              : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-zinc-500"
           }`}
         >
           Mentors

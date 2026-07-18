@@ -27,18 +27,18 @@ export function AdminNav() {
   }
 
   return (
-    <nav className="mb-6 flex flex-wrap items-center gap-1 border-b pb-4">
-      <span className="mr-2 text-sm font-semibold text-muted-foreground">
+    <nav className="mb-6 flex items-center gap-1 overflow-x-auto scrollbar-hide rounded-full border border-border-subtle bg-surface-1 p-1 shadow-card">
+      <span className="text-eyebrow mx-2 shrink-0">
         Admin
       </span>
       {NAV_ITEMS.map((item) => (
         <Link
           key={item.href}
           href={item.href}
-          className={`rounded-md px-2.5 py-1 text-sm transition-colors ${
+          className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1 text-sm transition-colors ${
             isActive(item)
-              ? "bg-primary text-primary-foreground font-medium"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              ? "bg-utah-red text-white font-medium"
+              : "text-muted-foreground hover:text-foreground hover:bg-surface-2"
           }`}
         >
           {item.label}

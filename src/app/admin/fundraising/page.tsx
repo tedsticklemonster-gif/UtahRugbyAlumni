@@ -133,7 +133,7 @@ export default async function FundraisingPage() {
                       </p>
                     )}
                   </div>
-                  <span className="shrink-0 rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted transition-colors">
+                  <span className="shrink-0 rounded-lg border px-3 py-1.5 text-xs font-medium hover:bg-muted transition-colors">
                     View →
                   </span>
                 </div>

@@ -51,7 +51,7 @@ export function RosterExportButton() {
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full rounded-md border bg-background px-3 py-1.5 text-sm"
+                className="w-full rounded-lg border bg-background px-3 py-1.5 text-sm"
               >
                 {STATUS_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>

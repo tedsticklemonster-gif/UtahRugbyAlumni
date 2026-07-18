@@ -174,7 +174,7 @@ export function PostsModeration({
             {page > 1 && (
               <Link
                 href={`/admin/posts?page=${page - 1}${showDeleted ? "&show=deleted" : ""}`}
-                className="rounded-md border px-3 py-1.5 text-xs hover:bg-muted"
+                className="rounded-lg border px-3 py-1.5 text-xs hover:bg-muted"
               >
                 Previous
               </Link>
@@ -182,7 +182,7 @@ export function PostsModeration({
             {page < totalPages && (
               <Link
                 href={`/admin/posts?page=${page + 1}${showDeleted ? "&show=deleted" : ""}`}
-                className="rounded-md border px-3 py-1.5 text-xs hover:bg-muted"
+                className="rounded-lg border px-3 py-1.5 text-xs hover:bg-muted"
               >
                 Next
               </Link>

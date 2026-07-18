@@ -138,7 +138,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+      <h1 className="text-title-1">Dashboard</h1>
 
       {/* Primary metrics */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -151,7 +151,7 @@ export default async function AdminDashboardPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">{stat.value}</p>
+                <p className="text-stat text-2xl">{stat.value}</p>
                 {stat.sub && (
                   <p className="text-2xs text-muted-foreground mt-1 leading-tight">{stat.sub}</p>
                 )}
@@ -180,7 +180,7 @@ export default async function AdminDashboardPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-2xl font-bold">{stat.value}</p>
+                  <p className="text-stat text-2xl">{stat.value}</p>
                   {stat.sub && (
                     <p className="text-xs text-muted-foreground mt-0.5">{stat.sub}</p>
                   )}

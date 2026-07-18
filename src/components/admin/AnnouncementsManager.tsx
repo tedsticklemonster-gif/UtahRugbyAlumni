@@ -206,7 +206,7 @@ export function AnnouncementsManager({
                       expires_at: e.target.value || null,
                     }))
                   }
-                  className="rounded-md border bg-background px-2 py-1 text-xs"
+                  className="rounded-lg border bg-background px-2 py-1 text-xs"
                 />
                 {form.expires_at && (
                   <button

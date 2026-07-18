@@ -66,7 +66,7 @@ export default async function AuditPage({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-bold">Audit Log</h1>
+          <h1 className="text-stat text-lg">Audit Log</h1>
           <p className="text-sm text-muted-foreground">
             {total.toLocaleString()} total entries
           </p>
@@ -75,7 +75,7 @@ export default async function AuditPage({
           <select
             name="action"
             defaultValue={actionFilter}
-            className="rounded-md border px-3 py-1.5 text-sm bg-background"
+            className="rounded-lg border px-3 py-1.5 text-sm bg-background"
           >
             <option value="">All actions</option>
             {uniqueActions.map((a) => (
@@ -93,7 +93,7 @@ export default async function AuditPage({
         </form>
       </div>
 
-      <div className="rounded-md border overflow-x-auto">
+      <div className="rounded-lg border overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b bg-muted/50">
@@ -157,7 +157,7 @@ export default async function AuditPage({
             {page > 1 && (
               <a
                 href={`?page=${page - 1}${actionFilter ? `&action=${actionFilter}` : ""}`}
-                className="rounded-md border px-3 py-1.5 hover:bg-muted"
+                className="rounded-lg border px-3 py-1.5 hover:bg-muted"
               >
                 Previous
               </a>
@@ -165,7 +165,7 @@ export default async function AuditPage({
             {page < totalPages && (
               <a
                 href={`?page=${page + 1}${actionFilter ? `&action=${actionFilter}` : ""}`}
-                className="rounded-md border px-3 py-1.5 hover:bg-muted"
+                className="rounded-lg border px-3 py-1.5 hover:bg-muted"
               >
                 Next
               </a>

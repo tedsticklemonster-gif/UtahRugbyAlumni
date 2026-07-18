@@ -163,11 +163,11 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
               <option value="retired">Retired</option>
               <option value="student">Student</option>
             </select>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-surface-2/50 px-3 py-3 cursor-pointer">
+            <label className="flex items-center gap-3 rounded-xl border border-border bg-surface-2/50 px-3 py-3 cursor-pointer">
               <input type="checkbox" checked={hiring} onChange={(e) => setHiring(e.target.checked)} className="accent-utah-red" />
               <span className="text-sm text-white">I&apos;m hiring</span>
             </label>
-            <label className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-surface-2/50 px-3 py-3 cursor-pointer">
+            <label className="flex items-center gap-3 rounded-xl border border-border bg-surface-2/50 px-3 py-3 cursor-pointer">
               <input type="checkbox" checked={willingToMentor} onChange={(e) => setWillingToMentor(e.target.checked)} className="accent-utah-red" />
               <span className="text-sm text-white">Open to mentoring</span>
             </label>

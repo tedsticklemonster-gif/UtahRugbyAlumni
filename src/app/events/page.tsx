@@ -47,13 +47,13 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
   return (
     <div className="min-h-screen bg-surface-0">
       {/* Header */}
-      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
+      <div className="border-b border-white/6 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
           <span className="inline-flex size-10 items-center justify-center rounded-xl bg-surface-2 text-zinc-300">
             <CalendarDays className="size-5" />
           </span>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">Events</h1>
+            <h1 className="text-title-1 text-white">Events</h1>
             <p className="text-sm text-zinc-500">
               {tab === "season"
                 ? "Games, fixtures & practice schedule"

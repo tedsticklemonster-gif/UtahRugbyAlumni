@@ -45,7 +45,7 @@ export function RsvpChips({
                   : value === "maybe"
                   ? "bg-amber-600 text-white"
                   : "bg-zinc-600 text-white"
-                : "border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200"
+                : "border border-border-strong text-zinc-400 hover:border-white/25 hover:text-zinc-200"
             )}
           >
             <Icon className="size-3" />

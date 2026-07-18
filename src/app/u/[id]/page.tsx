@@ -115,7 +115,7 @@ export default async function AlumniProfilePage({
   return (
     <div className="min-h-screen bg-surface-0">
       {/* Back nav */}
-      <div className="sticky top-14 z-20 border-b border-zinc-800 bg-surface-0/90 backdrop-blur-sm px-4 py-3">
+      <div className="sticky top-14 z-20 border-b border-white/6 bg-surface-0/90 backdrop-blur-sm px-4 py-3">
         <Link
           href="/network"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-400 hover:text-white transition-colors"
@@ -192,7 +192,7 @@ export default async function AlumniProfilePage({
                 </span>
               )}
               {profile.willing_to_mentor && (
-                <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-2 py-0.5 text-2xs font-bold text-amber-300">
+                <span className="inline-flex items-center gap-1 rounded-full bg-warning/12 px-2 py-0.5 text-2xs font-semibold text-warning">
                   <Handshake className="size-3" /> Mentor
                 </span>
               )}
@@ -202,7 +202,7 @@ export default async function AlumniProfilePage({
 
         <div className="mt-4">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-white leading-tight">
+            <h1 className="text-title-1 text-white">
               {profile.first_name} {profile.last_name}
             </h1>
             {profile.verified && (
@@ -216,12 +216,12 @@ export default async function AlumniProfilePage({
               </span>
             )}
             {profile.position && (
-              <span className="rounded-md border border-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-400 capitalize">
+              <span className="rounded-md border border-border px-2 py-0.5 text-xs font-medium text-zinc-400 capitalize">
                 {profile.position}
               </span>
             )}
             {profile.years_experience !== null && profile.years_experience > 0 && (
-              <span className="rounded-md border border-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-400">
+              <span className="rounded-md border border-border px-2 py-0.5 text-xs font-medium text-zinc-400">
                 {profile.years_experience}+ yrs exp
               </span>
             )}
@@ -333,7 +333,7 @@ export default async function AlumniProfilePage({
           {profile.canMessage && (
             <Link
               href={`/messages/${profile.id}`}
-              className="inline-flex items-center gap-2 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
+              className="inline-flex items-center gap-2 rounded-full bg-utah-red px-4 py-2 text-sm font-semibold text-white shadow-card transition-colors hover:bg-utah-red/90"
             >
               <MessageCircle className="size-4" />
               Message
@@ -349,7 +349,7 @@ export default async function AlumniProfilePage({
               href={profile.linkedin_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-border-strong px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-white/25 hover:text-white"
             >
               <ExternalLink className="size-4" />
               LinkedIn
@@ -360,7 +360,7 @@ export default async function AlumniProfilePage({
               href={profile.website_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-border-strong px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-white/25 hover:text-white"
             >
               <Globe className="size-4" />
               Website
@@ -371,7 +371,7 @@ export default async function AlumniProfilePage({
               href={`https://instagram.com/${profile.instagram_handle}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-border-strong px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-white/25 hover:text-white"
             >
               <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
               @{profile.instagram_handle}
@@ -381,7 +381,7 @@ export default async function AlumniProfilePage({
       </div>
 
       {/* Posts */}
-      <div className="border-t border-zinc-800 px-4 py-4">
+      <div className="border-t border-white/6 px-4 py-4">
         <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
           Recent Posts
         </p>

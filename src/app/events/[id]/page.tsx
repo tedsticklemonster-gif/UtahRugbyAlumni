@@ -89,7 +89,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
   return (
     <div className="min-h-screen bg-surface-0">
       {/* Back nav */}
-      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+      <div className="border-b border-white/6 px-5 py-4 md:px-10">
         <Link
           href="/events"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-400 hover:text-white transition-colors"
@@ -115,7 +115,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
         {/* Title + Share */}
         <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-bold leading-tight tracking-tight text-white">
+          <h1 className="text-title-1 text-white">
             {event.title}
           </h1>
           <ShareButton url={`${APP_URL}/events/${id}`} title={event.title} />

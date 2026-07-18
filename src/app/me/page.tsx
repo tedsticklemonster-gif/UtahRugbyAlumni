@@ -67,8 +67,8 @@ export default async function MePage() {
   return (
     <div className="min-h-screen bg-surface-0">
       {/* Page header */}
-      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Me</h1>
+      <div className="border-b border-white/6 px-5 py-6 md:px-10">
+        <h1 className="text-title-1 text-white">Me</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Your profile, giving, and settings.
         </p>
@@ -103,7 +103,7 @@ export default async function MePage() {
           </div>
           <Link
             href={`/u/${alumni.id}`}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border-strong px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-colors hover:border-white/25 hover:text-white"
           >
             View public profile
             <ExternalLink className="size-3" />
@@ -157,7 +157,7 @@ export default async function MePage() {
             </Link>
             <Link
               href="/me/giving"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-2 text-xs font-bold text-zinc-200 transition-colors hover:border-utah-red"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border-strong px-3 py-2 text-xs font-bold text-zinc-200 transition-colors hover:border-utah-red"
             >
               <HeartHandshake className="size-3.5" />
               Give back

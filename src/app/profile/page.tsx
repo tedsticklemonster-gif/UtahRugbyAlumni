@@ -54,7 +54,7 @@ export default async function ProfilePage() {
   return (
     <div className="min-h-screen bg-surface-0">
       {/* Page header */}
-      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+      <div className="border-b border-white/6 px-5 py-4 md:px-10">
         <div className="flex items-center justify-between">
           <Link
             href="/"
@@ -71,7 +71,7 @@ export default async function ProfilePage() {
             </button>
           </form>
         </div>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">My Profile</h1>
+        <h1 className="mt-3 text-title-1 text-white">My Profile</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Manage your info and privacy settings.
         </p>

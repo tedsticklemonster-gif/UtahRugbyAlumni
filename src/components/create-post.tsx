@@ -102,7 +102,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
               <button
                 type="button"
                 onClick={clearPhoto}
-                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-surface-1 border border-zinc-700 text-zinc-400 hover:text-white"
+                className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-surface-1 border border-border-strong text-zinc-400 hover:text-white"
               >
                 <X className="size-3.5" />
               </button>

@@ -24,11 +24,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <div className="min-h-screen bg-surface-0">
-      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+      <div className="border-b border-white/6 px-5 py-4 md:px-10">
         <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white transition-colors">
           <ArrowLeft className="size-3.5" /> Home
         </Link>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">Search</h1>
+        <h1 className="mt-3 text-title-1 text-white">Search</h1>
       </div>
 
       <div className="px-5 py-4 md:px-10">
@@ -62,7 +62,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <Link
                 key={`alumni-${r.id}`}
                 href={`/u/${r.id}`}
-                className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
+                className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-border-strong"
               >
                 <div className="flex size-10 items-center justify-center rounded-full bg-surface-2 text-zinc-400">
                   <User className="size-4" />
@@ -82,7 +82,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <Link
                 key={`post-${r.id}`}
                 href={`/feed/${r.id}`}
-                className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
+                className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-border-strong"
               >
                 <div className="flex size-10 items-center justify-center rounded-full bg-surface-2 text-zinc-400">
                   <FileText className="size-4" />
@@ -99,7 +99,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <Link
               key={`event-${r.id}`}
               href={`/events/${r.id}`}
-              className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-zinc-700"
+              className="flex items-center gap-3 surface-card p-3 transition-colors hover:border-border-strong"
             >
               <div className="flex size-10 items-center justify-center rounded-full bg-utah-red/15 text-utah-red">
                 <CalendarDays className="size-4" />

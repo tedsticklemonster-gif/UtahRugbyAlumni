@@ -261,7 +261,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
         </div>
 
         {/* Professional availability */}
-        <div className="rounded-xl border border-zinc-800 bg-surface-0/60 p-4 space-y-4">
+        <div className="rounded-xl border border-border bg-surface-0/60 p-4 space-y-4">
           <div>
             <p className="text-sm font-bold text-white">Career signal</p>
             <p className="mt-0.5 text-xs text-zinc-400">
@@ -308,7 +308,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             onChange={(v) => setValue("industries", v, { shouldDirty: true })}
           />
 
-          <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-black/40 p-3">
+          <div className="flex items-start gap-3 rounded-lg border border-border bg-black/40 p-3">
             <Checkbox
               id="hiring"
               checked={hiring}
@@ -324,7 +324,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             </Label>
           </div>
 
-          <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-black/40 p-3">
+          <div className="flex items-start gap-3 rounded-lg border border-border bg-black/40 p-3">
             <Checkbox
               id="willing_to_mentor"
               checked={willingToMentor}

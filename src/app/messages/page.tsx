@@ -23,14 +23,14 @@ export default async function MessagesPage() {
 
   return (
     <div className="min-h-screen bg-surface-0">
-      <div className="border-b border-zinc-800 px-5 py-4">
+      <div className="border-b border-white/6 px-5 py-4">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white"
         >
           <ArrowLeft className="size-3.5" /> Home
         </Link>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">Messages</h1>
+        <h1 className="mt-3 text-title-1 text-white">Messages</h1>
       </div>
 
       <div className="mx-auto max-w-xl divide-y divide-zinc-800">

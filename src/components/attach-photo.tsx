@@ -60,11 +60,11 @@ export function AttachPhoto({ onFileReady, onClear }: AttachPhotoProps) {
       />
       {preview ? (
         <div className="relative">
-          <img src={preview} alt="" className="h-14 w-14 rounded-lg object-cover border border-zinc-700" />
+          <img src={preview} alt="" className="h-14 w-14 rounded-lg object-cover border border-border-strong" />
           <button
             type="button"
             onClick={clear}
-            className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-surface-1 border border-zinc-700 text-zinc-400 hover:text-white"
+            className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-surface-1 border border-border-strong text-zinc-400 hover:text-white"
           >
             <X className="size-3" />
           </button>

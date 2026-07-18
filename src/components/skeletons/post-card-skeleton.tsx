@@ -12,7 +12,7 @@ export function PostCardSkeleton() {
         <div className="h-3 w-full rounded bg-surface-2" />
         <div className="h-3 w-4/5 rounded bg-surface-2" />
       </div>
-      <div className="border-t border-zinc-800 px-3 py-2 flex gap-4">
+      <div className="border-t border-white/6 px-3 py-2 flex gap-4">
         <div className="h-7 w-16 rounded-lg bg-surface-2" />
         <div className="h-7 w-16 rounded-lg bg-surface-2" />
       </div>

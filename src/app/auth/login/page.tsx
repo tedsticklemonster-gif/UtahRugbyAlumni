@@ -75,7 +75,7 @@ export default function LoginPage() {
         <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-utah-red/15">
           <Mail className="size-7 text-utah-red" />
         </div>
-        <h1 className="mt-5 text-2xl font-bold text-white">Check your email</h1>
+        <h1 className="mt-5 text-title-1 text-white">Check your email</h1>
         <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
           We sent a sign-in link to{" "}
           <span className="font-semibold text-white">{email}</span>.
@@ -101,7 +101,7 @@ export default function LoginPage() {
             <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
               Utah Rugby Alumni Network
             </p>
-            <h1 className="mt-1 text-2xl font-bold text-white">Sign in</h1>
+            <h1 className="mt-1 text-title-1 text-white">Sign in</h1>
           </div>
         </div>
 
@@ -115,7 +115,7 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleSignIn}
           disabled={googleLoading}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-border-strong bg-surface-1 py-3 text-sm font-semibold text-white transition-colors hover:border-zinc-500 hover:bg-surface-2 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-3 rounded-xl border border-border-strong bg-surface-1 py-3 text-sm font-semibold text-white transition-colors hover:border-white/25 hover:bg-surface-2 disabled:opacity-60"
         >
           <GoogleIcon />
           {googleLoading ? "Redirecting…" : "Continue with Google"}

@@ -66,7 +66,7 @@ export default async function GivePage() {
 
   return (
     <div className="min-h-screen bg-surface-0">
-      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
+      <div className="border-b border-white/6 px-5 py-6 md:px-10">
         <div className="flex items-center gap-3">
           <span className="inline-flex size-10 items-center justify-center rounded-xl bg-utah-red/15 text-utah-red">
             <HeartHandshake className="size-5" />
@@ -87,7 +87,7 @@ export default async function GivePage() {
               <p className={`text-eyebrow text-2xs text-utah-red`}>{progress.name}</p>
             </div>
             <div className="flex items-baseline gap-2 mt-2">
-              <span className={`text-display text-4xl text-white`}>
+              <span className={`text-stat text-4xl text-white`}>
                 ${Math.round(progress.raisedCents / 100).toLocaleString()}
               </span>
               {progress.goalCents && (
@@ -127,8 +127,8 @@ export default async function GivePage() {
           </p>
           <div className="space-y-2">
             {IMPACT_ITEMS.map(({ amount, desc }) => (
-              <div key={amount} className="flex items-baseline gap-3 py-2 border-b border-zinc-800 last:border-0">
-                <span className={`text-display text-xl text-utah-red w-20 shrink-0`}>{amount}</span>
+              <div key={amount} className="flex items-baseline gap-3 py-2 border-b border-white/6 last:border-0">
+                <span className={`text-stat text-xl text-utah-red w-20 shrink-0`}>{amount}</span>
                 <span className="text-sm text-zinc-400">{desc}</span>
               </div>
             ))}

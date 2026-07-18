@@ -94,7 +94,7 @@ export function CommunityStrip({
                   <Link
                     key={join.id}
                     href={`/u/${join.id}`}
-                    className="flex shrink-0 items-center gap-2 border border-zinc-800 bg-surface-0 py-1.5 pl-1 pr-3 transition-colors hover:border-zinc-600 motion-safe:active:scale-[0.97]"
+                    className="flex shrink-0 items-center gap-2 border border-border bg-surface-0 py-1.5 pl-1 pr-3 transition-colors hover:border-border-strong motion-safe:active:scale-[0.97]"
                   >
                     <div className="flex h-7 w-7 shrink-0 items-center justify-center bg-surface-2 text-2xs font-bold text-zinc-300">
                       {`${join.first_name[0]}${join.last_name[0]}`.toUpperCase()}

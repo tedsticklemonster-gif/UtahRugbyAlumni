@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
             Legal
           </p>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight text-white">
+          <h1 className="mt-1 text-display text-3xl text-white">
             Privacy Policy
           </h1>
           <p className="mt-2 text-xs text-zinc-500">
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
 
         <div className="space-y-6 text-sm leading-relaxed text-zinc-300">
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Who we are
             </h2>
             <p>
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               What we collect
             </h2>
             <ul className="list-disc space-y-1.5 pl-5">
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               How we use it
             </h2>
             <p>
@@ -72,7 +72,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Who can see your info
             </h2>
             <p>
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Third parties
             </h2>
             <p>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Your choices
             </h2>
             <p>
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Changes
             </h2>
             <p>
@@ -123,7 +123,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Contact
             </h2>
             <p>

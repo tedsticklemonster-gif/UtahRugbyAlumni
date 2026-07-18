@@ -37,7 +37,7 @@ export function CopyForwardLink({ forwardToken }: { forwardToken?: string | null
 
   return (
     <div className="flex items-center gap-2">
-      <code className="flex-1 truncate rounded-lg border border-zinc-700 bg-surface-0 px-3 py-2 text-xs text-zinc-300">
+      <code className="flex-1 truncate rounded-full border border-border-strong bg-surface-0 px-3 py-2 text-xs text-zinc-300">
         {forwardUrl}
       </code>
       <button

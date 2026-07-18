@@ -227,7 +227,7 @@ export async function PeopleSection({
       {/* Full grid */}
       <div className="mt-8 px-5 pb-10 md:px-10">
         {alumni.length > 0 && (
-          <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-eyebrow mb-3">
             Everyone
           </h2>
         )}
@@ -259,7 +259,7 @@ function Rail({
       <div className="mb-2 flex items-center justify-between px-5 md:px-10">
         <div className="flex items-center gap-2">
           <Icon className={`size-4 ${tint}`} />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
+          <h2 className="text-eyebrow text-zinc-200">
             {title}
           </h2>
         </div>
@@ -289,11 +289,11 @@ function Rail({
 
 function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
-    <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 bg-surface-1/40 px-6 py-12 text-center">
+    <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-surface-1/40 px-6 py-12 text-center">
       <div className="flex size-14 items-center justify-center rounded-2xl bg-utah-red/15">
         <Users className="size-7 text-utah-red" />
       </div>
-      <h2 className="mt-4 text-lg font-bold text-white">
+      <h2 className="text-title-2 mt-4 text-white">
         {hasFilters ? "No matches" : "Be the first to show up here"}
       </h2>
       <p className="mt-2 max-w-sm text-sm text-zinc-400">

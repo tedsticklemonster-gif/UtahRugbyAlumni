@@ -105,7 +105,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
   return (
     <div className="flex h-[100dvh] flex-col bg-surface-0">
       {/* Header */}
-      <div className="flex shrink-0 items-center gap-3 border-b border-zinc-800 px-4 py-3">
+      <div className="flex shrink-0 items-center gap-3 border-b border-white/6 px-4 py-3">
         <Link href="/messages" className="text-zinc-500 hover:text-white">
           <ArrowLeft className="size-5" />
         </Link>
@@ -145,7 +145,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                       className={cn(
                         "rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                         isMe
-                          ? "rounded-br-sm bg-utah-red text-white"
+                          ? "rounded-br-sm bg-utah-red/90 text-white"
                           : "rounded-bl-sm bg-surface-2 text-zinc-100"
                       )}
                     >
@@ -160,7 +160,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                         />
                       )}
                     </div>
-                    <span className="px-1 text-2xs text-zinc-600">{timeOfDay(msg.created_at)}</span>
+                    <span className="text-caption px-1 text-2xs">{timeOfDay(msg.created_at)}</span>
                   </div>
                 </div>
               );
@@ -171,7 +171,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
       </div>
 
       {/* Input */}
-      <div className="shrink-0 border-t border-zinc-800 px-4 pb-safe pt-3 pb-4">
+      <div className="shrink-0 border-t border-white/6 px-4 pb-safe pt-3 pb-4">
         {error && <p className="mb-2 text-xs text-red-400">{error}</p>}
         <div className="flex items-end gap-2">
           <div className="flex-1 rounded-2xl border border-border-strong bg-surface-2 px-3 py-2">

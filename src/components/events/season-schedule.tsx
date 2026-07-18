@@ -53,7 +53,7 @@ export async function SeasonSchedule() {
           href={SCHEDULE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border-strong px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-white/25 hover:text-white"
         >
           View on utah-rugby.com
           <ExternalLink className="size-3.5" />

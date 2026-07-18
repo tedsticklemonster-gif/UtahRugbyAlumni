@@ -287,7 +287,7 @@ export function SignupForm() {
           onChange={(v) => setValue("industries", v)}
         />
 
-        <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-surface-0 p-3">
+        <div className="flex items-start gap-3 rounded-lg border border-border bg-surface-0 p-3">
           <Checkbox
             id="hiring"
             checked={hiring}
@@ -301,7 +301,7 @@ export function SignupForm() {
           </Label>
         </div>
 
-        <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-surface-0 p-3">
+        <div className="flex items-start gap-3 rounded-lg border border-border bg-surface-0 p-3">
           <Checkbox
             id="willing_to_mentor"
             checked={willingToMentor}

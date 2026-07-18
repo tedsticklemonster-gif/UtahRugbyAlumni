@@ -233,7 +233,7 @@ export function HomePage({
             <button
               onClick={loadMore}
               disabled={loading}
-              className="text-eyebrow w-full border border-zinc-800 bg-surface-0 py-3 text-2xs text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white disabled:opacity-40"
+              className="text-eyebrow w-full border border-border bg-surface-0 py-3 text-2xs text-zinc-400 transition-colors hover:border-border-strong hover:text-white disabled:opacity-40"
             >
               {loading ? "Loading…" : "Load More"}
             </button>

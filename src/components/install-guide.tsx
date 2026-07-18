@@ -193,7 +193,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
 
       {/* Sheet */}
-      <div className="relative w-full max-w-sm rounded-t-3xl bg-surface-1 border border-zinc-800 p-6 md:rounded-3xl">
+      <div className="relative w-full max-w-sm rounded-t-3xl bg-surface-1 border border-border p-6 md:rounded-3xl">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 rounded-full p-1 text-zinc-500 hover:text-white"
@@ -234,7 +234,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
           {step > 0 && (
             <button
               onClick={() => setStep(s => s - 1)}
-              className="flex items-center gap-1 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-400 hover:text-white"
+              className="flex items-center gap-1 rounded-full border border-border-strong px-4 py-2.5 text-sm font-semibold text-zinc-400 hover:text-white"
             >
               <ChevronLeft className="size-4" />
               Back

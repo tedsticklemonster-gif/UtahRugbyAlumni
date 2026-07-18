@@ -2,7 +2,13 @@ import type { NextConfig } from "next";
 import withSerwistInit from "@serwist/next";
 
 const nextConfig: NextConfig = {
+  // A stray lockfile in the home directory makes Turbopack infer the wrong
+  // workspace root (breaks CSS module resolution in dev). Pin it here.
+  turbopack: {
+    root: __dirname,
+  },
   images: {
+    qualities: [75, 90],
     remotePatterns: [
       {
         protocol: "https",

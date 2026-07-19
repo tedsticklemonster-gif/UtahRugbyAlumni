@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { TriangleAlert } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Error({
   error,
@@ -15,25 +17,21 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16 text-center">
-      <p className="text-4xl font-black text-zinc-700">!</p>
-      <h1 className="mt-3 text-xl font-black text-white">Something went wrong</h1>
-      <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
+    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center px-5 py-24 text-center">
+      <span className="mb-5 flex size-14 items-center justify-center rounded-full bg-destructive/15">
+        <TriangleAlert className="size-7 text-destructive" strokeWidth={1.5} aria-hidden />
+      </span>
+      <h1 className="text-title-1 text-white">Something went wrong</h1>
+      <p className="text-caption mt-2 max-w-xs leading-relaxed">
         An unexpected error occurred. Try again, or head back home.
       </p>
-      <div className="mt-6 flex gap-3">
-        <button
-          onClick={reset}
-          className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:border-zinc-500"
-        >
+      <div className="mt-7 flex gap-3">
+        <Button variant="outline" size="pill-lg" onClick={reset}>
           Try again
-        </button>
-        <Link
-          href="/"
-          className="rounded-xl bg-utah-red px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
-        >
+        </Button>
+        <Button size="pill-lg" render={<Link href="/" />}>
           Go home
-        </Link>
+        </Button>
       </div>
     </div>
   );

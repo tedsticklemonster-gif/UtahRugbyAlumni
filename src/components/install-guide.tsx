@@ -15,19 +15,19 @@ function ShareButtonVisual() {
   return (
     <div className="relative mx-auto w-[220px]">
       {/* Phone chrome */}
-      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-zinc-900">
+      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-surface-1">
         {/* Safari address bar */}
-        <div className="flex items-center gap-2 border-b border-zinc-700 bg-zinc-800 px-3 py-2">
+        <div className="flex items-center gap-2 border-b border-zinc-700 bg-surface-2 px-3 py-2">
           <div className="h-5 flex-1 rounded-md bg-zinc-700 px-2 flex items-center">
             <span className="text-3xs text-zinc-400 truncate">utah-rugby-alumni.vercel.app</span>
           </div>
         </div>
         {/* Page content preview */}
-        <div className="flex h-28 items-center justify-center bg-zinc-950">
+        <div className="flex h-28 items-center justify-center bg-surface-0">
           <div className="h-8 w-8 rounded-xl bg-white/10" />
         </div>
         {/* Safari bottom bar */}
-        <div className="flex items-center justify-around border-t border-zinc-700 bg-zinc-800 px-4 py-2">
+        <div className="flex items-center justify-around border-t border-zinc-700 bg-surface-2 px-4 py-2">
           <div className="text-zinc-500">←</div>
           <div className="text-zinc-500">→</div>
           {/* Share button — highlighted */}
@@ -54,10 +54,10 @@ function ShareButtonVisual() {
 function ShareSheetVisual() {
   return (
     <div className="relative mx-auto w-[220px]">
-      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-zinc-900">
-        <div className="h-16 bg-zinc-950" />
+      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-surface-1">
+        <div className="h-16 bg-surface-0" />
         {/* Share sheet sliding up */}
-        <div className="rounded-t-2xl bg-zinc-800 px-3 pt-3 pb-2">
+        <div className="rounded-t-2xl bg-surface-2 px-3 pt-3 pb-2">
           <div className="mb-2 h-1 w-8 rounded-full bg-zinc-600 mx-auto" />
           {/* App icons row */}
           <div className="mb-3 flex gap-2 overflow-x-hidden">
@@ -93,10 +93,10 @@ function ShareSheetVisual() {
 function NameConfirmVisual() {
   return (
     <div className="relative mx-auto w-[220px]">
-      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-zinc-900">
-        <div className="h-8 bg-zinc-950" />
+      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-surface-1">
+        <div className="h-8 bg-surface-0" />
         {/* Dialog */}
-        <div className="bg-zinc-800 px-4 pt-4 pb-3">
+        <div className="bg-surface-2 px-4 pt-4 pb-3">
           {/* Dialog title bar */}
           <div className="mb-3 flex items-center justify-between">
             <button className="text-3xs text-zinc-400">Cancel</button>
@@ -109,7 +109,7 @@ function NameConfirmVisual() {
           {/* Icon + name preview */}
           <div className="flex flex-col items-center gap-2 py-2">
             <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white">
-              <div className="text-2xs font-black text-utah-red">UU</div>
+              <div className="text-2xs font-bold text-utah-red">UU</div>
             </div>
             <div className="h-4 w-24 rounded bg-zinc-700 flex items-center justify-center">
               <span className="text-[7px] text-zinc-400">UU Rugby</span>
@@ -119,7 +119,7 @@ function NameConfirmVisual() {
             Tap <strong className="text-white">Add</strong> to save to home screen
           </p>
         </div>
-        <div className="h-8 bg-zinc-950" />
+        <div className="h-8 bg-surface-0" />
       </div>
     </div>
   );
@@ -128,17 +128,17 @@ function NameConfirmVisual() {
 function InstalledVisual() {
   return (
     <div className="relative mx-auto w-[220px]">
-      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-zinc-900">
+      <div className="overflow-hidden rounded-3xl border-4 border-zinc-700 bg-surface-1">
         {/* Home screen with app icon */}
-        <div className="flex h-48 flex-wrap content-start gap-3 bg-zinc-950 p-4">
+        <div className="flex h-48 flex-wrap content-start gap-3 bg-surface-0 p-4">
           {/* Other apps */}
           {[..."📱📷🎵📺"].map((e, i) => (
-            <div key={i} className="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-800 text-lg">{e}</div>
+            <div key={i} className="flex h-12 w-12 items-center justify-center rounded-xl bg-surface-2 text-lg">{e}</div>
           ))}
           {/* Our app — highlighted */}
           <div className="flex flex-col items-center gap-1">
             <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white ring-2 ring-utah-red ring-offset-1 ring-offset-zinc-950">
-              <div className="text-xs font-black text-utah-red">UU</div>
+              <div className="text-xs font-bold text-utah-red">UU</div>
               {/* Sparkle */}
               <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-utah-red text-[7px] font-bold text-white">✓</div>
             </div>
@@ -193,7 +193,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
 
       {/* Sheet */}
-      <div className="relative w-full max-w-sm rounded-t-3xl bg-zinc-900 border border-zinc-800 p-6 md:rounded-3xl">
+      <div className="relative w-full max-w-sm rounded-t-3xl bg-surface-1 border border-border p-6 md:rounded-3xl">
         <button
           onClick={onClose}
           className="absolute right-4 top-4 rounded-full p-1 text-zinc-500 hover:text-white"
@@ -217,7 +217,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
         <p className="mb-1 text-center text-2xs font-bold uppercase tracking-widest text-utah-red">
           Step {step + 1} of {STEPS.length}
         </p>
-        <h2 className="mb-4 text-center text-lg font-black text-white">
+        <h2 className="mb-4 text-center text-lg font-bold text-white">
           {current.title}
         </h2>
 
@@ -234,7 +234,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
           {step > 0 && (
             <button
               onClick={() => setStep(s => s - 1)}
-              className="flex items-center gap-1 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-400 hover:text-white"
+              className="flex items-center gap-1 rounded-full border border-border-strong px-4 py-2.5 text-sm font-semibold text-zinc-400 hover:text-white"
             >
               <ChevronLeft className="size-4" />
               Back
@@ -242,7 +242,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
           )}
           <button
             onClick={isLast ? onClose : () => setStep(s => s + 1)}
-            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-[#AA0000]"
+            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-utah-red/90"
           >
             {isLast ? "Done" : "Next"}
             {!isLast && <ChevronRight className="size-4" />}

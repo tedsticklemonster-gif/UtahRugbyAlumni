@@ -50,7 +50,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
   if (success) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center">
-        <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-emerald-900/50 text-emerald-400">
+        <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-success/15 text-success">
           <Check className="size-6" />
         </div>
         <p className="text-sm font-bold text-white">Event created!</p>
@@ -67,7 +67,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           placeholder="Event title"
           required
           maxLength={120}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 
@@ -75,7 +75,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
         <select
           name="kind"
           defaultValue="social"
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white focus:border-zinc-500 focus:outline-none"
         >
           {KIND_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
@@ -89,7 +89,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           placeholder="Details (optional)"
           rows={2}
           maxLength={1000}
-          className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full resize-none rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 
@@ -100,7 +100,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
             name="starts_at"
             type="datetime-local"
             required
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
           />
         </div>
         <div>
@@ -108,7 +108,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           <input
             name="ends_at"
             type="datetime-local"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
           />
         </div>
       </div>
@@ -119,7 +119,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           name="location"
           placeholder="Location (optional)"
           maxLength={200}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 
@@ -128,7 +128,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           name="cost"
           placeholder="Cost / ticket info (optional, e.g. $20, Free)"
           maxLength={100}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
         />
       </div>
 
@@ -138,7 +138,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           name="recurrence_rule"
           value={recurrence}
           onChange={(e) => setRecurrence(e.target.value)}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white focus:border-zinc-500 focus:outline-none"
+          className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white focus:border-zinc-500 focus:outline-none"
         >
           {RECURRENCE_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>{o.label}</option>
@@ -152,7 +152,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
           <input
             name="recurrence_end"
             type="date"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-xl border border-border-strong bg-surface-2 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none"
           />
         </div>
       )}
@@ -162,7 +162,7 @@ export function EventComposer({ onSuccess }: { onSuccess?: () => void }) {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+        className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-50"
       >
         {pending ? "Creating…" : "Create Event"}
       </button>

@@ -7,7 +7,7 @@ export const metadata = {
 export default function ImportPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight mb-6">CSV Import</h1>
+      <h1 className="text-title-1 mb-6">CSV Import</h1>
       <CsvImportWizard />
     </div>
   );

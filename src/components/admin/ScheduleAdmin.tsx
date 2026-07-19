@@ -58,7 +58,7 @@ function GameForm({
             name="opponent"
             defaultValue={game?.opponent ?? ""}
             required
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
             placeholder="e.g. BYU Cougars"
           />
         </div>
@@ -71,7 +71,7 @@ function GameForm({
             type="datetime-local"
             defaultValue={game?.game_date ? formatLocalDatetime(game.game_date) : ""}
             required
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
           />
         </div>
         <div>
@@ -81,7 +81,7 @@ function GameForm({
           <select
             name="location"
             defaultValue={game?.location ?? "Home"}
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
           >
             <option value="Home">Home</option>
             <option value="Away">Away</option>
@@ -95,7 +95,7 @@ function GameForm({
           <select
             name="result"
             defaultValue={game?.result ?? ""}
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
           >
             <option value="">Not played yet</option>
             <option value="Win">Win</option>
@@ -110,7 +110,7 @@ function GameForm({
           <input
             name="score"
             defaultValue={game?.score ?? ""}
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
             placeholder="e.g. 34-12"
           />
         </div>
@@ -121,7 +121,7 @@ function GameForm({
           <input
             name="man_of_match"
             defaultValue={game?.man_of_match ?? ""}
-            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
             placeholder="e.g. John Smith"
           />
         </div>
@@ -134,7 +134,7 @@ function GameForm({
         <input
           name="notes"
           defaultValue={game?.notes ?? ""}
-          className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+          className="w-full rounded-lg border bg-background px-3 py-2 text-sm"
           placeholder="Optional notes (e.g. tournament name)"
         />
       </div>
@@ -150,7 +150,7 @@ function GameForm({
         <button
           type="button"
           onClick={onDone}
-          className="rounded-md border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+          className="rounded-lg border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
         >
           Cancel
         </button>
@@ -212,9 +212,9 @@ export function ScheduleAdmin({ games }: { games: ScheduleGame[] }) {
               <span
                 className={`ml-2 inline-block rounded px-1.5 py-0.5 text-2xs font-bold uppercase ${
                   g.result === "Win"
-                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                    ? "bg-success/12 text-success"
                     : g.result === "Draw"
-                      ? "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                      ? "bg-zinc-100 text-zinc-700 dark:bg-surface-2 dark:text-zinc-300"
                       : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                 }`}
               >

@@ -61,9 +61,9 @@ export function NotificationSettings({
   return (
     <div className="space-y-6">
       {/* Telegram — primary notification channel */}
-      <div className="rounded-xl border border-[#26A5E4]/30 bg-[#26A5E4]/5 p-4">
+      <div className="rounded-xl border border-telegram/30 bg-telegram/5 p-4">
         <div className="flex items-start gap-3">
-          <TelegramIcon className="size-8 shrink-0 text-[#26A5E4]" />
+          <TelegramIcon className="size-8 shrink-0 text-telegram" />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-bold text-white">Telegram Channel</p>
             <p className="mt-0.5 text-xs text-zinc-400">
@@ -74,7 +74,7 @@ export function NotificationSettings({
               href={TELEGRAM_INVITE}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-2 rounded-lg bg-[#26A5E4] px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-[#1E96D1]"
+              className="mt-3 inline-flex items-center gap-2 rounded-lg bg-telegram px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-telegram/85"
             >
               Join Channel
               <ExternalLink className="size-3" />
@@ -90,7 +90,7 @@ export function NotificationSettings({
           {PREF_OPTIONS.map(({ key, label, desc, icon: Icon }) => (
             <label
               key={key}
-              className="flex items-center justify-between gap-3 rounded-xl p-3 hover:bg-zinc-900 transition-colors cursor-pointer"
+              className="flex items-center justify-between gap-3 rounded-xl p-3 hover:bg-surface-1 transition-colors cursor-pointer"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Icon className="size-4 shrink-0 text-zinc-500" />
@@ -123,7 +123,7 @@ export function NotificationSettings({
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000] disabled:opacity-50"
+          className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-50"
         >
           {saving ? "Saving\u2026" : saved ? "Saved!" : "Save Preferences"}
         </button>

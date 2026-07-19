@@ -34,17 +34,17 @@ export default async function ThanksPage() {
     // Not logged in yet — use generic link
   }
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Red accent bar */}
       <div className="h-1.5 bg-utah-red" />
 
       <div className="mx-auto max-w-xl px-5 py-8 md:px-10">
         {/* Hero */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15">
-            <CheckCircle2 className="size-8 text-emerald-400" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success/15">
+            <CheckCircle2 className="size-8 text-success" />
           </div>
-          <h1 className="text-3xl font-black tracking-tight text-white">
+          <h1 className="text-display text-3xl text-white">
             You&rsquo;re in.
           </h1>
           <p className="mt-2 text-sm text-zinc-400">
@@ -53,7 +53,7 @@ export default async function ThanksPage() {
         </div>
 
         {/* Step 1 — verify email */}
-        <div className="mb-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-3 surface-card p-5">
           <div className="flex items-start gap-3">
             <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-utah-red/15">
               <Mail className="size-4 text-utah-red" />
@@ -75,13 +75,13 @@ export default async function ThanksPage() {
         </div>
 
         {/* Step 2 — share with teammates */}
-        <div className="mb-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-3 surface-card p-5">
           <div className="flex items-start gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-sky-500/15">
-              <Share2 className="size-4 text-sky-400" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-info/15">
+              <Share2 className="size-4 text-info" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-sky-400">
+              <p className="text-2xs font-bold uppercase tracking-widest text-info">
                 Step 2
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -100,13 +100,13 @@ export default async function ThanksPage() {
         </div>
 
         {/* Step 3 — explore */}
-        <div className="mb-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-8 surface-card p-5">
           <div className="flex items-start gap-3">
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-              <Users className="size-4 text-amber-400" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-warning/15">
+              <Users className="size-4 text-warning" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-amber-400">
+              <p className="text-2xs font-bold uppercase tracking-widest text-warning">
                 Step 3
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -118,7 +118,7 @@ export default async function ThanksPage() {
               </p>
               <Link
                 href="/network"
-                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+                className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
               >
                 Browse Directory
                 <ArrowRight className="size-4" />

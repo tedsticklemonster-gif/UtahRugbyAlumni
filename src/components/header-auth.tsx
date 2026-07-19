@@ -31,10 +31,10 @@ function TelegramLink() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Join our Telegram channel"
-      className="flex h-9 items-center gap-1.5 rounded-lg px-2 text-[#26A5E4] transition-colors hover:bg-zinc-800"
+      className="flex h-9 items-center gap-1.5 rounded-full px-2 text-telegram transition-colors hover:bg-surface-2"
     >
       <TelegramIcon className="size-5 shrink-0" />
-      <span className="hidden text-xs font-extrabold uppercase tracking-wider md:inline">
+      <span className="hidden text-sm font-medium md:inline">
         Telegram
       </span>
     </a>
@@ -83,9 +83,9 @@ function AvatarMenu() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-44 rounded-xl border border-zinc-800 bg-zinc-950 shadow-xl shadow-black/50 overflow-hidden z-50">
+        <div className="absolute right-0 top-full mt-2 w-44 rounded-2xl border border-border-subtle bg-surface-3 shadow-overlay overflow-hidden z-50">
           {/* User info header */}
-          <div className="border-b border-zinc-800 px-3 py-2.5">
+          <div className="border-b border-white/8 px-3 py-2.5">
             <p className="text-xs font-bold text-white truncate">
               {me.first_name} {me.last_name}
             </p>
@@ -95,7 +95,7 @@ function AvatarMenu() {
             <Link
               href="/me"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+              className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-300 hover:bg-white/6 hover:text-white transition-colors"
             >
               <User className="size-4 text-zinc-500" />
               My Profile
@@ -104,7 +104,7 @@ function AvatarMenu() {
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-sm text-zinc-300 hover:bg-white/6 hover:text-white transition-colors"
               >
                 <LogOut className="size-4 text-zinc-500" />
                 Sign Out
@@ -121,7 +121,7 @@ export function HeaderAuth() {
   const { me, loading } = useMe();
 
   if (loading) {
-    return <div className="h-8 w-20 animate-pulse rounded-lg bg-zinc-800" />;
+    return <div className="h-8 w-20 animate-pulse rounded-full bg-surface-2" />;
   }
 
   if (me) {
@@ -141,14 +141,14 @@ export function HeaderAuth() {
       <InstallAppButton />
       <Link
         href="/auth/login"
-        className="flex h-9 items-center gap-1 whitespace-nowrap rounded-lg px-2 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"
+        className="flex h-9 items-center gap-1 whitespace-nowrap rounded-full px-2 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"
       >
         <LogIn className="hidden size-4 shrink-0 sm:block" />
         <span>Sign In</span>
       </Link>
       <Link
         href="/join"
-        className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-lg bg-utah-red px-3.5 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="flex h-9 shrink-0 items-center whitespace-nowrap rounded-full bg-utah-red px-4 text-sm font-semibold text-white shadow-card transition-colors hover:bg-utah-red/90"
       >
         Join
       </Link>

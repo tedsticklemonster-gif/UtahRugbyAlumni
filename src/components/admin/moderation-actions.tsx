@@ -29,7 +29,7 @@ export function ModerationActions({ reportId }: { reportId: string }) {
       <button
         onClick={() => handle("reviewed")}
         disabled={pending}
-        className="flex size-8 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400 hover:bg-zinc-700 transition-colors disabled:opacity-50"
+        className="flex size-8 items-center justify-center rounded-lg bg-surface-2 text-zinc-400 hover:bg-zinc-700 transition-colors disabled:opacity-50"
         title="Mark reviewed"
       >
         <Eye className="size-4" />
@@ -37,7 +37,7 @@ export function ModerationActions({ reportId }: { reportId: string }) {
       <button
         onClick={() => handle("dismissed")}
         disabled={pending}
-        className="flex size-8 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400 hover:bg-zinc-700 transition-colors disabled:opacity-50"
+        className="flex size-8 items-center justify-center rounded-lg bg-surface-2 text-zinc-400 hover:bg-zinc-700 transition-colors disabled:opacity-50"
         title="Dismiss"
       >
         <X className="size-4" />

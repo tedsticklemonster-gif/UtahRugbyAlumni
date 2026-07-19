@@ -86,7 +86,7 @@ export function PushSubscribe() {
     <button
       onClick={state === "subscribed" ? unsubscribe : subscribe}
       disabled={state === "loading"}
-      className="flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-400 transition-colors hover:border-zinc-500 hover:text-white disabled:opacity-50"
+      className="flex items-center gap-2 rounded-full border border-border-strong px-4 py-2.5 text-sm font-semibold text-zinc-400 transition-colors hover:border-white/25 hover:text-white disabled:opacity-50"
     >
       {state === "subscribed" ? (
         <>

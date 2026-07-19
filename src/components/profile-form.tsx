@@ -135,7 +135,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
           </div>
         )}
         {state.success && (
-          <div className="rounded-md bg-emerald-950 border border-emerald-800 p-3 text-sm text-emerald-300">
+          <div className="rounded-md bg-success/10 border border-success/30 p-3 text-sm text-success">
             Profile updated!
           </div>
         )}
@@ -261,7 +261,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
         </div>
 
         {/* Professional availability */}
-        <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4 space-y-4">
+        <div className="rounded-xl border border-border bg-surface-0/60 p-4 space-y-4">
           <div>
             <p className="text-sm font-bold text-white">Career signal</p>
             <p className="mt-0.5 text-xs text-zinc-400">
@@ -274,7 +274,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             <select
               id="availability"
               {...register("availability")}
-              className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
+              className="flex h-10 w-full rounded-md border border-border-strong bg-surface-1 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
             >
               {AVAILABILITY_VALUES.map((v) => (
                 <option key={v} value={v}>
@@ -308,7 +308,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             onChange={(v) => setValue("industries", v, { shouldDirty: true })}
           />
 
-          <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-black/40 p-3">
+          <div className="flex items-start gap-3 rounded-lg border border-border bg-black/40 p-3">
             <Checkbox
               id="hiring"
               checked={hiring}
@@ -324,7 +324,7 @@ export function ProfileForm({ alumni }: { alumni: Alumni }) {
             </Label>
           </div>
 
-          <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-black/40 p-3">
+          <div className="flex items-start gap-3 rounded-lg border border-border bg-black/40 p-3">
             <Checkbox
               id="willing_to_mentor"
               checked={willingToMentor}

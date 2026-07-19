@@ -61,25 +61,25 @@ function ribbonStyles(r: RibbonKind) {
       return {
         label: "Hiring",
         icon: Hammer,
-        className: "bg-sky-500 text-white",
+        className: "bg-info/90 text-white",
       };
     case "open_to_work":
       return {
         label: "Open to work",
         icon: Sparkles,
-        className: "bg-emerald-500 text-white",
+        className: "bg-success/90 text-zinc-950",
       };
     case "self_employed":
       return {
         label: "Self-employed",
         icon: Briefcase,
-        className: "bg-fuchsia-500 text-white",
+        className: "bg-black/55 text-white backdrop-blur",
       };
     case "mentor":
       return {
         label: "Mentor",
         icon: Handshake,
-        className: "bg-amber-500 text-zinc-950",
+        className: "bg-warning/90 text-zinc-950",
       };
     default:
       return null;
@@ -117,7 +117,7 @@ export function AlumniCard({
   const clickable = Boolean(alumniId && !isGated);
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-sm transition-all hover:border-zinc-700 hover:shadow-lg">
+    <article className="surface-card group relative flex flex-col overflow-hidden transition-[border-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-0.5 hover:border-border-strong hover:shadow-raised active:translate-y-0 active:scale-[0.99]">
       {/* Overlay link instead of wrapping the card in an <a> — the Message
           action is also a link, and nested anchors are invalid HTML (breaks hydration) */}
       {clickable && (
@@ -129,7 +129,7 @@ export function AlumniCard({
       )}
       {/* Photo area — 4:5 portrait for that Instagram grid feel */}
       <SponsorHalo tier={sponsorTier ?? null} size="md" rounded="rounded-xl">
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-950">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-0">
         <UserPhoto
           src={isGated ? null : photoUrl ?? null}
           alt={`${firstName} ${lastName}`}
@@ -144,7 +144,7 @@ export function AlumniCard({
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5">
           {ribbonCfg ? (
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-black uppercase tracking-wider shadow-sm ${ribbonCfg.className}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-semibold shadow-sm ${ribbonCfg.className}`}
             >
               <ribbonCfg.icon className="size-3" />
               {ribbonCfg.label}
@@ -157,19 +157,19 @@ export function AlumniCard({
               className="inline-flex items-center gap-0.5 rounded-full bg-black/60 px-1.5 py-0.5 text-2xs font-semibold text-white backdrop-blur"
               title="Verified alumnus"
             >
-              <BadgeCheck className="size-3 text-sky-400" />
+              <BadgeCheck className="size-3 text-info" />
             </span>
           )}
         </div>
 
         {/* Bottom gradient + name */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-10">
-          <p className="text-base font-black leading-tight text-white drop-shadow-md">
+          <p className="text-display text-[1.0625rem] leading-tight text-white drop-shadow-md">
             {firstName} {lastName}
           </p>
           <div className="mt-1 flex flex-wrap items-center gap-1">
             {gradYear && (
-              <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white">
+              <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white">
                 &rsquo;{String(gradYear).slice(-2)}
               </span>
             )}
@@ -208,7 +208,7 @@ export function AlumniCard({
             {topServices.map((s) => (
               <span
                 key={s}
-                className="rounded-md border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 text-2xs font-medium text-zinc-300"
+                className="rounded-md bg-surface-2 px-1.5 py-0.5 text-2xs font-medium text-zinc-300"
               >
                 {s}
               </span>
@@ -225,7 +225,7 @@ export function AlumniCard({
             <Link
               href={`/messages/${alumniId}`}
               onClick={(e) => e.stopPropagation()}
-              className="relative z-10 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-2.5 py-1 text-xs font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
+              className="relative z-10 inline-flex items-center gap-1 rounded-full border border-border-strong px-2.5 py-1 text-xs font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
             >
               <MessageCircle className="size-3" />
               Message

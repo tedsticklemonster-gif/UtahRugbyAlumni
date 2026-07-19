@@ -13,7 +13,7 @@ export function NextGameCard({ game, nowMs }: { game: Game | null; nowMs: number
     <div className="px-4 pt-5">
       <Link
         href="/events?tab=season"
-        className="group flex items-stretch gap-4 border border-zinc-800 bg-zinc-950 p-4 transition-colors hover:border-zinc-600"
+        className="group flex items-stretch gap-4 border border-border bg-surface-0 p-4 transition-colors hover:border-border-strong"
       >
         <div className="flex shrink-0 flex-col items-center justify-center border-r border-zinc-900 pr-4">
           <p className="text-eyebrow text-3xs text-zinc-500">{d.weekday}</p>

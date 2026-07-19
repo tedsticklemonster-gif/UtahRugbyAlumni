@@ -52,9 +52,9 @@ export default async function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Page header */}
-      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+      <div className="border-b border-white/6 px-5 py-4 md:px-10">
         <div className="flex items-center justify-between">
           <Link
             href="/"
@@ -71,7 +71,7 @@ export default async function ProfilePage() {
             </button>
           </form>
         </div>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-white">My Profile</h1>
+        <h1 className="mt-3 text-title-1 text-white">My Profile</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Manage your info and privacy settings.
         </p>
@@ -94,7 +94,7 @@ export default async function ProfilePage() {
               }
             />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-black text-zinc-300">
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-bold text-zinc-300">
               {alumni.first_name[0]}{alumni.last_name[0]}
             </div>
           )}
@@ -110,7 +110,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Impact summary — donor tier + referrals */}
-        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-6 surface-card p-5">
           <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your Impact
           </p>
@@ -121,7 +121,7 @@ export default async function ProfilePage() {
                 <Users className="size-5 text-utah-red" />
               </div>
               <div>
-                <p className="text-xl font-black tabular-nums text-white">{totalReferrals}</p>
+                <p className="text-xl font-bold tabular-nums text-white">{totalReferrals}</p>
                 <p className="text-xs text-zinc-500">
                   {totalReferrals === 1 ? "teammate" : "teammates"} gathered
                 </p>
@@ -129,11 +129,11 @@ export default async function ProfilePage() {
             </div>
             {/* Donor tier */}
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-500/15">
-                <Trophy className="size-5 text-amber-400" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-warning/15">
+                <Trophy className="size-5 text-warning" />
               </div>
               <div>
-                <p className="text-xl font-black text-white">
+                <p className="text-xl font-bold text-white">
                   {alumni.sponsor_tier
                     ? TIER_LABELS[alumni.sponsor_tier as keyof typeof TIER_LABELS]
                     : "—"}
@@ -149,7 +149,7 @@ export default async function ProfilePage() {
           <div className="mt-4">
             <Link
               href="/thanks"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-utah-red/90"
             >
               <Share2 className="size-3.5" />
               Share your forward link
@@ -158,7 +158,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Notifications */}
-        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-6 surface-card p-5">
           <div className="flex items-center justify-between mb-3">
             <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
               Notifications
@@ -175,7 +175,7 @@ export default async function ProfilePage() {
         </div>
 
         {/* Profile form */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="surface-card p-5">
           <p className="mb-4 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your information
           </p>

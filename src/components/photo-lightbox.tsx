@@ -31,7 +31,7 @@ export function PhotoLightbox({ src, alt, trigger }: PhotoLightboxProps) {
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-800 text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
+            className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-surface-2 text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
             aria-label="Close"
           >
             <X className="size-5" />

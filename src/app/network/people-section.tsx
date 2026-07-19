@@ -180,7 +180,7 @@ export async function PeopleSection({
             <Rail
               title="Hiring now"
               icon={Hammer}
-              tint="text-sky-400"
+              tint="text-info"
               href="/network?hiring=1"
             >
               {hiringRail.map(renderCard)}
@@ -190,7 +190,7 @@ export async function PeopleSection({
             <Rail
               title="Open to work"
               icon={Sparkles}
-              tint="text-emerald-400"
+              tint="text-success"
               href="/network?availability=open_to_work"
             >
               {openToWorkRail.map(renderCard)}
@@ -200,7 +200,7 @@ export async function PeopleSection({
             <Rail
               title="Self-employed"
               icon={Briefcase}
-              tint="text-fuchsia-400"
+              tint="text-zinc-300"
               href="/network?availability=self_employed"
             >
               {selfEmployedRail.map(renderCard)}
@@ -210,7 +210,7 @@ export async function PeopleSection({
             <Rail
               title="Open to mentoring"
               icon={Handshake}
-              tint="text-amber-400"
+              tint="text-warning"
               href="/network?mentor=1"
             >
               {mentorRail.map(renderCard)}
@@ -227,7 +227,7 @@ export async function PeopleSection({
       {/* Full grid */}
       <div className="mt-8 px-5 pb-10 md:px-10">
         {alumni.length > 0 && (
-          <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-zinc-400">
+          <h2 className="text-eyebrow mb-3">
             Everyone
           </h2>
         )}
@@ -259,7 +259,7 @@ function Rail({
       <div className="mb-2 flex items-center justify-between px-5 md:px-10">
         <div className="flex items-center gap-2">
           <Icon className={`size-4 ${tint}`} />
-          <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-200">
+          <h2 className="text-eyebrow text-zinc-200">
             {title}
           </h2>
         </div>
@@ -289,11 +289,11 @@ function Rail({
 
 function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
   return (
-    <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-800 bg-zinc-900/40 px-6 py-12 text-center">
+    <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-surface-1/40 px-6 py-12 text-center">
       <div className="flex size-14 items-center justify-center rounded-2xl bg-utah-red/15">
         <Users className="size-7 text-utah-red" />
       </div>
-      <h2 className="mt-4 text-lg font-black text-white">
+      <h2 className="text-title-2 mt-4 text-white">
         {hasFilters ? "No matches" : "Be the first to show up here"}
       </h2>
       <p className="mt-2 max-w-sm text-sm text-zinc-400">
@@ -303,7 +303,7 @@ function PeopleEmptyState({ hasFilters }: { hasFilters: boolean }) {
       </p>
       <Link
         href="/thanks"
-        className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#AA0000]"
+        className="mt-5 inline-flex items-center gap-1.5 rounded-xl bg-utah-red px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-utah-red/90"
       >
         <UserPlus className="size-4" />
         Invite a teammate

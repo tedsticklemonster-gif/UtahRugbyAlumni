@@ -195,7 +195,7 @@ export function CampaignForm({ mode, campaign }: CampaignFormProps) {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, starts_at: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-sm"
+                  className="mt-1 w-full rounded-lg border bg-background px-3 py-1.5 text-sm"
                 />
               </div>
               <div>
@@ -207,7 +207,7 @@ export function CampaignForm({ mode, campaign }: CampaignFormProps) {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, ends_at: e.target.value }))
                   }
-                  className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-sm"
+                  className="mt-1 w-full rounded-lg border bg-background px-3 py-1.5 text-sm"
                 />
               </div>
             </div>

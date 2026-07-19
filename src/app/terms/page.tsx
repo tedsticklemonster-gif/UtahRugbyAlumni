@@ -9,7 +9,7 @@ const CONTACT = "richmwhite@gmail.com";
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="h-1.5 bg-utah-red" />
 
       <div className="mx-auto max-w-2xl px-5 py-10 md:px-10">
@@ -17,7 +17,7 @@ export default function TermsPage() {
           <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
             Legal
           </p>
-          <h1 className="mt-1 text-3xl font-black tracking-tight text-white">
+          <h1 className="mt-1 text-display text-3xl text-white">
             Terms of Service
           </h1>
           <p className="mt-2 text-xs text-zinc-500">
@@ -27,7 +27,7 @@ export default function TermsPage() {
 
         <div className="space-y-6 text-sm leading-relaxed text-zinc-300">
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               The deal
             </h2>
             <p>
@@ -39,7 +39,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Who can join
             </h2>
             <p>
@@ -50,7 +50,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Your account
             </h2>
             <p>
@@ -61,7 +61,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Be cool
             </h2>
             <p>
@@ -76,7 +76,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Your content
             </h2>
             <p>
@@ -87,7 +87,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               No warranties
             </h2>
             <p>
@@ -99,7 +99,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Ending it
             </h2>
             <p>
@@ -115,7 +115,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Changes
             </h2>
             <p>
@@ -126,7 +126,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="mb-2 text-base font-bold text-white">
+            <h2 className="text-title-2 mb-2 text-white">
               Contact
             </h2>
             <p>

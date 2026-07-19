@@ -106,7 +106,7 @@ export function ReactionPicker({ postId, myAlumniId, myReaction, reactions, onOp
     <div className="relative" ref={pickerRef}>
       {/* Emoji picker popup */}
       {open && (
-        <div className="absolute bottom-10 left-0 z-50 flex gap-1 rounded-2xl border border-zinc-700 bg-zinc-900 px-2 py-1.5 shadow-xl">
+        <div className="absolute bottom-10 left-0 z-50 flex gap-1 rounded-2xl border border-border-strong bg-surface-1 px-2 py-1.5 shadow-xl">
           {EMOJIS.map(({ key, glyph, label }) => (
             <button
               key={key}

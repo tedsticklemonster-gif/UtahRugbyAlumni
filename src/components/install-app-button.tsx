@@ -45,10 +45,10 @@ export function InstallAppButton() {
       <button
         onClick={handleClick}
         aria-label="Install app to home screen"
-        className="flex h-9 items-center gap-1.5 rounded-lg px-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+        className="flex h-9 items-center gap-1.5 rounded-lg px-2 text-zinc-400 transition-colors hover:bg-surface-2 hover:text-white"
       >
         <ArrowDownToLine className="size-[18px] shrink-0" />
-        <span className="hidden text-xs font-extrabold uppercase tracking-wider md:inline">
+        <span className="hidden text-sm font-medium md:inline">
           App
         </span>
       </button>

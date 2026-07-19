@@ -18,7 +18,7 @@ export function EventPhotoGallery({
   if (photos.length === 0) return null;
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+    <div className="surface-card p-4">
       <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
         Photos ({photos.length})
       </p>
@@ -51,7 +51,7 @@ function PhotoTile({ photo, canDelete }: { photo: EventPhoto; canDelete: boolean
   }
 
   return (
-    <div className="group relative aspect-square overflow-hidden rounded-lg bg-zinc-800">
+    <div className="group relative aspect-square overflow-hidden rounded-lg bg-surface-2">
       <PhotoLightbox
         src={photo.signed_url}
         alt={photo.caption ?? `Photo by ${photo.first_name}`}

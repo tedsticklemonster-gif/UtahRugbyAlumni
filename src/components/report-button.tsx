@@ -46,7 +46,7 @@ export function ReportButton({
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
-          <div className="relative w-full max-w-sm rounded-t-2xl sm:rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+          <div className="relative w-full max-w-sm rounded-t-2xl sm:surface-card p-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-bold text-white">Report Content</h3>
               <button onClick={() => setOpen(false)} className="text-zinc-500 hover:text-white">
@@ -56,7 +56,7 @@ export function ReportButton({
 
             {submitted ? (
               <div className="py-6 text-center">
-                <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-emerald-900/50 text-emerald-400">
+                <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-success/15 text-success">
                   <Check className="size-6" />
                 </div>
                 <p className="text-sm font-bold text-white">Report submitted</p>
@@ -66,7 +66,7 @@ export function ReportButton({
               <div className="space-y-3">
                 <div className="space-y-1">
                   {REASONS.map(({ value, label }) => (
-                    <label key={value} className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-colors ${reason === value ? "bg-zinc-800" : "hover:bg-zinc-800/50"}`}>
+                    <label key={value} className={`flex items-center gap-3 rounded-lg px-3 py-2 cursor-pointer transition-colors ${reason === value ? "bg-surface-2" : "hover:bg-surface-2/50"}`}>
                       <input
                         type="radio"
                         name="reason"
@@ -85,12 +85,12 @@ export function ReportButton({
                   placeholder="Additional details (optional)"
                   rows={2}
                   maxLength={500}
-                  className="w-full resize-none rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none"
+                  className="w-full resize-none rounded-xl border border-border-strong bg-surface-2 px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none"
                 />
                 <button
                   onClick={handleSubmit}
                   disabled={pending}
-                  className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-[#AA0000] disabled:opacity-50"
+                  className="w-full rounded-xl bg-utah-red py-2.5 text-sm font-bold text-white hover:bg-utah-red/90 disabled:opacity-50"
                 >
                   {pending ? "Submitting..." : "Submit Report"}
                 </button>

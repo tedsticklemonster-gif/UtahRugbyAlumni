@@ -19,7 +19,7 @@ export default async function AccessPage() {
   if (error) {
     return (
       <div>
-        <h1 className="text-2xl font-bold tracking-tight mb-6">Access</h1>
+        <h1 className="text-title-1 mb-6">Access</h1>
         <p className="text-destructive">{error}</p>
       </div>
     );
@@ -27,7 +27,7 @@ export default async function AccessPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight mb-6">Access</h1>
+      <h1 className="text-title-1 mb-6">Access</h1>
       <p className="text-sm text-muted-foreground mb-4">
         Grant or revoke admin access for verified alumni. Admins can manage the
         roster, send emails, and import data.

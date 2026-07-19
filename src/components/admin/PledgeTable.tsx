@@ -177,7 +177,7 @@ export function PledgeTable({ pledges: initial, campaignId }: PledgeTableProps) 
 
       {error && <p className="text-xs text-destructive">{error}</p>}
 
-      <div className="rounded-md border overflow-x-auto">
+      <div className="rounded-lg border overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b bg-muted/50">
@@ -316,7 +316,7 @@ export function PledgeTable({ pledges: initial, campaignId }: PledgeTableProps) 
               id="pay-method"
               value={paymentMethod}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-sm"
+              className="mt-1 w-full rounded-lg border bg-background px-3 py-1.5 text-sm"
             >
               {PAYMENT_METHODS.map((m) => (
                 <option key={m.value} value={m.value}>

@@ -48,7 +48,7 @@ export default async function EmailMetricsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight mb-6">Email Metrics</h1>
+      <h1 className="text-title-1 mb-6">Email Metrics</h1>
 
       {/* Campaign summary */}
       <div className="grid gap-4 sm:grid-cols-3 mb-8">
@@ -72,15 +72,15 @@ export default async function EmailMetricsPage() {
               <CardContent>
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div>
-                    <p className="text-lg font-bold">{stats.sent}</p>
+                    <p className="text-stat text-lg">{stats.sent}</p>
                     <p className="text-xs text-muted-foreground">Sent</p>
                   </div>
                   <div>
-                    <p className="text-lg font-bold">{openRate}%</p>
+                    <p className="text-stat text-lg">{openRate}%</p>
                     <p className="text-xs text-muted-foreground">Opened</p>
                   </div>
                   <div>
-                    <p className="text-lg font-bold">{clickRate}%</p>
+                    <p className="text-stat text-lg">{clickRate}%</p>
                     <p className="text-xs text-muted-foreground">Clicked</p>
                   </div>
                 </div>
@@ -97,7 +97,7 @@ export default async function EmailMetricsPage() {
 
       {/* Per-recipient detail */}
       <h2 className="text-lg font-semibold mb-3">Recent Sends</h2>
-      <div className="rounded-md border">
+      <div className="rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>

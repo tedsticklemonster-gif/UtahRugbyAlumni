@@ -108,13 +108,13 @@ export default async function CampaignDetailPage({
           <div className="relative h-3 w-full rounded-full bg-muted overflow-hidden">
             {pledgedPct !== null && pledgedPct > 0 && (
               <div
-                className="absolute inset-y-0 left-0 rounded-full bg-emerald-200 dark:bg-emerald-900 transition-all"
+                className="absolute inset-y-0 left-0 rounded-full bg-success/25 transition-all"
                 style={{ width: `${pledgedPct}%` }}
               />
             )}
             {paidPct !== null && paidPct > 0 && (
               <div
-                className="absolute inset-y-0 left-0 rounded-full bg-emerald-500 transition-all"
+                className="absolute inset-y-0 left-0 rounded-full bg-success transition-all"
                 style={{ width: `${paidPct}%` }}
               />
             )}

@@ -41,11 +41,11 @@ export function RsvpChips({
               "flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
               active
                 ? value === "going"
-                  ? "bg-emerald-600 text-white"
+                  ? "bg-success text-zinc-950"
                   : value === "maybe"
-                  ? "bg-amber-600 text-white"
+                  ? "bg-warning text-zinc-950"
                   : "bg-zinc-600 text-white"
-                : "border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200"
+                : "border border-border-strong text-zinc-400 hover:border-white/25 hover:text-zinc-200"
             )}
           >
             <Icon className="size-3" />

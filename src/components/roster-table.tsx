@@ -51,7 +51,7 @@ function formatMoney(cents: number): string {
 }
 
 const tierColors: Record<string, string> = {
-  gold: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
+  gold: "bg-warning/12 text-warning",
   silver: "bg-zinc-200 text-zinc-700 dark:bg-zinc-700/50 dark:text-zinc-300",
   bronze: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400",
 };
@@ -168,7 +168,7 @@ export function RosterTable({
           onClick={() => setStaleDays(staleDays === 90 ? null : 90)}
           className={`h-8 rounded-full px-3 text-xs font-medium transition-colors border ${
             staleDays === 90
-              ? "bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-700"
+              ? "bg-warning/12 text-warning border-warning/30"
               : "bg-background text-muted-foreground hover:text-foreground"
           }`}
         >

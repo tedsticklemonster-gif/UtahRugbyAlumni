@@ -19,14 +19,13 @@ export function ErrorState({
   return (
     <div
       role="alert"
-      className={cn(
-        "rounded-xl border border-destructive/30 bg-destructive/10 px-6 py-8 text-center",
-        className
-      )}
+      className={cn("surface-card px-6 py-10 text-center", className)}
     >
-      <TriangleAlert className="mx-auto mb-3 size-6 text-destructive" aria-hidden />
-      <p className="text-sm font-semibold text-zinc-200">{title}</p>
-      {description && <p className="mt-1 text-sm text-zinc-500">{description}</p>}
+      <span className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-destructive/15">
+        <TriangleAlert className="size-6 text-destructive" aria-hidden />
+      </span>
+      <p className="text-card-title text-zinc-100">{title}</p>
+      {description && <p className="text-caption mt-1.5">{description}</p>}
       {onRetry && (
         <Button variant="outline" size="sm" className="mt-4" onClick={onRetry}>
           Try again

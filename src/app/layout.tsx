@@ -1,20 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Barlow, Barlow_Condensed } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
 import { InstallPrompt } from "@/components/install-prompt";
 import "./globals.css";
 
-const barlow = Barlow({
-  variable: "--font-barlow",
+const inter = Inter({
+  variable: "--font-app-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
-const barlowCondensed = Barlow_Condensed({
-  variable: "--font-barlow-condensed",
+const fraunces = Fraunces({
+  variable: "--font-app-display",
   subsets: ["latin"],
-  weight: ["700", "800", "900"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -65,7 +64,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlow.variable} ${barlowCondensed.variable} dark h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} dark h-full antialiased`}
     >
       <head>
         <style>{`@view-transition { navigation: auto; }`}</style>

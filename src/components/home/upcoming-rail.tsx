@@ -17,7 +17,7 @@ function GameCard({ item }: { item: Extract<UpcomingItem, { source: "game" }> })
   return (
     <Link
       href="/events?tab=season"
-      className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-zinc-950 p-4 transition-colors hover:border-zinc-700 active:scale-[0.98]"
+      className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-surface-0 p-4 transition-colors hover:border-border-strong active:scale-[0.98]"
     >
       {/* Red left accent */}
       <span className="absolute left-0 top-0 h-full w-[3px] bg-utah-red" />
@@ -48,7 +48,7 @@ function EventCard({ item }: { item: Extract<UpcomingItem, { source: "event" }> 
   return (
     <Link
       href={`/events/${item.id}`}
-      className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-zinc-950 p-4 transition-colors hover:border-zinc-700 active:scale-[0.98]"
+      className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-surface-0 p-4 transition-colors hover:border-border-strong active:scale-[0.98]"
     >
       {/* Red left accent */}
       <span className="absolute left-0 top-0 h-full w-[3px] bg-utah-red" />

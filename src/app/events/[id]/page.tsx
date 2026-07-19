@@ -14,11 +14,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://utah-rugby-alumni.vercel.app";
 
 const KIND_CONFIG: Record<string, { label: string; color: string }> = {
-  social: { label: "Social", color: "text-purple-400" },
+  social: { label: "Social", color: "text-zinc-400" },
   reunion: { label: "Reunion", color: "text-utah-red" },
-  watch_party: { label: "Watch Party", color: "text-sky-400" },
-  practice: { label: "Practice", color: "text-emerald-400" },
-  fundraiser: { label: "Fundraiser", color: "text-amber-400" },
+  watch_party: { label: "Watch Party", color: "text-info" },
+  practice: { label: "Practice", color: "text-success" },
+  fundraiser: { label: "Fundraiser", color: "text-warning" },
   networking: { label: "Networking", color: "text-blue-400" },
   game_day: { label: "Game Day", color: "text-utah-red" },
   other: { label: "Event", color: "text-zinc-400" },
@@ -87,9 +87,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
   if (!event) notFound();
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Back nav */}
-      <div className="border-b border-zinc-800 px-5 py-4 md:px-10">
+      <div className="border-b border-white/6 px-5 py-4 md:px-10">
         <Link
           href="/events"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-400 hover:text-white transition-colors"
@@ -115,14 +115,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
         {/* Title + Share */}
         <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-black leading-tight tracking-tight text-white">
+          <h1 className="text-title-1 text-white">
             {event.title}
           </h1>
           <ShareButton url={`${APP_URL}/events/${id}`} title={event.title} />
         </div>
 
         {/* Details */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-2.5">
+        <div className="surface-card p-4 space-y-2.5">
           <div className="flex items-start gap-2.5">
             <CalendarDays className="size-4 shrink-0 mt-0.5 text-zinc-500" />
             <div>
@@ -172,7 +172,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
           <a
             href={`/api/events/${id}/ics`}
             download
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border-strong bg-surface-2 px-3 py-2 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white"
           >
             <CalendarPlus className="size-3.5" />
             Add to Calendar
@@ -181,19 +181,19 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
 
         {/* Description */}
         {event.description && (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <div className="surface-card p-4">
             <p className="text-sm leading-relaxed text-zinc-300 whitespace-pre-wrap">{event.description}</p>
           </div>
         )}
 
         {/* RSVP */}
         {myAlumniId ? (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <div className="surface-card p-4">
             <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">Are you going?</p>
             <RsvpChips eventId={event.id} initial={event.my_rsvp} />
           </div>
         ) : (
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+          <div className="surface-card p-4">
             <p className="text-sm text-zinc-400">
               <Link href="/auth/login" className="font-semibold text-white hover:text-utah-red transition-colors">Sign in</Link>
               {" "}to RSVP

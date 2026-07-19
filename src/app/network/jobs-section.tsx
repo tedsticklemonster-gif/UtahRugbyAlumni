@@ -95,7 +95,7 @@ export async function JobsSection() {
       {/* Hiring now */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-sky-400">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-info">
             <Hammer className="size-3" /> Alumni Hiring Now
           </p>
           <span className="text-2xs font-semibold text-zinc-500">
@@ -104,7 +104,7 @@ export async function JobsSection() {
         </div>
         {hiring.length === 0 ? (
           <EmptyCard
-            icon={<Hammer className="size-6 text-sky-400" />}
+            icon={<Hammer className="size-6 text-info" />}
             title="No one hiring right now"
             body="Toggle 'Hiring' on your profile to post here."
             cta={{ href: "/me", label: "Edit my profile" }}
@@ -121,7 +121,7 @@ export async function JobsSection() {
       {/* Open to work */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-emerald-400">
+          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-success">
             <Sparkles className="size-3" /> Open To Work
           </p>
           <span className="text-2xs font-semibold text-zinc-500">
@@ -130,7 +130,7 @@ export async function JobsSection() {
         </div>
         {open.length === 0 ? (
           <EmptyCard
-            icon={<Sparkles className="size-6 text-emerald-400" />}
+            icon={<Sparkles className="size-6 text-success" />}
             title="No one listed as open to work"
             body="Know someone looking? Forward them the network."
             cta={{ href: "/thanks", label: "Get forward link" }}
@@ -160,17 +160,17 @@ function JobCard({
   const role = alum.job_title ?? alum.profession;
   const badge =
     mode === "hiring"
-      ? { label: "Hiring", className: "bg-sky-500 text-white", Icon: Hammer }
+      ? { label: "Hiring", className: "bg-info text-white", Icon: Hammer }
       : {
           label: "Open to work",
-          className: "bg-emerald-500 text-white",
+          className: "bg-success text-zinc-950",
           Icon: Sparkles,
         };
 
   return (
     <Link
       href={`/u/${alum.id}`}
-      className="group flex gap-3 rounded-2xl border border-zinc-800 bg-zinc-900 p-3 transition-colors hover:border-zinc-700"
+      className="group flex gap-3 surface-card p-3 transition-colors hover:border-border-strong"
     >
       <SponsorHalo tier={alum.sponsor_tier ?? null} size="md" rounded="rounded-xl">
         <div className="relative size-20 shrink-0 overflow-hidden rounded-xl">
@@ -187,13 +187,13 @@ function JobCard({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-3xs font-black uppercase tracking-wider ${badge.className}`}
+            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-3xs font-bold uppercase tracking-wider ${badge.className}`}
           >
             <badge.Icon className="size-2.5" />
             {badge.label}
           </span>
           {alum.grad_year && (
-            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-black text-white">
+            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white">
               &rsquo;{String(alum.grad_year).slice(-2)}
             </span>
           )}
@@ -238,15 +238,15 @@ function EmptyCard({
   cta: { href: string; label: string };
 }) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-10 text-center">
-      <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-zinc-800">
+    <div className="surface-card py-10 text-center">
+      <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-surface-2">
         {icon}
       </div>
       <p className="text-sm font-bold text-white">{title}</p>
       <p className="mx-auto mt-1 max-w-xs text-xs text-zinc-500">{body}</p>
       <Link
         href={cta.href}
-        className="mt-3 inline-flex items-center gap-1 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:border-utah-red"
+        className="mt-3 inline-flex items-center gap-1 rounded-full border border-border-strong px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:border-utah-red"
       >
         {cta.label}
       </Link>

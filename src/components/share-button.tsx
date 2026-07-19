@@ -28,7 +28,7 @@ export function ShareButton({ url, title }: { url: string; title: string }) {
   return (
     <button
       onClick={handleShare}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-2.5 py-1.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white active:scale-95"
+      className="inline-flex items-center gap-1.5 rounded-lg border border-border-strong bg-surface-2 px-2.5 py-1.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white active:scale-95"
       title="Share event"
     >
       {copied ? (

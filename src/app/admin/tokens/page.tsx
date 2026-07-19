@@ -21,7 +21,7 @@ export default async function TokensPage() {
   if (error) {
     return (
       <div>
-        <h1 className="text-2xl font-bold tracking-tight mb-6">
+        <h1 className="text-title-1 mb-6">
           Forward Tokens
         </h1>
         <p className="text-destructive">{error}</p>
@@ -31,7 +31,7 @@ export default async function TokensPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight mb-6">
+      <h1 className="text-title-1 mb-6">
         Forward Tokens
       </h1>
       <p className="text-sm text-muted-foreground mb-4">

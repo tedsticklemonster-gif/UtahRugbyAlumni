@@ -21,9 +21,22 @@ function isActive(pathname: string, href: string) {
 
 const tabClass = (active: boolean) =>
   cn(
-    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-semibold tracking-wide uppercase transition-colors",
+    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-medium transition-colors",
     active ? "text-utah-red" : "text-zinc-500 hover:text-zinc-300"
   );
+
+/* Active indicator dot — pairs with the red icon so state isn't color-only. */
+function ActiveDot({ active }: { active: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "size-1 rounded-full transition-colors",
+        active ? "bg-utah-red" : "bg-transparent"
+      )}
+    />
+  );
+}
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -33,7 +46,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/80 md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 bg-surface-0/85 backdrop-blur-xl border-t border-white/8 md:hidden"
     >
       <ul className={cn("mx-auto grid max-w-md pb-safe pt-1.5", me ? "grid-cols-5" : "grid-cols-4")}>
         {tabs.map(({ href, label, icon: Icon }) => {
@@ -44,7 +57,7 @@ export function BottomNav() {
             <li key={href}>
               <Link href={href} aria-current={active ? "page" : undefined} className={tabClass(active)}>
                 <span className="relative">
-                  <Icon className={cn("size-5", active && "stroke-[2.5]")} aria-hidden />
+                  <Icon className={cn("size-5", active && "stroke-[2.25]")} aria-hidden />
                   {showBadge && (
                     <span className="absolute -right-1.5 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-utah-red px-1 text-3xs font-bold text-white">
                       {unread > 9 ? "9+" : unread}
@@ -52,6 +65,7 @@ export function BottomNav() {
                   )}
                 </span>
                 <span>{label}</span>
+                <ActiveDot active={active} />
               </Link>
             </li>
           );
@@ -82,13 +96,14 @@ export function BottomNav() {
                 />
               )}
               <span>Me</span>
+              <ActiveDot active={isActive(pathname, "/me")} />
             </Link>
           </li>
         ) : (
           <li className="flex items-center justify-center">
             <Link
               href="/join"
-              className="rounded-full bg-utah-red px-3.5 py-1.5 text-2xs font-black uppercase tracking-wide text-white"
+              className="rounded-full bg-utah-red px-4 py-1.5 text-xs font-semibold text-white shadow-card transition-colors hover:bg-utah-red/90"
             >
               Join
             </Link>

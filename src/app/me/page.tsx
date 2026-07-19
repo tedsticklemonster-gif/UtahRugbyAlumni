@@ -65,10 +65,10 @@ export default async function MePage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Page header */}
-      <div className="border-b border-zinc-800 px-5 py-6 md:px-10">
-        <h1 className="text-2xl font-black tracking-tight text-white">Me</h1>
+      <div className="border-b border-white/6 px-5 py-6 md:px-10">
+        <h1 className="text-title-1 text-white">Me</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Your profile, giving, and settings.
         </p>
@@ -91,7 +91,7 @@ export default async function MePage() {
               }
             />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-black text-zinc-300">
+            <div className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-zinc-800 bg-zinc-700 text-2xl font-bold text-zinc-300">
               {alumni.first_name[0]}{alumni.last_name[0]}
             </div>
           )}
@@ -103,7 +103,7 @@ export default async function MePage() {
           </div>
           <Link
             href={`/u/${alumni.id}`}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border-strong px-3 py-1.5 text-xs font-semibold text-zinc-300 transition-colors hover:border-white/25 hover:text-white"
           >
             View public profile
             <ExternalLink className="size-3" />
@@ -111,7 +111,7 @@ export default async function MePage() {
         </div>
 
         {/* Impact summary — donor tier + referrals */}
-        <div className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="mb-6 surface-card p-5">
           <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your Impact
           </p>
@@ -122,7 +122,7 @@ export default async function MePage() {
                 <Users className="size-5 text-utah-red" />
               </div>
               <div>
-                <p className="text-xl font-black tabular-nums text-white">{totalReferrals}</p>
+                <p className="text-xl font-bold tabular-nums text-white">{totalReferrals}</p>
                 <p className="text-xs text-zinc-500">
                   {totalReferrals === 1 ? "teammate" : "teammates"} gathered
                 </p>
@@ -130,11 +130,11 @@ export default async function MePage() {
             </div>
             {/* Donor tier */}
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-500/15">
-                <Trophy className="size-5 text-amber-400" />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-warning/15">
+                <Trophy className="size-5 text-warning" />
               </div>
               <div>
-                <p className="text-xl font-black text-white">
+                <p className="text-xl font-bold text-white">
                   {alumni.sponsor_tier
                     ? TIER_LABELS[alumni.sponsor_tier as keyof typeof TIER_LABELS]
                     : "—"}
@@ -150,14 +150,14 @@ export default async function MePage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <Link
               href="/thanks"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-[#AA0000]"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-utah-red px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-utah-red/90"
             >
               <Share2 className="size-3.5" />
               Share your forward link
             </Link>
             <Link
               href="/me/giving"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-2 text-xs font-bold text-zinc-200 transition-colors hover:border-utah-red"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border-strong px-3 py-2 text-xs font-bold text-zinc-200 transition-colors hover:border-utah-red"
             >
               <HeartHandshake className="size-3.5" />
               Give back
@@ -166,7 +166,7 @@ export default async function MePage() {
         </div>
 
         {/* Settings rows */}
-        <div className="mb-6 divide-y divide-zinc-800 rounded-2xl border border-zinc-800 bg-zinc-900">
+        <div className="mb-6 divide-y divide-zinc-800 surface-card">
           <div className="p-5">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
@@ -191,7 +191,7 @@ export default async function MePage() {
           {isAdmin && (
             <Link
               href="/admin"
-              className="flex items-center justify-between px-5 py-4 transition-colors hover:bg-zinc-800/50"
+              className="flex items-center justify-between px-5 py-4 transition-colors hover:bg-surface-2/50"
             >
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-300">
                 <ShieldCheck className="size-4 text-utah-red" />
@@ -204,7 +204,7 @@ export default async function MePage() {
           <form action={signOutAction}>
             <button
               type="submit"
-              className="flex w-full items-center gap-2 px-5 py-4 text-left text-sm font-semibold text-zinc-400 transition-colors hover:bg-zinc-800/50 hover:text-white"
+              className="flex w-full items-center gap-2 px-5 py-4 text-left text-sm font-semibold text-zinc-400 transition-colors hover:bg-surface-2/50 hover:text-white"
             >
               <LogOut className="size-4" />
               Sign out
@@ -213,7 +213,7 @@ export default async function MePage() {
         </div>
 
         {/* Profile form */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+        <div className="surface-card p-5">
           <p className="mb-4 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Your information
           </p>

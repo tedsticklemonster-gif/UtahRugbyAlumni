@@ -17,7 +17,7 @@ export function EventAttendees({ attendees }: { attendees: EventAttendee[] }) {
   const maybe = attendees.filter((a) => a.status === "maybe");
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-4">
+    <div className="surface-card p-4 space-y-4">
       {going.length > 0 && (
         <div>
           <p className="mb-2 text-xs font-bold uppercase tracking-widest text-zinc-500">
@@ -28,7 +28,7 @@ export function EventAttendees({ attendees }: { attendees: EventAttendee[] }) {
               <li key={a.alumni_id}>
                 <Link
                   href={`/u/${a.alumni_id}`}
-                  className="flex items-center gap-2.5 rounded-lg px-1 py-1 -mx-1 hover:bg-zinc-800 transition-colors"
+                  className="flex items-center gap-2.5 rounded-lg px-1 py-1 -mx-1 hover:bg-surface-2 transition-colors"
                 >
                   <Initials first={a.first_name} last={a.last_name} />
                   <span className="text-sm font-medium text-zinc-200">
@@ -51,7 +51,7 @@ export function EventAttendees({ attendees }: { attendees: EventAttendee[] }) {
               <li key={a.alumni_id}>
                 <Link
                   href={`/u/${a.alumni_id}`}
-                  className="flex items-center gap-2.5 rounded-lg px-1 py-1 -mx-1 hover:bg-zinc-800 transition-colors"
+                  className="flex items-center gap-2.5 rounded-lg px-1 py-1 -mx-1 hover:bg-surface-2 transition-colors"
                 >
                   <Initials first={a.first_name} last={a.last_name} />
                   <span className="text-sm font-medium text-zinc-400">

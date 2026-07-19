@@ -73,8 +73,8 @@ export function SignupForm() {
   if (state.success) {
     return (
       <div className="text-center py-12">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-900/50">
-          <svg className="size-7 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-success/15">
+          <svg className="size-7 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         </div>
@@ -239,7 +239,7 @@ export function SignupForm() {
       </div>
 
       {/* Professional availability — powers directory hiring rails */}
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 space-y-4">
+      <div className="rounded-xl border border-border-subtle bg-surface-1/60 p-4 space-y-4">
         <div>
           <p className="text-sm font-bold text-white">Career signal</p>
           <p className="mt-0.5 text-xs text-zinc-400">
@@ -252,7 +252,7 @@ export function SignupForm() {
           <select
             id="availability"
             {...register("availability")}
-            className="flex h-10 w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
+            className="flex h-10 w-full rounded-md border border-border-strong bg-surface-1 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-utah-red"
           >
             {AVAILABILITY_VALUES.map((v) => (
               <option key={v} value={v}>
@@ -287,7 +287,7 @@ export function SignupForm() {
           onChange={(v) => setValue("industries", v)}
         />
 
-        <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+        <div className="flex items-start gap-3 rounded-lg border border-border bg-surface-0 p-3">
           <Checkbox
             id="hiring"
             checked={hiring}
@@ -301,7 +301,7 @@ export function SignupForm() {
           </Label>
         </div>
 
-        <div className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+        <div className="flex items-start gap-3 rounded-lg border border-border bg-surface-0 p-3">
           <Checkbox
             id="willing_to_mentor"
             checked={willingToMentor}

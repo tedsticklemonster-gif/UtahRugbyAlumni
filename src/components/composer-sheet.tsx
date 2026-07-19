@@ -46,7 +46,7 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
       {/* Sheet */}
       <div
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 rounded-t-2xl bg-zinc-950 border-t border-zinc-800",
+          "fixed inset-x-0 bottom-0 z-50 rounded-t-2xl bg-surface-0 border-t border-white/6",
           "transition-transform duration-300 ease-out",
           open ? "translate-y-0" : "translate-y-full"
         )}
@@ -55,7 +55,7 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
         <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-zinc-700" />
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
+        <div className="flex items-center justify-between border-b border-white/6 px-4 py-3">
           <div className="flex gap-1">
             {(["post", "event"] as Tab[]).map((t) => (
               <button
@@ -64,7 +64,7 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
                 className={cn(
                   "rounded-lg px-3 py-1 text-xs font-bold capitalize transition-colors",
                   tab === t
-                    ? "bg-zinc-800 text-white"
+                    ? "bg-surface-2 text-white"
                     : "text-zinc-500 hover:text-zinc-300"
                 )}
               >
@@ -74,7 +74,7 @@ export function ComposerSheet({ open, onClose }: ComposerSheetProps) {
           </div>
           <button
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-800 text-zinc-400 hover:text-white"
+            className="flex h-7 w-7 items-center justify-center rounded-full bg-surface-2 text-zinc-400 hover:text-white"
           >
             <X className="size-4" />
           </button>

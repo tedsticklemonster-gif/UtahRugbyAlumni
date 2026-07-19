@@ -12,11 +12,11 @@ function resultBadge(game: Game) {
   if (!game.result) {
     const past = game.date && isPastDate(game.date);
     return past ? (
-      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-500">
+      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-500">
         Past
       </span>
     ) : (
-      <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-400">
+      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-400">
         Upcoming
       </span>
     );
@@ -26,7 +26,7 @@ function resultBadge(game: Game) {
     <span
       className={`rounded-md px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${
         isWin
-          ? "bg-emerald-900/40 text-emerald-400"
+          ? "bg-success/15 text-success"
           : "bg-red-900/40 text-red-400"
       }`}
     >
@@ -41,7 +41,7 @@ export async function SeasonSchedule() {
 
   if (!data) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="surface-card p-6">
         <p className="text-sm font-semibold text-white">
           Schedule temporarily unavailable
         </p>
@@ -53,7 +53,7 @@ export async function SeasonSchedule() {
           href={SCHEDULE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border-strong px-4 py-2.5 text-sm font-semibold text-zinc-300 transition-colors hover:border-white/25 hover:text-white"
         >
           View on utah-rugby.com
           <ExternalLink className="size-3.5" />
@@ -73,7 +73,7 @@ export async function SeasonSchedule() {
           {data.games.map((game, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+              className="surface-card p-4"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
@@ -112,7 +112,7 @@ export async function SeasonSchedule() {
           <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
             Practice Schedule
           </p>
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4 space-y-1.5">
+          <div className="surface-card p-4 space-y-1.5">
             {data.practiceLines.map((line, i) => (
               <p key={i} className="text-sm text-zinc-300">
                 {line}
@@ -123,7 +123,7 @@ export async function SeasonSchedule() {
       )}
 
       {/* Official site link */}
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+      <div className="surface-card p-4">
         <p className="text-xs text-zinc-400">
           Schedule data may lag — see the official site for the latest fixtures and results.
         </p>

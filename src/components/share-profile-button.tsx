@@ -56,12 +56,12 @@ export function ShareProfileButton({
         <button
           type="button"
           onClick={handleShare}
-          className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
+          className="inline-flex items-center gap-2 rounded-full border border-border-strong px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
           aria-label="Share profile"
         >
           {copied ? (
             <>
-              <Check className="size-4 text-emerald-400" />
+              <Check className="size-4 text-success" />
               Copied
             </>
           ) : (
@@ -78,7 +78,7 @@ export function ShareProfileButton({
         <button
           type="button"
           onClick={() => setShowQR(true)}
-          className="inline-flex items-center justify-center size-9 rounded-xl border border-zinc-700 text-zinc-400 transition-colors hover:border-utah-red hover:text-white"
+          className="inline-flex items-center justify-center size-9 rounded-full border border-border-strong text-zinc-400 transition-colors hover:border-utah-red hover:text-white"
           aria-label="Show QR code"
         >
           <QrCode className="size-4" />
@@ -89,7 +89,7 @@ export function ShareProfileButton({
       {showQR && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/70" onClick={() => setShowQR(false)} />
-          <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900 p-6 text-center">
+          <div className="relative surface-card p-6 text-center">
             <button
               onClick={() => setShowQR(false)}
               className="absolute right-3 top-3 text-zinc-500 hover:text-white"

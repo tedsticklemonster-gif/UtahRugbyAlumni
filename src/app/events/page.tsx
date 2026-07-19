@@ -54,7 +54,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
           </span>
           <div>
             <h1 className="text-title-1 text-white">Events</h1>
-            <p className="text-sm text-zinc-500">
+            <p className="text-body-sm text-zinc-500">
               {tab === "season"
                 ? "Games, fixtures & practice schedule"
                 : "Reunions, watch parties & meetups"}

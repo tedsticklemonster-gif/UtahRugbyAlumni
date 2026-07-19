@@ -102,11 +102,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ id
       <div className="px-5 py-6 md:px-10 max-w-2xl space-y-5">
         {/* Kind badge + recurring indicator */}
         <div className="flex items-center gap-2">
-          <span className={`inline-block text-2xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
+          <span className={`inline-block text-xs font-bold uppercase tracking-widest ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
             {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
           </span>
           {(event.series_id || event.recurrence_rule) && (
-            <span className="inline-flex items-center gap-1 text-2xs font-bold uppercase tracking-widest text-zinc-500">
+            <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-zinc-500">
               <Repeat className="size-3" />
               Recurring
             </span>

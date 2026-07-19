@@ -91,7 +91,7 @@ export function OnboardingWizard({ firstName, onDismiss }: OnboardingWizardProps
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
         <div>
-          <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
+          <p className="text-xs font-bold uppercase tracking-widest text-utah-red">
             Welcome, {firstName}
           </p>
           <h3 className={`text-display text-xl text-white`}>Complete Your Profile</h3>

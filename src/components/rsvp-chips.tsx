@@ -29,7 +29,7 @@ export function RsvpChips({
   }
 
   return (
-    <div className="flex gap-1.5">
+    <div className="flex gap-2">
       {OPTIONS.map(({ value, label, icon: Icon }) => {
         const active = status === value;
         return (
@@ -38,7 +38,7 @@ export function RsvpChips({
             onClick={() => handleClick(value)}
             disabled={pending}
             className={cn(
-              "flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
+              "flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all",
               active
                 ? value === "going"
                   ? "bg-success text-zinc-950"
@@ -48,7 +48,7 @@ export function RsvpChips({
                 : "border border-border-strong text-zinc-400 hover:border-white/25 hover:text-zinc-200"
             )}
           >
-            <Icon className="size-3" />
+            <Icon className="size-3.5" />
             {label}
           </button>
         );

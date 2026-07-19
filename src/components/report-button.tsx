@@ -37,7 +37,7 @@ export function ReportButton({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 text-2xs font-semibold text-zinc-600 hover:text-red-400 transition-colors"
+        className="flex items-center gap-1.5 text-xs font-semibold text-zinc-600 hover:text-red-400 transition-colors"
         title="Report"
       >
         <Flag className="size-3" />

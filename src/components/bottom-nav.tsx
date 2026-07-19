@@ -21,7 +21,7 @@ function isActive(pathname: string, href: string) {
 
 const tabClass = (active: boolean) =>
   cn(
-    "flex flex-col items-center justify-center gap-0.5 py-1 text-2xs font-medium transition-colors",
+    "flex flex-col items-center justify-center gap-1 py-1.5 text-xs font-medium transition-colors",
     active ? "text-utah-red" : "text-zinc-500 hover:text-zinc-300"
   );
 
@@ -48,7 +48,7 @@ export function BottomNav() {
       aria-label="Primary"
       className="fixed inset-x-0 bottom-0 z-40 bg-surface-0/85 backdrop-blur-xl border-t border-white/8 md:hidden"
     >
-      <ul className={cn("mx-auto grid max-w-md pb-safe pt-1.5", me ? "grid-cols-5" : "grid-cols-4")}>
+      <ul className={cn("mx-auto grid max-w-md pb-safe pt-2", me ? "grid-cols-5" : "grid-cols-4")}>
         {tabs.map(({ href, label, icon: Icon }) => {
           if (href === "/messages" && !me) return null;
           const active = isActive(pathname, href);
@@ -57,9 +57,9 @@ export function BottomNav() {
             <li key={href}>
               <Link href={href} aria-current={active ? "page" : undefined} className={tabClass(active)}>
                 <span className="relative">
-                  <Icon className={cn("size-5", active && "stroke-[2.25]")} aria-hidden />
+                  <Icon className={cn("size-6", active && "stroke-[2.25]")} aria-hidden />
                   {showBadge && (
-                    <span className="absolute -right-1.5 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-utah-red px-1 text-3xs font-bold text-white">
+                    <span className="absolute -right-2 -top-1 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-utah-red px-1 text-2xs font-bold text-white">
                       {unread > 9 ? "9+" : unread}
                     </span>
                   )}
@@ -85,13 +85,13 @@ export function BottomNav() {
                   lastName={me.last_name}
                   size="xs"
                   className={cn(
-                    "size-5 border",
+                    "size-6 border-2",
                     isActive(pathname, "/me") ? "border-utah-red" : "border-transparent"
                   )}
                 />
               ) : (
                 <CircleUser
-                  className={cn("size-5", isActive(pathname, "/me") && "stroke-[2.5]")}
+                  className={cn("size-6", isActive(pathname, "/me") && "stroke-[2.5]")}
                   aria-hidden
                 />
               )}
@@ -103,7 +103,7 @@ export function BottomNav() {
           <li className="flex items-center justify-center">
             <Link
               href="/join"
-              className="rounded-full bg-utah-red px-4 py-1.5 text-xs font-semibold text-white shadow-card transition-colors hover:bg-utah-red/90"
+              className="rounded-full bg-utah-red px-5 py-2 text-sm font-semibold text-white shadow-card transition-colors hover:bg-utah-red/90"
             >
               Join
             </Link>

@@ -145,7 +145,7 @@ export function DirectoryFilters() {
         <button
           type="button"
           onClick={() => toggleFlag("hiring")}
-          className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
             hiring
               ? "bg-info text-white"
               : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-white/25"
@@ -158,7 +158,7 @@ export function DirectoryFilters() {
           onClick={() =>
             updateFilter("availability", availability === "open_to_work" ? "" : "open_to_work")
           }
-          className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
             availability === "open_to_work"
               ? "bg-success text-zinc-950"
               : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-white/25"
@@ -169,7 +169,7 @@ export function DirectoryFilters() {
         <button
           type="button"
           onClick={() => toggleFlag("mentor")}
-          className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
             mentor
               ? "bg-warning text-zinc-950"
               : "border border-border-strong bg-surface-1 text-zinc-300 hover:border-white/25"
@@ -181,7 +181,7 @@ export function DirectoryFilters() {
           <button
             type="button"
             onClick={clearFilters}
-            className="ml-auto text-xs font-semibold text-zinc-500 hover:text-white"
+            className="ml-auto min-h-11 text-sm font-semibold text-zinc-500 hover:text-white"
           >
             Clear filters
           </button>

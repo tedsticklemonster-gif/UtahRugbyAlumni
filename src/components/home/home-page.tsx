@@ -151,40 +151,40 @@ export function HomePage({
         <div className="px-4 pt-5">
           <Link
             href="/network?tab=jobs"
-            className="group flex items-center gap-3 rounded-xl border border-border-subtle bg-surface-1/60 px-4 py-3 transition-colors hover:border-info/40 hover:bg-info/5"
+            className="group flex items-center gap-3.5 rounded-2xl border border-border-subtle bg-surface-1/60 px-4 py-4 transition-colors hover:border-info/40 hover:bg-info/5"
           >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-info/10 text-info">
-              <Briefcase className="size-4" />
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-info/10 text-info">
+              <Briefcase className="size-5" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-zinc-300 group-hover:text-white">
+              <p className="text-card-title text-zinc-100 group-hover:text-white">
                 Job Board
               </p>
-              <p className="text-2xs text-zinc-600">
+              <p className="text-sm text-zinc-500">
                 Alumni hiring and open positions
               </p>
             </div>
-            <span className="text-eyebrow text-3xs text-info">View →</span>
+            <span className="text-sm font-semibold text-info">View →</span>
           </Link>
         </div>
 
         {/* Telegram banner — dismissible */}
         {!telegramDismissed && (
-          <div className="mx-4 mt-4 rounded-xl border border-telegram/30 bg-telegram/10 px-4 py-3">
+          <div className="mx-4 mt-4 rounded-2xl border border-telegram/30 bg-telegram/10 px-4 py-4">
             <div className="flex items-start gap-3">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="size-6 shrink-0 text-telegram mt-0.5" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="size-7 shrink-0 text-telegram mt-0.5" aria-hidden="true">
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
               </svg>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-white">Turn on notifications</p>
-                <p className="text-xs text-zinc-400 mt-0.5">
+                <p className="text-base font-bold text-white">Turn on notifications</p>
+                <p className="text-body-sm text-zinc-400 mt-1">
                   Join the Telegram channel to get instant alerts for posts, events, and new members.
                 </p>
                 <a
                   href={TELEGRAM_INVITE}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-telegram px-3 py-1.5 text-xs font-bold text-white transition-colors hover:bg-telegram/85"
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-telegram px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-telegram/85"
                 >
                   Join Telegram
                 </a>
@@ -194,26 +194,20 @@ export function HomePage({
                   localStorage.setItem(TELEGRAM_DISMISS_KEY, "1");
                   setLocalDismiss(true);
                 }}
-                className="p-0.5 text-zinc-500 hover:text-white transition-colors"
+                className="p-1.5 text-zinc-500 hover:text-white transition-colors"
                 aria-label="Dismiss"
               >
-                <X className="size-4" />
+                <X className="size-5" />
               </button>
             </div>
           </div>
         )}
 
         {/* Alumni Wall / Feed */}
-        <div className="px-4 pb-8 space-y-3">
+        <div className="px-4 pb-8 space-y-4">
           {/* Section header */}
-          <div className="flex items-end justify-between pt-5 pb-1 border-b border-zinc-900">
-            <div>
-              <span className="block h-[2px] w-8 bg-utah-red" />
-              <p className="text-eyebrow mt-2 text-2xs text-zinc-500">Brotherhood</p>
-              <h2 className="text-display mt-0.5 text-2xl leading-none text-white">
-                Alumni Wall
-              </h2>
-            </div>
+          <div className="pt-7 pb-1">
+            <h2 className="text-title-2 text-white">Alumni Wall</h2>
           </div>
 
           <CreatePost />
@@ -233,9 +227,9 @@ export function HomePage({
             <button
               onClick={loadMore}
               disabled={loading}
-              className="text-eyebrow w-full border border-border bg-surface-0 py-3 text-2xs text-zinc-400 transition-colors hover:border-border-strong hover:text-white disabled:opacity-40"
+              className="w-full rounded-full border border-border bg-surface-0 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-border-strong hover:text-white disabled:opacity-40"
             >
-              {loading ? "Loading…" : "Load More"}
+              {loading ? "Loading…" : "Load more"}
             </button>
           )}
         </div>

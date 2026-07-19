@@ -40,24 +40,24 @@ export function ProfileCompletion({ fields }: { fields: ProfileFields }) {
     <div className="mx-4 mt-4">
       <Link
         href="/me"
-        className="block surface-card p-4 transition-colors hover:border-utah-red/40"
+        className="block surface-card p-5 transition-colors hover:border-utah-red/40"
       >
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-xs font-bold text-white">Profile Strength</p>
-          <span className={`text-display text-lg text-utah-red`}>{pct}%</span>
+        <div className="flex items-center justify-between mb-2.5">
+          <p className="text-card-title text-white">Profile Strength</p>
+          <span className="text-display text-2xl text-utah-red">{pct}%</span>
         </div>
         {/* Progress bar */}
-        <div className="h-2 w-full rounded-full bg-surface-2 overflow-hidden">
+        <div className="h-2.5 w-full rounded-full bg-surface-2 overflow-hidden">
           <div
             className="h-full rounded-full bg-utah-red transition-all duration-500"
             style={{ width: `${pct}%` }}
           />
         </div>
         {nextTip && (
-          <div className="mt-3 flex items-center gap-2 text-xs text-zinc-400">
-            <nextTip.icon className="size-3.5 text-zinc-500" />
+          <div className="mt-3 flex items-center gap-2 text-sm text-zinc-400">
+            <nextTip.icon className="size-4 text-zinc-500" />
             <span>
-              Next: <span className="text-zinc-300">{nextTip.label}</span>
+              Next: <span className="text-zinc-200">{nextTip.label}</span>
             </span>
           </div>
         )}

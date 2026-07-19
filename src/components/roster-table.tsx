@@ -268,7 +268,7 @@ export function RosterTable({
                 </TableCell>
                 <TableCell>
                   {a.sponsor_tier ? (
-                    <span className={`inline-block rounded-full px-2 py-0.5 text-2xs font-bold uppercase ${tierColors[a.sponsor_tier] ?? ""}`}>
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-bold uppercase ${tierColors[a.sponsor_tier] ?? ""}`}>
                       {a.sponsor_tier}
                     </span>
                   ) : (

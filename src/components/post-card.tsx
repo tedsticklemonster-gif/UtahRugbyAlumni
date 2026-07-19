@@ -65,7 +65,7 @@ function SwipeableComment({
           <button
             onClick={handleDelete}
             disabled={deleting}
-            className="text-2xs font-semibold text-white px-3"
+            className="text-sm font-semibold text-white px-3"
           >
             {deleting ? "…" : "Delete"}
           </button>
@@ -92,14 +92,14 @@ function SwipeableComment({
           />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="rounded-2xl rounded-tl-md bg-surface-2 px-3 py-2">
+          <div className="rounded-2xl rounded-tl-md bg-surface-2 px-3.5 py-2.5">
             <Link
               href={`/u/${c.author_id}`}
-              className="text-xs font-semibold text-white transition-colors hover:text-utah-red"
+              className="text-sm font-semibold text-white transition-colors hover:text-utah-red"
             >
               {c.author_first_name} {c.author_last_name}
             </Link>
-            <p className="mt-0.5 text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap">
+            <p className="text-body-sm mt-0.5 text-zinc-300 whitespace-pre-wrap">
               {c.body}
             </p>
             {c.photo_signed_url && (
@@ -117,7 +117,7 @@ function SwipeableComment({
               />
             )}
           </div>
-          <p className="text-caption mt-0.5 pl-3 text-2xs" suppressHydrationWarning>
+          <p className="text-caption mt-1 pl-3.5" suppressHydrationWarning>
             {relativeTime(c.created_at)}
           </p>
         </div>
@@ -196,7 +196,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
   return (
     <div className="surface-card overflow-hidden">
       {/* Author row */}
-      <div className="flex items-center gap-2.5 px-4 pt-4 pb-3">
+      <div className="flex items-center gap-3 px-5 pt-5 pb-3">
         <Link
           href={`/u/${post.author_id}`}
           className="shrink-0 hover:opacity-80 transition-opacity"
@@ -210,30 +210,30 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
         <div className="min-w-0 flex-1">
           <Link
             href={`/u/${post.author_id}`}
-            className="text-sm font-semibold text-white transition-colors hover:text-utah-red"
+            className="text-display block text-[1.0625rem] leading-tight text-white transition-colors hover:text-utah-red"
           >
             {post.author_first_name} {post.author_last_name}
           </Link>
-          <p className="text-caption text-2xs" suppressHydrationWarning>
+          <p className="text-caption mt-0.5" suppressHydrationWarning>
             {relativeTime(post.created_at)}
-            {post.updated_at && <span className="text-zinc-700"> · edited</span>}
+            {post.updated_at && <span className="text-zinc-600"> · edited</span>}
           </p>
         </div>
         {isAuthor && (
           <div className="relative">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-1 text-zinc-600 hover:text-white transition-colors"
+              className="p-2 text-zinc-500 hover:text-white transition-colors"
             >
-              <MoreHorizontal className="size-4" />
+              <MoreHorizontal className="size-5" />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-8 z-10 min-w-[140px] rounded-xl border border-border-subtle bg-surface-3 py-1 shadow-overlay">
+              <div className="absolute right-0 top-10 z-10 min-w-[160px] rounded-xl border border-border-subtle bg-surface-3 py-1 shadow-overlay">
                 <button
                   onClick={() => { setEditing(true); setMenuOpen(false); }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-zinc-300 hover:bg-white/6"
+                  className="flex w-full items-center gap-2 px-3.5 py-2.5 text-sm text-zinc-300 hover:bg-white/6"
                 >
-                  <Pencil className="size-3" /> Edit post
+                  <Pencil className="size-4" /> Edit post
                 </button>
                 <button
                   onClick={() => {
@@ -242,9 +242,9 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                       await deletePostAction(post.id);
                     });
                   }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-xs text-destructive hover:bg-white/6"
+                  className="flex w-full items-center gap-2 px-3.5 py-2.5 text-sm text-destructive hover:bg-white/6"
                 >
-                  <Trash2 className="size-3" /> Delete post
+                  <Trash2 className="size-4" /> Delete post
                 </button>
               </div>
             )}
@@ -254,8 +254,8 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Pinned badge */}
       {post.pinned && (
-        <div className="px-4 pb-1">
-          <span className="inline-flex items-center gap-1 rounded-full bg-warning/12 px-2 py-0.5 text-2xs font-semibold text-warning">
+        <div className="px-5 pb-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full bg-warning/12 px-2.5 py-1 text-xs font-semibold text-warning">
             Pinned
           </span>
         </div>
@@ -263,8 +263,8 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Category tag */}
       {post.category && (
-        <div className="px-4 pb-1">
-          <span className="inline-flex rounded-full bg-surface-2 px-2 py-0.5 text-2xs font-semibold text-zinc-400">
+        <div className="px-5 pb-1.5">
+          <span className="inline-flex rounded-full bg-surface-2 px-2.5 py-1 text-xs font-semibold text-zinc-400">
             {post.category}
           </span>
         </div>
@@ -272,13 +272,13 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Post body */}
       {editing ? (
-        <div className="px-4 pb-3 space-y-2">
+        <div className="px-5 pb-3 space-y-2.5">
           <textarea
             value={editBody}
             onChange={(e) => setEditBody(e.target.value)}
             rows={3}
             maxLength={2000}
-            className="w-full resize-none rounded-xl border border-input bg-surface-2 px-3 py-2 text-sm text-white focus:border-ring focus:outline-none"
+            className="w-full resize-none rounded-xl border border-input bg-surface-2 px-3.5 py-2.5 text-base text-white focus:border-ring focus:outline-none"
           />
           <div className="flex gap-2">
             <button
@@ -291,44 +291,42 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                 });
               }}
               disabled={editPending}
-              className="rounded-full bg-utah-red px-3 py-1 text-xs font-semibold text-white hover:bg-utah-red/90 disabled:opacity-50"
+              className="rounded-full bg-utah-red px-4 py-2 text-sm font-semibold text-white hover:bg-utah-red/90 disabled:opacity-50"
             >
               {editPending ? "Saving..." : "Save"}
             </button>
             <button
               onClick={() => { setEditing(false); setEditBody(post.body); }}
-              className="rounded-full border border-border-strong px-3 py-1 text-xs text-zinc-400 hover:text-white"
+              className="rounded-full border border-border-strong px-4 py-2 text-sm text-zinc-400 hover:text-white"
             >
               Cancel
             </button>
           </div>
         </div>
       ) : (
-        <p className="px-4 pb-3 text-sm leading-relaxed text-zinc-200 whitespace-pre-wrap">
+        <p className="text-body px-5 pb-4 text-zinc-100 whitespace-pre-wrap">
           {post.body}
         </p>
       )}
 
-      {/* Post photo */}
+      {/* Post photo — full bleed inside the card */}
       {post.photo_signed_url && (
-        <div className="px-4 pb-3">
-          <PhotoLightbox
-            src={post.photo_signed_url}
-            alt="Post photo"
-            trigger={
-              <img
-                src={post.photo_signed_url}
-                alt="Post photo"
-                className="w-full max-h-80 rounded-lg object-cover bg-surface-0"
-                loading="lazy"
-              />
-            }
-          />
-        </div>
+        <PhotoLightbox
+          src={post.photo_signed_url}
+          alt="Post photo"
+          trigger={
+            <img
+              src={post.photo_signed_url}
+              alt="Post photo"
+              className="w-full max-h-[30rem] object-cover bg-surface-0"
+              loading="lazy"
+            />
+          }
+        />
       )}
 
       {/* Action bar */}
-      <div className="flex items-center gap-1 border-t border-white/6 px-3 py-1">
+      <div className="flex items-center gap-1 border-t border-white/6 px-3 py-1.5">
         <ReactionPicker
           postId={post.id}
           myAlumniId={myAlumniId}
@@ -339,9 +337,9 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
         <button
           onClick={toggleComments}
-          className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-500 transition-colors hover:text-zinc-300"
+          className="flex min-h-11 items-center gap-2 px-3 text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-200"
         >
-          <MessageCircle className="size-4" />
+          <MessageCircle className="size-5" />
           {post.comment_count > 0 && <span>{post.comment_count}</span>}
           <span className="hidden sm:inline">Comment</span>
         </button>
@@ -349,9 +347,9 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
 
       {/* Comments section */}
       {commentsOpen && (
-        <div className="border-t border-white/6 px-4 pb-4 pt-3 space-y-3">
+        <div className="border-t border-white/6 px-5 pb-5 pt-3 space-y-3.5">
           {commentsLoading && (
-            <p className="text-caption text-2xs">Loading…</p>
+            <p className="text-caption">Loading…</p>
           )}
 
           {comments.map((c) => (
@@ -368,14 +366,14 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           {/* Add comment input */}
           {myAlumniId && (
             <div className="flex gap-2 pt-1">
-              <div className="flex-1 rounded-2xl border border-border-subtle bg-surface-2 px-3 py-2">
+              <div className="flex-1 rounded-2xl border border-border-subtle bg-surface-2 px-3.5 py-2.5">
                 <textarea
                   ref={commentInputRef}
                   value={commentBody}
                   onChange={(e) => setCommentBody(e.target.value)}
                   placeholder="Write a comment…"
                   rows={1}
-                  className="w-full resize-none bg-transparent text-xs text-white placeholder-zinc-600 focus:outline-none"
+                  className="w-full resize-none bg-transparent text-base text-white placeholder-zinc-500 focus:outline-none"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
@@ -383,7 +381,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                     }
                   }}
                 />
-                <div className="mt-1.5 flex items-center justify-between">
+                <div className="mt-2 flex items-center justify-between">
                   <AttachPhoto
                     onFileReady={setCommentPhoto}
                     onClear={() => setCommentPhoto(null)}
@@ -391,9 +389,9 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
                   <button
                     onClick={handleComment}
                     disabled={submitting || (!commentBody.trim() && !commentPhoto)}
-                    className="flex items-center gap-1 rounded-full bg-utah-red px-2.5 py-1 text-2xs font-semibold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-40"
+                    className="flex items-center gap-1.5 rounded-full bg-utah-red px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-utah-red/90 disabled:opacity-40"
                   >
-                    <Send className="size-3" />
+                    <Send className="size-4" />
                     {submitting ? "…" : "Send"}
                   </button>
                 </div>
@@ -402,7 +400,7 @@ export function PostCard({ post, myAlumniId }: PostCardProps) {
           )}
 
           {commentError && (
-            <p className="text-xs text-destructive">{commentError}</p>
+            <p className="text-sm text-destructive">{commentError}</p>
           )}
         </div>
       )}

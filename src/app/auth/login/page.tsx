@@ -98,7 +98,7 @@ export default function LoginPage() {
         <div className="mb-8 flex flex-col items-center gap-3">
           <BrandMark className="size-14" />
           <div className="text-center">
-            <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
+            <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">
               Utah Rugby Alumni Network
             </p>
             <h1 className="mt-1 text-title-1 text-white">Sign in</h1>

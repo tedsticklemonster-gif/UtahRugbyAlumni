@@ -14,7 +14,7 @@ export default function PrivacyPage() {
 
       <div className="mx-auto max-w-2xl px-5 py-10 md:px-10">
         <header className="mb-8">
-          <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
+          <p className="text-xs font-bold uppercase tracking-widest text-utah-red">
             Legal
           </p>
           <h1 className="mt-1 text-display text-3xl text-white">

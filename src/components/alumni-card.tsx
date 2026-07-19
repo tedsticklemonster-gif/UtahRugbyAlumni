@@ -141,12 +141,12 @@ export function AlumniCard({
         />
 
         {/* Top ribbons */}
-        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5">
+        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
           {ribbonCfg ? (
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-semibold shadow-sm ${ribbonCfg.className}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm ${ribbonCfg.className}`}
             >
-              <ribbonCfg.icon className="size-3" />
+              <ribbonCfg.icon className="size-3.5" />
               {ribbonCfg.label}
             </span>
           ) : (
@@ -154,27 +154,27 @@ export function AlumniCard({
           )}
           {verified && (
             <span
-              className="inline-flex items-center gap-0.5 rounded-full bg-black/60 px-1.5 py-0.5 text-2xs font-semibold text-white backdrop-blur"
+              className="inline-flex items-center gap-0.5 rounded-full bg-black/60 px-2 py-1 text-xs font-semibold text-white backdrop-blur"
               title="Verified alumnus"
             >
-              <BadgeCheck className="size-3 text-info" />
+              <BadgeCheck className="size-4 text-info" />
             </span>
           )}
         </div>
 
         {/* Bottom gradient + name */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-10">
-          <p className="text-display text-[1.0625rem] leading-tight text-white drop-shadow-md">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3.5 pt-12">
+          <p className="text-display text-xl leading-tight text-white drop-shadow-md">
             {firstName} {lastName}
           </p>
-          <div className="mt-1 flex flex-wrap items-center gap-1">
+          <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {gradYear && (
-              <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white">
+              <span className="rounded-md bg-utah-red px-2 py-0.5 text-xs font-bold text-white">
                 &rsquo;{String(gradYear).slice(-2)}
               </span>
             )}
             {position && (
-              <span className="rounded-md bg-white/15 px-1.5 py-0.5 text-2xs font-semibold capitalize text-white backdrop-blur-sm">
+              <span className="rounded-md bg-white/15 px-2 py-0.5 text-xs font-semibold capitalize text-white backdrop-blur-sm">
                 {position}
               </span>
             )}
@@ -184,10 +184,10 @@ export function AlumniCard({
       </SponsorHalo>
 
       {/* Below fold */}
-      <div className="flex flex-1 flex-col gap-2 p-3 text-xs text-zinc-400">
+      <div className="flex flex-1 flex-col gap-2 p-4 text-sm text-zinc-400">
         {(profession || company) && (
-          <p className="flex items-center gap-1.5 truncate text-zinc-300">
-            <Briefcase className="size-3 shrink-0 text-zinc-500" />
+          <p className="flex items-center gap-2 truncate text-zinc-300">
+            <Briefcase className="size-4 shrink-0 text-zinc-500" />
             <span className="truncate">
               {profession}
               {profession && company && (
@@ -198,17 +198,17 @@ export function AlumniCard({
           </p>
         )}
         {location && (
-          <p className="flex items-center gap-1.5 truncate">
-            <MapPin className="size-3 shrink-0 text-zinc-500" />
+          <p className="flex items-center gap-2 truncate">
+            <MapPin className="size-4 shrink-0 text-zinc-500" />
             {location}
           </p>
         )}
         {topServices.length > 0 && (
-          <div className="flex flex-wrap gap-1 pt-0.5">
+          <div className="flex flex-wrap gap-1.5 pt-0.5">
             {topServices.map((s) => (
               <span
                 key={s}
-                className="rounded-md bg-surface-2 px-1.5 py-0.5 text-2xs font-medium text-zinc-300"
+                className="rounded-md bg-surface-2 px-2 py-0.5 text-xs font-medium text-zinc-300"
               >
                 {s}
               </span>
@@ -225,16 +225,16 @@ export function AlumniCard({
             <Link
               href={`/messages/${alumniId}`}
               onClick={(e) => e.stopPropagation()}
-              className="relative z-10 inline-flex items-center gap-1 rounded-full border border-border-strong px-2.5 py-1 text-xs font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
+              className="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-border-strong px-3.5 py-2 text-sm font-semibold text-zinc-200 transition-colors hover:border-utah-red hover:text-white"
             >
-              <MessageCircle className="size-3" />
+              <MessageCircle className="size-4" />
               Message
             </Link>
           ) : (
             <span />
           )}
           {isGated && (
-            <p className="text-2xs italic text-zinc-500">
+            <p className="text-xs italic text-zinc-500">
               Sign in to see photo
             </p>
           )}

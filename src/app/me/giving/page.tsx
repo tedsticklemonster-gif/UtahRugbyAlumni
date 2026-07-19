@@ -84,7 +84,7 @@ export default async function GivePage() {
           <div className="surface-card p-6">
             <div className="flex items-center gap-2 mb-1">
               <Target className="size-4 text-utah-red" />
-              <p className={`text-eyebrow text-2xs text-utah-red`}>{progress.name}</p>
+              <p className={`text-eyebrow text-xs text-utah-red`}>{progress.name}</p>
             </div>
             <div className="flex items-baseline gap-2 mt-2">
               <span className={`text-stat text-4xl text-white`}>
@@ -120,7 +120,7 @@ export default async function GivePage() {
         <div className="surface-card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Trophy className="size-4 text-warning" />
-            <p className={`text-eyebrow text-2xs text-zinc-400`}>Your Impact</p>
+            <p className={`text-eyebrow text-xs text-zinc-400`}>Your Impact</p>
           </div>
           <p className="text-sm text-zinc-300 mb-4">
             Every dollar goes directly to the program — travel, kit, recruiting, and alumni events.
@@ -137,7 +137,7 @@ export default async function GivePage() {
 
         {/* Donorbox widget */}
         <div className="surface-card p-6">
-          <p className={`text-eyebrow text-2xs text-utah-red mb-3`}>Donate Now</p>
+          <p className={`text-eyebrow text-xs text-utah-red mb-3`}>Donate Now</p>
           <Script src="https://donorbox.org/widget.js" strategy="lazyOnload" />
           <iframe
             src={`https://donorbox.org/embed/${DONORBOX_CAMPAIGN}?default_interval=o&show_content=true`}
@@ -159,14 +159,14 @@ export default async function GivePage() {
         <div className="surface-card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Star className="size-4 text-yellow-400" />
-            <p className={`text-eyebrow text-2xs text-zinc-400`}>Sponsor Tiers</p>
+            <p className={`text-eyebrow text-xs text-zinc-400`}>Sponsor Tiers</p>
           </div>
           <div className="space-y-3">
             {SPONSOR_TIERS.map(({ tier, amount, perks, color, bg }) => (
               <div key={tier} className={`rounded-xl border p-4 ${bg}`}>
                 <div className="flex items-baseline justify-between">
                   <span className={`text-display text-xl ${color}`}>{tier}</span>
-                  <span className={`text-eyebrow text-2xs ${color}`}>{amount}</span>
+                  <span className={`text-eyebrow text-xs ${color}`}>{amount}</span>
                 </div>
                 <p className="mt-1 text-xs text-zinc-400">{perks}</p>
               </div>
@@ -176,7 +176,7 @@ export default async function GivePage() {
 
         {/* More ways to give */}
         <div className="surface-card p-6">
-          <p className={`text-eyebrow text-2xs text-zinc-500 mb-2`}>More ways to give</p>
+          <p className={`text-eyebrow text-xs text-zinc-500 mb-2`}>More ways to give</p>
           <p className="text-sm leading-relaxed text-zinc-400">
             View all giving options, sponsorship opportunities, and more on the official Utah Rugby site.
           </p>

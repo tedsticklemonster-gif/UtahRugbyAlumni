@@ -45,7 +45,7 @@ export default async function NetworkPage({ searchParams }: NetworkPageProps) {
           <h1 className="text-title-1 text-white">Network</h1>
           {tab === "jobs" && <PostJobButton />}
         </div>
-        <p className="mt-1 text-sm text-zinc-400">
+        <p className="mt-1.5 text-body-sm text-zinc-400">
           {tab === "jobs"
             ? "Alumni hiring right now, and teammates looking for their next move."
             : "Find teammates and professionals in the Utah rugby community."}
@@ -71,7 +71,7 @@ function NetworkErrorWall() {
         <AlertCircle className="size-8 text-zinc-400" />
       </div>
       <h1 className="mt-5 text-title-1 text-white">Network unavailable</h1>
-      <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
+      <p className="text-body-sm mt-2 max-w-xs text-zinc-400">
         We couldn&apos;t load the network right now. Please try again in a
         moment or contact us if the problem persists.
       </p>
@@ -92,7 +92,7 @@ function NetworkSignInWall() {
         <Users className="size-8 text-zinc-400" />
       </div>
       <h1 className="mt-5 text-title-1 text-white">The Network</h1>
-      <p className="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
+      <p className="text-body-sm mt-2 max-w-xs text-zinc-400">
         The alumni network is only available to registered alumni. Sign in or
         create an account to find your teammates.
       </p>

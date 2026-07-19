@@ -106,14 +106,14 @@ export function ReactionPicker({ postId, myAlumniId, myReaction, reactions, onOp
     <div className="relative" ref={pickerRef}>
       {/* Emoji picker popup */}
       {open && (
-        <div className="absolute bottom-10 left-0 z-50 flex gap-1 rounded-2xl border border-border-strong bg-surface-1 px-2 py-1.5 shadow-xl">
+        <div className="absolute bottom-12 left-0 z-50 flex gap-1 rounded-2xl border border-border-strong bg-surface-1 px-2 py-2 shadow-xl">
           {EMOJIS.map(({ key, glyph, label }) => (
             <button
               key={key}
               onClick={() => handleReact(key)}
               title={label}
               className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-xl text-lg transition-transform hover:scale-125 active:scale-110",
+                "flex h-11 w-11 items-center justify-center rounded-xl text-2xl transition-transform hover:scale-125 active:scale-110",
                 myReaction === key && "bg-zinc-700"
               )}
             >
@@ -131,23 +131,23 @@ export function ReactionPicker({ postId, myAlumniId, myReaction, reactions, onOp
           onPointerLeave={() => { if (pressTimer.current) { clearTimeout(pressTimer.current); pressTimer.current = null; } }}
           disabled={!myAlumniId || pending}
           className={cn(
-            "flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors select-none",
+            "flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-semibold transition-colors select-none",
             myReaction
               ? "text-utah-red"
-              : "text-zinc-500 hover:text-zinc-300 disabled:cursor-default"
+              : "text-zinc-400 hover:text-zinc-200 disabled:cursor-default"
           )}
         >
-          <span className="text-base leading-none">{myGlyph ?? "👍"}</span>
+          <span className="text-lg leading-none">{myGlyph ?? "👍"}</span>
           <span className="hidden sm:inline">{myReaction ? "Reacted" : "React"}</span>
         </button>
 
         {/* Reaction summary */}
         {total > 0 && (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             {topEmojis.map((r) => {
               const em = EMOJIS.find((e) => e.key === r.emoji);
               return (
-                <span key={r.emoji} className="flex items-center gap-0.5 text-xs text-zinc-500">
+                <span key={r.emoji} className="flex items-center gap-0.5 text-sm text-zinc-400">
                   <span>{em?.glyph}</span>
                   <span>{r.count}</span>
                 </span>

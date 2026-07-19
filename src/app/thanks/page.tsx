@@ -59,7 +59,7 @@ export default async function ThanksPage() {
               <Mail className="size-4 text-utah-red" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-utah-red">
+              <p className="text-xs font-bold uppercase tracking-widest text-utah-red">
                 Step 1
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -81,7 +81,7 @@ export default async function ThanksPage() {
               <Share2 className="size-4 text-info" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-info">
+              <p className="text-xs font-bold uppercase tracking-widest text-info">
                 Step 2
               </p>
               <p className="mt-0.5 text-base font-bold text-white">
@@ -106,7 +106,7 @@ export default async function ThanksPage() {
               <Users className="size-4 text-warning" />
             </div>
             <div className="flex-1">
-              <p className="text-2xs font-bold uppercase tracking-widest text-warning">
+              <p className="text-xs font-bold uppercase tracking-widest text-warning">
                 Step 3
               </p>
               <p className="mt-0.5 text-base font-bold text-white">

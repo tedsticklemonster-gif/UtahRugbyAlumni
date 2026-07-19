@@ -19,7 +19,7 @@ function ShareButtonVisual() {
         {/* Safari address bar */}
         <div className="flex items-center gap-2 border-b border-zinc-700 bg-surface-2 px-3 py-2">
           <div className="h-5 flex-1 rounded-md bg-zinc-700 px-2 flex items-center">
-            <span className="text-3xs text-zinc-400 truncate">utah-rugby-alumni.vercel.app</span>
+            <span className="text-2xs text-zinc-400 truncate">utah-rugby-alumni.vercel.app</span>
           </div>
         </div>
         {/* Page content preview */}
@@ -75,13 +75,13 @@ function ShareSheetVisual() {
           ].map(({ icon, label }) => (
             <div key={label} className="flex items-center gap-2 rounded-lg bg-zinc-700 px-2 py-2 mb-1">
               <span className="text-xs">{icon}</span>
-              <span className="text-3xs text-zinc-300">{label}</span>
+              <span className="text-2xs text-zinc-300">{label}</span>
             </div>
           ))}
           {/* Highlighted row */}
           <div className="flex items-center gap-2 rounded-lg bg-utah-red px-2 py-2 mb-1">
             <span className="text-xs">➕</span>
-            <span className="text-3xs font-bold text-white">Add to Home Screen</span>
+            <span className="text-2xs font-bold text-white">Add to Home Screen</span>
             <span className="ml-auto text-[8px] text-white/70">← tap</span>
           </div>
         </div>
@@ -99,17 +99,17 @@ function NameConfirmVisual() {
         <div className="bg-surface-2 px-4 pt-4 pb-3">
           {/* Dialog title bar */}
           <div className="mb-3 flex items-center justify-between">
-            <button className="text-3xs text-zinc-400">Cancel</button>
-            <span className="text-3xs font-semibold text-white">Add to Home Screen</span>
+            <button className="text-2xs text-zinc-400">Cancel</button>
+            <span className="text-2xs font-semibold text-white">Add to Home Screen</span>
             {/* Add button highlighted */}
-            <button className="rounded bg-utah-red px-2 py-0.5 text-3xs font-bold text-white">
+            <button className="rounded bg-utah-red px-2 py-0.5 text-2xs font-bold text-white">
               Add
             </button>
           </div>
           {/* Icon + name preview */}
           <div className="flex flex-col items-center gap-2 py-2">
             <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white">
-              <div className="text-2xs font-bold text-utah-red">UU</div>
+              <div className="text-xs font-bold text-utah-red">UU</div>
             </div>
             <div className="h-4 w-24 rounded bg-zinc-700 flex items-center justify-center">
               <span className="text-[7px] text-zinc-400">UU Rugby</span>
@@ -214,7 +214,7 @@ export function InstallGuide({ onClose }: InstallGuideProps) {
         </div>
 
         {/* Step label */}
-        <p className="mb-1 text-center text-2xs font-bold uppercase tracking-widest text-utah-red">
+        <p className="mb-1 text-center text-xs font-bold uppercase tracking-widest text-utah-red">
           Step {step + 1} of {STEPS.length}
         </p>
         <h2 className="mb-4 text-center text-lg font-bold text-white">

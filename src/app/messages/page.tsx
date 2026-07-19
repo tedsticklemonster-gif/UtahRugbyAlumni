@@ -26,9 +26,9 @@ export default async function MessagesPage() {
       <div className="border-b border-white/6 px-5 py-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-white"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 hover:text-white"
         >
-          <ArrowLeft className="size-3.5" /> Home
+          <ArrowLeft className="size-4" /> Home
         </Link>
         <h1 className="mt-3 text-title-1 text-white">Messages</h1>
       </div>
@@ -39,8 +39,8 @@ export default async function MessagesPage() {
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2">
               <MessageCircle className="size-8 text-zinc-600" />
             </div>
-            <p className="text-sm font-semibold text-zinc-400">No messages yet</p>
-            <p className="text-xs text-zinc-600">
+            <p className="text-base font-semibold text-zinc-300">No messages yet</p>
+            <p className="text-body-sm text-zinc-500">
               Find a teammate in the{" "}
               <Link href="/network" className="text-zinc-400 underline hover:text-white">
                 directory
@@ -65,21 +65,21 @@ export default async function MessagesPage() {
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center justify-between gap-2">
-                <p className="truncate text-sm font-semibold text-white">
+                <p className="truncate text-base font-semibold text-white">
                   {conv.other_first_name} {conv.other_last_name}
                 </p>
-                <span className="shrink-0 text-2xs text-zinc-500">
+                <span className="shrink-0 text-caption">
                   {relativeTime(conv.last_message_at)}
                 </span>
               </div>
-              <p className="mt-0.5 truncate text-xs text-zinc-500">
+              <p className="mt-0.5 truncate text-sm text-zinc-500">
                 {conv.last_sent_by_me ? "You: " : ""}
                 {conv.last_message_body}
               </p>
             </div>
 
             {conv.unread_count > 0 && (
-              <div className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-utah-red px-1.5 text-2xs font-bold text-white">
+              <div className="flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full bg-utah-red px-2 text-xs font-bold text-white">
                 {conv.unread_count > 9 ? "9+" : conv.unread_count}
               </div>
             )}
@@ -90,7 +90,7 @@ export default async function MessagesPage() {
       {/* Link to find people to message */}
       {conversations.length > 0 && (
         <div className="px-5 py-4 text-center">
-          <Link href="/network" className="text-xs font-semibold text-zinc-500 hover:text-white">
+          <Link href="/network" className="text-sm font-semibold text-zinc-500 hover:text-white">
             Find more teammates to message →
           </Link>
         </div>

@@ -105,13 +105,13 @@ export default async function ProfilePage() {
             )}
           </div>
           {photoSignedUrl && (
-            <p className="text-2xs text-zinc-600">Tap photo to enlarge</p>
+            <p className="text-xs text-zinc-600">Tap photo to enlarge</p>
           )}
         </div>
 
         {/* Impact summary — donor tier + referrals */}
         <div className="mb-6 surface-card p-5">
-          <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
             Your Impact
           </p>
           <div className="grid grid-cols-2 gap-4">
@@ -160,7 +160,7 @@ export default async function ProfilePage() {
         {/* Notifications */}
         <div className="mb-6 surface-card p-5">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-2xs font-bold uppercase tracking-widest text-zinc-500">
+            <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">
               Notifications
             </p>
             <Link
@@ -176,7 +176,7 @@ export default async function ProfilePage() {
 
         {/* Profile form */}
         <div className="surface-card p-5">
-          <p className="mb-4 text-2xs font-bold uppercase tracking-widest text-zinc-500">
+          <p className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">
             Your information
           </p>
           <ProfileForm

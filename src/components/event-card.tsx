@@ -34,7 +34,7 @@ function formatDate(iso: string) {
 export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniId: string | null }) {
   return (
     <div className="surface-card overflow-hidden transition-[border-color,box-shadow] duration-200 ease-out hover:border-border-strong active:bg-surface-2/60">
-      <div className="p-4">
+      <div className="p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0 flex-1">
             <span className={`text-eyebrow ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
@@ -49,14 +49,14 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
           <ShareButton url={`${APP_URL}/events/${event.id}`} title={event.title} />
         </div>
 
-        <div className="space-y-1 mb-3">
-          <p className="flex items-center gap-1.5 text-xs text-zinc-400">
-            <CalendarDays className="size-3.5 shrink-0 text-zinc-500" />
+        <div className="space-y-1.5 mb-3.5">
+          <p className="flex items-center gap-2 text-sm text-zinc-400">
+            <CalendarDays className="size-4 shrink-0 text-zinc-500" />
             {formatDate(event.starts_at)}
           </p>
           {event.location && (
-            <p className="flex items-center gap-1.5 text-xs text-zinc-400">
-              <MapPin className="size-3.5 shrink-0 text-zinc-500" />
+            <p className="flex items-center gap-2 text-sm text-zinc-400">
+              <MapPin className="size-4 shrink-0 text-zinc-500" />
               <a
                 href={event.location_url || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}
                 target="_blank"
@@ -68,14 +68,14 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
             </p>
           )}
           {(event as Record<string, unknown>).cost ? (
-            <p className="flex items-center gap-1.5 text-xs text-zinc-400">
-              <span className="size-3.5 shrink-0 text-center text-zinc-500 font-bold">$</span>
+            <p className="flex items-center gap-2 text-sm text-zinc-400">
+              <span className="size-4 shrink-0 text-center text-zinc-500 font-bold">$</span>
               {(event as Record<string, unknown>).cost as string}
             </p>
           ) : null}
           {event.rsvp_going > 0 && (
-            <p className="flex items-center gap-1.5 text-xs text-zinc-500">
-              <Users className="size-3.5 shrink-0" />
+            <p className="flex items-center gap-2 text-sm text-zinc-500">
+              <Users className="size-4 shrink-0" />
               {event.rsvp_going} going{event.rsvp_maybe > 0 ? `, ${event.rsvp_maybe} maybe` : ""}
             </p>
           )}
@@ -83,9 +83,9 @@ export function EventCard({ event, myAlumniId }: { event: AlumniEvent; myAlumniI
 
         {event.description && (
           <div className="mb-3">
-            <p className="text-xs leading-relaxed text-zinc-400 line-clamp-2">{event.description}</p>
+            <p className="text-body-sm text-zinc-400 line-clamp-2">{event.description}</p>
             {event.description.length > 120 && (
-              <Link href={`/events/${event.id}`} className="text-xs font-semibold text-zinc-500 hover:text-white transition-colors">
+              <Link href={`/events/${event.id}`} className="text-sm font-semibold text-zinc-500 hover:text-white transition-colors">
                 Read more
               </Link>
             )}
@@ -104,25 +104,25 @@ export function EventRailCard({ event }: { event: AlumniEvent; myAlumniId?: stri
   return (
     <Link
       href={`/events/${event.id}`}
-      className="surface-card flex-shrink-0 w-52 p-4 hover:border-border-strong transition-[border-color,box-shadow] duration-200 ease-out active:scale-[0.98] block"
+      className="surface-card flex-shrink-0 w-60 p-5 hover:border-border-strong transition-[border-color,box-shadow] duration-200 ease-out active:scale-[0.98] block"
     >
       <div className="flex items-center gap-2 mb-3">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-utah-red/15">
-          <CalendarDays className="size-3.5 text-utah-red" />
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-utah-red/15">
+          <CalendarDays className="size-4 text-utah-red" />
         </span>
         <span className={`text-eyebrow ${(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).color}`}>
           {(KIND_CONFIG[event.kind] ?? KIND_CONFIG.other).label}
         </span>
       </div>
-      <p className="text-display text-sm text-white leading-snug line-clamp-2">{event.title}</p>
+      <p className="text-display text-lg text-white leading-snug line-clamp-2">{event.title}</p>
       {event.starts_at && (
-        <p className="mt-1.5 flex items-center gap-1 text-xs text-zinc-500">
+        <p className="mt-2 flex items-center gap-1.5 text-sm text-zinc-500">
           <CalendarDays className="size-3 shrink-0" />
           {new Date(event.starts_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
         </p>
       )}
       {event.rsvp_going > 0 && (
-        <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">
+        <p className="mt-1 flex items-center gap-1.5 text-sm text-zinc-500">
           <Users className="size-3 shrink-0" />
           {event.rsvp_going} going
         </p>

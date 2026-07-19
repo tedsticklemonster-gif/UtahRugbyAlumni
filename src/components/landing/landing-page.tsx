@@ -142,7 +142,7 @@ export async function LandingPage() {
               {/* Eyebrow */}
               <div className="mb-4 flex items-center gap-3">
                 <span className="block h-[2px] w-10 bg-utah-red" />
-                <p className="text-eyebrow text-2xs text-zinc-300 md:text-xs">
+                <p className="text-eyebrow text-xs text-zinc-300 md:text-xs">
                   University of Utah Rugby · Alumni Network
                 </p>
               </div>
@@ -242,7 +242,7 @@ export async function LandingPage() {
                     )}
                   </div>
                   <span className="mt-2 block h-[2px] w-8 bg-utah-red" />
-                  <p className="text-eyebrow mt-2 text-3xs text-zinc-500 md:text-2xs">
+                  <p className="text-eyebrow mt-2 text-2xs text-zinc-500 md:text-xs">
                     {s.label}
                   </p>
                 </div>
@@ -306,14 +306,14 @@ export async function LandingPage() {
             <div className="mb-6 flex items-end justify-between">
               <div>
                 <span className="block h-[2px] w-10 bg-utah-red" />
-                <p className="text-eyebrow mt-2 text-2xs text-zinc-500">Season</p>
+                <p className="text-eyebrow mt-2 text-xs text-zinc-500">Season</p>
                 <h2 className="text-display mt-1 text-3xl text-white md:text-5xl">
                   The Schedule
                 </h2>
               </div>
               <Link
                 href="/events?tab=season"
-                className="text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white"
+                className="text-eyebrow group inline-flex items-center gap-1.5 text-xs text-zinc-400 transition-colors hover:text-white"
               >
                 View All
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
@@ -323,7 +323,7 @@ export async function LandingPage() {
             <div className="grid gap-8 md:grid-cols-2">
               {/* Upcoming */}
               <div>
-                <p className="text-eyebrow mb-3 text-2xs text-utah-red">
+                <p className="text-eyebrow mb-3 text-xs text-utah-red">
                   Upcoming
                 </p>
                 {upcomingGames.length === 0 ? (
@@ -338,7 +338,7 @@ export async function LandingPage() {
                             <span className="text-display text-2xl leading-none text-white">
                               {d.day}
                             </span>
-                            <span className="text-eyebrow text-3xs text-utah-red">
+                            <span className="text-eyebrow text-2xs text-utah-red">
                               {d.month}
                             </span>
                           </div>
@@ -346,7 +346,7 @@ export async function LandingPage() {
                             <p className="text-display truncate text-base leading-none text-white md:text-xl">
                               vs {g.opponent}
                             </p>
-                            <p className="text-eyebrow mt-1 text-3xs text-zinc-500">
+                            <p className="text-eyebrow mt-1 text-2xs text-zinc-500">
                               {g.location} · {g.date}
                             </p>
                           </div>
@@ -359,7 +359,7 @@ export async function LandingPage() {
 
               {/* Results */}
               <div>
-                <p className="text-eyebrow mb-3 text-2xs text-zinc-400">
+                <p className="text-eyebrow mb-3 text-xs text-zinc-400">
                   Recent Results
                 </p>
                 {recentResults.length === 0 ? (
@@ -383,7 +383,7 @@ export async function LandingPage() {
                             <p className="text-display truncate text-base leading-none text-white md:text-xl">
                               vs {g.opponent}
                             </p>
-                            <p className="text-eyebrow mt-1 text-3xs text-zinc-500">
+                            <p className="text-eyebrow mt-1 text-2xs text-zinc-500">
                               {g.score}
                               {g.manOfMatch ? ` · MoM ${g.manOfMatch}` : ""}
                             </p>
@@ -410,7 +410,7 @@ export async function LandingPage() {
             <div className="mb-5 flex items-end justify-between">
               <div>
                 <span className="block h-[2px] w-10 bg-utah-red" />
-                <p className="text-eyebrow mt-2 text-2xs text-zinc-500">
+                <p className="text-eyebrow mt-2 text-xs text-zinc-500">
                   The Brotherhood
                 </p>
                 <h2 className="text-display mt-1 text-3xl text-white md:text-4xl">
@@ -419,7 +419,7 @@ export async function LandingPage() {
               </div>
               <Link
                 href="/network"
-                className="text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white"
+                className="text-eyebrow group inline-flex items-center gap-1.5 text-xs text-zinc-400 transition-colors hover:text-white"
               >
                 All Alumni
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
@@ -459,7 +459,7 @@ export async function LandingPage() {
                   <p className="text-display mt-2 truncate text-base leading-tight text-white">
                     {a.first_name} {a.last_name}
                   </p>
-                  <p className="text-eyebrow text-3xs text-zinc-500">
+                  <p className="text-eyebrow text-2xs text-zinc-500">
                     {a.grad_year
                       ? `Class of ${a.grad_year}`
                       : [a.city, a.state].filter(Boolean).join(", ") || "—"}
@@ -478,7 +478,7 @@ export async function LandingPage() {
             <div className="mb-5 flex items-end justify-between">
               <div>
                 <span className="block h-[2px] w-10 bg-utah-red" />
-                <p className="text-eyebrow mt-2 text-2xs text-utah-red">
+                <p className="text-eyebrow mt-2 text-xs text-utah-red">
                   Network
                 </p>
                 <h2 className="text-display mt-1 text-3xl text-white md:text-4xl">
@@ -487,7 +487,7 @@ export async function LandingPage() {
               </div>
               <Link
                 href="/network?tab=jobs"
-                className="text-eyebrow group inline-flex items-center gap-1.5 text-2xs text-zinc-400 transition-colors hover:text-white"
+                className="text-eyebrow group inline-flex items-center gap-1.5 text-xs text-zinc-400 transition-colors hover:text-white"
               >
                 All Jobs
                 <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
@@ -514,7 +514,7 @@ export async function LandingPage() {
                     <div className="pointer-events-none absolute inset-0 grayscale transition-all duration-300 group-hover:grayscale-0" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                     {/* Diagonal HIRING ribbon */}
-                    <div className="text-eyebrow absolute left-[-32px] top-3 -rotate-30 bg-utah-red px-10 py-0.5 text-3xs text-white shadow-md">
+                    <div className="text-eyebrow absolute left-[-32px] top-3 -rotate-30 bg-utah-red px-10 py-0.5 text-2xs text-white shadow-md">
                       Hiring
                     </div>
                     <div className="absolute inset-x-2 bottom-2">
@@ -522,7 +522,7 @@ export async function LandingPage() {
                         {a.first_name} {a.last_name}
                       </p>
                       {a.company && (
-                        <p className="text-eyebrow truncate text-3xs text-zinc-300">
+                        <p className="text-eyebrow truncate text-2xs text-zinc-300">
                           {a.company}
                         </p>
                       )}
@@ -550,7 +550,7 @@ export async function LandingPage() {
               }}
             />
             <div className="relative">
-              <p className="text-eyebrow text-2xs text-utah-red">
+              <p className="text-eyebrow text-xs text-utah-red">
                 Help Build the Network
               </p>
               <h3 className="text-display mt-2 max-w-2xl text-3xl leading-[0.95] text-white md:text-5xl">
@@ -581,12 +581,12 @@ export async function LandingPage() {
             href="https://www.utah-rugby.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-eyebrow inline-flex items-center gap-1.5 text-2xs text-zinc-500 transition-colors hover:text-white"
+            className="text-eyebrow inline-flex items-center gap-1.5 text-xs text-zinc-500 transition-colors hover:text-white"
           >
             utah-rugby.com
             <ArrowUpRight className="size-3" />
           </a>
-          <p className="text-eyebrow text-3xs text-zinc-700">
+          <p className="text-eyebrow text-2xs text-zinc-700">
             Est. 1972
           </p>
         </div>
@@ -603,7 +603,7 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
       <section className="bg-surface-0 py-6">
         <div className="mx-auto flex max-w-6xl items-center gap-4 border-l-4 border-utah-red px-5 md:px-10">
           <div>
-            <p className="text-eyebrow text-2xs text-utah-red">
+            <p className="text-eyebrow text-xs text-utah-red">
               Off-Season
             </p>
             <p className="text-display mt-1 text-2xl text-white md:text-3xl">
@@ -632,18 +632,18 @@ function NextMatchStrip({ game, nowMs }: { game: Game | null; nowMs: number }) {
         <div className="flex items-stretch gap-4 border-l-[5px] border-utah-red pl-5 md:gap-8 md:pl-7">
           {/* Date block */}
           <div className="flex shrink-0 flex-col items-start justify-center border-r border-zinc-900 pr-5 md:pr-8">
-            <p className="text-eyebrow text-2xs text-zinc-500">{d.weekday}</p>
+            <p className="text-eyebrow text-xs text-zinc-500">{d.weekday}</p>
             <p className="text-display -mt-1 text-5xl leading-none text-white md:text-6xl">
               {d.day}
             </p>
-            <p className="text-eyebrow text-2xs text-utah-red">
+            <p className="text-eyebrow text-xs text-utah-red">
               {d.month}
             </p>
           </div>
 
           {/* Match info */}
           <div className="flex min-w-0 flex-1 flex-col justify-center">
-            <p className="text-eyebrow text-2xs text-utah-red">
+            <p className="text-eyebrow text-xs text-utah-red">
               Next Match
             </p>
             <p className="text-display mt-0.5 truncate text-3xl leading-none text-white md:text-5xl">

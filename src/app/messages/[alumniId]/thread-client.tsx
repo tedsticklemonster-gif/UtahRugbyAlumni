@@ -110,14 +110,14 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
           <ArrowLeft className="size-5" />
         </Link>
         {partner.photo_signed_url ? (
-          <img src={partner.photo_signed_url} alt="" className="h-9 w-9 rounded-full object-cover" />
+          <img src={partner.photo_signed_url} alt="" className="h-11 w-11 rounded-full object-cover" />
         ) : (
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-700 text-xs font-bold text-zinc-300">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-zinc-300">
             {partner.first_name[0]}{partner.last_name[0]}
           </div>
         )}
         <div>
-          <p className="text-sm font-semibold text-white">{partner.first_name} {partner.last_name}</p>
+          <p className="text-display text-[1.0625rem] text-white">{partner.first_name} {partner.last_name}</p>
         </div>
       </div>
 
@@ -125,14 +125,14 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
         {messages.length === 0 && (
           <div className="flex items-center justify-center py-12">
-            <p className="text-xs text-zinc-600">No messages yet. Say hello!</p>
+            <p className="text-body-sm text-zinc-500">No messages yet. Say hello!</p>
           </div>
         )}
 
         {groups.map((group) => (
           <div key={group.date}>
             <div className="flex items-center justify-center py-3">
-              <span className="rounded-full bg-surface-2 px-3 py-0.5 text-2xs font-medium text-zinc-500">
+              <span className="rounded-full bg-surface-2 px-3 py-1 text-xs font-medium text-zinc-500">
                 {dateSeparator(group.messages[0].created_at)}
               </span>
             </div>
@@ -143,7 +143,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                   <div className={cn("max-w-[75%]", isMe ? "items-end" : "items-start", "flex flex-col gap-0.5")}>
                     <div
                       className={cn(
-                        "rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
+                        "text-body-sm rounded-2xl px-4 py-2.5",
                         isMe
                           ? "rounded-br-sm bg-utah-red/90 text-white"
                           : "rounded-bl-sm bg-surface-2 text-zinc-100"
@@ -160,7 +160,7 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
                         />
                       )}
                     </div>
-                    <span className="text-caption px-1 text-2xs">{timeOfDay(msg.created_at)}</span>
+                    <span className="text-caption px-1 text-xs">{timeOfDay(msg.created_at)}</span>
                   </div>
                 </div>
               );
@@ -172,15 +172,15 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
 
       {/* Input */}
       <div className="shrink-0 border-t border-white/6 px-4 pb-safe pt-3 pb-4">
-        {error && <p className="mb-2 text-xs text-red-400">{error}</p>}
+        {error && <p className="mb-2 text-sm text-red-400">{error}</p>}
         <div className="flex items-end gap-2">
-          <div className="flex-1 rounded-2xl border border-border-strong bg-surface-2 px-3 py-2">
+          <div className="flex-1 rounded-2xl border border-border-strong bg-surface-2 px-3.5 py-2.5">
             <textarea
               value={body}
               onChange={(e) => setBody(e.target.value)}
               placeholder="Message…"
               rows={1}
-              className="w-full resize-none bg-transparent text-sm text-white placeholder-zinc-500 focus:outline-none"
+              className="w-full resize-none bg-transparent text-base text-white placeholder-zinc-500 focus:outline-none"
               style={{ maxHeight: "120px", overflowY: "auto" }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -199,9 +199,9 @@ export function ThreadClient({ initialMessages, partner, myId, partnerId }: Thre
           <button
             onClick={handleSend}
             disabled={sending || (!body.trim() && !photo)}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-utah-red text-white transition-colors hover:bg-utah-red/90 disabled:opacity-40"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-utah-red text-white transition-colors hover:bg-utah-red/90 disabled:opacity-40"
           >
-            <Send className="size-4" />
+            <Send className="size-5" />
           </button>
         </div>
       </div>

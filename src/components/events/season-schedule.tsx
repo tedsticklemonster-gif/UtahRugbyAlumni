@@ -12,11 +12,11 @@ function resultBadge(game: Game) {
   if (!game.result) {
     const past = game.date && isPastDate(game.date);
     return past ? (
-      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-500">
+      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-zinc-500">
         Past
       </span>
     ) : (
-      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-2xs font-bold uppercase tracking-wide text-zinc-400">
+      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-zinc-400">
         Upcoming
       </span>
     );
@@ -24,7 +24,7 @@ function resultBadge(game: Game) {
   const isWin = game.result === "Win";
   return (
     <span
-      className={`rounded-md px-2 py-0.5 text-2xs font-bold uppercase tracking-wide ${
+      className={`rounded-md px-2 py-0.5 text-xs font-bold uppercase tracking-wide ${
         isWin
           ? "bg-success/15 text-success"
           : "bg-red-900/40 text-red-400"
@@ -66,7 +66,7 @@ export async function SeasonSchedule() {
     <div className="space-y-4">
       {/* Fixtures */}
       <div>
-        <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
+        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
           Fixtures &amp; Results
         </p>
         <div className="space-y-2">
@@ -109,7 +109,7 @@ export async function SeasonSchedule() {
       {/* Practice schedule */}
       {data.practiceLines.length > 0 && (
         <div>
-          <p className="mb-3 text-2xs font-bold uppercase tracking-widest text-zinc-500">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
             Practice Schedule
           </p>
           <div className="surface-card p-4 space-y-1.5">

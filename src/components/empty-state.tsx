@@ -25,7 +25,7 @@ export function EmptyState({
         </span>
       )}
       <p className="text-card-title text-zinc-100">{title}</p>
-      {description && <p className="text-caption mt-1.5">{description}</p>}
+      {description && <p className="text-body-sm mt-1.5 text-zinc-500">{description}</p>}
       {action && <div className="mt-5 flex justify-center">{action}</div>}
     </div>
   );

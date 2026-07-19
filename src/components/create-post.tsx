@@ -75,13 +75,13 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
   const busy = submitting || compressing;
 
   return (
-    <div className="surface-card p-4">
+    <div className="surface-card p-5">
       <div className="flex gap-3">
         {/* Avatar */}
         {me.photo_signed_url ? (
-          <img src={me.photo_signed_url} alt="" className="h-9 w-9 shrink-0 rounded-full object-cover" />
+          <img src={me.photo_signed_url} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover" />
         ) : (
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-xs font-bold text-zinc-300">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-zinc-300">
             {initials}
           </div>
         )}
@@ -93,7 +93,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
             placeholder="What's on your mind, rugger?"
             rows={body ? 3 : 2}
             maxLength={2000}
-            className="w-full resize-none rounded-xl border border-border-strong bg-surface-2 px-3 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
+            className="w-full resize-none rounded-xl border border-border-strong bg-surface-2 px-3.5 py-3 text-base text-white placeholder-zinc-500 focus:border-zinc-500 focus:outline-none"
           />
 
           {preview && (
@@ -109,9 +109,9 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
             </div>
           )}
 
-          {error && <p className="mt-1.5 text-xs text-red-400">{error}</p>}
+          {error && <p className="mt-1.5 text-sm text-red-400">{error}</p>}
 
-          <div className="mt-2 flex items-center justify-between">
+          <div className="mt-2.5 flex items-center justify-between">
             <div className="flex items-center gap-1">
               <input
                 ref={fileRef}
@@ -124,9 +124,9 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
                 type="button"
                 onClick={() => fileRef.current?.click()}
                 disabled={busy}
-                className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-500 hover:bg-surface-2 hover:text-zinc-300 disabled:opacity-50"
+                className="flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-medium text-zinc-400 hover:bg-surface-2 hover:text-zinc-200 disabled:opacity-50"
               >
-                <ImageIcon className="size-4" />
+                <ImageIcon className="size-5" />
                 {compressing ? "Processing…" : "Photo"}
               </button>
             </div>
@@ -135,7 +135,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
               onClick={handleSubmit}
               disabled={busy || (!body.trim() && !photo)}
               className={cn(
-                "rounded-xl px-4 py-1.5 text-xs font-bold transition-colors",
+                "rounded-full px-5 py-2.5 text-sm font-bold transition-colors",
                 "bg-utah-red text-white hover:bg-utah-red/90 disabled:opacity-40"
               )}
             >
@@ -144,7 +144,7 @@ export function CreatePost({ onSuccess }: { onSuccess?: () => void } = {}) {
           </div>
 
           {body.length > 1800 && (
-            <p className="mt-1 text-right text-2xs text-zinc-500">{body.length}/2000</p>
+            <p className="mt-1 text-right text-xs text-zinc-500">{body.length}/2000</p>
           )}
         </div>
       </div>

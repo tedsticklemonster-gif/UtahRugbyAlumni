@@ -17,29 +17,29 @@ function GameCard({ item }: { item: Extract<UpcomingItem, { source: "game" }> })
   return (
     <Link
       href="/events?tab=season"
-      className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-surface-0 p-4 transition-colors hover:border-border-strong active:scale-[0.98]"
+      className="group relative flex-shrink-0 w-64 overflow-hidden rounded-2xl border border-zinc-900 bg-surface-1 p-5 shadow-card transition-colors hover:border-border-strong active:scale-[0.98]"
     >
       {/* Red left accent */}
       <span className="absolute left-0 top-0 h-full w-[3px] bg-utah-red" />
       <div className="pl-1">
-        <p className={`text-eyebrow text-3xs text-utah-red`}>Game</p>
-        <p className={`text-display mt-1 text-xl leading-none text-white`}>
+        <p className="text-eyebrow text-utah-red">Game</p>
+        <p className="text-display mt-1.5 text-[1.375rem] leading-tight text-white">
           vs {item.opponent}
         </p>
-        <div className="mt-2 space-y-1">
+        <div className="mt-2.5 space-y-1.5">
           {item.date && (
-            <p className="flex items-center gap-1.5 text-2xs text-zinc-500">
-              <CalendarDays className="size-3 shrink-0" />
+            <p className="flex items-center gap-2 text-sm text-zinc-400">
+              <CalendarDays className="size-4 shrink-0" />
               {item.date}
             </p>
           )}
-          <p className="flex items-center gap-1.5 text-2xs text-zinc-500">
-            <MapPin className="size-3 shrink-0" />
+          <p className="flex items-center gap-2 text-sm text-zinc-400">
+            <MapPin className="size-4 shrink-0" />
             {item.location}
           </p>
         </div>
       </div>
-      <ArrowRight className="absolute right-3 top-3 size-3 text-zinc-700 transition-colors group-hover:text-white" />
+      <ArrowRight className="absolute right-4 top-4 size-4 text-zinc-600 transition-colors group-hover:text-white" />
     </Link>
   );
 }
@@ -48,36 +48,36 @@ function EventCard({ item }: { item: Extract<UpcomingItem, { source: "event" }> 
   return (
     <Link
       href={`/events/${item.id}`}
-      className="group relative flex-shrink-0 w-56 border border-zinc-900 bg-surface-0 p-4 transition-colors hover:border-border-strong active:scale-[0.98]"
+      className="group relative flex-shrink-0 w-64 overflow-hidden rounded-2xl border border-zinc-900 bg-surface-1 p-5 shadow-card transition-colors hover:border-border-strong active:scale-[0.98]"
     >
       {/* Red left accent */}
       <span className="absolute left-0 top-0 h-full w-[3px] bg-utah-red" />
       <div className="pl-1">
-        <p className={`text-eyebrow text-3xs text-utah-red`}>
+        <p className="text-eyebrow text-utah-red">
           {KIND_LABELS[item.kind] ?? "Event"}
         </p>
-        <p className={`text-display mt-1 text-xl leading-none text-white line-clamp-2`}>
+        <p className="text-display mt-1.5 text-[1.375rem] leading-tight text-white line-clamp-2">
           {item.title}
         </p>
-        <div className="mt-2 space-y-1">
+        <div className="mt-2.5 space-y-1.5">
           {item.date && (
-            <p className="flex items-center gap-1.5 text-2xs text-zinc-500">
-              <CalendarDays className="size-3 shrink-0" />
+            <p className="flex items-center gap-2 text-sm text-zinc-400">
+              <CalendarDays className="size-4 shrink-0" />
               {item.date}
             </p>
           )}
           {item.rsvp_going > 0 && (
-            <p className="flex items-center gap-1.5 text-2xs text-zinc-500">
-              <Users className="size-3 shrink-0" />
+            <p className="flex items-center gap-2 text-sm text-zinc-400">
+              <Users className="size-4 shrink-0" />
               {item.rsvp_going} going
               {item.my_rsvp === "going" && (
-                <span className="text-utah-red">· You&apos;re in</span>
+                <span className="font-semibold text-utah-red">· You&apos;re in</span>
               )}
             </p>
           )}
         </div>
       </div>
-      <ArrowRight className="absolute right-3 top-3 size-3 text-zinc-700 transition-colors group-hover:text-white" />
+      <ArrowRight className="absolute right-4 top-4 size-4 text-zinc-600 transition-colors group-hover:text-white" />
     </Link>
   );
 }
@@ -101,15 +101,14 @@ export function UpcomingRail({ items }: { items: UpcomingItem[] }) {
   if (filtered.length === 0) {
     return (
       <div className="px-4 pb-4">
-        <span className="block h-[2px] w-8 bg-utah-red" />
-        <p className={`text-eyebrow mt-2 text-2xs text-zinc-500`}>Coming Up</p>
+        <h2 className="text-title-2 text-white">Coming Up</h2>
         <a
           href="https://www.utah-rugby.com/new-page-2"
           target="_blank"
           rel="noopener noreferrer"
-          className={`text-eyebrow mt-2 inline-flex items-center gap-1.5 text-2xs text-utah-red hover:text-white transition-colors`}
+          className="mt-2.5 inline-flex items-center gap-2 text-sm font-semibold text-utah-red hover:text-white transition-colors"
         >
-          <CalendarDays className="size-3.5 shrink-0" />
+          <CalendarDays className="size-4 shrink-0" />
           View official game schedule →
         </a>
       </div>
@@ -118,12 +117,11 @@ export function UpcomingRail({ items }: { items: UpcomingItem[] }) {
 
   return (
     <div className="pb-4">
-      <div className="px-4 mb-3">
-        <span className="block h-[2px] w-8 bg-utah-red" />
-        <p className={`text-eyebrow mt-2 text-2xs text-zinc-500`}>Coming Up</p>
+      <div className="px-4 mb-3.5">
+        <h2 className="text-title-2 text-white">Coming Up</h2>
       </div>
       <div
-        className="flex gap-2.5 overflow-x-auto px-4 scrollbar-hide"
+        className="flex gap-3 overflow-x-auto px-4 scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {filtered.map((item, i) =>

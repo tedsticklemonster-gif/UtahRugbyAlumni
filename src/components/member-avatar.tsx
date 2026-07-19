@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 
 const SIZES = {
-  xs: "h-6 w-6 text-3xs",
-  sm: "h-7 w-7 text-2xs",
-  md: "h-9 w-9 text-xs",
-  lg: "h-12 w-12 text-sm",
-  xl: "h-20 w-20 text-lg",
+  xs: "h-7 w-7 text-2xs",
+  sm: "h-9 w-9 text-xs",
+  md: "h-12 w-12 text-sm",
+  lg: "h-14 w-14 text-base",
+  xl: "h-24 w-24 text-xl",
 } as const;
 
 export type MemberAvatarSize = keyof typeof SIZES;

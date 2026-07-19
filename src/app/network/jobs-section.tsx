@@ -77,10 +77,10 @@ export async function JobsSection() {
       {jobListings.length > 0 && (
         <section>
           <div className="mb-3 flex items-baseline justify-between">
-            <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-utah-red">
+            <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-utah-red">
               <Briefcase className="size-3" /> Job Listings
             </p>
-            <span className="text-2xs font-semibold text-zinc-500">
+            <span className="text-xs font-semibold text-zinc-500">
               {jobListings.length} {jobListings.length === 1 ? "listing" : "listings"}
             </span>
           </div>
@@ -95,10 +95,10 @@ export async function JobsSection() {
       {/* Hiring now */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-info">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-info">
             <Hammer className="size-3" /> Alumni Hiring Now
           </p>
-          <span className="text-2xs font-semibold text-zinc-500">
+          <span className="text-xs font-semibold text-zinc-500">
             {hiring.length} {hiring.length === 1 ? "alum" : "alumni"}
           </span>
         </div>
@@ -121,10 +121,10 @@ export async function JobsSection() {
       {/* Open to work */}
       <section>
         <div className="mb-3 flex items-baseline justify-between">
-          <p className="flex items-center gap-1.5 text-2xs font-bold uppercase tracking-widest text-success">
+          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-success">
             <Sparkles className="size-3" /> Open To Work
           </p>
-          <span className="text-2xs font-semibold text-zinc-500">
+          <span className="text-xs font-semibold text-zinc-500">
             {open.length} {open.length === 1 ? "alum" : "alumni"}
           </span>
         </div>
@@ -187,13 +187,13 @@ function JobCard({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-3xs font-bold uppercase tracking-wider ${badge.className}`}
+            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-bold uppercase tracking-wider ${badge.className}`}
           >
             <badge.Icon className="size-2.5" />
             {badge.label}
           </span>
           {alum.grad_year && (
-            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-2xs font-bold text-white">
+            <span className="rounded-md bg-utah-red px-1.5 py-0.5 text-xs font-bold text-white">
               &rsquo;{String(alum.grad_year).slice(-2)}
             </span>
           )}
@@ -217,7 +217,7 @@ function JobCard({
             {location}
           </p>
         )}
-        <div className="mt-1.5 flex items-center gap-1.5 text-2xs font-semibold text-utah-red">
+        <div className="mt-1.5 flex items-center gap-1.5 text-xs font-semibold text-utah-red">
           <MessageCircle className="size-3" />
           View profile
         </div>

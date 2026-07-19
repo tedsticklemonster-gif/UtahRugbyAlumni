@@ -26,7 +26,7 @@ function AvatarRail({
         <Link
           key={m.id}
           href={`/u/${m.id}`}
-          className="group flex w-16 shrink-0 flex-col items-center gap-1.5"
+          className="group flex w-[4.5rem] shrink-0 flex-col items-center gap-1.5"
         >
           <div className="relative">
             <MemberAvatar
@@ -37,10 +37,10 @@ function AvatarRail({
               className="border-2 border-zinc-800 transition-colors group-hover:border-utah-red"
             />
             {showActiveDot && (
-              <span className="absolute bottom-0.5 right-0.5 block h-2.5 w-2.5 rounded-full border-2 border-black bg-utah-red" />
+              <span className="absolute bottom-0.5 right-0.5 block h-3 w-3 rounded-full border-2 border-black bg-utah-red" />
             )}
           </div>
-          <p className="w-full truncate text-center text-2xs text-zinc-400 transition-colors group-hover:text-white">
+          <p className="w-full truncate text-center text-xs font-medium text-zinc-400 transition-colors group-hover:text-white">
             {m.first_name}
           </p>
         </Link>
@@ -69,42 +69,41 @@ export function CommunityStrip({
   const endYear = myGradYear ? myGradYear + 2 : 0;
 
   return (
-    <div className="px-4 pt-5">
-      <span className="block h-[2px] w-8 bg-utah-red" />
-      <p className="text-eyebrow mb-3 mt-2 text-2xs text-zinc-500">Community</p>
+    <div className="px-4 pt-6">
+      <h2 className="text-title-2 mb-4 text-white">Community</h2>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         {presence.length > 0 && (
           <div>
-            <p className="text-eyebrow mb-2 text-3xs text-zinc-600">Active Now</p>
+            <p className="text-eyebrow mb-2.5">Active Now</p>
             <AvatarRail members={presence} showActiveDot />
           </div>
         )}
 
         {joins.length > 0 && (
           <div>
-            <p className="text-eyebrow mb-2 flex items-center gap-1.5 text-3xs text-zinc-600">
-              <UserPlus className="size-3" />
+            <p className="text-eyebrow mb-2.5 flex items-center gap-1.5">
+              <UserPlus className="size-3.5" />
               New Members
             </p>
-            <div className="scrollbar-hide flex gap-2 overflow-x-auto">
+            <div className="scrollbar-hide flex gap-2.5 overflow-x-auto">
               {joins.map((join) => {
                 const year = join.grad_year ? `'${String(join.grad_year).slice(-2)}` : null;
                 return (
                   <Link
                     key={join.id}
                     href={`/u/${join.id}`}
-                    className="flex shrink-0 items-center gap-2 border border-border bg-surface-0 py-1.5 pl-1 pr-3 transition-colors hover:border-border-strong motion-safe:active:scale-[0.97]"
+                    className="flex shrink-0 items-center gap-2.5 rounded-full border border-border bg-surface-0 py-1.5 pl-1.5 pr-4 transition-colors hover:border-border-strong motion-safe:active:scale-[0.97]"
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center bg-surface-2 text-2xs font-bold text-zinc-300">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-surface-2 text-xs font-bold text-zinc-300">
                       {`${join.first_name[0]}${join.last_name[0]}`.toUpperCase()}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-bold leading-none text-white">
+                      <p className="text-sm font-bold leading-tight text-white">
                         {join.first_name} {join.last_name}
                         {year && <span className="ml-1 font-normal text-zinc-500">{year}</span>}
                       </p>
-                      <p className="text-eyebrow mt-0.5 text-[8px] text-zinc-600">just joined</p>
+                      <p className="text-xs text-zinc-500">just joined</p>
                     </div>
                   </Link>
                 );
@@ -115,13 +114,13 @@ export function CommunityStrip({
 
         {hasEra && (
           <div>
-            <div className="mb-2 flex items-end justify-between">
-              <p className="text-eyebrow text-3xs text-zinc-600">
+            <div className="mb-2.5 flex items-end justify-between">
+              <p className="text-eyebrow">
                 Your Era · &rsquo;{String(startYear).slice(-2)}&ndash;&rsquo;{String(endYear).slice(-2)}
               </p>
               <Link
                 href={`/network?yearFrom=${startYear}&yearTo=${endYear}`}
-                className="text-eyebrow text-3xs text-zinc-500 transition-colors hover:text-white"
+                className="text-xs font-semibold text-zinc-400 transition-colors hover:text-white"
               >
                 View All →
               </Link>

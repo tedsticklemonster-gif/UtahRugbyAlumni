@@ -1,4 +1,5 @@
-"use server";
+// Server-only module — deliberately NOT "use server": that directive would
+// register notifyNewEvent as a public action endpoint with no auth check.
 
 import { render } from "@react-email/components";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -72,7 +73,7 @@ export async function notifyNewEvent(eventId: string) {
         .select("id")
         .eq("alumni_id", recipient.id)
         .eq("campaign", "new_event")
-        .eq("recipient_email", recipient.email)
+        .eq("event_id", event.id)
         .maybeSingle();
 
       if (existing) continue;
@@ -101,6 +102,7 @@ export async function notifyNewEvent(eventId: string) {
           alumni_id: recipient.id,
           recipient_email: recipient.email,
           campaign: "new_event",
+          event_id: event.id,
           resend_id: sendResult?.id ?? null,
         });
 
@@ -113,6 +115,7 @@ export async function notifyNewEvent(eventId: string) {
       }
     }
 
+    console.log(`[notifyNewEvent] Sent ${sent}/${recipients.length} emails for event ${event.id}`);
   } catch (err) {
     console.error("[notifyNewEvent] Error:", err);
   }

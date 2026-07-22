@@ -31,6 +31,30 @@ export type HubRecentJoin = {
 
 export async function getHubData() {
   const supabase = await createClient();
+  // Members only — this is a public action endpoint. Session (cookie read)
+  // rather than getUser (live call with intermittent false-nulls).
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
+    return {
+      presence: [] as HubPresenceMember[],
+      upcoming: [],
+      announcements: [] as HubAnnouncement[],
+      recentJoins: [] as HubRecentJoin[],
+      myAlumniId: null as string | null,
+      myForwardToken: null as string | null,
+      profileFields: null,
+      showOnboarding: false,
+      alumniFirstName: "",
+      alumniId: null as string | null,
+      eraMembers: [],
+      myGradYear: null as number | null,
+      initialPosts: [],
+      initialCursor: null as string | null,
+    };
+  }
+
   const {
     data: { user },
   } = await supabase.auth.getUser();

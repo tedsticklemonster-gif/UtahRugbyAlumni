@@ -5,7 +5,10 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  // Same-origin paths only — "//evil.com" would be a protocol-relative
+  // redirect off-site.
+  const rawNext = searchParams.get("next") ?? "/";
+  const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
 
   // On Vercel, request.url uses the internal host — x-forwarded-host has the
   // real public domain. Always prefer it in production.

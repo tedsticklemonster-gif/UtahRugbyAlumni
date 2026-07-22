@@ -52,6 +52,12 @@ export async function getPostsAction(cursor?: string): Promise<{
   myAlumniId: string | null;
 }> {
   const supabase = await createClient();
+  // Members only — this is a public action endpoint, so gate before reading.
+  // getSession() (cookie read) rather than getUser() (live call that can
+  // intermittently return null for a valid session).
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return { posts: [], nextCursor: null, myAlumniId: null };
+
   const { data: { user } } = await supabase.auth.getUser();
   const admin = createAdminClient();
 
@@ -138,6 +144,10 @@ export async function getPostsAction(cursor?: string): Promise<{
 
 export async function getPostAction(postId: string): Promise<FeedPost | null> {
   const supabase = await createClient();
+  // Members only — public action endpoint.
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return null;
+
   const { data: { user } } = await supabase.auth.getUser();
   const admin = createAdminClient();
 
@@ -356,6 +366,11 @@ export async function setReactionAction(postId: string, emoji: string | null): P
 }
 
 export async function getCommentsAction(postId: string): Promise<FeedComment[]> {
+  // Members only — public action endpoint.
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return [];
+
   const admin = createAdminClient();
 
   const { data: comments } = await admin

@@ -27,7 +27,6 @@ export function MemberAvatar({
 }) {
   if (photoUrl) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element -- signed Supabase URLs, sized via CSS
       <img
         src={photoUrl}
         alt={`${firstName} ${lastName}`}

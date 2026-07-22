@@ -29,6 +29,15 @@ function GoogleIcon() {
   );
 }
 
+/** Carry the ?next= destination through to /auth/callback so deep links
+ * (shared posts, /search) land where the user was headed. Read at call time
+ * from window — useSearchParams would force a Suspense boundary here. */
+function callbackUrl() {
+  const next = new URLSearchParams(window.location.search).get("next");
+  const safe = next && next.startsWith("/") && !next.startsWith("//");
+  return `${window.location.origin}/auth/callback${safe ? `?next=${encodeURIComponent(next)}` : ""}`;
+}
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
@@ -42,7 +51,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: callbackUrl() },
     });
     if (error) {
       setError(error.message);
@@ -58,7 +67,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      options: { emailRedirectTo: callbackUrl() },
     });
 
     if (error) {

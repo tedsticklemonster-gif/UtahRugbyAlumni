@@ -131,6 +131,10 @@ export async function getAlumniRecentPostsAction(
   authorId: string
 ): Promise<{ posts: FeedPost[]; myAlumniId: string | null }> {
   const supabase = await createClient();
+  // Members only — public action endpoint.
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) return { posts: [], myAlumniId: null };
+
   const {
     data: { user },
   } = await supabase.auth.getUser();

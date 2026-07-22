@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getPostAction } from "@/actions/feed";
 import { PostCard } from "@/components/post-card";
 import { createClient } from "@/lib/supabase/server";
@@ -12,10 +12,16 @@ export default async function PostPage({
   params: Promise<{ postId: string }>;
 }) {
   const { postId } = await params;
+
+  const supabase = await createClient();
+  // Send logged-out visitors (e.g. from a shared link) to login instead of a
+  // 404 — getPostAction now returns null without a session.
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) redirect(`/auth/login?next=/feed/${postId}`);
+
   const post = await getPostAction(postId);
   if (!post) notFound();
 
-  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   let myAlumniId: string | null = null;

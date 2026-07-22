@@ -154,7 +154,7 @@ export async function LandingPage() {
                 <span className="text-utah-red">Always a Ute.</span>
               </h1>
 
-              <p className="mt-6 max-w-sm text-[13px] leading-relaxed text-zinc-300 md:text-sm">
+              <p className="text-body-sm mt-6 max-w-md text-zinc-300 md:text-base">
                 The private network for every player who played for the U.
                 Find old teammates. Hire from the brotherhood. Get hired by them.
               </p>
@@ -431,16 +431,17 @@ export async function LandingPage() {
                 <Link key={a.id} href={`/u/${a.id}`} className="group w-32 shrink-0 md:w-36">
                   <SponsorHalo tier={((a as Record<string, unknown>).sponsor_tier as "bronze" | "silver" | "gold" | null) ?? null} size="sm" rounded="rounded-none">
                   <div className="relative aspect-square overflow-hidden border border-zinc-900 bg-surface-0">
-                    <UserPhoto
-                      src={a.photo_url ? recentMap[a.photo_url] ?? null : null}
-                      alt={`${a.first_name} ${a.last_name}`}
-                      firstName={a.first_name}
-                      lastName={a.last_name}
-                      fill
-                      rounded="none"
-                    />
                     {/* Grayscale → colour on hover */}
-                    <div className="pointer-events-none absolute inset-0 grayscale transition-all duration-300 group-hover:grayscale-0" />
+                    <div className="absolute inset-0 grayscale transition-[filter] duration-300 group-hover:grayscale-0">
+                      <UserPhoto
+                        src={a.photo_url ? recentMap[a.photo_url] ?? null : null}
+                        alt={`${a.first_name} ${a.last_name}`}
+                        firstName={a.first_name}
+                        lastName={a.last_name}
+                        fill
+                        rounded="none"
+                      />
+                    </div>
                     {/* Red sweep on hover */}
                     <div
                       className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 opacity-0 transition-opacity group-hover:opacity-100"
@@ -502,16 +503,17 @@ export async function LandingPage() {
                   className="group relative w-36 shrink-0 md:w-40"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden border-2 border-utah-red bg-surface-0">
-                    <UserPhoto
-                      src={a.photo_url ? hiringMap[a.photo_url] ?? null : null}
-                      alt={`${a.first_name} ${a.last_name}`}
-                      firstName={a.first_name}
-                      lastName={a.last_name}
-                      fill
-                      rounded="none"
-                    />
                     {/* Grayscale → colour on hover */}
-                    <div className="pointer-events-none absolute inset-0 grayscale transition-all duration-300 group-hover:grayscale-0" />
+                    <div className="absolute inset-0 grayscale transition-[filter] duration-300 group-hover:grayscale-0">
+                      <UserPhoto
+                        src={a.photo_url ? hiringMap[a.photo_url] ?? null : null}
+                        alt={`${a.first_name} ${a.last_name}`}
+                        firstName={a.first_name}
+                        lastName={a.last_name}
+                        fill
+                        rounded="none"
+                      />
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                     {/* Diagonal HIRING ribbon */}
                     <div className="text-eyebrow absolute left-[-32px] top-3 -rotate-30 bg-utah-red px-10 py-0.5 text-2xs text-white shadow-md">

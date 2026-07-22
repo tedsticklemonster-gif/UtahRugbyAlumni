@@ -106,10 +106,11 @@ export function UpcomingRail({ items }: { items: UpcomingItem[] }) {
           href="https://www.utah-rugby.com/new-page-2"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2.5 inline-flex items-center gap-2 text-sm font-semibold text-utah-red hover:text-white transition-colors"
+          className="group mt-2.5 inline-flex items-center gap-2 text-sm font-semibold text-utah-red hover:text-white transition-colors"
         >
           <CalendarDays className="size-4 shrink-0" />
-          View official game schedule →
+          View official game schedule
+          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
         </a>
       </div>
     );

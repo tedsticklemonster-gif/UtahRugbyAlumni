@@ -4,7 +4,7 @@ import Link from "next/link";
 import { User, Briefcase, MapPin, FileText, Camera, Link2 } from "lucide-react";
 
 
-interface ProfileFields {
+export interface ProfileFields {
   has_photo: boolean;
   has_bio: boolean;
   has_profession: boolean;
@@ -37,31 +37,29 @@ export function ProfileCompletion({ fields }: { fields: ProfileFields }) {
   const nextTip = missing[0];
 
   return (
-    <div className="mx-4 mt-4">
-      <Link
-        href="/me"
-        className="block surface-card p-5 transition-colors hover:border-utah-red/40"
-      >
-        <div className="flex items-center justify-between mb-2.5">
-          <p className="text-card-title text-white">Profile Strength</p>
-          <span className="text-display text-2xl text-utah-red">{pct}%</span>
+    <Link
+      href="/me"
+      className="block surface-card p-5 transition-colors hover:border-utah-red/40"
+    >
+      <div className="flex items-center justify-between mb-2.5">
+        <p className="text-card-title text-white">Profile Strength</p>
+        <span className="text-display text-2xl text-utah-red">{pct}%</span>
+      </div>
+      {/* Progress bar */}
+      <div className="h-2.5 w-full rounded-full bg-surface-2 overflow-hidden">
+        <div
+          className="h-full rounded-full bg-utah-red transition-all duration-500"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+      {nextTip && (
+        <div className="mt-3 flex items-center gap-2 text-sm text-zinc-400">
+          <nextTip.icon className="size-4 text-zinc-500" />
+          <span>
+            Next: <span className="text-zinc-200">{nextTip.label}</span>
+          </span>
         </div>
-        {/* Progress bar */}
-        <div className="h-2.5 w-full rounded-full bg-surface-2 overflow-hidden">
-          <div
-            className="h-full rounded-full bg-utah-red transition-all duration-500"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
-        {nextTip && (
-          <div className="mt-3 flex items-center gap-2 text-sm text-zinc-400">
-            <nextTip.icon className="size-4 text-zinc-500" />
-            <span>
-              Next: <span className="text-zinc-200">{nextTip.label}</span>
-            </span>
-          </div>
-        )}
-      </Link>
-    </div>
+      )}
+    </Link>
   );
 }

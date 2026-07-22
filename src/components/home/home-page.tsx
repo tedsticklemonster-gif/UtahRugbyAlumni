@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect, useRef, useSyncExternalStore } from "react";
+import { useState, useTransition, useEffect, useRef, Fragment } from "react";
 import { getPostsAction, type FeedPost } from "@/actions/feed";
 import { PostCard } from "@/components/post-card";
 import { CreatePost } from "@/components/create-post";
@@ -9,24 +9,14 @@ import { AnnouncementsCard } from "@/components/home/announcements-card";
 import { CommunityStrip, type EraMember } from "@/components/home/community-strip";
 import { NextGameCard } from "@/components/home/next-game-card";
 import Link from "next/link";
-import { Briefcase, X } from "lucide-react";
-import { InviteBanner } from "@/components/home/invite-banner";
-import { ProfileCompletion } from "@/components/home/profile-completion";
+import { ArrowRight, Briefcase } from "lucide-react";
+import { NudgeSlot } from "@/components/home/nudge-slot";
 import { OnboardingWizard } from "@/components/onboarding-wizard";
 import { PullToRefresh } from "@/components/pull-to-refresh";
 import { EmptyState } from "@/components/empty-state";
 import type { HubPresenceMember, HubAnnouncement, HubRecentJoin } from "@/actions/hub";
 import type { UpcomingItem as HubUpcomingItem } from "@/actions/events";
 import type { Game } from "@/lib/schedule";
-
-const TELEGRAM_INVITE = "https://t.me/+ajaqw-YQ1ZsxYjQx";
-
-const TELEGRAM_DISMISS_KEY = "telegram_banner_dismissed";
-const subscribeStorage = (cb: () => void) => {
-  if (typeof window === "undefined") return () => {};
-  window.addEventListener("storage", cb);
-  return () => window.removeEventListener("storage", cb);
-};
 
 interface HomePageProps {
   presence: HubPresenceMember[];
@@ -75,20 +65,10 @@ export function HomePage({
   nowMs,
 }: HomePageProps) {
   const [wizardDismissed, setWizardDismissed] = useState(false);
-  // Override flag so dismissing in this session takes effect immediately
-  // (the storage event only fires across tabs/windows, not within the same tab).
-  const [localDismiss, setLocalDismiss] = useState(false);
-  // Read the dismissed flag from localStorage via an external store so SSR
-  // returns "dismissed" (hides banner cleanly) and hydration is consistent.
-  const storedDismiss = useSyncExternalStore(
-    subscribeStorage,
-    () => localStorage.getItem(TELEGRAM_DISMISS_KEY) === "1",
-    () => true,
-  );
-  const telegramDismissed = storedDismiss || localDismiss;
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);
   const [cursor, setCursor] = useState<string | null>(initialCursor);
   const [loading, startLoad] = useTransition();
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   // Sync state when the server refreshes with new posts (e.g., after router.refresh())
   const latestInitialPostIdRef = useRef<string | null>(initialPosts[0]?.id ?? null);
@@ -102,7 +82,7 @@ export function HomePage({
   }, [initialPosts, initialCursor]);
 
   function loadMore() {
-    if (!cursor) return;
+    if (!cursor || loading) return;
     startLoad(async () => {
       const { posts: more, nextCursor } = await getPostsAction(cursor);
       setPosts((prev) => [...prev, ...more]);
@@ -110,11 +90,69 @@ export function HomePage({
     });
   }
 
+  // Auto-load the next page as the sentinel approaches the viewport; the
+  // "Load more" button below stays as a manual fallback.
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el || !cursor) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      },
+      { rootMargin: "600px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cursor, loading]);
+
+  function focusComposer() {
+    const el = document.querySelector<HTMLTextAreaElement>(
+      "[data-composer] textarea",
+    );
+    el?.focus();
+  }
+
+  // Modules interleaved into the wall so the feed leads without burying them.
+  const communityIndex = Math.min(2, posts.length);
+  const jobsIndex = Math.min(5, posts.length);
+
+  const communityModule = (
+    <div className="-mx-4">
+      <CommunityStrip
+        presence={presence}
+        joins={recentJoins}
+        eraMembers={eraMembers}
+        myGradYear={myGradYear}
+      />
+    </div>
+  );
+
+  const jobBoardModule = (
+    <Link
+      href="/network?tab=jobs"
+      className="group flex items-center gap-3.5 rounded-2xl border border-border-subtle bg-surface-1/60 px-4 py-4 transition-colors hover:border-info/40 hover:bg-info/5"
+    >
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-info/10 text-info">
+        <Briefcase className="size-5" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-card-title text-zinc-100 group-hover:text-white">
+          Job Board
+        </p>
+        <p className="text-sm text-zinc-500">
+          Alumni hiring and open positions
+        </p>
+      </div>
+      <span className="inline-flex items-center gap-1 text-sm font-semibold text-info">
+        View
+        <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </Link>
+  );
+
   return (
     <PullToRefresh>
-      {/* Invite banner — full bleed */}
-      <InviteBanner forwardToken={myForwardToken} />
-
       <div className="mx-auto max-w-2xl">
         {showOnboarding && !wizardDismissed && (
           <OnboardingWizard
@@ -124,84 +162,18 @@ export function HomePage({
           />
         )}
 
-        {profileFields && <ProfileCompletion fields={profileFields} />}
-
         {/* Next match */}
         <NextGameCard game={nextGame} nowMs={nowMs} />
 
         {/* Announcements — the reason this app exists */}
         {announcements.length > 0 && <AnnouncementsCard items={announcements} />}
 
-        {/* Upcoming games / events */}
-        {upcoming.length > 0 && (
-          <div className="pt-5">
-            <UpcomingRail items={upcoming} />
-          </div>
-        )}
-
-        {/* Community — active, new, and your era */}
-        <CommunityStrip
-          presence={presence}
-          joins={recentJoins}
-          eraMembers={eraMembers}
-          myGradYear={myGradYear}
+        {/* One nudge at a time — invite / Telegram / profile strength rotate */}
+        <NudgeSlot
+          forwardToken={myForwardToken}
+          profileFields={profileFields}
+          nowMs={nowMs}
         />
-
-        {/* Jobs — network value */}
-        <div className="px-4 pt-5">
-          <Link
-            href="/network?tab=jobs"
-            className="group flex items-center gap-3.5 rounded-2xl border border-border-subtle bg-surface-1/60 px-4 py-4 transition-colors hover:border-info/40 hover:bg-info/5"
-          >
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-info/10 text-info">
-              <Briefcase className="size-5" />
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-card-title text-zinc-100 group-hover:text-white">
-                Job Board
-              </p>
-              <p className="text-sm text-zinc-500">
-                Alumni hiring and open positions
-              </p>
-            </div>
-            <span className="text-sm font-semibold text-info">View →</span>
-          </Link>
-        </div>
-
-        {/* Telegram banner — dismissible */}
-        {!telegramDismissed && (
-          <div className="mx-4 mt-4 rounded-2xl border border-telegram/30 bg-telegram/10 px-4 py-4">
-            <div className="flex items-start gap-3">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="size-7 shrink-0 text-telegram mt-0.5" aria-hidden="true">
-                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-              </svg>
-              <div className="flex-1 min-w-0">
-                <p className="text-base font-bold text-white">Turn on notifications</p>
-                <p className="text-body-sm text-zinc-400 mt-1">
-                  Join the Telegram channel to get instant alerts for posts, events, and new members.
-                </p>
-                <a
-                  href={TELEGRAM_INVITE}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-telegram px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-telegram/85"
-                >
-                  Join Telegram
-                </a>
-              </div>
-              <button
-                onClick={() => {
-                  localStorage.setItem(TELEGRAM_DISMISS_KEY, "1");
-                  setLocalDismiss(true);
-                }}
-                className="p-1.5 text-zinc-500 hover:text-white transition-colors"
-                aria-label="Dismiss"
-              >
-                <X className="size-5" />
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Alumni Wall / Feed */}
         <div className="px-4 pb-8 space-y-4">
@@ -210,27 +182,61 @@ export function HomePage({
             <h2 className="text-title-2 text-white">Alumni Wall</h2>
           </div>
 
-          <CreatePost />
+          <div data-composer>
+            <CreatePost />
+          </div>
 
           {posts.length === 0 && (
             <EmptyState
-              title="No posts yet"
-              description="Be the first to post something."
+              title="The wall's quiet."
+              description="Someone has to kick off. Post a memory, a match photo, or just check in."
+              action={
+                <button
+                  onClick={focusComposer}
+                  className="rounded-full bg-utah-red px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-utah-red/90"
+                >
+                  Kick it off
+                </button>
+              }
             />
           )}
 
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} myAlumniId={myAlumniId} />
+          {posts.map((post, i) => (
+            <Fragment key={post.id}>
+              <PostCard post={post} myAlumniId={myAlumniId} />
+              {i + 1 === communityIndex && communityModule}
+              {i + 1 === jobsIndex && jobBoardModule}
+              {i + 1 === Math.min(4, posts.length) && upcoming.length > 0 && (
+                <div className="-mx-4">
+                  <UpcomingRail items={upcoming} />
+                </div>
+              )}
+            </Fragment>
           ))}
 
+          {posts.length === 0 && (
+            <>
+              {upcoming.length > 0 && (
+                <div className="-mx-4">
+                  <UpcomingRail items={upcoming} />
+                </div>
+              )}
+              {communityModule}
+              {jobBoardModule}
+            </>
+          )}
+
           {cursor && (
-            <button
-              onClick={loadMore}
-              disabled={loading}
-              className="w-full rounded-full border border-border bg-surface-0 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-border-strong hover:text-white disabled:opacity-40"
-            >
-              {loading ? "Loading…" : "Load more"}
-            </button>
+            <>
+              <div ref={sentinelRef} aria-hidden />
+              <button
+                onClick={loadMore}
+                disabled={loading}
+                className="w-full rounded-full border border-border bg-surface-0 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-border-strong hover:text-white disabled:opacity-40"
+              >
+                {loading ? "Loading…" : "Load more"}
+              </button>
+            </>
           )}
         </div>
       </div>

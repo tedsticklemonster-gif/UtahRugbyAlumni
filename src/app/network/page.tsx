@@ -41,7 +41,9 @@ export default async function NetworkPage({ searchParams }: NetworkPageProps) {
   return (
     <div className="min-h-screen bg-surface-0">
       <div className="border-b border-white/6 px-5 py-6 md:px-10">
-        <div className="flex items-center justify-between">
+        <span className="block h-[2px] w-10 bg-utah-red" />
+        <p className="text-eyebrow mt-2">The Brotherhood</p>
+        <div className="mt-1 flex items-center justify-between">
           <h1 className="text-title-1 text-white">Network</h1>
           {tab === "jobs" && <PostJobButton />}
         </div>

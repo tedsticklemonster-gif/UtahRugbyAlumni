@@ -68,7 +68,9 @@ export default async function MePage() {
     <div className="min-h-screen bg-surface-0">
       {/* Page header */}
       <div className="border-b border-white/6 px-5 py-6 md:px-10">
-        <h1 className="text-title-1 text-white">Me</h1>
+        <span className="block h-[2px] w-10 bg-utah-red" />
+        <p className="text-eyebrow mt-2">Your Locker</p>
+        <h1 className="mt-1 text-title-1 text-white">Me</h1>
         <p className="mt-1.5 text-body-sm text-zinc-400">
           Your profile, giving, and settings.
         </p>

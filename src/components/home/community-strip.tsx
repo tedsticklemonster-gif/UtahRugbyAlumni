@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { UserPlus } from "lucide-react";
+import { ArrowRight, UserPlus } from "lucide-react";
 import { MemberAvatar } from "@/components/member-avatar";
 import type { HubPresenceMember, HubRecentJoin } from "@/actions/hub";
 
@@ -120,9 +120,10 @@ export function CommunityStrip({
               </p>
               <Link
                 href={`/network?yearFrom=${startYear}&yearTo=${endYear}`}
-                className="text-xs font-semibold text-zinc-400 transition-colors hover:text-white"
+                className="group inline-flex items-center gap-1 text-xs font-semibold text-zinc-400 transition-colors hover:text-white"
               >
-                View All →
+                View All
+                <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>
             <AvatarRail members={eraMembers} />
